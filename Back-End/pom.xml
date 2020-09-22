@@ -31,6 +31,7 @@
         <mybatis-plus>3.3.2</mybatis-plus>
         <spring-data-redis>2.2.4.RELEASE</spring-data-redis>
         <mybatis-plus-generator>3.3.2</mybatis-plus-generator>
+        <druid>1.1.22</druid>
     </properties>
 
     <dependencyManagement>
@@ -93,11 +94,16 @@
                 <version>${mybatis-plus-generator}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
-
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -125,13 +131,5 @@
     </dependencies>
 
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
