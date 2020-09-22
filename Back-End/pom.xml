@@ -32,6 +32,8 @@
         <spring-data-redis>2.2.4.RELEASE</spring-data-redis>
         <mybatis-plus-generator>3.3.2</mybatis-plus-generator>
         <druid>1.1.22</druid>
+        <slf4j-api>1.7.25</slf4j-api>
+        <slf4j-log4j12>1.7.25</slf4j-log4j12>
     </properties>
 
     <dependencyManagement>
@@ -99,6 +101,18 @@
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j-api}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j-log4j12}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>
