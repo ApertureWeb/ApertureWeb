@@ -30,6 +30,7 @@
         <mysql-connector>8.0.20</mysql-connector>
         <mybatis-plus>3.3.2</mybatis-plus>
         <spring-data-redis>2.2.4.RELEASE</spring-data-redis>
+        <mybatis-plus-generator>3.3.2</mybatis-plus-generator>
     </properties>
 
     <dependencyManagement>
@@ -70,6 +71,12 @@
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
                 <version>${spring-cloud-alibaba}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.netflix.hystrix</groupId>
+                        <artifactId>hystrix-core</artifactId>
+                    </exclusion>
+                </exclusions>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -80,6 +87,11 @@
                 <version>${spring-cloud-alibaba}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus-generator}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
