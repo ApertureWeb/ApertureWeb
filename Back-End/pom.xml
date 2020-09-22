@@ -24,7 +24,7 @@
 
     <properties>
         <java.version>12</java.version>
-        <spring-cloud-alibaba>2.2.0.RELEASE</spring-cloud-alibaba>
+        <spring-cloud-alibaba>2.1.2.RELEASE</spring-cloud-alibaba>
         <spring-cloud>Hoxton.SR5</spring-cloud>
         <fastjson>1.2.50</fastjson>
         <mysql-connector>8.0.20</mysql-connector>
@@ -34,13 +34,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>${spring-cloud-alibaba}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
 
 
             <dependency>
@@ -62,7 +55,7 @@
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus</artifactId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus}</version>
             </dependency>
 
@@ -73,16 +66,26 @@
             </dependency>
 
 
-        </dependencies>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-starters</artifactId>
+                <version>${spring-cloud-alibaba}</version>
+            </dependency>
+
+
+        </dependencies>
     </dependencyManagement>
 
     <dependencies>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -96,7 +99,6 @@
             <optional>true</optional>
         </dependency>
 
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -109,6 +111,7 @@
             </exclusions>
         </dependency>
     </dependencies>
+
 
     <build>
         <plugins>
