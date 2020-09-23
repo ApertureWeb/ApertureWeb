@@ -1,5 +1,6 @@
 package com.aperture.community.core.module;
 
+import com.aperture.community.core.module.validation.ValidationGroup;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -8,6 +9,9 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.io.Serializable;
 
 /**
@@ -27,7 +31,10 @@ public class UmsVideo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.NONE)
+    @Null(groups = {ValidationGroup.addGroup.class})
+    @NotNull(groups = {ValidationGroup.deleteGroup.class,ValidationGroup.updateGroup.class})
     private Long id;
+
 
     @TableField("title")
     private String title;

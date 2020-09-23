@@ -1,0 +1,37 @@
+package com.aperture.community.common.standard.response;
+
+/**
+ * @author HALOXIAO
+ * @since 2020-09-23 19:58
+ **/
+public enum RESULT_BEAN_STATUS_CODE {
+
+    //未登录
+    NO_LOGIN(-1),
+    //成功
+    SUCCESS(0),
+    //检查失败
+    CHECK_FAIL(1),
+    //无权限
+    NO_PERMISSION(2),
+    //文件操作异常
+    FILE_EXCEPTION(5),
+    //请求无效
+    BAD_REQUEST(4),
+    //未知异常
+    UNKNOWN_EXCEPTION(-99),
+    //参数异常
+    ARGUMENT_EXCEPTION(3);
+
+
+    private final int code;
+
+    RESULT_BEAN_STATUS_CODE(final int code) {
+        this.code = code;
+    }
+
+    public int getValue() {
+        return code;
+    }
+
+}

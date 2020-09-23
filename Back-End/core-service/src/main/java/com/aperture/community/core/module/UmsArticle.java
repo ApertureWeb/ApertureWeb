@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.Null;
+
 /**
  * <p>
  * 
@@ -31,6 +33,7 @@ public class UmsArticle implements Serializable {
     private String content;
 
     @TableField("like")
+
     private Integer like;
 
     @TableField("coins")
