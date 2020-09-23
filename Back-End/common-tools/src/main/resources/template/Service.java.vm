@@ -13,7 +13,7 @@ public List<${table.entityName}VO> listPage(PageParam pageParam);
 
 public boolean update(${table.entityName}Param ${table.entityName}Param);
 
+public boolean save(${table.entiryName}Param ${table.entityName}Param);
 
 
-
-}
+        }
