@@ -1,8 +1,11 @@
 package com.aperture.community.core.module;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
+
 import java.io.Serializable;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,7 +15,7 @@ import javax.validation.constraints.Null;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author HALOXIAO
@@ -21,10 +24,13 @@ import javax.validation.constraints.Null;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("ums_article")
-@ApiModel(value="UmsArticle对象", description="")
+@ApiModel(value = "UmsArticle对象", description = "")
 public class UmsArticle implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
+
+    @TableId("id")
+    private Long id;
 
     @TableField("title")
     private String title;
@@ -33,7 +39,6 @@ public class UmsArticle implements Serializable {
     private String content;
 
     @TableField("like")
-
     private Integer like;
 
     @TableField("coins")
@@ -41,6 +46,9 @@ public class UmsArticle implements Serializable {
 
     @TableField("user_uid")
     private Integer userUid;
+
+    @TableField("circle_id")
+    private Integer circleId;
 
 
 }

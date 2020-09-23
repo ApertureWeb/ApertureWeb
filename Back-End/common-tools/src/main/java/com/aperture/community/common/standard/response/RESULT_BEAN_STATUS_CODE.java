@@ -16,6 +16,7 @@ public enum RESULT_BEAN_STATUS_CODE {
     NO_PERMISSION(2),
     //未知异常
     UNKNOWN_EXCEPTION(-99),
+
     //参数异常
     ARGUMENT_EXCEPTION(3);
 
