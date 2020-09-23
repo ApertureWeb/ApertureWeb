@@ -1,11 +1,17 @@
-package
+package ${package.Service};
 
-import org.springframework.stereotype.Service;${package.Service};
+import org.springframework.stereotype.Service;
 
 @Service
-public class ${table.serviceName}{
+public interface  ${table.serviceName}{
 
-    public boolean insert(${table.entityPath}){
 
-        }
+public ${table.entityName}VO select(${table.entityName}Param ${table.entityName}Param);
+
+public boolean delete(Long id);
+
+public List<${table.entityName}VO> listPage(PageParam pageParam);
+
+public boolean update(${table.entityName}Param ${table.entityName}Param);
+
 }

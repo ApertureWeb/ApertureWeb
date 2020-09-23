@@ -34,6 +34,7 @@
         <druid>1.1.22</druid>
         <slf4j-api>1.7.25</slf4j-api>
         <slf4j-log4j12>1.7.25</slf4j-log4j12>
+        <velocity>2.2</velocity>
     </properties>
 
     <dependencyManagement>
@@ -113,6 +114,11 @@
                 <version>${slf4j-log4j12}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>

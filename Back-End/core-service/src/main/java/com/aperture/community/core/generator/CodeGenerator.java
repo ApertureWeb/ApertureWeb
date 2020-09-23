@@ -1,5 +1,6 @@
 package com.aperture.community.core.generator;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -11,12 +12,13 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.FileType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MysqlGenerator {
+public class CodeGenerator {
 
     /**
      * <p>
@@ -50,13 +52,15 @@ public class MysqlGenerator {
         gc.setOutputDir(projectPath + "/core-service/src/main/java");
         gc.setAuthor("HALOXIAO");
         gc.setOpen(false);
+        gc.setIdType(IdType.NONE);
+
         mpg.setGlobalConfig(gc);
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://119.n3.186.94:3306/aperture-core?useUnicode=true&serverTimezone=GMT&useSSL=false&characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://119.3.186.94:3306/aperture-core?useUnicode=true&serverTimezone=GMT&useSSL=false&characterEncoding=utf8");
         // dsc.setSchemaName("public");
-        dsc.setDriverName("com.mysql.jdbc.Driver");
+        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
         dsc.setPassword("Halo_xiao@123");
         mpg.setDataSource(dsc);
@@ -75,22 +79,25 @@ public class MysqlGenerator {
             }
         };
 
-        List<FileOutConfig> focList = new ArrayList<>();
-        focList.add(new FileOutConfig("/templates/mapper.xml.ftl") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                // 自定义输入文件名称
-                return projectPath + "/core-service/src/main/resources/mapper/" + pc.getModuleName()
-                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
-            }
-        });
-        cfg.setFileOutConfigList(focList);
+//        List<FileOutConfig> focList = new ArrayList<>();
+//        focList.add(new FileOutConfig("/templates/mapper.xml") {
+//            @Override
+//            public String outputFile(TableInfo tableInfo) {
+//                // 自定义输入文件名称
+//                return projectPath + "/core-service/src/main/resources/mapper/" + pc.getModuleName()
+//                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+//            }
+//        });
+//        cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
-        mpg.setTemplate(new TemplateConfig().setXml(null));
         TemplateConfig templateConfig = new TemplateConfig();
+        templateConfig.setService("/template/Service.java.vm");
+        templateConfig.setEntity("/template/Module.java.vm");
+        templateConfig.setXml(null);
+        mpg.setTemplate(templateConfig);
 
 
-        // 策略配置
+        // 策略配
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
@@ -99,11 +106,13 @@ public class MysqlGenerator {
 //        strategy.setSuperControllerClass("com.aperture.community.core.common.BaseController");
         strategy.setInclude(scanner("表名"));
         strategy.setSuperEntityColumns("id");
-        strategy.setControllerMappingHyphenStyle(true);
+        strategy.setRestControllerStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");
+        strategy.setEntityTableFieldAnnotationEnable(true);
+
         mpg.setStrategy(strategy);
-        // 选择 freemarker 引擎需要指定如下加，注意 pom 依赖必须有！
-        mpg.setTemplateEngine(new FreemarkerTemplateEngine());
+        // 选择 Velocity 引擎需要指定如下加，注意 pom 依赖必须有！
+        mpg.setTemplateEngine(new VelocityTemplateEngine());
         mpg.execute();
     }
 
