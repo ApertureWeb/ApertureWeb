@@ -53,7 +53,7 @@ public class CodeGenerator {
         gc.setAuthor("HALOXIAO");
         gc.setOpen(false);
         gc.setIdType(IdType.NONE);
-
+        gc.setSwagger2(true);
         mpg.setGlobalConfig(gc);
 
         // 数据源配置
