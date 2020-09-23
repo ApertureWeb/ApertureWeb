@@ -3,6 +3,7 @@ package com.aperture.community.core.manager;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * @author HALOXIAO
@@ -11,13 +12,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class PrimaryIdManager {
     private RocketMQTemplate rocketMQTemplate;
+    private RestTemplate restTemplate;
 
     @Autowired
-    PrimaryIdManager(RocketMQTemplate rocketMQTemplate) {
+    PrimaryIdManager(RocketMQTemplate rocketMQTemplate,RestTemplate restTemplate) {
         this.rocketMQTemplate = rocketMQTemplate;
+        this.restTemplate = restTemplate;
     }
 
     public Long getPrimaryId() {
+
         return null;
     }
 
