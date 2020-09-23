@@ -1,0 +1,29 @@
+package ${package.Controller};
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+public class  ${table.serviceName}Controller {
+
+    @DeleteMapping
+    public Boolean delete${table.entityName}(Long id) {
+        return null;
+    }
+
+    @GetMapping
+    public ${table.entityName}VO search() {
+        return null;
+    }
+
+    @PostMapping
+    public Boolean save${table.entityName}() {
+        return null;
+    }
+
+    @PutMapping
+    public Boolean update${table.entityName}() {
+        return null;
+    }
+
+}
