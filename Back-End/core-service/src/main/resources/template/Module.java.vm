@@ -1,0 +1,19 @@
+package ${package.Module}
+
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import lombok.*;
+
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+public class ${table.entityName}{
+
+    #foreach($field in ${table.fields})
+
+        private ${field.propertyType} ${field.propertyName};
+
+    #end
+
+}

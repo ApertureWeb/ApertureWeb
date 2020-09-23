@@ -1,4 +1,4 @@
-package com.aperture.community.core.test;
+package com.aperture.community.core.generator;
 
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.rules.FileType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
@@ -52,7 +54,7 @@ public class MysqlGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://119.3.186.94:3306/aperture-core?useUnicode=true&serverTimezone=GMT&useSSL=false&characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://119.n3.186.94:3306/aperture-core?useUnicode=true&serverTimezone=GMT&useSSL=false&characterEncoding=utf8");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
@@ -72,26 +74,29 @@ public class MysqlGenerator {
                 // to do nothing
             }
         };
+
         List<FileOutConfig> focList = new ArrayList<>();
         focList.add(new FileOutConfig("/templates/mapper.xml.ftl") {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
-                return projectPath + "/mybatis-plus-sample-generator/src/main/resources/mapper/" + pc.getModuleName()
+                return projectPath + "/core-service/src/main/resources/mapper/" + pc.getModuleName()
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
         mpg.setTemplate(new TemplateConfig().setXml(null));
+        TemplateConfig templateConfig = new TemplateConfig();
+
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-        strategy.setSuperEntityClass("com.baomidou.mybatisplus.samples.generator.common.BaseEntity");
+//        strategy.setSuperEntityClass("com.aperture.community.core.common.BaseEntity");
         strategy.setEntityLombokModel(true);
-        strategy.setSuperControllerClass("com.baomidou.mybatisplus.samples.generator.common.BaseController");
+//        strategy.setSuperControllerClass("com.aperture.community.core.common.BaseController");
         strategy.setInclude(scanner("表名"));
         strategy.setSuperEntityColumns("id");
         strategy.setControllerMappingHyphenStyle(true);
