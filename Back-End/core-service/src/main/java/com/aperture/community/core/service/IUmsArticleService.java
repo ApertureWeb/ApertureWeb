@@ -18,7 +18,7 @@ public interface IUmsArticleService {
 
     boolean update(UmsArticleParam umsArticleParam);
 
-    boolean save(UmsArticleParam umsArticleParam);
+    Integer save(UmsArticleParam umsArticleParam);
 
 
 }

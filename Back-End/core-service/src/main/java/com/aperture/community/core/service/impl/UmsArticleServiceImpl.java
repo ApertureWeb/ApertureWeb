@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author HALOXIAO
@@ -42,7 +42,7 @@ public class UmsArticleServiceImpl extends ServiceImpl<UmsArticleMapper, UmsArti
     }
 
     @Override
-    public boolean save(UmsArticleParam umsArticleParam) {
-        return false;
+    public Integer save(UmsArticleParam umsArticleParam) {
+        return null;
     }
 }
