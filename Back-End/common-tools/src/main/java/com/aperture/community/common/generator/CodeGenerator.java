@@ -1,24 +1,33 @@
-package com.aperture.community.core.generator;
+package com.aperture.community.common.generator;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
-import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
-import com.baomidou.mybatisplus.generator.config.po.TableInfo;
-import com.baomidou.mybatisplus.generator.config.rules.FileType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
+/**
+ * @author HALOXIAO
+ * @since 2020-09-23 10:34
+ */
 public class CodeGenerator {
+
+    /**
+     * 代码生成器所需配置，以core-service为例
+     */
+    private static final String MYSQL_URL = "jdbc:mysql://119.3.186.94:3306/aperture-core?useUnicode=true&serverTimezone=GMT&useSSL=false&characterEncoding=utf8";
+    private static final String MYSQL_USER = "root";
+    private static final String MYSQL_PASSWORD = "Halo_xiao@123";
+    private static final String PACKAGE_PATH = "com.aperture.community.core";
+    private static final String OUTPUT_PATH = "/core-service/src/main/java";
+    private static final String SERVICE_TEMPLATE = "/template/Service.java.vm";
+    private static final String AUTHOR = "HALOXIAO";
+
 
     /**
      * <p>
@@ -49,8 +58,8 @@ public class CodeGenerator {
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir(projectPath + "/core-service/src/main/java");
-        gc.setAuthor("HALOXIAO");
+        gc.setOutputDir(projectPath + OUTPUT_PATH);
+        gc.setAuthor(AUTHOR);
         gc.setOpen(false);
         gc.setIdType(IdType.NONE);
         gc.setSwagger2(true);
@@ -58,17 +67,16 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://119.3.186.94:3306/aperture-core?useUnicode=true&serverTimezone=GMT&useSSL=false&characterEncoding=utf8");
-        // dsc.setSchemaName("public");
+        dsc.setUrl(MYSQL_URL);
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUsername("root");
-        dsc.setPassword("Halo_xiao@123");
+        dsc.setUsername(MYSQL_USER);
+        dsc.setPassword(MYSQL_PASSWORD);
         mpg.setDataSource(dsc);
 
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(scanner("模块名"));
-        pc.setParent("com.aperture.community.core");
+        pc.setParent(PACKAGE_PATH);
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -78,21 +86,9 @@ public class CodeGenerator {
                 // to do nothing
             }
         };
-
-//        List<FileOutConfig> focList = new ArrayList<>();
-//        focList.add(new FileOutConfig("/templates/mapper.xml") {
-//            @Override
-//            public String outputFile(TableInfo tableInfo) {
-//                // 自定义输入文件名称
-//                return projectPath + "/core-service/src/main/resources/mapper/" + pc.getModuleName()
-//                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
-//            }
-//        });
-//        cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
         TemplateConfig templateConfig = new TemplateConfig();
-        templateConfig.setService("/template/Service.java.vm");
-        templateConfig.setEntity("/template/Module.java.vm");
+        templateConfig.setService(SERVICE_TEMPLATE);
         templateConfig.setXml(null);
         mpg.setTemplate(templateConfig);
 
@@ -101,9 +97,7 @@ public class CodeGenerator {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-//        strategy.setSuperEntityClass("com.aperture.community.core.common.BaseEntity");
         strategy.setEntityLombokModel(true);
-//        strategy.setSuperControllerClass("com.aperture.community.core.common.BaseController");
         strategy.setInclude(scanner("表名"));
         strategy.setSuperEntityColumns("id");
         strategy.setRestControllerStyle(true);

@@ -8,6 +8,7 @@
     <modules>
 
         <module>core-service</module>
+        <module>common-tools</module>
     </modules>
 
     <parent>
@@ -35,6 +36,7 @@
         <slf4j-api>1.7.25</slf4j-api>
         <slf4j-log4j12>1.7.25</slf4j-log4j12>
         <velocity>2.2</velocity>
+        <swagger>2.9.2</swagger>
     </properties>
 
     <dependencyManagement>
@@ -119,6 +121,22 @@
                 <artifactId>velocity-engine-core</artifactId>
                 <version>${velocity}</version>
             </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger}</version>
+            </dependency>
+
+
+
+
 
         </dependencies>
     </dependencyManagement>
