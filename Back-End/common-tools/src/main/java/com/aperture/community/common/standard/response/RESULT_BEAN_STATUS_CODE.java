@@ -14,10 +14,6 @@ public enum RESULT_BEAN_STATUS_CODE {
     CHECK_FAIL(1),
     //无权限
     NO_PERMISSION(2),
-    //文件操作异常
-    FILE_EXCEPTION(5),
-    //请求无效
-    BAD_REQUEST(4),
     //未知异常
     UNKNOWN_EXCEPTION(-99),
     //参数异常
