@@ -12,6 +12,9 @@ import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 import java.util.Scanner;
 
 /**
+ * 主要用于根据表来自动化生成Controller、Service、Module、Mapper。
+ * 需要注意的是，Service生成的方法会存在如下类：PageParam、xxxxVO、xxxxParam，可自行更改设置，或者新建这些类即可
+ *
  * @author HALOXIAO
  * @since 2020-09-23 10:34
  */
