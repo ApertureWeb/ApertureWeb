@@ -1,6 +1,5 @@
 package com.aperture.community.core.module;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
@@ -24,9 +23,6 @@ import lombok.EqualsAndHashCode;
 public class UmsTag implements Serializable {
 
     private static final long serialVersionUID=1L;
-
-    @TableId("id")
-    private Long id;
 
     @ApiModelProperty(value = "标签名")
     @TableField("name")

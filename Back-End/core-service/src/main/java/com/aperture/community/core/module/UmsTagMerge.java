@@ -1,6 +1,5 @@
 package com.aperture.community.core.module;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
@@ -19,14 +18,11 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("ums_tag_rela")
-@ApiModel(value="UmsTagRela对象", description="tag和内容的关联")
-public class UmsTagRela implements Serializable {
+@TableName("ums_tag_merge")
+@ApiModel(value="UmsTagMerge对象", description="tag和内容的关联")
+public class UmsTagMerge implements Serializable {
 
     private static final long serialVersionUID=1L;
-
-    @TableId("id")
-    private Long id;
 
     @ApiModelProperty(value = "内容（video/article）的id")
     @TableField("content_id")

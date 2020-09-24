@@ -1,7 +1,6 @@
-package com.aperture.community.core.mapper;
+package com.aperture.community.core.dao;
 
-
-import com.aperture.community.core.module.UmsVideo;
+import com.aperture.community.core.module.UmsArticle;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,6 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2020-09-23
  */
 @Mapper
-public interface UmsVideoMapper extends BaseMapper<UmsVideo> {
+public interface UmsArticleMapper extends BaseMapper<UmsArticle> {
 
 }

@@ -1,19 +1,17 @@
 package com.aperture.community.core.service.impl;
 
-import com.aperture.community.core.controller.UmsArticleController;
+import com.aperture.community.core.dao.UmsTagMapper;
 import com.aperture.community.core.manager.PrimaryIdManager;
 import com.aperture.community.core.module.UmsArticle;
-import com.aperture.community.core.mapper.UmsArticleMapper;
+import com.aperture.community.core.dao.UmsArticleMapper;
 import com.aperture.community.core.module.converter.UmsArticleConverter;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsArticleParam;
 import com.aperture.community.core.module.vo.UmsArticleVO;
 import com.aperture.community.core.service.IUmsArticleService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 
 import java.util.List;
@@ -40,6 +38,7 @@ public class UmsArticleServiceImpl extends ServiceImpl<UmsArticleMapper, UmsArti
 
     @Override
     public UmsArticleVO select(UmsArticleParam umsArticleParam) {
+
         return null;
     }
 

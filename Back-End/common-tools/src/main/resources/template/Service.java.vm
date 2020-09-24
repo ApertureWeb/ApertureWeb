@@ -5,15 +5,14 @@ import org.springframework.stereotype.Service;
 @Service
 public interface  ${table.serviceName}{
 
-public ${table.entityName}VO select(${table.entityName}Param ${table.entityName}Param);
+ ${table.entityName}VO select(${table.entityName}Param ${table.entityName}Param);
 
-public boolean delete(Long id);
+ boolean delete(Long id);
 
-public List<${table.entityName}VO> listPage(PageParam pageParam);
+ List<${table.entityName}VO> listPage(PageParam pageParam);
 
-public boolean update(${table.entityName}Param ${table.entityName}Param);
+ boolean update(${table.entityName}Param ${table.entityName}Param);
 
-public boolean save(${table.entiryName}Param ${table.entityName}Param);
+ boolean save(${table.entityName}Param ${table.entityName}Param);
 
-
-        }
+}

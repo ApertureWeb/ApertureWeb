@@ -15,17 +15,17 @@ public class  ${table.controllerName} {
     }
 
     @GetMapping
-    public ResultBean<${table.entityName}VO> search(@RequestBody @Valid ${table.entityName}Param) {
+    public ResultBean<${table.entityName}VO> search(@RequestBody @Valid ${table.entityName}Param ${table.entityName}Param) {
         return null;
     }
 
     @PostMapping
-    public ResultBean<Integer> save(@RequestBody @Valid ${table.entityName}Param) {
+    public ResultBean<Integer> save(@RequestBody @Valid ${table.entityName}Param ${table.entityName}Param ) {
         return null;
     }
 
     @PutMapping
-    public ResultBean<Boolean> update(@RequestBody @Valid ${table.entityName}Param) {
+    public ResultBean<Boolean> update(@RequestBody @Valid ${table.entityName}Param ${table.entityName}Param)  {
         return null;
     }
 

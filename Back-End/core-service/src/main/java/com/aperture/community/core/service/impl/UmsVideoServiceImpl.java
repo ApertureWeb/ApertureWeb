@@ -1,6 +1,6 @@
 package com.aperture.community.core.service.impl;
 
-import com.aperture.community.core.mapper.UmsVideoMapper;
+import com.aperture.community.core.dao.UmsVideoMapper;
 import com.aperture.community.core.module.UmsVideo;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsVideoParam;
