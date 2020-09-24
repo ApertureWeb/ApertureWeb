@@ -9,6 +9,8 @@ import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsArticleParam;
 import com.aperture.community.core.module.vo.UmsArticleVO;
 import com.aperture.community.core.service.IUmsArticleService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class UmsArticleServiceImpl extends ServiceImpl<UmsArticleMapper, UmsArti
 
     private PrimaryIdManager primaryIdManager;
     private SecurityContext securityContext;
+
 
     @Autowired
     public UmsArticleServiceImpl(PrimaryIdManager primaryIdManager) {
@@ -52,7 +55,10 @@ public class UmsArticleServiceImpl extends ServiceImpl<UmsArticleMapper, UmsArti
 
     @Override
     public boolean update(UmsArticleParam umsArticleParam) {
-        return false;
+        UmsArticle article = UmsArticleConverter.INSTANCE.toUmsArticle(umsArticleParam);
+        if (umsArticleParam.getTags() != null) {
+        }
+        return update(article, new UpdateWrapper<UmsArticle>().eq("id", umsArticleParam.getId()));
     }
 
     @Override
