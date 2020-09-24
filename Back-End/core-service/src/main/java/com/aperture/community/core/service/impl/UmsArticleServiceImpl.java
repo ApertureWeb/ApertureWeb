@@ -61,7 +61,6 @@ public class UmsArticleServiceImpl extends ServiceImpl<UmsArticleMapper, UmsArti
         article.setId(primaryIdManager.getPrimaryId());
         article.setCoins(0);
         article.setLike(0);
-
         return null;
     }
 }

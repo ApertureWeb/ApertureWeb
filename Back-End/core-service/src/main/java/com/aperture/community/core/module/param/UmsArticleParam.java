@@ -25,7 +25,7 @@ public class UmsArticleParam {
 
     private String content;
 
-    private Integer circleId;
+    private Long circleId;
 
     private List<Integer> tags;
 

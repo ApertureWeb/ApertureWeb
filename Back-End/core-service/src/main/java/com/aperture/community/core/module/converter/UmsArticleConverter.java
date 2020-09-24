@@ -2,7 +2,6 @@ package com.aperture.community.core.module.converter;
 
 import com.aperture.community.core.module.UmsArticle;
 import com.aperture.community.core.module.param.UmsArticleParam;
-import com.aperture.community.core.module.vo.UmsArticleVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -23,7 +22,10 @@ public interface UmsArticleConverter {
             @Mapping(source = "title", target = "title"),
             @Mapping(source = "content", target = "content"),
             @Mapping(source = "circleId", target = "circleId"),
-            @Mapping(source = "tags", target = "tags")
+            @Mapping(source = "tags", target = "tags"),
+            @Mapping(target = "like",ignore = true),
+            @Mapping(target = "coins",ignore = true),
+            @Mapping(target = "userId",ignore = true)
     })
     UmsArticle toUmsArticle(UmsArticleParam umsArticleParam);
 
