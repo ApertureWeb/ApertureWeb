@@ -22,10 +22,9 @@ public interface UmsArticleConverter {
             @Mapping(source = "title", target = "title"),
             @Mapping(source = "content", target = "content"),
             @Mapping(source = "circleId", target = "circleId"),
-            @Mapping(source = "tags", target = "tags"),
             @Mapping(target = "like",ignore = true),
             @Mapping(target = "coins",ignore = true),
-            @Mapping(target = "userId",ignore = true)
+            @Mapping(target = "userUid",ignore = true)
     })
     UmsArticle toUmsArticle(UmsArticleParam umsArticleParam);
 
