@@ -5,13 +5,18 @@ import com.alibaba.druid.stat.JdbcResultSetStatMBean;
 import com.aperture.community.common.standard.response.RESULT_BEAN_STATUS_CODE;
 import com.aperture.community.common.standard.response.ResultBean;
 import com.aperture.community.core.module.param.UmsArticleParam;
+import com.aperture.community.core.module.validation.ValidationGroup;
 import com.aperture.community.core.service.IUmsArticleService;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * <p>
@@ -28,7 +33,7 @@ public class UmsArticleController {
     IUmsArticleService umsArticleService;
 
     @PostMapping
-    public ResultBean<Integer> uploadArticle(@RequestBody UmsArticleParam umsArticleParam) {
+    public ResultBean<Integer> uploadArticle(@RequestBody @Validated({ValidationGroup.addGroup.class}) UmsArticleParam umsArticleParam) {
         ResultBean<Integer> bean = new ResultBean<>("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
         bean.setData(umsArticleService.save(umsArticleParam));
         return bean;

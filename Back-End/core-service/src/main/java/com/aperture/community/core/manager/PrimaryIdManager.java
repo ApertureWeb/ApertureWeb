@@ -2,6 +2,7 @@ package com.aperture.community.core.manager;
 
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -15,12 +16,14 @@ import org.springframework.web.client.RestTemplate;
 public class PrimaryIdManager {
     private RocketMQTemplate rocketMQTemplate;
     private RestTemplate restTemplate;
+    private DiscoveryClient discoveryClient;
 
 
     @Autowired
-    PrimaryIdManager(RocketMQTemplate rocketMQTemplate,RestTemplate restTemplate) {
+    PrimaryIdManager(RocketMQTemplate rocketMQTemplate, RestTemplate restTemplate, DiscoveryClient discoveryClient) {
         this.rocketMQTemplate = rocketMQTemplate;
         this.restTemplate = restTemplate;
+        this.discoveryClient = discoveryClient;
     }
 
     public Long getPrimaryId() {

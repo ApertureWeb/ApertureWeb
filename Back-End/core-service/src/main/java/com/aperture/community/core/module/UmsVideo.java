@@ -31,9 +31,7 @@ public class UmsVideo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.NONE)
-    @Null(groups = {ValidationGroup.addGroup.class})
-    @NotNull(groups = {ValidationGroup.deleteGroup.class,ValidationGroup.updateGroup.class})
-    private Long id;
+       private Long id;
 
 
     @TableField("title")
