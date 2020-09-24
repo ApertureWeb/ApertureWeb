@@ -1,13 +1,12 @@
 package com.aperture.community.core.service.impl;
 
-import com.aperture.community.core.module.UmsTag;
 import com.aperture.community.core.dao.UmsTagMapper;
+import com.aperture.community.core.module.UmsTag;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsTagParam;
 import com.aperture.community.core.module.vo.UmsTagVO;
 import com.aperture.community.core.service.IUmsTagService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -19,8 +18,9 @@ import java.util.List;
  * @author HALOXIAO
  * @since 2020-09-24
  */
-@Service
 public class UmsTagServiceImpl extends ServiceImpl<UmsTagMapper, UmsTag> implements IUmsTagService {
+
+
     @Override
     public UmsTagVO select(UmsTagParam umsTagParam) {
         return null;
@@ -45,4 +45,7 @@ public class UmsTagServiceImpl extends ServiceImpl<UmsTagMapper, UmsTag> impleme
     public boolean save(UmsTagParam umsTagParam) {
         return false;
     }
+
+
 }
+

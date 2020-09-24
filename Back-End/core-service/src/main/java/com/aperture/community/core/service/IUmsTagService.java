@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public interface IUmsTagService {
+public interface IUmsTagService  {
 
     UmsTagVO select(UmsTagParam umsTagParam);
 
