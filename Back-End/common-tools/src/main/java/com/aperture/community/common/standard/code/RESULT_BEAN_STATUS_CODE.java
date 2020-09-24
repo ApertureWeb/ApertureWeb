@@ -1,4 +1,4 @@
-package com.aperture.community.common.standard.response;
+package com.aperture.community.common.standard.code;
 
 /**
  * @author HALOXIAO

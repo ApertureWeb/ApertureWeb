@@ -1,5 +1,6 @@
 package com.aperture.community.common.standard.response;
 
+import com.aperture.community.common.standard.code.RESULT_BEAN_STATUS_CODE;
 import lombok.Data;
 
 import java.io.Serializable;
