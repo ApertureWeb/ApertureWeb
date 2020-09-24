@@ -29,6 +29,7 @@ public class CodeGenerator {
     private static final String PACKAGE_PATH = "com.aperture.community.core";//改成自己的包名
     private static final String OUTPUT_PATH = "/core-service/src/main/java";//一般来说，将前面的core-service改为自己模块的就好了
     private static final String SERVICE_TEMPLATE = "/template/Service.java.vm"; //这个一般不用改
+    private static final String CONTROLLER_TEMPLATE = "/template/Controller.java.vm";
     private static final String AUTHOR = "HALOXIAO";
 
 
@@ -92,6 +93,7 @@ public class CodeGenerator {
         mpg.setCfg(cfg);
         TemplateConfig templateConfig = new TemplateConfig();
         templateConfig.setService(SERVICE_TEMPLATE);
+        templateConfig.setController(CONTROLLER_TEMPLATE);
         templateConfig.setXml(null);
         mpg.setTemplate(templateConfig);
 
