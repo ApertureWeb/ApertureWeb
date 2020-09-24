@@ -45,10 +45,9 @@ public class UmsArticle implements Serializable {
     private Integer coins;
 
     @TableField("user_uid")
-    private Integer userUid;
+    private Long userUid;
 
     @TableField("circle_id")
-    private Integer circleId;
-
+    private Long circleId;
 
 }
