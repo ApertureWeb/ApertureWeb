@@ -12,6 +12,7 @@ import com.aperture.community.core.service.IUmsArticleService;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ import java.util.List;
  * @author HALOXIAO
  * @since 2020-09-23
  */
+@Service
 public class UmsArticleServiceImpl extends ServiceImpl<UmsArticleMapper, UmsArticle> implements IUmsArticleService {
 
     private PrimaryIdManager primaryIdManager;
@@ -68,6 +70,7 @@ public class UmsArticleServiceImpl extends ServiceImpl<UmsArticleMapper, UmsArti
         article.setId(primaryIdManager.getPrimaryId());
         article.setCoins(0);
         article.setLike(0);
+
         return null;
     }
 }

@@ -6,6 +6,7 @@ import com.aperture.community.common.standard.response.ResultBean;
 import com.aperture.community.core.module.param.UmsArticleParam;
 import com.aperture.community.core.module.validation.ValidationGroup;
 import com.aperture.community.core.service.IUmsArticleService;
+import com.aperture.community.core.service.impl.UmsArticleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,11 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
  * @author HALOXIAO
  * @since 2020-09-23
  */
-@RestController("/api/v1/article")
+@RestController("/asdas/")
 public class UmsArticleController {
 
     @Autowired
-    IUmsArticleService umsArticleService;
+    UmsArticleServiceImpl umsArticleService;
 
     @PostMapping
     public ResultBean<Integer> uploadArticle(@RequestBody @Validated({ValidationGroup.addGroup.class}) UmsArticleParam umsArticleParam) {

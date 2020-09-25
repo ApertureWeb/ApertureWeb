@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RestController
+@RestController("/tag")
 public class UmsTagController {
 
     @DeleteMapping
@@ -20,7 +20,7 @@ public class UmsTagController {
         return null;
     }
 
-    @PostMapping
+    @PostMapping("dawdas")
     public ResultBean<Integer> save(@RequestBody @Valid UmsTagParam umsTagParam) {
         return null;
     }

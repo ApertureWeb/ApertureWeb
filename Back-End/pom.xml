@@ -26,7 +26,7 @@
         <spring-cloud-alibaba>2.1.2.RELEASE</spring-cloud-alibaba>
         <spring-cloud>Hoxton.SR5</spring-cloud>
         <fastjson>1.2.50</fastjson>
-        <mysql-connector>8.0.20</mysql-connector>
+        <mysql-connector>8.0.21</mysql-connector>
         <mybatis-plus>3.3.2</mybatis-plus>
         <spring-data-redis>2.2.4.RELEASE</spring-data-redis>
         <mybatis-plus-generator>3.3.2</mybatis-plus-generator>
@@ -144,6 +144,13 @@
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
                 <version>${mapstruct}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+                <version>${spring-cloud-alibaba}</version>
             </dependency>
 
 

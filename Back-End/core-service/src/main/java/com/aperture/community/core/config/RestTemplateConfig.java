@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * @since 2020-09-23 21:37
  **/
 @Configuration
-public class RestTemplate {
+public class RestTemplateConfig {
 
     @LoadBalanced
     @Bean

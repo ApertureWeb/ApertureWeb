@@ -2,6 +2,8 @@ package com.aperture.community.core.dao;
 
 import com.aperture.community.core.module.UmsTagMerge;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -11,6 +13,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author HALOXIAO
  * @since 2020-09-24
  */
+@Mapper
 public interface UmsTagMergeMapper extends BaseMapper<UmsTagMerge> {
 
 }
