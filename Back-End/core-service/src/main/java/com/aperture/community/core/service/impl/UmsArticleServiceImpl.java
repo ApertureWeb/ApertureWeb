@@ -3,8 +3,10 @@ package com.aperture.community.core.service.impl;
 import com.aperture.community.core.dao.UmsArticleMapper;
 import com.aperture.community.core.dao.UmsTagMergeMapper;
 import com.aperture.community.core.manager.PrimaryIdManager;
+import com.aperture.community.core.manager.UserManager;
 import com.aperture.community.core.module.UmsArticle;
 import com.aperture.community.core.module.converter.UmsArticleConverter;
+import com.aperture.community.core.module.dto.UserDto;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsArticleParam;
 import com.aperture.community.core.module.vo.UmsArticleVO;
@@ -29,12 +31,14 @@ public class UmsArticleServiceImpl extends ServiceImpl<UmsArticleMapper, UmsArti
 
     private PrimaryIdManager primaryIdManager;
     private UmsTagMergeMapper umsTagMergeMapper;
-
+    private UserManager userManager;
 
     @Autowired
-    public UmsArticleServiceImpl(PrimaryIdManager primaryIdManager, UmsTagMergeMapper umsTagMergeMapper) {
+    public UmsArticleServiceImpl(PrimaryIdManager primaryIdManager, UmsTagMergeMapper umsTagMergeMapper,UserManager userManager) {
         this.primaryIdManager = primaryIdManager;
         this.umsTagMergeMapper = umsTagMergeMapper;
+        this.userManager = userManager;
+
     }
 
 

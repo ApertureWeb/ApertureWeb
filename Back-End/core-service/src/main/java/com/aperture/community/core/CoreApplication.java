@@ -9,9 +9,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @author HALOXIAO
  * @since 2020-09-21 14:03
  **/
+@MapperScan(value = "com.aperture.community.core.dao")
 @SpringBootApplication
 @EnableDiscoveryClient
-@MapperScan(basePackages = {"com.aperture.community.core"})
 public class CoreApplication {
     public static void main(String[] args) {
         SpringApplication.run(CoreApplication.class);
