@@ -1,5 +1,6 @@
 package com.aperture.community.core.service.impl;
 
+import com.aperture.community.core.common.UmsTagMergeMap;
 import com.aperture.community.core.dao.UmsArticleMapper;
 import com.aperture.community.core.dao.UmsTagMergeMapper;
 import com.aperture.community.core.manager.PrimaryIdManager;
@@ -11,6 +12,7 @@ import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsArticleParam;
 import com.aperture.community.core.module.vo.UmsArticleVO;
 import com.aperture.community.core.service.IUmsArticleService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +65,7 @@ public class UmsArticleServiceImpl extends ServiceImpl<UmsArticleMapper, UmsArti
     public boolean update(UmsArticleParam umsArticleParam) {
         UmsArticle article = UmsArticleConverter.INSTANCE.toUmsArticle(umsArticleParam);
         if (umsArticleParam.getTags() != null) {
-//            umsTagMergeMapper.delete(new QueryWrapper<>().select());
+
 
         }
         return update(article, new UpdateWrapper<UmsArticle>().eq("id", umsArticleParam.getId()));
@@ -79,7 +81,8 @@ public class UmsArticleServiceImpl extends ServiceImpl<UmsArticleMapper, UmsArti
         article.setLike(0);
         UserDto userDto = authenticationManager.getUser();
         article.setUserUid(userDto.getId());
-        save(article);
+        if(umsArticleParam.getTags()!=null) {
+        }
         return id;
     }
 }

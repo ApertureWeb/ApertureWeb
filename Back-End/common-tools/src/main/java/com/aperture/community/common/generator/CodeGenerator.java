@@ -95,6 +95,7 @@ public class CodeGenerator {
         templateConfig.setService(SERVICE_TEMPLATE);
         templateConfig.setController(CONTROLLER_TEMPLATE);
         templateConfig.setXml(null);
+
         mpg.setTemplate(templateConfig);
 
 
