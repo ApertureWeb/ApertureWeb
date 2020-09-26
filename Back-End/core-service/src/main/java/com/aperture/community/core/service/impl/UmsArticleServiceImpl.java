@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * <p>
@@ -70,6 +71,7 @@ public class UmsArticleServiceImpl extends ServiceImpl<UmsArticleMapper, UmsArti
 
     @Override
     public Integer save(UmsArticleParam umsArticleParam) {
+
         UmsArticle article = UmsArticleConverter.INSTANCE.toUmsArticle(umsArticleParam);
         article.setId(primaryIdManager.getPrimaryId());
         article.setCoins(0);
