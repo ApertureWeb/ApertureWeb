@@ -3,7 +3,6 @@ package com.aperture.community.core.service;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsArticleParam;
 import com.aperture.community.core.module.vo.UmsArticleVO;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ public interface IUmsArticleService {
 
     boolean update(UmsArticleParam umsArticleParam);
 
-    Integer save(UmsArticleParam umsArticleParam);
+    Long save(UmsArticleParam umsArticleParam);
 
 
 }

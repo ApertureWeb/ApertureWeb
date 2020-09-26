@@ -3,7 +3,7 @@ package com.aperture.community.core.service.impl;
 import com.aperture.community.core.dao.UmsArticleMapper;
 import com.aperture.community.core.dao.UmsTagMergeMapper;
 import com.aperture.community.core.manager.PrimaryIdManager;
-import com.aperture.community.core.manager.UserManager;
+import com.aperture.community.core.manager.AuthenticationManager;
 import com.aperture.community.core.module.UmsArticle;
 import com.aperture.community.core.module.converter.UmsArticleConverter;
 import com.aperture.community.core.module.dto.UserDto;
@@ -15,9 +15,9 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * <p>
@@ -32,13 +32,13 @@ public class UmsArticleServiceImpl extends ServiceImpl<UmsArticleMapper, UmsArti
 
     private PrimaryIdManager primaryIdManager;
     private UmsTagMergeMapper umsTagMergeMapper;
-    private UserManager userManager;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    public UmsArticleServiceImpl(PrimaryIdManager primaryIdManager, UmsTagMergeMapper umsTagMergeMapper,UserManager userManager) {
+    public UmsArticleServiceImpl(PrimaryIdManager primaryIdManager, UmsTagMergeMapper umsTagMergeMapper, AuthenticationManager authenticationManager) {
         this.primaryIdManager = primaryIdManager;
         this.umsTagMergeMapper = umsTagMergeMapper;
-        this.userManager = userManager;
+        this.authenticationManager = authenticationManager;
 
     }
 
@@ -69,14 +69,17 @@ public class UmsArticleServiceImpl extends ServiceImpl<UmsArticleMapper, UmsArti
         return update(article, new UpdateWrapper<UmsArticle>().eq("id", umsArticleParam.getId()));
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public Integer save(UmsArticleParam umsArticleParam) {
-
+    public Long save(UmsArticleParam umsArticleParam) {
         UmsArticle article = UmsArticleConverter.INSTANCE.toUmsArticle(umsArticleParam);
-        article.setId(primaryIdManager.getPrimaryId());
+        Long id = primaryIdManager.getPrimaryId();
+        article.setId(id);
         article.setCoins(0);
         article.setLike(0);
-
-        return null;
+        UserDto userDto = authenticationManager.getUser();
+        article.setUserUid(userDto.getId());
+        save(article);
+        return id;
     }
 }
