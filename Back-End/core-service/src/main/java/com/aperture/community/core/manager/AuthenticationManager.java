@@ -13,12 +13,10 @@ import org.springframework.web.client.RestTemplate;
 public class AuthenticationManager {
 
     private RestTemplate restTemplate;
-    private ApplicationContext applicationContext;
 
     @Autowired
-    public AuthenticationManager(RestTemplate restTemplate,ApplicationContext applicationContext) {
+    public AuthenticationManager(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-        this.applicationContext = applicationContext;
     }
 
 
