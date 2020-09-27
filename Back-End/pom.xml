@@ -146,6 +146,7 @@
             </dependency>
 
 
+
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
@@ -157,6 +158,7 @@
     </dependencyManagement>
 
     <dependencies>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
