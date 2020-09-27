@@ -33,7 +33,7 @@ public class UmsArticleController {
     @PostMapping
     public ResultBean<Integer> saveArticle(@RequestBody @Validated({ValidationGroup.addGroup.class}) UmsArticleParam umsArticleParam) {
         ResultBean<Integer> bean = new ResultBean<>("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
-//        bean.setData(umsArticleService.save(umsArticleParam));
+        //bean.setData(umsArticleService.save(umsArticleParam));
         return bean;
     }
 
