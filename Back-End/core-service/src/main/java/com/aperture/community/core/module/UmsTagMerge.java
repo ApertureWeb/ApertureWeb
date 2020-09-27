@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,6 +18,7 @@ import lombok.EqualsAndHashCode;
  * @author HALOXIAO
  * @since 2020-09-24
  */
+@AllArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("ums_tag_merge")

@@ -19,7 +19,7 @@ import java.util.List;
 @Setter
 public class UmsArticleParam {
     @Null(groups = {ValidationGroup.addGroup.class})
-    @NotNull(groups = {ValidationGroup.deleteGroup.class, ValidationGroup.updateGroup.class})
+    @NotNull(groups = {ValidationGroup.deleteGroup.class, ValidationGroup.updateGroup.class,ValidationGroup.searchGroup.class})
     private Long id;
 
     @NotEmpty(groups = {ValidationGroup.addGroup.class})
@@ -32,6 +32,7 @@ public class UmsArticleParam {
     private Long circleId;
 
 
-    private List<Integer> tags;
+
+    private List<Long> tags;
 
 }

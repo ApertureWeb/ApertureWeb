@@ -1,14 +1,20 @@
 package com.aperture.community.core.service.impl;
 
-import com.aperture.community.core.dao.UmsTagMapper;
+import com.aperture.community.core.common.UmsTagMap;
+import com.aperture.community.core.manager.PrimaryIdManager;
+import com.aperture.community.core.manager.TagManager;
 import com.aperture.community.core.module.UmsTag;
+import com.aperture.community.core.module.converter.UmsTagConverter;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsTagParam;
+import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsTagVO;
 import com.aperture.community.core.service.IUmsTagService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
-import java.util.List;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.remoting.RemoteTimeoutException;
 
 /**
  * <p>
@@ -18,32 +24,44 @@ import java.util.List;
  * @author HALOXIAO
  * @since 2020-09-24
  */
-public class UmsTagServiceImpl extends ServiceImpl<UmsTagMapper, UmsTag> implements IUmsTagService {
+public class UmsTagServiceImpl implements IUmsTagService {
 
+    private TagManager tagManager;
+    private PrimaryIdManager primaryIdManager;
 
-    @Override
-    public UmsTagVO select(UmsTagParam umsTagParam) {
-        return null;
+    @Autowired
+    public UmsTagServiceImpl(TagManager tagManager, PrimaryIdManager primaryIdManager) {
+        this.tagManager = tagManager;
+        this.primaryIdManager = primaryIdManager;
     }
 
     @Override
-    public boolean delete(Long id) {
-        return false;
+    public void delete(Long id) {
+        tagManager.getUmsTagMapper().removeById(id);
     }
 
     @Override
-    public List<UmsTagVO> listPage(PageParam pageParam) {
-        return null;
+    public PageVO<UmsTagVO> listPage(PageParam pageParam) {
+        IPage<UmsTag> tagPage = tagManager.getUmsTagMapper().page(new Page<>(pageParam.getPage(), pageParam.getSize()),
+                new QueryWrapper<UmsTag>().select(UmsTagMap.ID.getValue(), UmsTagMap.NAME.getValue()));
+        long total = tagPage.getTotal();
+        return new PageVO<>(total, UmsTagConverter.INSTANCE.toUmsTagVOList(tagPage.getRecords()));
     }
+
 
     @Override
     public boolean update(UmsTagParam umsTagParam) {
-        return false;
+        return tagManager.getUmsTagMapper().updateById(UmsTagConverter.INSTANCE.toUmsTag(umsTagParam));
     }
 
     @Override
     public boolean save(UmsTagParam umsTagParam) {
-        return false;
+        Long id = primaryIdManager.getPrimaryId();
+        if (id == null) {
+            throw new RemoteTimeoutException("Id获取失败");
+        }
+        umsTagParam.setId(id);
+        return tagManager.getUmsTagMapper().save(UmsTagConverter.INSTANCE.toUmsTag(umsTagParam));
     }
 
 

@@ -6,6 +6,9 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+import java.util.Queue;
+
 /**
  * @author HALOXIAO
  * @since 2020-09-23 20:39
@@ -26,6 +29,13 @@ public class PrimaryIdManager {
 
     public Long getPrimaryId() {
 
+        return null;
+    }
+
+    public Queue<Long> getPrimaryIdBatch(int size){
+        if(size<=0){
+            throw new IllegalArgumentException("size不能<=0");
+        }
         return null;
     }
 

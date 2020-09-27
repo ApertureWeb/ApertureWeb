@@ -16,7 +16,7 @@ public interface IUmsArticleService {
 
     boolean update(UmsArticleParam umsArticleParam);
 
-    Long save(UmsArticleParam umsArticleParam);
+    Long save(UmsArticleParam umsArticleParam) throws Exception;
 
 
 }

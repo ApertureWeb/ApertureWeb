@@ -10,6 +10,7 @@ import com.aperture.community.core.service.impl.UmsArticleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -30,14 +31,16 @@ public class UmsArticleController {
     UmsArticleServiceImpl umsArticleService;
 
     @PostMapping
-    @Transactional
     public ResultBean<Integer> saveArticle(@RequestBody @Validated({ValidationGroup.addGroup.class}) UmsArticleParam umsArticleParam) {
         ResultBean<Integer> bean = new ResultBean<>("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
 //        bean.setData(umsArticleService.save(umsArticleParam));
         return bean;
     }
 
-
+    @DeleteMapping
+    public ResultBean<Boolean> deleteArticle(Long id) {
+        return null;
+    }
 
 
 }

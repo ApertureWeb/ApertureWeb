@@ -1,18 +1,9 @@
 package com.aperture.community.core.dao;
 
 import com.aperture.community.core.module.UmsArticle;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.stereotype.Repository;
 
-/**
- * <p>
- *  Mapper 接口
- * </p>
- *
- * @author HALOXIAO
- * @since 2020-09-23
- */
-@Mapper
-public interface UmsArticleMapper extends BaseMapper<UmsArticle> {
-
+@Repository
+public class UmsArticleMapper extends ServiceImpl<UmsArticleDao, UmsArticle> {
 }

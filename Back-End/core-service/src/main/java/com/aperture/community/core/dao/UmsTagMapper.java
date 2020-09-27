@@ -1,18 +1,9 @@
 package com.aperture.community.core.dao;
 
 import com.aperture.community.core.module.UmsTag;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.stereotype.Repository;
 
-/**
- * <p>
- * 标签用来标记视频、帖子 Mapper 接口
- * </p>
- *
- * @author HALOXIAO
- * @since 2020-09-24
- */
-@Mapper
-public interface UmsTagMapper extends BaseMapper<UmsTag> {
-
+@Repository
+public class UmsTagMapper extends ServiceImpl<UmsTagDao, UmsTag> {
 }
