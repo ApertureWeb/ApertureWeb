@@ -39,6 +39,9 @@ public class UmsArticle implements Serializable {
     @TableField("content")
     private String content;
 
+    @TableField("description")
+    private String description;
+
     @TableField("like")
     private Integer like;
 

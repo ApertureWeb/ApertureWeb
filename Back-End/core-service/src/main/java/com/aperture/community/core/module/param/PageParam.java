@@ -2,6 +2,7 @@ package com.aperture.community.core.module.param;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Range;
 
 /**
  * @author HALOXIAO
@@ -10,8 +11,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PageParam {
-
+    @Range(min = 1)
     private Integer page;
+
+    @Range(min = 1, max = 10)
     private Integer size;
 
 }

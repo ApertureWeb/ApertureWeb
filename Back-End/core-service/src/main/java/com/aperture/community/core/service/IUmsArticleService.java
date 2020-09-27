@@ -4,6 +4,7 @@ import com.aperture.community.core.module.param.CirclePageParam;
 import com.aperture.community.core.module.param.UmsArticleParam;
 import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsArticleVO;
+import com.aperture.community.core.module.vo.UmsArticleViewVO;
 
 public interface IUmsArticleService {
 
@@ -11,7 +12,7 @@ public interface IUmsArticleService {
 
     boolean delete(Long id);
 
-    PageVO<UmsArticleVO> listPage(CirclePageParam circlePageParam);
+    PageVO<UmsArticleViewVO> listPage(CirclePageParam circlePageParam);
 
     boolean update(UmsArticleParam umsArticleParam);
 

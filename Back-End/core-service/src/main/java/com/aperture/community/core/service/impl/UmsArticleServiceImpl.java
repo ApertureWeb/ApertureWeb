@@ -11,6 +11,7 @@ import com.aperture.community.core.module.param.CirclePageParam;
 import com.aperture.community.core.module.param.UmsArticleParam;
 import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsArticleVO;
+import com.aperture.community.core.module.vo.UmsArticleViewVO;
 import com.aperture.community.core.service.IUmsArticleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -69,14 +70,21 @@ public class UmsArticleServiceImpl implements IUmsArticleService {
     }
 
     @Override
-    public PageVO<UmsArticleVO> listPage(CirclePageParam circlePageParam) {
+    public PageVO<UmsArticleViewVO> listPage(CirclePageParam circlePageParam) {
         IPage<UmsArticle> page = umsArticleMapper.page(new Page<>(circlePageParam.getPage(), circlePageParam.getSize()),
                 new QueryWrapper<UmsArticle>().
+                        select(UmsArticleMap.ID.getValue(),
+                                UmsArticleMap.TITLE.getValue(),
+                                UmsArticleMap.DESCRIPTION.getValue(),
+                                UmsArticleMap.LIKE.getValue(),
+                                UmsArticleMap.COINS.getValue(),
+                                UmsArticleMap.CIRCLE_ID.getValue(),
+                                UmsArticleMap.USER_ID.getValue()
+                        ).
                         eq(UmsArticleMap.CIRCLE_ID.getValue(), circlePageParam.getCircleId()));
-        List<UmsArticleVO> articleVOList = UmsArticleConverter.INSTANCE.toUmsArticleVOList(page.getRecords());
+        List<UmsArticleViewVO> resultList = UmsArticleConverter.INSTANCE.toUmsArticleViewVOList(page.getRecords());
         long total = page.getSize();
-        PageVO<UmsArticleVO> result = new PageVO<>(total, articleVOList);
-        return result;
+        return new PageVO<>(total, resultList);
     }
 
 
@@ -107,6 +115,7 @@ public class UmsArticleServiceImpl implements IUmsArticleService {
         } else {
             id = primaryIdManager.getPrimaryId();
         }
+
         UmsArticle article = UmsArticleConverter.INSTANCE.toUmsArticle(umsArticleParam);
         article.setId(id);
         article.setCoins(0);

@@ -10,6 +10,7 @@ public enum UmsArticleMap {
 
     ID("id"),
     TITLE("title"),
+    DESCRIPTION("description"),
     CONTENT("content"),
     LIKE("like"),
     COINS("coins"),
