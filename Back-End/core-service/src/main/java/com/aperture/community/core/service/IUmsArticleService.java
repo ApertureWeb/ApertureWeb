@@ -1,10 +1,9 @@
 package com.aperture.community.core.service;
 
-import com.aperture.community.core.module.param.PageParam;
+import com.aperture.community.core.module.param.CirclePageParam;
 import com.aperture.community.core.module.param.UmsArticleParam;
+import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsArticleVO;
-
-import java.util.List;
 
 public interface IUmsArticleService {
 
@@ -12,7 +11,7 @@ public interface IUmsArticleService {
 
     boolean delete(Long id);
 
-    List<UmsArticleVO> listPage(PageParam pageParam);
+    PageVO<UmsArticleVO> listPage(CirclePageParam circlePageParam);
 
     boolean update(UmsArticleParam umsArticleParam);
 

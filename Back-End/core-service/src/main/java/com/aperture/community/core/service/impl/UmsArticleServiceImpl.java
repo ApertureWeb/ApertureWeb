@@ -7,11 +7,14 @@ import com.aperture.community.core.manager.TagManager;
 import com.aperture.community.core.module.UmsArticle;
 import com.aperture.community.core.module.UmsTagMerge;
 import com.aperture.community.core.module.converter.UmsArticleConverter;
-import com.aperture.community.core.module.param.PageParam;
+import com.aperture.community.core.module.param.CirclePageParam;
 import com.aperture.community.core.module.param.UmsArticleParam;
+import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsArticleVO;
 import com.aperture.community.core.service.IUmsArticleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,19 +59,26 @@ public class UmsArticleServiceImpl implements IUmsArticleService {
                         UmsArticleMap.CIRCLE_ID.getValue())
                 .eq(UmsArticleMap.ID.getValue(), umsArticleParam.getId()));
         UmsArticleVO articleVO = UmsArticleConverter.INSTANCE.toUmsArticleVO(umsArticle);
-
+        // 需要user名和circle名
         return null;
     }
 
     @Override
     public boolean delete(Long id) {
-        return false;
+        return umsArticleMapper.removeById(id);
     }
 
     @Override
-    public List<UmsArticleVO> listPage(PageParam pageParam) {
-        return null;
+    public PageVO<UmsArticleVO> listPage(CirclePageParam circlePageParam) {
+        IPage<UmsArticle> page = umsArticleMapper.page(new Page<>(circlePageParam.getPage(), circlePageParam.getSize()),
+                new QueryWrapper<UmsArticle>().
+                        eq(UmsArticleMap.CIRCLE_ID.getValue(), circlePageParam.getCircleId()));
+        List<UmsArticleVO> articleVOList = UmsArticleConverter.INSTANCE.toUmsArticleVOList(page.getRecords());
+        long total = page.getSize();
+        PageVO<UmsArticleVO> result = new PageVO<>(total, articleVOList);
+        return result;
     }
+
 
     @Override
     public boolean update(UmsArticleParam umsArticleParam) {

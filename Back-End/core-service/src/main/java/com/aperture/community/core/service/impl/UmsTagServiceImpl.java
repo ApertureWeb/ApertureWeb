@@ -36,8 +36,8 @@ public class UmsTagServiceImpl implements IUmsTagService {
     }
 
     @Override
-    public void delete(Long id) {
-        tagManager.getUmsTagMapper().removeById(id);
+    public boolean delete(Long id) {
+        return tagManager.getUmsTagMapper().removeById(id);
     }
 
     @Override

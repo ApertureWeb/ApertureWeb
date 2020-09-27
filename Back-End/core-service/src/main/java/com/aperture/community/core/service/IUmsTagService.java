@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public interface IUmsTagService  {
 
 
-     void delete(Long id);
+     boolean delete(Long id);
 
      PageVO<UmsTagVO> listPage(PageParam pageParam);
 

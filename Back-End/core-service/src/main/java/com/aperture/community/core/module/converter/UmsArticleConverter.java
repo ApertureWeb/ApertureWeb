@@ -8,6 +8,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * @author HALOXIAO
  * @since 2020-09-23 19:20
@@ -29,6 +31,7 @@ public interface UmsArticleConverter {
     })
     UmsArticle toUmsArticle(UmsArticleParam umsArticleParam);
 
+
     @Mappings({
             @Mapping(source = "id", target = "id"),
             @Mapping(source = "title", target = "title"),
@@ -41,6 +44,8 @@ public interface UmsArticleConverter {
             @Mapping(target = "circleName", ignore = true)
     })
     UmsArticleVO toUmsArticleVO(UmsArticle umsArticle);
+
+    List<UmsArticleVO> toUmsArticleVOList(List<UmsArticle> umsArticles);
 
 
 }
