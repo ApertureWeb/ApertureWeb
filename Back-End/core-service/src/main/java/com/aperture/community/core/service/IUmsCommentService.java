@@ -1,5 +1,6 @@
 package com.aperture.community.core.service;
 
+import com.aperture.community.core.common.ContentType;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsCommentParam;
 import com.aperture.community.core.module.vo.PageVO;
@@ -15,8 +16,7 @@ public interface  IUmsCommentService{
 
  PageVO<UmsCommentVO> listPage(PageParam pageParam);
 
- boolean update(UmsCommentParam UmsCommentParam);
 
- boolean save(UmsCommentParam UmsCommentParam);
+ boolean sendComment(UmsCommentParam UmsCommentParam, ContentType type);
 
 }

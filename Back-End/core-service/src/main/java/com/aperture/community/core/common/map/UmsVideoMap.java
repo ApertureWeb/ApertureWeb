@@ -1,25 +1,16 @@
-package com.aperture.community.core.common;
+package com.aperture.community.core.common.map;
 
-/**
- * 字段映射
- *
- * @author HALOXIAO
- * @since 2020-09-24 16:32
- **/
-public enum UmsArticleMap {
-
+public enum UmsVideoMap {
     ID("id"),
     TITLE("title"),
     DESCRIPTION("description"),
-    CONTENT("content"),
     LIKE("like"),
     COINS("coins"),
-    USER_ID("user_uid"),
+    USER_ID("user_id"),
     CIRCLE_ID("circle_id");
-
     String value;
 
-    UmsArticleMap(String value) {
+    UmsVideoMap(String value) {
         this.value = value;
     }
 

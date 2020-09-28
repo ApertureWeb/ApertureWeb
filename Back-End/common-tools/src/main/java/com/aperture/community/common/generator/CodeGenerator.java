@@ -20,6 +20,8 @@ import java.util.Scanner;
  */
 public class CodeGenerator {
 
+    //TODO 代码生成器更新计划：Converter生成器，param生成器，vo生成器,Map生成器
+
     /**
      * 代码生成器所需配置，以core-service为例
      */

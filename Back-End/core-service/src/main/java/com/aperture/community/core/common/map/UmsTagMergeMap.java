@@ -1,4 +1,4 @@
-package com.aperture.community.core.common;
+package com.aperture.community.core.common.map;
 
 public enum  UmsTagMergeMap {
 

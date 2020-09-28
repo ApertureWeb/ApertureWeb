@@ -3,9 +3,7 @@ package com.aperture.community.core.module.vo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-
 import java.util.Collection;
-import java.util.List;
 
 @AllArgsConstructor
 @Data

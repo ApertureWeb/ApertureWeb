@@ -1,6 +1,6 @@
 package com.aperture.community.core.manager;
 
-import com.aperture.community.core.common.UmsTagMergeMap;
+import com.aperture.community.core.common.map.UmsTagMergeMap;
 import com.aperture.community.core.dao.UmsTagMapper;
 import com.aperture.community.core.dao.UmsTagMergeMapper;
 import com.aperture.community.core.module.UmsTag;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 

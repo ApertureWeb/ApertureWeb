@@ -1,6 +1,6 @@
 package com.aperture.community.core.service.impl;
 
-import com.aperture.community.core.common.UmsArticleMap;
+import com.aperture.community.core.common.map.UmsArticleMap;
 import com.aperture.community.core.dao.UmsArticleMapper;
 import com.aperture.community.core.manager.PrimaryIdManager;
 import com.aperture.community.core.manager.TagManager;
