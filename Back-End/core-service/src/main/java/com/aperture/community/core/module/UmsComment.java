@@ -54,6 +54,9 @@ public class UmsComment implements Serializable {
     @TableField("comment_date")
     private LocalDateTime commentDate;
 
+    @TableField("like")
+    private Integer like;
+
     @ApiModelProperty(value = "1为折叠状态，2为审核状态")
     @TableField("status")
     private Integer status;

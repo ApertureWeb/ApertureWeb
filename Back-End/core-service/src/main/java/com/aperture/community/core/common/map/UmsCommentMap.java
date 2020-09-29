@@ -8,6 +8,7 @@ public enum  UmsCommentMap {
     USER_ID("user_id"),
     CONTENT("content"),
     COMMENT_DATE("comment_date"),
+    LIKE("like"),
     STATUS("status");
 
     String value;

@@ -1,16 +1,12 @@
 package com.aperture.community.core.controller;
 
 import com.aperture.community.common.standard.response.ResultBean;
-import com.aperture.community.core.dao.UmsCommentMapper;
 import com.aperture.community.core.module.param.PageParam;
-import com.aperture.community.core.module.param.UmsCommentPageParam;
 import com.aperture.community.core.module.param.UmsCommentParam;
 import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsCommentVO;
 import com.aperture.community.core.service.IUmsCommentService;
-import com.aperture.community.core.service.impl.UmsCommentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -43,7 +39,9 @@ public class UmsCommentController {
     }
 
     @GetMapping("/article/${articleId}/comment")
-    public ResultBean<PageVO<UmsCommentVO>> pageComment(@PathVariable Integer articleId, @RequestBody PageParam pageParam) {
+    public ResultBean<PageVO<UmsCommentVO>> pageComment(@PathVariable Integer articleId, @RequestBody @Valid PageParam pageParam) {
+        umsCommentService.listPage(pageParam, articleId);
+
 
         return null;
     }

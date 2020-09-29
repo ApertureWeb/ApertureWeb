@@ -19,11 +19,14 @@ import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsCommentVO;
 import com.aperture.community.core.service.IUmsCommentService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -65,7 +68,25 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
     }
 
     @Override
-    public PageVO<UmsCommentVO> listPage(PageParam pageParam) {
+    public PageVO<UmsCommentVO> listPage(PageParam pageParam, Integer contentId) {
+        assert contentId != null;
+        assert pageParam != null;
+        IPage<UmsComment> page = umsCommentMapper.page(new Page<>(pageParam.getPage(), pageParam.getSize()),
+                new QueryWrapper<UmsComment>()
+                        .select(UmsCommentMap.ID.getValue()
+                                , UmsCommentMap.USER_ID.getValue()
+                                , UmsCommentMap.CONTENT.getValue()
+                                , UmsCommentMap.COMMENT_DATE.getValue()
+                                , UmsCommentMap.LIKE.getValue()
+
+                        )
+                        .eq(UmsCommentMap.REPLY_ID.getValue(), 0)
+                        .eq(UmsCommentMap.TARGET_ID.getValue(), contentId)
+
+
+        );
+        List<UmsComment> umsComments = page.getRecords();
+        long size = page.getTotal();
 
         return null;
     }
@@ -93,7 +114,7 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
                 throw new IllegalArgumentException("找不到目标视频");
             }
         }
-        comment = fillCommentStatus(comment);
+        comment = checkCommentStatus(comment);
         LocalDateTime nowTime = LocalDateTime.now();
         comment.setCommentDate(nowTime);
         comment.setStatus(CommentStatus.NORMAL.getValue());
@@ -102,14 +123,9 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
     }
 
     /**
-     * root_id如果为主评论和回复，则为0。用于标识楼中楼（回复对话）。
-     * 值得注意的是，这个root_id的传播属于感染式的，当第一个人为楼中楼的时候，日后所有回复它的人都将被感染，以此类推
+     * 检测replyId和RootId，同时管理楼中楼状态
      */
-
-    /**
-     * replyId主评论默认为0，如果为回复，则为评论的ID
-     */
-    private UmsComment fillCommentStatus(UmsComment commentParam) {
+    private UmsComment checkCommentStatus(UmsComment commentParam) {
         assert commentParam != null;
         if (commentParam.getReplyId() != 0) {
             UmsComment comment = umsCommentMapper.getOne(new QueryWrapper<UmsComment>().select(UmsCommentMap.ID.getValue())

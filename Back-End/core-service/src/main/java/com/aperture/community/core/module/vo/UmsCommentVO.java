@@ -4,20 +4,21 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 public class UmsCommentVO {
 
     private Long id;
-
     private Long targetId;
-
     private Long rootId;
-
     private Long replyId;
 
     private Long userId;
+    private String username;
+
+    private String icon;
 
     private String content;
 
@@ -25,5 +26,6 @@ public class UmsCommentVO {
 
     private Integer status;
 
+    List<ChildCommentVO> childComment;
 
 }

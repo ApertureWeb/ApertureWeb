@@ -18,8 +18,9 @@ public interface UmsCommentConverter {
             @Mapping(source = "content", target = "content"),
             @Mapping(source = "replyId", target = "replyId"),
             @Mapping(source = "rootId", target = "rootId"),
-            @Mapping(target = "status",ignore = true),
-            @Mapping(target = "commentDate",ignore = true)
+            @Mapping(target = "status", ignore = true),
+            @Mapping(target = "commentDate", ignore = true),
+            @Mapping(target = "like", ignore = true)
     })
     UmsComment toUmsComment(UmsCommentParam umsCommentParam);
 
