@@ -8,6 +8,7 @@ import com.aperture.community.core.common.map.UmsVideoMap;
 import com.aperture.community.core.dao.UmsArticleMapper;
 import com.aperture.community.core.dao.UmsCommentMapper;
 import com.aperture.community.core.dao.UmsVideoMapper;
+import com.aperture.community.core.manager.ContentManager;
 import com.aperture.community.core.manager.PrimaryIdManager;
 import com.aperture.community.core.module.UmsArticle;
 import com.aperture.community.core.module.UmsComment;
@@ -41,22 +42,19 @@ import java.util.stream.Collectors;
 @Service
 public class UmsCommentServiceImpl implements IUmsCommentService {
 
-
     private final Long ROOT_STATUS_NON_INSIDE_REPLY = 0L;
 
     private UmsCommentMapper umsCommentMapper;
     private PrimaryIdManager primaryIdManager;
-    private UmsArticleMapper umsArticleMapper;
-    private UmsVideoMapper umsVideoMapper;
+    private ContentManager contentManager;
 
 
     @Autowired
     public UmsCommentServiceImpl(UmsCommentMapper umsCommentMapper, PrimaryIdManager primaryIdManager,
-                                 UmsArticleMapper umsArticleMapper, UmsVideoMapper umsVideoMapper) {
+                                  ContentManager contentManager) {
         this.umsCommentMapper = umsCommentMapper;
         this.primaryIdManager = primaryIdManager;
-        this.umsArticleMapper = umsArticleMapper;
-        this.umsVideoMapper = umsVideoMapper;
+        this.contentManager = contentManager;
     }
 
     @Override
@@ -66,6 +64,9 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
 
     @Override
     public boolean delete(Long id) {
+
+        umsCommentMapper.remove(new QueryWrapper<>());
+
         return false;
     }
 
@@ -101,8 +102,6 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
         );
         List<UmsComment> umsComments = page.getRecords();
         List<UmsCommentVO> result = UmsCommentConverter.INSTANCE.toUmsCommentVOs(umsComments);
-
-
         long size = page.getTotal();
 
         return null;
@@ -111,7 +110,7 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean sendComment(UmsCommentParam umsCommentParam, ContentType type) {
+    public boolean  sendComment(UmsCommentParam umsCommentParam, ContentType type) {
         assert type != null;
         Long id = primaryIdManager.getPrimaryId();
         UmsComment comment = UmsCommentConverter.INSTANCE.toUmsComment(umsCommentParam);
@@ -119,13 +118,13 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
         //获取user信息
 
         if (type.equals(ContentType.ARTICLE)) {
-            UmsArticle article = umsArticleMapper.getOne(new QueryWrapper<UmsArticle>().select("1").
+            UmsArticle article = contentManager.getUmsArticleMapper().getOne(new QueryWrapper<UmsArticle>().select("1").
                     eq(UmsArticleMap.ID.getValue(), comment.getTargetId()));
             if (article == null) {
                 throw new IllegalArgumentException("找不到目标文章");
             }
         } else {
-            UmsVideo video = umsVideoMapper.getOne(new QueryWrapper<UmsVideo>().select("1").
+            UmsVideo video =contentManager.getUmsVideoMapper().getOne(new QueryWrapper<UmsVideo>().select("1").
                     eq(UmsVideoMap.ID.getValue(), comment.getTargetId()));
             if (video == null) {
                 throw new IllegalArgumentException("找不到目标视频");

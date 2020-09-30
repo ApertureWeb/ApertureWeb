@@ -2,12 +2,16 @@ package com.aperture.community.core.controller;
 
 import com.aperture.community.common.standard.code.RESULT_BEAN_STATUS_CODE;
 import com.aperture.community.common.standard.response.ResultBean;
+import com.aperture.community.core.common.ContentType;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsCommentParam;
+import com.aperture.community.core.module.validation.ValidationGroup;
 import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsCommentVO;
 import com.aperture.community.core.service.IUmsCommentService;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,23 +23,34 @@ public class UmsCommentController {
     @Autowired
     IUmsCommentService umsCommentService;
 
-    @DeleteMapping("/")
-    public ResultBean<Boolean> delete(Long id) {
+    @DeleteMapping("/article/${articleId}/comment")
+    public ResultBean<Boolean> deleteArticleComment(@PathVariable("articleId") Long id) {
         return null;
     }
+
+
+    @DeleteMapping("/video/${videoId}/comment")
+    public ResultBean<Boolean> deleteVideoComment(@PathVariable("videoId") Long videoId, @RequestParam("articleId") Long articleId) {
+        umsCommentService.delete(articleId);
+
+        return null;
+    }
+
 
     @GetMapping
     public ResultBean<UmsCommentVO> search(@RequestBody @Valid UmsCommentParam umsCommentParam) {
         return null;
     }
 
-    @PostMapping
-    public ResultBean<Integer> save(@RequestBody @Valid UmsCommentParam umsCommentParam) {
+    @PostMapping("/article")
+    public ResultBean<Integer> sendArticleComment(@RequestBody @Validated(ValidationGroup.addGroup.class) UmsCommentParam umsCommentParam) {
+        umsCommentService.sendComment(umsCommentParam, ContentType.ARTICLE);
         return null;
     }
 
-    @PutMapping
-    public ResultBean<Boolean> update(@RequestBody @Valid UmsCommentParam umsCommentParam) {
+    @PostMapping("/video")
+    public ResultBean<Integer> sendVideoComment(@RequestBody @Validated(ValidationGroup.addGroup.class) UmsCommentParam umsCommentParam) {
+        umsCommentService.sendComment(umsCommentParam, ContentType.VIDEO);
         return null;
     }
 
@@ -61,5 +76,6 @@ public class UmsCommentController {
         result.setData(pageVO);
         return result;
     }
+
 
 }
