@@ -15,6 +15,7 @@ import com.aperture.community.core.module.UmsVideo;
 import com.aperture.community.core.module.converter.UmsCommentConverter;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsCommentParam;
+import com.aperture.community.core.module.vo.ChildCommentVO;
 import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsCommentVO;
 import com.aperture.community.core.service.IUmsCommentService;
@@ -27,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -68,24 +70,39 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
     }
 
     @Override
-    public PageVO<UmsCommentVO> listPage(PageParam pageParam, Integer contentId) {
+    public PageVO<UmsCommentVO> listPage(PageParam pageParam, Integer contentId, boolean isHeat) {
         assert contentId != null;
         assert pageParam != null;
+        boolean asc = false;
+        String field;
+        if (isHeat) {
+            field = UmsCommentMap.LIKE.getValue();
+            asc = true;
+        } else {
+            field = UmsCommentMap.COMMENT_DATE.getValue();
+            asc = false;
+        }
         IPage<UmsComment> page = umsCommentMapper.page(new Page<>(pageParam.getPage(), pageParam.getSize()),
                 new QueryWrapper<UmsComment>()
                         .select(UmsCommentMap.ID.getValue()
                                 , UmsCommentMap.USER_ID.getValue()
+                                , UmsCommentMap.TARGET_ID.getValue()
                                 , UmsCommentMap.CONTENT.getValue()
                                 , UmsCommentMap.COMMENT_DATE.getValue()
                                 , UmsCommentMap.LIKE.getValue()
-
+                                , UmsCommentMap.STATUS.getValue()
+                                , UmsCommentMap.ROOT_ID.getValue()
+                                , UmsCommentMap.REPLY_ID.getValue()
                         )
                         .eq(UmsCommentMap.REPLY_ID.getValue(), 0)
                         .eq(UmsCommentMap.TARGET_ID.getValue(), contentId)
-
-
+                        .ne(UmsCommentMap.STATUS.getValue(), CommentStatus.REVIEW)
+                        .orderBy(false, asc, field)
         );
         List<UmsComment> umsComments = page.getRecords();
+        List<UmsCommentVO> result = UmsCommentConverter.INSTANCE.toUmsCommentVOs(umsComments);
+
+
         long size = page.getTotal();
 
         return null;
@@ -144,6 +161,28 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
             }
         }
         return commentParam;
+    }
+
+
+    private List<ChildCommentVO> getChildCommentVO(List<UmsComment> comments, Long contentId) {
+        List<Long> ids = comments.stream().map(UmsComment::getId).collect(Collectors.toList());
+        List<UmsComment> cComments = umsCommentMapper.list(new QueryWrapper<UmsComment>()
+                .select(UmsCommentMap.ID.getValue()
+                        , UmsCommentMap.USER_ID.getValue()
+                        , UmsCommentMap.TARGET_ID.getValue()
+                        , UmsCommentMap.CONTENT.getValue()
+                        , UmsCommentMap.COMMENT_DATE.getValue()
+                        , UmsCommentMap.LIKE.getValue()
+                        , UmsCommentMap.STATUS.getValue()
+                        , UmsCommentMap.ROOT_ID.getValue()
+                        , UmsCommentMap.REPLY_ID.getValue()
+                )
+                .eq(UmsCommentMap.TARGET_ID.getValue(), contentId)
+                .ne(UmsCommentMap.STATUS.getValue(), CommentStatus.REVIEW)
+                .in(UmsCommentMap.REPLY_ID.getValue(), ids)
+        );
+        UmsCommentConverter.INSTANCE.toChildCommentVOs(cComments);
+        return null;
     }
 
 }

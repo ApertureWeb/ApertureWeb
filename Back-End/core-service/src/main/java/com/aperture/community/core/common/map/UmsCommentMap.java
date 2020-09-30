@@ -1,6 +1,6 @@
 package com.aperture.community.core.common.map;
 
-public enum  UmsCommentMap {
+public enum UmsCommentMap {
     ID("id"),
     TARGET_ID("target_id"),
     ROOT_ID("root_id"),
@@ -13,10 +13,11 @@ public enum  UmsCommentMap {
 
     String value;
 
-    UmsCommentMap(String value){
+    UmsCommentMap(String value) {
         this.value = value;
     }
-    public String getValue(){
+
+    public String getValue() {
         return value;
     }
 }

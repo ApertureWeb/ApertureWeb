@@ -7,8 +7,8 @@ public enum ServiceIdentity {
     /**
      * 主键服务
      */
-    PRIMARY_KEY_SERVICE("primary_key-service");
-
+    PRIMARY_KEY_SERVICE("primary_key-service"),
+    CONTENT_SERVICE("Content-Service");
     private String value;
 
     ServiceIdentity(String value) {

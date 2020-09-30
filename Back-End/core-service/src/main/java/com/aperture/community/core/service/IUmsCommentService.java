@@ -14,7 +14,7 @@ public interface  IUmsCommentService{
 
  boolean delete(Long id);
 
- PageVO<UmsCommentVO> listPage(PageParam pageParam, Integer contentId);
+ PageVO<UmsCommentVO> listPage(PageParam pageParam, Integer contentId, boolean isHeat);
 
 
  boolean sendComment(UmsCommentParam UmsCommentParam, ContentType type);

@@ -1,5 +1,6 @@
 package com.aperture.community.core.controller;
 
+import com.aperture.community.common.standard.code.RESULT_BEAN_STATUS_CODE;
 import com.aperture.community.common.standard.response.ResultBean;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsCommentParam;
@@ -38,12 +39,27 @@ public class UmsCommentController {
         return null;
     }
 
-    @GetMapping("/article/${articleId}/comment")
+
+    /**
+     * 获取首页评论类型,按时间排行
+     */
+    @GetMapping("/article/${articleId}/comment/like")
     public ResultBean<PageVO<UmsCommentVO>> pageComment(@PathVariable Integer articleId, @RequestBody @Valid PageParam pageParam) {
-        umsCommentService.listPage(pageParam, articleId);
+        PageVO<UmsCommentVO> pageVO = umsCommentService.listPage(pageParam, articleId, true);
+        ResultBean<PageVO<UmsCommentVO>> result = new ResultBean<>("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+        result.setData(pageVO);
+        return result;
+    }
 
-
-        return null;
+    /**
+     * 获取首页评论类型,按热度排行
+     */
+    @GetMapping("/article/${articleId}/comment/time")
+    public ResultBean<PageVO<UmsCommentVO>> pageCommentHeat(@PathVariable Integer articleId, @RequestBody @Valid PageParam pageParam) {
+        PageVO<UmsCommentVO> pageVO = umsCommentService.listPage(pageParam, articleId, false);
+        ResultBean<PageVO<UmsCommentVO>> result = new ResultBean<>("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+        result.setData(pageVO);
+        return result;
     }
 
 }
