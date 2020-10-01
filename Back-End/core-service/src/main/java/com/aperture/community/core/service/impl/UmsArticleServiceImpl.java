@@ -115,7 +115,6 @@ public class UmsArticleServiceImpl implements IUmsArticleService {
         } else {
             id = primaryIdManager.getPrimaryId();
         }
-
         UmsArticle article = UmsArticleConverter.INSTANCE.toUmsArticle(umsArticleParam);
         article.setId(id);
         article.setCoins(0);
