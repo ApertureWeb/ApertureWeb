@@ -1,14 +1,12 @@
 package com.aperture.community.core.controller;
 
 
-import com.aperture.community.common.standard.code.RESULT_BEAN_STATUS_CODE;
-import com.aperture.community.common.standard.response.ResultBean;
+import com.aperture.community.standard.code.RESULT_BEAN_STATUS_CODE;
+import com.aperture.community.standard.response.ResultBean;
 import com.aperture.community.core.module.param.UmsArticleParam;
 import com.aperture.community.core.module.validation.ValidationGroup;
-import com.aperture.community.core.service.IUmsArticleService;
 import com.aperture.community.core.service.impl.UmsArticleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;

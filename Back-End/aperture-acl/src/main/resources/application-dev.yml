@@ -1,0 +1,23 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: apperture-acl
+
+  datasource:
+    druid:
+      url: jdbc:mysql://127.0.0.1:3306/aperture-acl?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&SSL=false
+      username: root
+      password: root
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 119.3.186.94:8848
+        service:
+      config:
+        server-addr: 119.3.186.94:8848
+
+
+mybatis-plus.mapper-locations: classpath:com/aperture/community/acl/mapper/xml/*.xml
+

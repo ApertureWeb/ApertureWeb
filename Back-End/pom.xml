@@ -6,7 +6,8 @@
 
     <modules>
         <module>core-service</module>
-        <module>common-tools</module>
+        <module>common</module>
+        <module>aperture-acl</module>
     </modules>
 
     <parent>
@@ -144,7 +145,11 @@
                 <artifactId>mapstruct</artifactId>
                 <version>${mapstruct}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.aperture</groupId>
+                <artifactId>common-tools</artifactId>
+                <version>0.0.1-BEGIN</version>
+            </dependency>
 
 
             <dependency>

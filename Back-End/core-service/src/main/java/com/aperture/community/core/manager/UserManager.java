@@ -1,6 +1,6 @@
 package com.aperture.community.core.manager;
 
-import com.aperture.community.common.standard.identity.ServiceIdentity;
+import com.aperture.community.standard.identity.ServiceIdentity;
 import com.aperture.community.core.module.dto.UserDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
