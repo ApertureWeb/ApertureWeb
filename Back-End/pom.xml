@@ -8,6 +8,7 @@
         <module>core-service</module>
         <module>common</module>
         <module>aperture-acl</module>
+        <module>aperture-gateway</module>
     </modules>
 
     <parent>
@@ -38,11 +39,24 @@
         <web>2.2.8.RELEASE</web>
         <mapstruct>1.3.1.Final</mapstruct>
         <open-feign>2.2.5.RELEASE</open-feign>
+        <commons-pool2>2.6.0</commons-pool2>
+        <redis>2.2.5.RELEASE</redis>
     </properties>
 
     <dependencyManagement>
         <dependencies>
 
+            <!--spring2.X集成redis所需common-pool2-->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${commons-pool2}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${redis}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.springframework.boot</groupId>

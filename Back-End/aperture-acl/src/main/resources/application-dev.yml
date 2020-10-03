@@ -10,7 +10,6 @@ spring:
       username: root
       password: Halo_xiao@123
 
-
   cloud:
     nacos:
       discovery:
@@ -19,6 +18,6 @@ spring:
       config:
         server-addr: 49.234.83.167:8848
 
-
-mybatis-plus.mapper-locations: classpath:com/aperture/community/acl/mapper/xml/*.xml
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
 
