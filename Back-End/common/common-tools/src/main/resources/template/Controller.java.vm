@@ -1,0 +1,31 @@
+package ${package.Controller};
+
+
+import org.springframework.web.bind.annotation.*;
+
+
+@RestController
+public class ${table.controllerName}{
+
+
+@GetMapping
+public ResultBean<${table.entityName}VO> select(${table.entityName}Param ${table.entityName}Param){
+        return null;
+        }
+
+@DeleteMapping
+public ResultBean<Boolean> delete(${table.entityName}Param ${table.entityName}Param){
+        return null;
+        }
+
+@PostMapping
+public ResultBean<Integer> save(${table.entityName}Param ${table.entityName}Param){
+        return null;
+        }
+
+@PutMapping
+public ResultBean<Boolean> update(${table.entityName}Param ${table.entityName}Param){
+        return null;
+        }
+
+        }

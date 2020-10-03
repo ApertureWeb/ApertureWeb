@@ -51,7 +51,7 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
 
     @Autowired
     public UmsCommentServiceImpl(UmsCommentMapper umsCommentMapper, PrimaryIdManager primaryIdManager,
-                                  ContentManager contentManager) {
+                                 ContentManager contentManager) {
         this.umsCommentMapper = umsCommentMapper;
         this.primaryIdManager = primaryIdManager;
         this.contentManager = contentManager;
@@ -76,6 +76,7 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
         assert pageParam != null;
         boolean asc = false;
         String field;
+        //判断按热度还是按时间
         if (isHeat) {
             field = UmsCommentMap.LIKE.getValue();
             asc = true;
@@ -110,7 +111,7 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean  sendComment(UmsCommentParam umsCommentParam, ContentType type) {
+    public boolean sendComment(UmsCommentParam umsCommentParam, ContentType type) {
         assert type != null;
         Long id = primaryIdManager.getPrimaryId();
         UmsComment comment = UmsCommentConverter.INSTANCE.toUmsComment(umsCommentParam);
@@ -124,7 +125,7 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
                 throw new IllegalArgumentException("找不到目标文章");
             }
         } else {
-            UmsVideo video =contentManager.getUmsVideoMapper().getOne(new QueryWrapper<UmsVideo>().select("1").
+            UmsVideo video = contentManager.getUmsVideoMapper().getOne(new QueryWrapper<UmsVideo>().select("1").
                     eq(UmsVideoMap.ID.getValue(), comment.getTargetId()));
             if (video == null) {
                 throw new IllegalArgumentException("找不到目标视频");
@@ -183,5 +184,6 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
         UmsCommentConverter.INSTANCE.toChildCommentVOs(cComments);
         return null;
     }
+
 
 }
