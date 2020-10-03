@@ -42,7 +42,6 @@ public class UmsReply implements Serializable {
     @TableField("reply_id")
     private Long replyId;
 
-
     @ApiModelProperty(value = "内容")
     @TableField("content")
     private String content;

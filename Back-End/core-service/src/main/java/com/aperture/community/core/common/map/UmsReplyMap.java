@@ -1,19 +1,24 @@
 package com.aperture.community.core.common.map;
 
-public enum UmsCommentMap {
+public enum UmsReplyMap {
+
     ID("id"),
     TARGET_ID("target_id"),
-    USER_ID("user_id"),
+    ROOT_ID("root_id"),
     CONTENT("content"),
+    USER_ID("user_id"),
     COMMENT_DATE("comment_date"),
     LIKE("like"),
-    STATUS("status");
+    STATUS("status"),
+    REPLY_ID("reply_id");
 
-    String value;
 
-    UmsCommentMap(String value) {
-        this.value = value;
-    }
+
+private String value;
+
+UmsReplyMap(String value){
+    this.value = value;
+}
 
     public String getValue() {
         return value;
