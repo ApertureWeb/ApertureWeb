@@ -9,6 +9,7 @@
         <module>common</module>
         <module>aperture-acl</module>
         <module>aperture-gateway</module>
+        <module>aperture-member</module>
     </modules>
 
     <parent>
@@ -45,7 +46,6 @@
 
     <dependencyManagement>
         <dependencies>
-
             <!--spring2.X集成redis所需common-pool2-->
             <dependency>
                 <groupId>org.apache.commons</groupId>
