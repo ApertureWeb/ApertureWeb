@@ -33,15 +33,6 @@ public class UmsComment implements Serializable {
     @TableField("target_id")
     private Long targetId;
 
-    @ApiModelProperty(value = "如果为主评论和回复，则为0。用于标识楼中楼（回复对话）。" +
-            "值得注意的是，这个root_id的传播属于感染式的，当第一个人为楼中楼的时候，日后所有回复它的人都将被感染，以此类推")
-    @TableField("root_id")
-    private Long rootId;
-
-    @ApiModelProperty(value = "主评论默认为0，如果为回复，则为评论的ID")
-    @TableField("reply_id")
-    private Long replyId;
-
     @ApiModelProperty(value = "评论用户的ID ")
     @TableField("user_id")
     private Long userId;
@@ -60,6 +51,5 @@ public class UmsComment implements Serializable {
     @ApiModelProperty(value = "1为折叠状态，2为审核状态")
     @TableField("status")
     private Integer status;
-
 
 }

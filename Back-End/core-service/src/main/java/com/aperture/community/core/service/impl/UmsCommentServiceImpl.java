@@ -131,7 +131,6 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
                 throw new IllegalArgumentException("找不到目标视频");
             }
         }
-        comment = checkCommentStatus(comment);
         LocalDateTime nowTime = LocalDateTime.now();
         comment.setCommentDate(nowTime);
         comment.setStatus(CommentStatus.NORMAL.getValue());
@@ -139,29 +138,6 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
         return umsCommentMapper.save(comment);
     }
 
-    /**
-     * 检测replyId和RootId，同时管理楼中楼状态
-     */
-    private UmsComment checkCommentStatus(UmsComment commentParam) {
-        assert commentParam != null;
-        if (commentParam.getReplyId() != 0) {
-            UmsComment comment = umsCommentMapper.getOne(new QueryWrapper<UmsComment>().select(UmsCommentMap.ID.getValue())
-                    .eq(UmsCommentMap.ID.getValue(), commentParam.getReplyId()));
-            if (comment == null) {
-                throw new IllegalArgumentException("找不到目标评论");
-            }
-        }
-        if (commentParam.getRootId() != 0) {
-            UmsComment comment = umsCommentMapper.getOne(new QueryWrapper<UmsComment>().select(UmsCommentMap.ID.getValue(), UmsCommentMap.ROOT_ID.getValue())
-                    .eq(UmsCommentMap.ID.getValue(), commentParam.getRootId()));
-            if (comment == null) {
-                commentParam.setRootId(ROOT_STATUS_NON_INSIDE_REPLY);
-            } else {
-                commentParam.setRootId(commentParam.getRootId());
-            }
-        }
-        return commentParam;
-    }
 
 
     private List<ChildCommentVO> getChildCommentVO(List<UmsComment> comments, Long contentId) {
