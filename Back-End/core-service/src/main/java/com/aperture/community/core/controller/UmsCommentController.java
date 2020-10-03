@@ -1,5 +1,6 @@
 package com.aperture.community.core.controller;
 
+import com.aperture.community.core.module.param.UmsReplyParam;
 import com.aperture.community.standard.code.RESULT_BEAN_STATUS_CODE;
 import com.aperture.community.standard.response.ResultBean;
 import com.aperture.community.core.common.ContentType;
@@ -31,7 +32,16 @@ public class UmsCommentController {
     @DeleteMapping("/video/${videoId}/comment")
     public ResultBean<Boolean> deleteVideoComment(@PathVariable("videoId") Long videoId, @RequestParam("articleId") Long articleId) {
         umsCommentService.delete(articleId);
+        return null;
+    }
 
+    @PostMapping("/comment/reply")
+    public ResultBean<Boolean> sendReply(@RequestBody @Validated(ValidationGroup.addGroup.class) UmsReplyParam umsReplyParam) {
+        try {
+            umsCommentService.sendReply(umsReplyParam);
+        } catch (java.rmi.RemoteException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

@@ -39,8 +39,8 @@ public class UmsReply implements Serializable {
     private Long rootId;
 
     @ApiModelProperty(value = "评论ID")
-    @TableField("reply_id")
-    private Long replyId;
+    @TableField("comment_id")
+    private Long commentId;
 
     @ApiModelProperty(value = "内容")
     @TableField("content")

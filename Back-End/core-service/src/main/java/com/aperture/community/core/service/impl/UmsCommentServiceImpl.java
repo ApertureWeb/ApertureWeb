@@ -5,17 +5,20 @@ import com.aperture.community.core.common.ContentType;
 import com.aperture.community.core.common.map.UmsArticleMap;
 import com.aperture.community.core.common.map.UmsCommentMap;
 import com.aperture.community.core.common.map.UmsVideoMap;
-import com.aperture.community.core.dao.UmsArticleMapper;
 import com.aperture.community.core.dao.UmsCommentMapper;
-import com.aperture.community.core.dao.UmsVideoMapper;
+import com.aperture.community.core.manager.CommentManager;
 import com.aperture.community.core.manager.ContentManager;
 import com.aperture.community.core.manager.PrimaryIdManager;
 import com.aperture.community.core.module.UmsArticle;
 import com.aperture.community.core.module.UmsComment;
+import com.aperture.community.core.module.UmsReply;
 import com.aperture.community.core.module.UmsVideo;
 import com.aperture.community.core.module.converter.UmsCommentConverter;
+import com.aperture.community.core.module.converter.UmsReplyConverter;
+import com.aperture.community.core.module.dto.MessageDto;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsCommentParam;
+import com.aperture.community.core.module.param.UmsReplyParam;
 import com.aperture.community.core.module.vo.ChildCommentVO;
 import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsCommentVO;
@@ -27,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.rmi.RemoteException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,14 +51,15 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
     private UmsCommentMapper umsCommentMapper;
     private PrimaryIdManager primaryIdManager;
     private ContentManager contentManager;
-
+    private CommentManager commentManager;
 
     @Autowired
     public UmsCommentServiceImpl(UmsCommentMapper umsCommentMapper, PrimaryIdManager primaryIdManager,
-                                 ContentManager contentManager) {
+                                 ContentManager contentManager, CommentManager commentManager) {
         this.umsCommentMapper = umsCommentMapper;
         this.primaryIdManager = primaryIdManager;
         this.contentManager = contentManager;
+        this.commentManager = commentManager;
     }
 
     @Override
@@ -93,10 +98,7 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
                                 , UmsCommentMap.COMMENT_DATE.getValue()
                                 , UmsCommentMap.LIKE.getValue()
                                 , UmsCommentMap.STATUS.getValue()
-                                , UmsCommentMap.ROOT_ID.getValue()
-                                , UmsCommentMap.REPLY_ID.getValue()
                         )
-                        .eq(UmsCommentMap.REPLY_ID.getValue(), 0)
                         .eq(UmsCommentMap.TARGET_ID.getValue(), contentId)
                         .ne(UmsCommentMap.STATUS.getValue(), CommentStatus.REVIEW)
                         .orderBy(false, asc, field)
@@ -117,7 +119,6 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
         UmsComment comment = UmsCommentConverter.INSTANCE.toUmsComment(umsCommentParam);
         //通知消息组件
         //获取user信息
-
         if (type.equals(ContentType.ARTICLE)) {
             UmsArticle article = contentManager.getUmsArticleMapper().getOne(new QueryWrapper<UmsArticle>().select("1").
                     eq(UmsArticleMap.ID.getValue(), comment.getTargetId()));
@@ -139,6 +140,28 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
     }
 
 
+    /**
+     * 发送回复
+     */
+    @Override
+    public MessageDto<Boolean> sendReply(UmsReplyParam umsReplyParam) throws RemoteException {
+        UmsReply umsReply = UmsReplyConverter.INSTANCE.toUmsReply(umsReplyParam);
+        umsReply.setId(primaryIdManager.getPrimaryId());
+        if (umsReply.getRootId() == null) {
+            umsReply.setRootId(0L);
+        } else {
+            //     通知目标
+        }
+        umsReply.setStatus(CommentStatus.NORMAL.getValue());
+        umsReply.setCommentDate(LocalDateTime.now());
+        if (!commentManager.checkCommentExist(umsReply.getCommentId())) {
+            return new MessageDto<>("主评论不存在", false);
+        }
+        if (commentManager.sendReply(umsReply)) {
+            return new MessageDto<>("success", true);
+        }
+        return new MessageDto<>("发生异常", false);
+    }
 
     private List<ChildCommentVO> getChildCommentVO(List<UmsComment> comments, Long contentId) {
         List<Long> ids = comments.stream().map(UmsComment::getId).collect(Collectors.toList());
@@ -150,12 +173,9 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
                         , UmsCommentMap.COMMENT_DATE.getValue()
                         , UmsCommentMap.LIKE.getValue()
                         , UmsCommentMap.STATUS.getValue()
-                        , UmsCommentMap.ROOT_ID.getValue()
-                        , UmsCommentMap.REPLY_ID.getValue()
                 )
                 .eq(UmsCommentMap.TARGET_ID.getValue(), contentId)
                 .ne(UmsCommentMap.STATUS.getValue(), CommentStatus.REVIEW)
-                .in(UmsCommentMap.REPLY_ID.getValue(), ids)
         );
         UmsCommentConverter.INSTANCE.toChildCommentVOs(cComments);
         return null;
