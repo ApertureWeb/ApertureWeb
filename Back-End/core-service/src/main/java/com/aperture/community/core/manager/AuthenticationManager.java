@@ -24,16 +24,15 @@ public class AuthenticationManager {
         this.authentications = stringRedisTemplate;
     }
 
+
     public UserDto getUser(String token) {
         Object infor = authentications.boundHashOps(RedisAuthenticationMap.TOKEN_MAP_KEY.getValue()).get(token);
 
         return null;
     }
 
-    public void setUser() {
-        restTemplate.getForEntity("", UserDto.class);
-
-
+    private boolean setUser(String token) {
+        return false;
     }
 
 }

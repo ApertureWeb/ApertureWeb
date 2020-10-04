@@ -7,14 +7,13 @@ import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsCommentVO;
 import org.springframework.stereotype.Service;
 
-@Service
 public interface  IUmsCommentService{
 
  UmsCommentVO select(UmsCommentParam UmsCommentParam);
 
  boolean delete(Long id);
 
- PageVO<UmsCommentVO> listPage(PageParam pageParam, Integer contentId, boolean isHeat);
+ PageVO<UmsCommentVO> commentPage(PageParam pageParam, Integer contentId, boolean isHeat);
 
 
  boolean sendComment(UmsCommentParam UmsCommentParam, ContentType type);

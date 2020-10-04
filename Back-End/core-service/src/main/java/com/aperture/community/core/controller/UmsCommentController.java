@@ -3,7 +3,6 @@ package com.aperture.community.core.controller;
 import com.aperture.community.core.common.ContentType;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsCommentParam;
-import com.aperture.community.core.module.param.UmsReplyParam;
 import com.aperture.community.core.module.validation.ValidationGroup;
 import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsCommentVO;
@@ -22,6 +21,7 @@ public class UmsCommentController {
 
     @Autowired
     IUmsCommentService umsCommentService;
+
 
     @DeleteMapping("/article/${articleId}/comment")
     public ResultBean<Boolean> deleteArticleComment(@PathVariable("articleId") Long id) {
@@ -53,9 +53,10 @@ public class UmsCommentController {
         return null;
     }
 
-    @PostMapping("/comment/reply")
-    public ResultBean<Boolean> sendReply(@RequestBody UmsReplyParam umsReplyParam) {
-//        umsCommentService.sendR
+
+    @PostMapping("/comment/fold")
+    public ResultBean<Boolean> fold(Long id) {
+
         return null;
     }
 
@@ -65,7 +66,7 @@ public class UmsCommentController {
      */
     @GetMapping("/article/${articleId}/comment/like")
     public ResultBean<PageVO<UmsCommentVO>> pageComment(@PathVariable Integer articleId, @RequestBody @Valid PageParam pageParam) {
-        PageVO<UmsCommentVO> pageVO = umsCommentService.listPage(pageParam, articleId, true);
+        PageVO<UmsCommentVO> pageVO = umsCommentService.commentPage(pageParam, articleId, true);
         ResultBean<PageVO<UmsCommentVO>> result = new ResultBean<>("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
         result.setData(pageVO);
         return result;
@@ -76,7 +77,7 @@ public class UmsCommentController {
      */
     @GetMapping("/article/${articleId}/comment/time")
     public ResultBean<PageVO<UmsCommentVO>> pageCommentHeat(@PathVariable Integer articleId, @RequestBody @Valid PageParam pageParam) {
-        PageVO<UmsCommentVO> pageVO = umsCommentService.listPage(pageParam, articleId, false);
+        PageVO<UmsCommentVO> pageVO = umsCommentService.commentPage(pageParam, articleId, false);
         ResultBean<PageVO<UmsCommentVO>> result = new ResultBean<>("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
         result.setData(pageVO);
         return result;

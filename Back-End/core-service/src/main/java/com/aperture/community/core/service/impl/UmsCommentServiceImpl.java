@@ -5,8 +5,7 @@ import com.aperture.community.core.common.ContentType;
 import com.aperture.community.core.common.map.UmsArticleMap;
 import com.aperture.community.core.common.map.UmsCommentMap;
 import com.aperture.community.core.common.map.UmsVideoMap;
-import com.aperture.community.core.dao.UmsCommentMapper;
-import com.aperture.community.core.manager.CommentManager;
+import com.aperture.community.core.manager.InteractCommentManager;
 import com.aperture.community.core.manager.ContentManager;
 import com.aperture.community.core.manager.PrimaryIdManager;
 import com.aperture.community.core.module.UmsArticle;
@@ -47,15 +46,15 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
 
     private final Long ROOT_STATUS_NON_INSIDE_REPLY = 0L;
 
-    private CommentManager commentManager;
+    private InteractCommentManager interactCommentManager;
     private PrimaryIdManager primaryIdManager;
     private ContentManager contentManager;
 
 
     @Autowired
-    public UmsCommentServiceImpl(CommentManager commentManager, PrimaryIdManager primaryIdManager,
+    public UmsCommentServiceImpl(InteractCommentManager interactCommentManager, PrimaryIdManager primaryIdManager,
                                  ContentManager contentManager) {
-        this.commentManager = commentManager;
+        this.interactCommentManager = interactCommentManager;
         this.primaryIdManager = primaryIdManager;
         this.contentManager = contentManager;
     }
@@ -73,7 +72,7 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
     }
 
     @Override
-    public PageVO<UmsCommentVO> listPage(PageParam pageParam, Integer contentId, boolean isHeat) {
+    public PageVO<UmsCommentVO> commentPage(PageParam pageParam, Integer contentId, boolean isHeat) {
         assert contentId != null;
         assert pageParam != null;
         boolean asc = false;
@@ -86,7 +85,7 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
             field = UmsCommentMap.COMMENT_DATE.getValue();
             asc = false;
         }
-        IPage<UmsComment> page = commentManager.getUmsCommentMapper().page(new Page<>(pageParam.getPage(), pageParam.getSize()),
+        IPage<UmsComment> page = interactCommentManager.getUmsCommentMapper().page(new Page<>(pageParam.getPage(), pageParam.getSize()),
                 new QueryWrapper<UmsComment>()
                         .select(UmsCommentMap.ID.getValue()
                                 , UmsCommentMap.USER_ID.getValue()
@@ -113,7 +112,11 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
         umsReply.setLike(0);
         umsReply.setStatus(0);
 //        需要check User和发送消息
-        return commentManager.sendReply(umsReply);
+        return interactCommentManager.sendReply(umsReply);
+    }
+
+    public MessageDto<Boolean> send() {
+        return null;
     }
 
 
@@ -143,13 +146,13 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
         comment.setCommentDate(nowTime);
         comment.setStatus(CommentStatus.NORMAL.getValue());
         comment.setId(id);
-        return commentManager.getUmsCommentMapper().save(comment);
+        return interactCommentManager.getUmsCommentMapper().save(comment);
     }
 
 
     private List<ChildCommentVO> getChildCommentVO(List<UmsComment> comments, Long contentId) {
         List<Long> ids = comments.stream().map(UmsComment::getId).collect(Collectors.toList());
-        List<UmsComment> cComments = commentManager.getUmsCommentMapper().list(new QueryWrapper<UmsComment>()
+        List<UmsComment> cComments = interactCommentManager.getUmsCommentMapper().list(new QueryWrapper<UmsComment>()
                 .select(UmsCommentMap.ID.getValue()
                         , UmsCommentMap.USER_ID.getValue()
                         , UmsCommentMap.TARGET_ID.getValue()
@@ -164,6 +167,10 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
         UmsCommentConverter.INSTANCE.toChildCommentVOs(cComments);
         return null;
     }
+
+// --------------------------Here is reply--------------------------
+
+
 
 
 }

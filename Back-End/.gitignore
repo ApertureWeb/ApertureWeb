@@ -126,6 +126,7 @@ common/common.iml
 common/service-base/service-base.iml
 common/spring-security/spring-security.iml
 community.iml
+aperture-member/aperture-member.iml
+aperture-gateway/aperture-gateway.iml
 core-service/core-service.iml
-core-service/src/main/java/com/aperture/community/core/Interceptor/
-core-service/src/main/java/com/aperture/community/core/module/validation/group/
+

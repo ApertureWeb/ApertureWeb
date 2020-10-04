@@ -2,6 +2,8 @@ package com.aperture.community.standard.response;
 
 import com.aperture.community.standard.code.RESULT_BEAN_STATUS_CODE;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
@@ -11,7 +13,8 @@ import java.io.Serializable;
  * @author HALOXIAO
  * @since 2020/9/23 19:18
  */
-@Data
+@Getter
+@Setter
 public class ResultBean<T> implements Serializable {
     private static final long serialVersionUID = 2L;
 

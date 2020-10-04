@@ -9,7 +9,6 @@ import com.aperture.community.core.module.dto.MessageDto;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -17,14 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 2020-10-04 14:20
  **/
 @Service
-public class CommentManager {
+public class InteractCommentManager {
 
     private UmsCommentMapper umsCommentMapper;
 
     private UmsReplyMapper umsReplyMapper;
 
     @Autowired
-    public CommentManager(UmsCommentMapper umsCommentMapper, UmsReplyMapper umsReplyMapper) {
+    public InteractCommentManager(UmsCommentMapper umsCommentMapper, UmsReplyMapper umsReplyMapper) {
         this.umsCommentMapper = umsCommentMapper;
         this.umsReplyMapper = umsReplyMapper;
     }
@@ -46,6 +45,7 @@ public class CommentManager {
         }
         return new MessageDto<>("success", true);
     }
+
 
 
     public UmsCommentMapper getUmsCommentMapper() {
