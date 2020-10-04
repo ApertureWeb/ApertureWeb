@@ -144,13 +144,13 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
      * 发送回复
      */
     @Override
-    public MessageDto<Boolean> sendReply(UmsReplyParam umsReplyParam) throws RemoteException {
+    public MessageDto<Boolean> sendReply(UmsReplyParam umsReplyParam) {
         UmsReply umsReply = UmsReplyConverter.INSTANCE.toUmsReply(umsReplyParam);
         umsReply.setId(primaryIdManager.getPrimaryId());
         if (umsReply.getRootId() == null) {
             umsReply.setRootId(0L);
         } else {
-            //     通知目标
+            // 通知目标
         }
         umsReply.setStatus(CommentStatus.NORMAL.getValue());
         umsReply.setCommentDate(LocalDateTime.now());
