@@ -5,17 +5,20 @@ import com.aperture.community.core.common.ContentType;
 import com.aperture.community.core.common.map.UmsArticleMap;
 import com.aperture.community.core.common.map.UmsCommentMap;
 import com.aperture.community.core.common.map.UmsVideoMap;
-import com.aperture.community.core.dao.UmsArticleMapper;
 import com.aperture.community.core.dao.UmsCommentMapper;
-import com.aperture.community.core.dao.UmsVideoMapper;
+import com.aperture.community.core.manager.CommentManager;
 import com.aperture.community.core.manager.ContentManager;
 import com.aperture.community.core.manager.PrimaryIdManager;
 import com.aperture.community.core.module.UmsArticle;
 import com.aperture.community.core.module.UmsComment;
+import com.aperture.community.core.module.UmsReply;
 import com.aperture.community.core.module.UmsVideo;
 import com.aperture.community.core.module.converter.UmsCommentConverter;
+import com.aperture.community.core.module.converter.UmsReplyConverter;
+import com.aperture.community.core.module.dto.MessageDto;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsCommentParam;
+import com.aperture.community.core.module.param.UmsReplyParam;
 import com.aperture.community.core.module.vo.ChildCommentVO;
 import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsCommentVO;
@@ -44,15 +47,15 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
 
     private final Long ROOT_STATUS_NON_INSIDE_REPLY = 0L;
 
-    private UmsCommentMapper umsCommentMapper;
+    private CommentManager commentManager;
     private PrimaryIdManager primaryIdManager;
     private ContentManager contentManager;
 
 
     @Autowired
-    public UmsCommentServiceImpl(UmsCommentMapper umsCommentMapper, PrimaryIdManager primaryIdManager,
+    public UmsCommentServiceImpl(CommentManager commentManager, PrimaryIdManager primaryIdManager,
                                  ContentManager contentManager) {
-        this.umsCommentMapper = umsCommentMapper;
+        this.commentManager = commentManager;
         this.primaryIdManager = primaryIdManager;
         this.contentManager = contentManager;
     }
@@ -65,7 +68,6 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
     @Override
     public boolean delete(Long id) {
 
-        umsCommentMapper.remove(new QueryWrapper<>());
 
         return false;
     }
@@ -84,7 +86,7 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
             field = UmsCommentMap.COMMENT_DATE.getValue();
             asc = false;
         }
-        IPage<UmsComment> page = umsCommentMapper.page(new Page<>(pageParam.getPage(), pageParam.getSize()),
+        IPage<UmsComment> page = commentManager.getUmsCommentMapper().page(new Page<>(pageParam.getPage(), pageParam.getSize()),
                 new QueryWrapper<UmsComment>()
                         .select(UmsCommentMap.ID.getValue()
                                 , UmsCommentMap.USER_ID.getValue()
@@ -93,10 +95,7 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
                                 , UmsCommentMap.COMMENT_DATE.getValue()
                                 , UmsCommentMap.LIKE.getValue()
                                 , UmsCommentMap.STATUS.getValue()
-                                , UmsCommentMap.ROOT_ID.getValue()
-                                , UmsCommentMap.REPLY_ID.getValue()
                         )
-                        .eq(UmsCommentMap.REPLY_ID.getValue(), 0)
                         .eq(UmsCommentMap.TARGET_ID.getValue(), contentId)
                         .ne(UmsCommentMap.STATUS.getValue(), CommentStatus.REVIEW)
                         .orderBy(false, asc, field)
@@ -106,6 +105,15 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
         long size = page.getTotal();
 
         return null;
+    }
+
+    public MessageDto<Boolean> sendReplay(UmsReplyParam umsReplyParam) {
+        UmsReply umsReply = UmsReplyConverter.INSTANCE.toUmsReply(umsReplyParam);
+        umsReply.setCommentDate(LocalDateTime.now());
+        umsReply.setLike(0);
+        umsReply.setStatus(0);
+//        需要check User和发送消息
+        return commentManager.sendReply(umsReply);
     }
 
 
@@ -135,14 +143,13 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
         comment.setCommentDate(nowTime);
         comment.setStatus(CommentStatus.NORMAL.getValue());
         comment.setId(id);
-        return umsCommentMapper.save(comment);
+        return commentManager.getUmsCommentMapper().save(comment);
     }
-
 
 
     private List<ChildCommentVO> getChildCommentVO(List<UmsComment> comments, Long contentId) {
         List<Long> ids = comments.stream().map(UmsComment::getId).collect(Collectors.toList());
-        List<UmsComment> cComments = umsCommentMapper.list(new QueryWrapper<UmsComment>()
+        List<UmsComment> cComments = commentManager.getUmsCommentMapper().list(new QueryWrapper<UmsComment>()
                 .select(UmsCommentMap.ID.getValue()
                         , UmsCommentMap.USER_ID.getValue()
                         , UmsCommentMap.TARGET_ID.getValue()
@@ -150,12 +157,9 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
                         , UmsCommentMap.COMMENT_DATE.getValue()
                         , UmsCommentMap.LIKE.getValue()
                         , UmsCommentMap.STATUS.getValue()
-                        , UmsCommentMap.ROOT_ID.getValue()
-                        , UmsCommentMap.REPLY_ID.getValue()
                 )
                 .eq(UmsCommentMap.TARGET_ID.getValue(), contentId)
                 .ne(UmsCommentMap.STATUS.getValue(), CommentStatus.REVIEW)
-                .in(UmsCommentMap.REPLY_ID.getValue(), ids)
         );
         UmsCommentConverter.INSTANCE.toChildCommentVOs(cComments);
         return null;

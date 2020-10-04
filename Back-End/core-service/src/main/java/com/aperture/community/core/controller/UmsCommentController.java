@@ -1,14 +1,15 @@
 package com.aperture.community.core.controller;
 
-import com.aperture.community.standard.code.RESULT_BEAN_STATUS_CODE;
-import com.aperture.community.standard.response.ResultBean;
 import com.aperture.community.core.common.ContentType;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsCommentParam;
+import com.aperture.community.core.module.param.UmsReplyParam;
 import com.aperture.community.core.module.validation.ValidationGroup;
 import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsCommentVO;
 import com.aperture.community.core.service.IUmsCommentService;
+import com.aperture.community.standard.code.RESULT_BEAN_STATUS_CODE;
+import com.aperture.community.standard.response.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,6 @@ public class UmsCommentController {
     @DeleteMapping("/video/${videoId}/comment")
     public ResultBean<Boolean> deleteVideoComment(@PathVariable("videoId") Long videoId, @RequestParam("articleId") Long articleId) {
         umsCommentService.delete(articleId);
-
         return null;
     }
 
@@ -41,15 +41,21 @@ public class UmsCommentController {
         return null;
     }
 
-    @PostMapping("/article")
+    @PostMapping("/article/${articleId}/comment")
     public ResultBean<Integer> sendArticleComment(@RequestBody @Validated(ValidationGroup.addGroup.class) UmsCommentParam umsCommentParam) {
         umsCommentService.sendComment(umsCommentParam, ContentType.ARTICLE);
         return null;
     }
 
-    @PostMapping("/video")
+    @PostMapping("/video/${videoId}/comment")
     public ResultBean<Integer> sendVideoComment(@RequestBody @Validated(ValidationGroup.addGroup.class) UmsCommentParam umsCommentParam) {
         umsCommentService.sendComment(umsCommentParam, ContentType.VIDEO);
+        return null;
+    }
+
+    @PostMapping("/comment/reply")
+    public ResultBean<Boolean> sendReply(@RequestBody UmsReplyParam umsReplyParam) {
+//        umsCommentService.sendR
         return null;
     }
 
