@@ -47,7 +47,7 @@ public class GenUtils {
 
         templates.add("template/index.vue.vm" );
         templates.add("template/add-or-update.vue.vm" );
-        templates.add("template/Mapper.java.vm");
+        templates.add("template/Mapper.java.vm" );
 
         if (MongoManager.isMongo()) {
             // mongo不需要mapper、sql   实体类需要替换
@@ -95,6 +95,8 @@ public class GenUtils {
             String attrName = columnToJava(columnEntity.getColumnName());
             columnEntity.setAttrName(attrName);
             columnEntity.setAttrname(StringUtils.uncapitalize(attrName));
+
+            columnEntity.setATTR_NAME(columnEntity.getColumnName());
 
             //列的数据类型，转换成Java类型
             String attrType = config.getString(columnEntity.getDataType(), columnToJava(columnEntity.getDataType()));

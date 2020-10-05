@@ -2,13 +2,11 @@ package com.aperture.community.core.controller;
 
 import com.aperture.community.core.module.UmsEventEntity;
 import com.aperture.community.core.service.UmsEventService;
-import com.aperture.community.entity.PageResult;
 import com.aperture.community.entity.RESULT_BEAN_STATUS_CODE;
 import com.aperture.community.entity.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.Map;
 
 
