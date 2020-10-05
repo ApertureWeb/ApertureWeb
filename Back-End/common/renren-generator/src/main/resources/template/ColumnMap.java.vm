@@ -2,13 +2,12 @@ package ${package}.${moduleName}.common
 
 public enum ${className}Map {
 
-    #foreach($column in $columns)
+    #foreach ($column in $columns)
 
-
-
+        $column.ATTR_NAME("$column.columnName"),
 
     #end
-
+    ;
     String value;
 
     public ${className}Map(String value) {

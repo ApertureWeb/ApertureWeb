@@ -16,15 +16,27 @@ import java.util.Map;
  * @date 2020-10-05 20:51:34
  */
 @RestController
-@RequestMapping("generator/umsevent" )
+@RequestMapping("generator/umsevent")
 public class UmsEventController {
     @Autowired
     private UmsEventService umsEventService;
 
+    @PostMapping("/like")
+    public ResultBean<Boolean> like(Long id) {
+        return null;
+    }
+
+    @PostMapping("/store")
+    public ResultBean<Boolean> store(Long id){
+        return null;
+    }
+
+
+
     /**
      * 列表
      */
-    @RequestMapping("/list" )
+    @RequestMapping("/list")
     public ResultBean list(@RequestParam Map<String, Object> params) {
         ResultBean result = new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
 
@@ -35,8 +47,8 @@ public class UmsEventController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{contentId}" )
-    public ResultBean info(@PathVariable("contentId" ) Long contentId) {
+    @RequestMapping("/info/{contentId}")
+    public ResultBean info(@PathVariable("contentId") Long contentId) {
         ResultBean result = new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
 
         return result;
@@ -45,7 +57,7 @@ public class UmsEventController {
     /**
      * 保存
      */
-    @RequestMapping("/save" )
+    @RequestMapping("/save")
     public ResultBean<Boolean> save(@RequestBody UmsEventEntity umsEvent) {
 
         return new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
@@ -54,7 +66,7 @@ public class UmsEventController {
     /**
      * 修改
      */
-    @RequestMapping("/update" )
+    @RequestMapping("/update")
     public ResultBean<Boolean> update(@RequestBody UmsEventEntity umsEvent) {
 
         return new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
@@ -63,7 +75,7 @@ public class UmsEventController {
     /**
      * 删除
      */
-    @RequestMapping("/delete" )
+    @RequestMapping("/delete")
     public ResultBean<Boolean> delete(@RequestBody Long[] contentIds) {
 
         return new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);

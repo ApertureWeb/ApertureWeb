@@ -1,16 +1,11 @@
 package com.aperture.community.core.manager;
 
-import com.aperture.community.core.common.map.RedisAuthenticationMap;
+import com.aperture.community.core.common.map.redis.RedisAuthenticationMap;
 import com.aperture.community.core.module.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.redis.core.RedisOperations;
-import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class AuthenticationManager {

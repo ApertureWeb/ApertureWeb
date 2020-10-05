@@ -12,8 +12,6 @@ public enum UmsArticleMap {
     TITLE("title"),
     DESCRIPTION("description"),
     CONTENT("content"),
-    LIKE("like"),
-    COINS("coins"),
     USER_ID("user_uid"),
     CIRCLE_ID("circle_id");
 
