@@ -13,6 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @date ${datetime}
  */
 @Service
-public class ${className}Mapper extends IService<${className}Dao,${className}Entity> {
+public class ${className}Mapper extends ServiceImpl<${className}Dao,${className}Entity> {
 
 }

@@ -3,8 +3,8 @@ package com.aperture.community.core.manager;
 import com.aperture.community.core.common.map.UmsTagMergeMap;
 import com.aperture.community.core.dao.UmsTagMapper;
 import com.aperture.community.core.dao.UmsTagMergeMapper;
-import com.aperture.community.core.module.UmsTag;
-import com.aperture.community.core.module.UmsTagMerge;
+import com.aperture.community.core.module.UmsTagEntity;
+import com.aperture.community.core.module.UmsTagMergeEntity;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,13 +38,13 @@ public class TagManager {
 
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean addContentTag(List<UmsTagMerge> umsTagMerges) {
-        assert umsTagMerges.size() != 0;
-        List<UmsTag> tags = umsTagMapper.list(new QueryWrapper<UmsTag>().in(UmsTagMergeMap.TAG_ID.getValue(), umsTagMerges.stream().map(UmsTagMerge::getTagId).collect(Collectors.toList())));
-        if (tags.size() != umsTagMerges.size()) {
+    public boolean addContentTag(List<UmsTagMergeEntity> umsTagMergeEntities) {
+        assert umsTagMergeEntities.size() != 0;
+        List<UmsTagEntity> tags = umsTagMapper.list(new QueryWrapper<UmsTagEntity>().in(UmsTagMergeMap.TAG_ID.getValue(), umsTagMergeEntities.stream().map(UmsTagMergeEntity::getTagId).collect(Collectors.toList())));
+        if (tags.size() != umsTagMergeEntities.size()) {
             throw new IllegalArgumentException("tag不存在");
         }
-        return umsTagMergeMapper.saveBatch(umsTagMerges);
+        return umsTagMergeMapper.saveBatch(umsTagMergeEntities);
     }
 
 

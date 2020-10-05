@@ -1,13 +1,11 @@
 package com.aperture.community.core.controller;
 
-import com.aperture.community.core.module.UmsReply;
-import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsReplyParam;
 import com.aperture.community.core.module.validation.ValidationGroup;
 import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsReplyVO;
-import com.aperture.community.core.service.IUmsCommentService;
-import com.aperture.community.standard.response.ResultBean;
+import com.aperture.community.core.service.UmsCommentService;
+import com.aperture.community.entity.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class UmsReplyController {
 
     @Autowired
-    private IUmsCommentService service;
+    private UmsCommentService service;
 
 
     @PostMapping("/comment/reply")

@@ -3,8 +3,8 @@ package com.aperture.community.core.manager;
 import com.aperture.community.core.common.map.UmsCommentMap;
 import com.aperture.community.core.dao.UmsCommentMapper;
 import com.aperture.community.core.dao.UmsReplyMapper;
-import com.aperture.community.core.module.UmsComment;
-import com.aperture.community.core.module.UmsReply;
+import com.aperture.community.core.module.UmsCommentEntity;
+import com.aperture.community.core.module.UmsReplyEntity;
 import com.aperture.community.core.module.dto.MessageDto;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +33,14 @@ public class InteractCommentManager {
      * 发送回复
      */
     @Transactional(rollbackFor = Exception.class)
-    public MessageDto<Boolean> sendReply(UmsReply umsReply) {
-        assert umsReply != null;
-        assert umsReply.getCommentId() != null;
-        UmsComment umsComment = umsCommentMapper.getOne(new QueryWrapper<UmsComment>().select("1").eq(UmsCommentMap.ID.getValue(), umsReply.getCommentId()));
-        if (umsComment == null) {
+    public MessageDto<Boolean> sendReply(UmsReplyEntity umsReplyEntity) {
+        assert umsReplyEntity != null;
+        assert umsReplyEntity.getCommentId() != null;
+        UmsCommentEntity umsCommentEntity = umsCommentMapper.getOne(new QueryWrapper<UmsCommentEntity>().select("1").eq(UmsCommentMap.ID.getValue(), umsReplyEntity.getCommentId()));
+        if (umsCommentEntity == null) {
             new MessageDto<>("评论不存在或已被删除", false);
         }
-        if (!umsReplyMapper.save(umsReply)) {
+        if (!umsReplyMapper.save(umsReplyEntity)) {
             return new MessageDto<>("发生意外", false);
         }
         return new MessageDto<>("success", true);

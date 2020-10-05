@@ -1,6 +1,6 @@
 package com.aperture.community.core.module.converter;
 
-import com.aperture.community.core.module.UmsTag;
+import com.aperture.community.core.module.UmsTagEntity;
 import com.aperture.community.core.module.param.UmsTagParam;
 import com.aperture.community.core.module.vo.UmsTagVO;
 import org.mapstruct.Mapper;
@@ -20,16 +20,16 @@ public interface UmsTagConverter {
             @Mapping(source = "id",target = "id"),
             @Mapping(source = "name", target = "name")
     })
-    UmsTagVO toUmsTagVO(UmsTag umsTag);
+    UmsTagVO toUmsTagVO(UmsTagEntity umsTagEntity);
 
-    List<UmsTagVO> toUmsTagVOList(List<UmsTag> umsTagList);
+    List<UmsTagVO> toUmsTagVOList(List<UmsTagEntity> umsTagEntityList);
 
 
     @Mappings({
             @Mapping(source = "id",target = "id"),
             @Mapping(source = "name",target = "name")
     })
-    UmsTag toUmsTag(UmsTagParam umsTagParam);
+    UmsTagEntity toUmsTag(UmsTagParam umsTagParam);
 
 
 }

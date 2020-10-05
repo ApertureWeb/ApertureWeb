@@ -23,7 +23,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @TableName("ums_tag_merge")
 @ApiModel(value="UmsTagMerge对象", description="tag和内容的关联")
-public class UmsTagMerge implements Serializable {
+public class UmsTagMergeEntity implements Serializable {
 
     private static final long serialVersionUID=1L;
 

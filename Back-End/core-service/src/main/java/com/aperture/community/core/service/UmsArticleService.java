@@ -6,7 +6,7 @@ import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsArticleVO;
 import com.aperture.community.core.module.vo.UmsArticleViewVO;
 
-public interface IUmsArticleService {
+public interface UmsArticleService {
 
     UmsArticleVO select(Long id);
 

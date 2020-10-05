@@ -3,13 +3,13 @@ package com.aperture.community.core.service.impl;
 import com.aperture.community.core.common.map.UmsTagMap;
 import com.aperture.community.core.manager.PrimaryIdManager;
 import com.aperture.community.core.manager.TagManager;
-import com.aperture.community.core.module.UmsTag;
+import com.aperture.community.core.module.UmsTagEntity;
 import com.aperture.community.core.module.converter.UmsTagConverter;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsTagParam;
 import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsTagVO;
-import com.aperture.community.core.service.IUmsTagService;
+import com.aperture.community.core.service.UmsTagService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -24,7 +24,7 @@ import org.springframework.remoting.RemoteTimeoutException;
  * @author HALOXIAO
  * @since 2020-09-24
  */
-public class UmsTagServiceImpl implements IUmsTagService {
+public class UmsTagServiceImpl implements UmsTagService {
 
     private TagManager tagManager;
     private PrimaryIdManager primaryIdManager;
@@ -42,8 +42,8 @@ public class UmsTagServiceImpl implements IUmsTagService {
 
     @Override
     public PageVO<UmsTagVO> listPage(PageParam pageParam) {
-        IPage<UmsTag> tagPage = tagManager.getUmsTagMapper().page(new Page<>(pageParam.getPage(), pageParam.getSize()),
-                new QueryWrapper<UmsTag>().select(UmsTagMap.ID.getValue(), UmsTagMap.NAME.getValue()));
+        IPage<UmsTagEntity> tagPage = tagManager.getUmsTagMapper().page(new Page<>(pageParam.getPage(), pageParam.getSize()),
+                new QueryWrapper<UmsTagEntity>().select(UmsTagMap.ID.getValue(), UmsTagMap.NAME.getValue()));
         long total = tagPage.getTotal();
         return new PageVO<>(total, UmsTagConverter.INSTANCE.toUmsTagVOList(tagPage.getRecords()));
     }

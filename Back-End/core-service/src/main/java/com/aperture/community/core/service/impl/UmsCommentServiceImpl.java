@@ -8,10 +8,10 @@ import com.aperture.community.core.common.map.UmsVideoMap;
 import com.aperture.community.core.manager.InteractCommentManager;
 import com.aperture.community.core.manager.ContentManager;
 import com.aperture.community.core.manager.PrimaryIdManager;
-import com.aperture.community.core.module.UmsArticle;
-import com.aperture.community.core.module.UmsComment;
-import com.aperture.community.core.module.UmsReply;
-import com.aperture.community.core.module.UmsVideo;
+import com.aperture.community.core.module.UmsArticleEntity;
+import com.aperture.community.core.module.UmsCommentEntity;
+import com.aperture.community.core.module.UmsReplyEntity;
+import com.aperture.community.core.module.UmsVideoEntity;
 import com.aperture.community.core.module.converter.UmsCommentConverter;
 import com.aperture.community.core.module.converter.UmsReplyConverter;
 import com.aperture.community.core.module.dto.MessageDto;
@@ -21,7 +21,7 @@ import com.aperture.community.core.module.param.UmsReplyParam;
 import com.aperture.community.core.module.vo.ChildCommentVO;
 import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsCommentVO;
-import com.aperture.community.core.service.IUmsCommentService;
+import com.aperture.community.core.service.UmsCommentService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
  * @since 2020-09-27
  */
 @Service
-public class UmsCommentServiceImpl implements IUmsCommentService {
+public class UmsCommentServiceImpl implements UmsCommentService {
 
     private final Long ROOT_STATUS_NON_INSIDE_REPLY = 0L;
 
@@ -85,8 +85,8 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
             field = UmsCommentMap.COMMENT_DATE.getValue();
             asc = false;
         }
-        IPage<UmsComment> page = interactCommentManager.getUmsCommentMapper().page(new Page<>(pageParam.getPage(), pageParam.getSize()),
-                new QueryWrapper<UmsComment>()
+        IPage<UmsCommentEntity> page = interactCommentManager.getUmsCommentMapper().page(new Page<>(pageParam.getPage(), pageParam.getSize()),
+                new QueryWrapper<UmsCommentEntity>()
                         .select(UmsCommentMap.ID.getValue()
                                 , UmsCommentMap.USER_ID.getValue()
                                 , UmsCommentMap.TARGET_ID.getValue()
@@ -99,20 +99,20 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
                         .ne(UmsCommentMap.STATUS.getValue(), CommentStatus.REVIEW)
                         .orderBy(false, asc, field)
         );
-        List<UmsComment> umsComments = page.getRecords();
-        List<UmsCommentVO> result = UmsCommentConverter.INSTANCE.toUmsCommentVOs(umsComments);
+        List<UmsCommentEntity> umsCommentEntities = page.getRecords();
+        List<UmsCommentVO> result = UmsCommentConverter.INSTANCE.toUmsCommentVOs(umsCommentEntities);
         long size = page.getTotal();
 
         return null;
     }
 
     public MessageDto<Boolean> sendReplay(UmsReplyParam umsReplyParam) {
-        UmsReply umsReply = UmsReplyConverter.INSTANCE.toUmsReply(umsReplyParam);
-        umsReply.setCommentDate(LocalDateTime.now());
-        umsReply.setLike(0);
-        umsReply.setStatus(0);
+        UmsReplyEntity umsReplyEntity = UmsReplyConverter.INSTANCE.toUmsReply(umsReplyParam);
+        umsReplyEntity.setCommentDate(LocalDateTime.now());
+        umsReplyEntity.setLike(0);
+        umsReplyEntity.setStatus(0);
 //        需要check User和发送消息
-        return interactCommentManager.sendReply(umsReply);
+        return interactCommentManager.sendReply(umsReplyEntity);
     }
 
     public MessageDto<Boolean> send() {
@@ -125,18 +125,18 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
     public boolean sendComment(UmsCommentParam umsCommentParam, ContentType type) {
         assert type != null;
         Long id = primaryIdManager.getPrimaryId();
-        UmsComment comment = UmsCommentConverter.INSTANCE.toUmsComment(umsCommentParam);
+        UmsCommentEntity comment = UmsCommentConverter.INSTANCE.toUmsComment(umsCommentParam);
         //通知消息组件
         //获取user信息
 
         if (type.equals(ContentType.ARTICLE)) {
-            UmsArticle article = contentManager.getUmsArticleMapper().getOne(new QueryWrapper<UmsArticle>().select("1").
+            UmsArticleEntity article = contentManager.getUmsArticleMapper().getOne(new QueryWrapper<UmsArticleEntity>().select("1").
                     eq(UmsArticleMap.ID.getValue(), comment.getTargetId()));
             if (article == null) {
                 throw new IllegalArgumentException("找不到目标文章");
             }
         } else {
-            UmsVideo video = contentManager.getUmsVideoMapper().getOne(new QueryWrapper<UmsVideo>().select("1").
+            UmsVideoEntity video = contentManager.getUmsVideoMapper().getOne(new QueryWrapper<UmsVideoEntity>().select("1").
                     eq(UmsVideoMap.ID.getValue(), comment.getTargetId()));
             if (video == null) {
                 throw new IllegalArgumentException("找不到目标视频");
@@ -150,9 +150,9 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
     }
 
 
-    private List<ChildCommentVO> getChildCommentVO(List<UmsComment> comments, Long contentId) {
-        List<Long> ids = comments.stream().map(UmsComment::getId).collect(Collectors.toList());
-        List<UmsComment> cComments = interactCommentManager.getUmsCommentMapper().list(new QueryWrapper<UmsComment>()
+    private List<ChildCommentVO> getChildCommentVO(List<UmsCommentEntity> comments, Long contentId) {
+        List<Long> ids = comments.stream().map(UmsCommentEntity::getId).collect(Collectors.toList());
+        List<UmsCommentEntity> cComments = interactCommentManager.getUmsCommentMapper().list(new QueryWrapper<UmsCommentEntity>()
                 .select(UmsCommentMap.ID.getValue()
                         , UmsCommentMap.USER_ID.getValue()
                         , UmsCommentMap.TARGET_ID.getValue()

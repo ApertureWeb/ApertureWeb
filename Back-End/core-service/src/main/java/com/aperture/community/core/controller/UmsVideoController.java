@@ -2,10 +2,8 @@ package com.aperture.community.core.controller;
 
 
 import com.aperture.community.core.module.param.UmsVideoParam;
-import com.aperture.community.core.service.IUmsVideoService;
 import com.aperture.community.core.service.impl.UmsVideoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

@@ -7,7 +7,7 @@ import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsCommentVO;
 import org.springframework.stereotype.Service;
 
-public interface  IUmsCommentService{
+public interface UmsCommentService {
 
  UmsCommentVO select(UmsCommentParam UmsCommentParam);
 

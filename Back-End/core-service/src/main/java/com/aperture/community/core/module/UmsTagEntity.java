@@ -22,7 +22,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @TableName("ums_tag")
 @ApiModel(value="UmsTag对象", description="标签用来标记视频、帖子")
-public class UmsTag implements Serializable {
+public class UmsTagEntity implements Serializable {
 
     private static final long serialVersionUID=1L;
 

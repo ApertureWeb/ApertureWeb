@@ -129,5 +129,7 @@ community.iml
 aperture-member/aperture-member.iml
 aperture-gateway/aperture-gateway.iml
 core-service/core-service.iml
+common/renren-generator/src/main/resource/application.yml
+common/renren-generator/src/main/resource/generator.properties
 
 *.iml

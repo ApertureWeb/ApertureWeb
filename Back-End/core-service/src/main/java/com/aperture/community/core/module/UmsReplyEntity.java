@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @TableName("ums_reply")
 @ApiModel(value = "UmsReply对象", description = "评论的回复")
-public class UmsReply implements Serializable {
+public class UmsReplyEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

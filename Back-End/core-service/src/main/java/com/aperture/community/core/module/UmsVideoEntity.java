@@ -1,18 +1,18 @@
 package com.aperture.community.core.module;
 
+import com.aperture.community.core.module.validation.ValidationGroup;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.TableField;
-
-import java.io.Serializable;
-
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -24,23 +24,24 @@ import javax.validation.constraints.Null;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("ums_article")
-@ApiModel(value = "UmsArticle对象", description = "")
-public class UmsArticle implements Serializable {
+@TableName("ums_video")
+@ApiModel(value = "UmsVideo对象", description = "用于存放视频")
+public class UmsVideoEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.NONE)
-    private Long id;
+       private Long id;
+
 
     @TableField("title")
     private String title;
 
-    @TableField("content")
-    private String content;
-
     @TableField("description")
     private String description;
+
+    @TableField("url")
+    private String url;
 
     @TableField("like")
     private Integer like;
@@ -48,10 +49,11 @@ public class UmsArticle implements Serializable {
     @TableField("coins")
     private Integer coins;
 
-    @TableField("user_uid")
-    private Long userUid;
+    @TableField("user_id")
+    private Integer userId;
 
-    @TableField("circle_id")
-    private Long circleId;
+    @TableField("cicle_id")
+    private Integer cicleId;
+
 
 }

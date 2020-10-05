@@ -1,7 +1,7 @@
 package com.aperture.community.core.dao;
 
 
-import com.aperture.community.core.module.UmsReply;
+import com.aperture.community.core.module.UmsReplyEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -12,6 +12,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author HALOXIAO
  * @since 2020-10-03
  */
-public interface UmsReplyDao extends BaseMapper<UmsReply> {
+public interface UmsReplyDao extends BaseMapper<UmsReplyEntity> {
 
 }

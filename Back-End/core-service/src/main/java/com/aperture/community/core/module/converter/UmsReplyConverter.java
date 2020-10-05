@@ -1,6 +1,6 @@
 package com.aperture.community.core.module.converter;
 
-import com.aperture.community.core.module.UmsReply;
+import com.aperture.community.core.module.UmsReplyEntity;
 import com.aperture.community.core.module.param.UmsReplyParam;
 import com.aperture.community.core.module.vo.UmsReplyVO;
 import org.mapstruct.Mapper;
@@ -24,7 +24,7 @@ public interface UmsReplyConverter {
             @Mapping(source = "rootId", target = "rootId"),
             @Mapping(source = "content", target = "content")
     })
-    UmsReply toUmsReply(UmsReplyParam umsReplyParam);
+    UmsReplyEntity toUmsReply(UmsReplyParam umsReplyParam);
 
 
     @Mappings({
@@ -38,8 +38,8 @@ public interface UmsReplyConverter {
             @Mapping(target = "icon", ignore = true)
 
     })
-    UmsReplyVO toUmsReplyVO(UmsReply umsReply);
+    UmsReplyVO toUmsReplyVO(UmsReplyEntity umsReplyEntity);
 
-    List<UmsReplyVO> toUmsReplyVOs(List<UmsReply> umsReplies);
+    List<UmsReplyVO> toUmsReplyVOs(List<UmsReplyEntity> umsReplies);
 
 }

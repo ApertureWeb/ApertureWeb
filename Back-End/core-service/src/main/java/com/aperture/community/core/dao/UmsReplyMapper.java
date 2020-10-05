@@ -1,6 +1,6 @@
 package com.aperture.community.core.dao;
 
-import com.aperture.community.core.module.UmsReply;
+import com.aperture.community.core.module.UmsReplyEntity;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
  * @since 2020-10-03
  */
 @Repository
-public class UmsReplyMapper extends ServiceImpl<UmsReplyDao, UmsReply> {
+public class UmsReplyMapper extends ServiceImpl<UmsReplyDao, UmsReplyEntity> {
 
 }

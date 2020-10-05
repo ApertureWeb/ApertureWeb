@@ -7,7 +7,7 @@ import com.aperture.community.core.module.vo.UmsTagVO;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface IUmsTagService  {
+public interface UmsTagService {
 
 
      boolean delete(Long id);

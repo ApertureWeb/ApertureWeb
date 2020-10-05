@@ -22,7 +22,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @TableName("ums_comment")
 @ApiModel(value="UmsComment对象", description="评论功能")
-public class UmsComment implements Serializable {
+public class UmsCommentEntity implements Serializable {
 
     private static final long serialVersionUID=1L;
 
