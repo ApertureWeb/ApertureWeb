@@ -304,7 +304,7 @@ public class GenUtils {
         }
         if (template.contains("MongoChildrenEntity.java.vm")) {
             return packagePath + "entity" + File.separator + "inner" + File.separator + currentTableName + File.separator + splitInnerName(className) + "InnerEntity.java";
-        }
+            }
         if (template.contains("Entity.java.vm") || template.contains("MongoEntity.java.vm")) {
             return packagePath + "entity" + File.separator + className + "Entity.java";
         }
@@ -327,7 +327,7 @@ public class GenUtils {
 
 
         if (template.contains("ColumnMap.java.vm")) {
-            return packagePath + "common" + File.separator + className + "ColumnMap.java";
+            return packagePath + "dao" + File.separator + className + "ColumnMap.java";
         }
 
 

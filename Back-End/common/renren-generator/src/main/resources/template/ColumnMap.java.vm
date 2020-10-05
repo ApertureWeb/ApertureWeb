@@ -1,11 +1,16 @@
 package ${package}.${moduleName}.common
 
+/**
+ * ${className}对象的字段映射
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+
 public enum ${className}Map {
 
     #foreach ($column in $columns)
-
-        $column.ATTR_NAME("$column.columnName"),
-
+        $column.ATTR_NAME ("$column.columnName"),
     #end
     ;
     String value;
@@ -17,5 +22,6 @@ public enum ${className}Map {
     public String getValue() {
         return value;
     }
+
 
 }
