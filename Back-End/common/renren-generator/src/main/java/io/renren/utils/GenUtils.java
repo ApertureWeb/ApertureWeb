@@ -327,7 +327,7 @@ public class GenUtils {
 
 
         if (template.contains("ColumnMap.java.vm")) {
-            return packagePath + "dao" + File.separator + className + "ColumnMap.java";
+            return packagePath + "common" + File.separator + className + "ColumnMap.java";
         }
 
 
