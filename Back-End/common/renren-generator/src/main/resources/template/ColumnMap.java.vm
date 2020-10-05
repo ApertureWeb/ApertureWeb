@@ -1,0 +1,22 @@
+package ${package}.${moduleName}.common
+
+public enum ${className}Map {
+
+    #foreach($column in $columns)
+
+
+
+
+    #end
+
+    String value;
+
+    public ${className}Map(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+}

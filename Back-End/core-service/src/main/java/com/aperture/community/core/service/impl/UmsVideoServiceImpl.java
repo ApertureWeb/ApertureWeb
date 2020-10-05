@@ -1,12 +1,9 @@
 package com.aperture.community.core.service.impl;
 
-import com.aperture.community.core.dao.UmsVideoDao;
-import com.aperture.community.core.module.UmsVideo;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.UmsVideoParam;
 import com.aperture.community.core.module.vo.UmsVideoVO;
-import com.aperture.community.core.service.IUmsVideoService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.aperture.community.core.service.UmsVideoService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +17,7 @@ import java.util.List;
  * @since 2020-09-23
  */
 @Service
-public class UmsVideoServiceImpl  implements IUmsVideoService {
+public class UmsVideoServiceImpl  implements UmsVideoService {
     @Override
     public UmsVideoVO select(UmsVideoParam umsVideoParam) {
         return null;

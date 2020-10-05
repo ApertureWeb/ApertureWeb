@@ -1,6 +1,6 @@
 package com.aperture.community.core.module.converter;
 
-import com.aperture.community.core.module.UmsComment;
+import com.aperture.community.core.module.UmsCommentEntity;
 import com.aperture.community.core.module.param.UmsCommentParam;
 import com.aperture.community.core.module.vo.ChildCommentVO;
 import com.aperture.community.core.module.vo.UmsCommentVO;
@@ -26,7 +26,7 @@ public interface UmsCommentConverter {
             @Mapping(target = "commentDate", ignore = true),
             @Mapping(target = "like", ignore = true)
     })
-    UmsComment toUmsComment(UmsCommentParam umsCommentParam);
+    UmsCommentEntity toUmsComment(UmsCommentParam umsCommentParam);
 
 
     @Mappings({
@@ -42,10 +42,10 @@ public interface UmsCommentConverter {
             @Mapping(target = "icon", ignore = true),
             @Mapping(target = "childComment", ignore = true)
     })
-    UmsCommentVO toUmsCommentVO(UmsComment comment);
+    UmsCommentVO toUmsCommentVO(UmsCommentEntity comment);
 
 
-    List<UmsCommentVO> toUmsCommentVOs(List<UmsComment> umsComments);
+    List<UmsCommentVO> toUmsCommentVOs(List<UmsCommentEntity> umsCommentEntities);
 
     @Mappings({
             @Mapping(source = "id", target = "id"),
@@ -62,5 +62,5 @@ public interface UmsCommentConverter {
     })
     ChildCommentVO toChildCommentVO(UmsCommentVO umsCommentVO);
 
-    List<ChildCommentVO> toChildCommentVOs(List<UmsComment> umsComments);
+    List<ChildCommentVO> toChildCommentVOs(List<UmsCommentEntity> umsCommentEntities);
 }

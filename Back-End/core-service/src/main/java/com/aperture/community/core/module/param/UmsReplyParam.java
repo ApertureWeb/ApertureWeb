@@ -1,22 +1,25 @@
 package com.aperture.community.core.module.param;
 
+import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
+/**
+ * @author HALOXIAO
+ * @since 2020-10-04 13:48
+ **/
+@Data
 public class UmsReplyParam {
 
     private Long id;
 
     private Long targetId;
 
-    private Long rootId;
-
-    private Long commentId;
+    private Long userId;
 
     private String content;
 
-    private Integer status;
+    private Long rootId;
+
+    private Long replyId;
 
 }

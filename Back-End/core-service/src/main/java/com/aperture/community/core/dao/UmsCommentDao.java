@@ -1,6 +1,6 @@
 package com.aperture.community.core.dao;
 
-import com.aperture.community.core.module.UmsComment;
+import com.aperture.community.core.module.UmsCommentEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,6 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2020-09-27
  */
 @Mapper
-interface UmsCommentDao extends BaseMapper<UmsComment> {
+interface UmsCommentDao extends BaseMapper<UmsCommentEntity> {
 
 }

@@ -1,6 +1,6 @@
 package com.aperture.community.core.module.converter;
 
-import com.aperture.community.core.module.UmsArticle;
+import com.aperture.community.core.module.UmsArticleEntity;
 import com.aperture.community.core.module.param.UmsArticleParam;
 import com.aperture.community.core.module.vo.UmsArticleVO;
 import com.aperture.community.core.module.vo.UmsArticleViewVO;
@@ -31,7 +31,7 @@ public interface UmsArticleConverter {
             @Mapping(target = "coins", ignore = true),
             @Mapping(target = "userUid", ignore = true)
     })
-    UmsArticle toUmsArticle(UmsArticleParam umsArticleParam);
+    UmsArticleEntity toUmsArticle(UmsArticleParam umsArticleParam);
 
 
     @Mappings({
@@ -45,9 +45,9 @@ public interface UmsArticleConverter {
             @Mapping(target = "username", ignore = true),
             @Mapping(target = "circleName", ignore = true)
     })
-    UmsArticleVO toUmsArticleVO(UmsArticle umsArticle);
+    UmsArticleVO toUmsArticleVO(UmsArticleEntity umsArticleEntity);
 
-    List<UmsArticleVO> toUmsArticleVOList(List<UmsArticle> umsArticles);
+    List<UmsArticleVO> toUmsArticleVOList(List<UmsArticleEntity> umsArticleEntities);
 
     @Mappings({
             @Mapping(source = "id", target = "id"),
@@ -61,7 +61,7 @@ public interface UmsArticleConverter {
             @Mapping(target = "circleName", ignore = true),
             @Mapping(target = "icon", ignore = true)
     })
-    UmsArticleViewVO toUmsArticleViewVO(UmsArticle umsArticle);
+    UmsArticleViewVO toUmsArticleViewVO(UmsArticleEntity umsArticleEntity);
 
-    List<UmsArticleViewVO> toUmsArticleViewVOList(List<UmsArticle> umsArticleList);
+    List<UmsArticleViewVO> toUmsArticleViewVOList(List<UmsArticleEntity> umsArticleEntityList);
 }

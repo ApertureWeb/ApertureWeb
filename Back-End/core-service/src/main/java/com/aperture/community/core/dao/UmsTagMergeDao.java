@@ -1,6 +1,6 @@
 package com.aperture.community.core.dao;
 
-import com.aperture.community.core.module.UmsTagMerge;
+import com.aperture.community.core.module.UmsTagMergeEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,6 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2020-09-24
  */
 @Mapper
-public interface UmsTagMergeDao extends BaseMapper<UmsTagMerge> {
+public interface UmsTagMergeDao extends BaseMapper<UmsTagMergeEntity> {
 
 }

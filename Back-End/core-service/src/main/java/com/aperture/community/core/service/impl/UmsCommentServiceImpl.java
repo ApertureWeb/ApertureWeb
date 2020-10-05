@@ -5,14 +5,13 @@ import com.aperture.community.core.common.ContentType;
 import com.aperture.community.core.common.map.UmsArticleMap;
 import com.aperture.community.core.common.map.UmsCommentMap;
 import com.aperture.community.core.common.map.UmsVideoMap;
-import com.aperture.community.core.dao.UmsCommentMapper;
-import com.aperture.community.core.manager.CommentManager;
+import com.aperture.community.core.manager.InteractCommentManager;
 import com.aperture.community.core.manager.ContentManager;
 import com.aperture.community.core.manager.PrimaryIdManager;
-import com.aperture.community.core.module.UmsArticle;
-import com.aperture.community.core.module.UmsComment;
-import com.aperture.community.core.module.UmsReply;
-import com.aperture.community.core.module.UmsVideo;
+import com.aperture.community.core.module.UmsArticleEntity;
+import com.aperture.community.core.module.UmsCommentEntity;
+import com.aperture.community.core.module.UmsReplyEntity;
+import com.aperture.community.core.module.UmsVideoEntity;
 import com.aperture.community.core.module.converter.UmsCommentConverter;
 import com.aperture.community.core.module.converter.UmsReplyConverter;
 import com.aperture.community.core.module.dto.MessageDto;
@@ -22,7 +21,7 @@ import com.aperture.community.core.module.param.UmsReplyParam;
 import com.aperture.community.core.module.vo.ChildCommentVO;
 import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsCommentVO;
-import com.aperture.community.core.service.IUmsCommentService;
+import com.aperture.community.core.service.UmsCommentService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -30,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.rmi.RemoteException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,22 +42,21 @@ import java.util.stream.Collectors;
  * @since 2020-09-27
  */
 @Service
-public class UmsCommentServiceImpl implements IUmsCommentService {
+public class UmsCommentServiceImpl implements UmsCommentService {
 
     private final Long ROOT_STATUS_NON_INSIDE_REPLY = 0L;
 
-    private UmsCommentMapper umsCommentMapper;
+    private InteractCommentManager interactCommentManager;
     private PrimaryIdManager primaryIdManager;
     private ContentManager contentManager;
-    private CommentManager commentManager;
+
 
     @Autowired
-    public UmsCommentServiceImpl(UmsCommentMapper umsCommentMapper, PrimaryIdManager primaryIdManager,
-                                 ContentManager contentManager, CommentManager commentManager) {
-        this.umsCommentMapper = umsCommentMapper;
+    public UmsCommentServiceImpl(InteractCommentManager interactCommentManager, PrimaryIdManager primaryIdManager,
+                                 ContentManager contentManager) {
+        this.interactCommentManager = interactCommentManager;
         this.primaryIdManager = primaryIdManager;
         this.contentManager = contentManager;
-        this.commentManager = commentManager;
     }
 
     @Override
@@ -70,13 +67,12 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
     @Override
     public boolean delete(Long id) {
 
-        umsCommentMapper.remove(new QueryWrapper<>());
 
         return false;
     }
 
     @Override
-    public PageVO<UmsCommentVO> listPage(PageParam pageParam, Integer contentId, boolean isHeat) {
+    public PageVO<UmsCommentVO> commentPage(PageParam pageParam, Integer contentId, boolean isHeat) {
         assert contentId != null;
         assert pageParam != null;
         boolean asc = false;
@@ -89,8 +85,8 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
             field = UmsCommentMap.COMMENT_DATE.getValue();
             asc = false;
         }
-        IPage<UmsComment> page = umsCommentMapper.page(new Page<>(pageParam.getPage(), pageParam.getSize()),
-                new QueryWrapper<UmsComment>()
+        IPage<UmsCommentEntity> page = interactCommentManager.getUmsCommentMapper().page(new Page<>(pageParam.getPage(), pageParam.getSize()),
+                new QueryWrapper<UmsCommentEntity>()
                         .select(UmsCommentMap.ID.getValue()
                                 , UmsCommentMap.USER_ID.getValue()
                                 , UmsCommentMap.TARGET_ID.getValue()
@@ -103,10 +99,23 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
                         .ne(UmsCommentMap.STATUS.getValue(), CommentStatus.REVIEW)
                         .orderBy(false, asc, field)
         );
-        List<UmsComment> umsComments = page.getRecords();
-        List<UmsCommentVO> result = UmsCommentConverter.INSTANCE.toUmsCommentVOs(umsComments);
+        List<UmsCommentEntity> umsCommentEntities = page.getRecords();
+        List<UmsCommentVO> result = UmsCommentConverter.INSTANCE.toUmsCommentVOs(umsCommentEntities);
         long size = page.getTotal();
 
+        return null;
+    }
+
+    public MessageDto<Boolean> sendReplay(UmsReplyParam umsReplyParam) {
+        UmsReplyEntity umsReplyEntity = UmsReplyConverter.INSTANCE.toUmsReply(umsReplyParam);
+        umsReplyEntity.setCommentDate(LocalDateTime.now());
+        umsReplyEntity.setLike(0);
+        umsReplyEntity.setStatus(0);
+//        需要check User和发送消息
+        return interactCommentManager.sendReply(umsReplyEntity);
+    }
+
+    public MessageDto<Boolean> send() {
         return null;
     }
 
@@ -116,17 +125,18 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
     public boolean sendComment(UmsCommentParam umsCommentParam, ContentType type) {
         assert type != null;
         Long id = primaryIdManager.getPrimaryId();
-        UmsComment comment = UmsCommentConverter.INSTANCE.toUmsComment(umsCommentParam);
+        UmsCommentEntity comment = UmsCommentConverter.INSTANCE.toUmsComment(umsCommentParam);
         //通知消息组件
         //获取user信息
+
         if (type.equals(ContentType.ARTICLE)) {
-            UmsArticle article = contentManager.getUmsArticleMapper().getOne(new QueryWrapper<UmsArticle>().select("1").
+            UmsArticleEntity article = contentManager.getUmsArticleMapper().getOne(new QueryWrapper<UmsArticleEntity>().select("1").
                     eq(UmsArticleMap.ID.getValue(), comment.getTargetId()));
             if (article == null) {
                 throw new IllegalArgumentException("找不到目标文章");
             }
         } else {
-            UmsVideo video = contentManager.getUmsVideoMapper().getOne(new QueryWrapper<UmsVideo>().select("1").
+            UmsVideoEntity video = contentManager.getUmsVideoMapper().getOne(new QueryWrapper<UmsVideoEntity>().select("1").
                     eq(UmsVideoMap.ID.getValue(), comment.getTargetId()));
             if (video == null) {
                 throw new IllegalArgumentException("找不到目标视频");
@@ -136,36 +146,13 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
         comment.setCommentDate(nowTime);
         comment.setStatus(CommentStatus.NORMAL.getValue());
         comment.setId(id);
-        return umsCommentMapper.save(comment);
+        return interactCommentManager.getUmsCommentMapper().save(comment);
     }
 
 
-    /**
-     * 发送回复
-     */
-    @Override
-    public MessageDto<Boolean> sendReply(UmsReplyParam umsReplyParam) {
-        UmsReply umsReply = UmsReplyConverter.INSTANCE.toUmsReply(umsReplyParam);
-        umsReply.setId(primaryIdManager.getPrimaryId());
-        if (umsReply.getRootId() == null) {
-            umsReply.setRootId(0L);
-        } else {
-            // 通知目标
-        }
-        umsReply.setStatus(CommentStatus.NORMAL.getValue());
-        umsReply.setCommentDate(LocalDateTime.now());
-        if (!commentManager.checkCommentExist(umsReply.getCommentId())) {
-            return new MessageDto<>("主评论不存在", false);
-        }
-        if (commentManager.sendReply(umsReply)) {
-            return new MessageDto<>("success", true);
-        }
-        return new MessageDto<>("发生异常", false);
-    }
-
-    private List<ChildCommentVO> getChildCommentVO(List<UmsComment> comments, Long contentId) {
-        List<Long> ids = comments.stream().map(UmsComment::getId).collect(Collectors.toList());
-        List<UmsComment> cComments = umsCommentMapper.list(new QueryWrapper<UmsComment>()
+    private List<ChildCommentVO> getChildCommentVO(List<UmsCommentEntity> comments, Long contentId) {
+        List<Long> ids = comments.stream().map(UmsCommentEntity::getId).collect(Collectors.toList());
+        List<UmsCommentEntity> cComments = interactCommentManager.getUmsCommentMapper().list(new QueryWrapper<UmsCommentEntity>()
                 .select(UmsCommentMap.ID.getValue()
                         , UmsCommentMap.USER_ID.getValue()
                         , UmsCommentMap.TARGET_ID.getValue()
@@ -180,6 +167,10 @@ public class UmsCommentServiceImpl implements IUmsCommentService {
         UmsCommentConverter.INSTANCE.toChildCommentVOs(cComments);
         return null;
     }
+
+// --------------------------Here is reply--------------------------
+
+
 
 
 }

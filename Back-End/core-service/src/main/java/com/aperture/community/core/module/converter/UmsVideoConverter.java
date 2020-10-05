@@ -1,12 +1,11 @@
 package com.aperture.community.core.module.converter;
 
-import com.aperture.community.core.module.UmsVideo;
+import com.aperture.community.core.module.UmsVideoEntity;
 import com.aperture.community.core.module.param.UmsVideoParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
-import org.springframework.jmx.export.annotation.ManagedOperationParameter;
 
 /**
  * @author HALOXIAO
@@ -23,7 +22,7 @@ public interface UmsVideoConverter {
               @Mapping(source = "content",target = "content")
 
       })
-     UmsVideo toUmsVideo(UmsVideoParam videoParam);
+      UmsVideoEntity toUmsVideo(UmsVideoParam videoParam);
 
 
 

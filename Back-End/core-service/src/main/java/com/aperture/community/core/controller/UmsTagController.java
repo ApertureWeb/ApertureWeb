@@ -1,8 +1,8 @@
 package com.aperture.community.core.controller;
 
-import com.aperture.community.standard.response.ResultBean;
 import com.aperture.community.core.module.param.UmsTagParam;
 import com.aperture.community.core.module.vo.UmsTagVO;
+import com.aperture.community.entity.ResultBean;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

@@ -4,15 +4,15 @@ import com.aperture.community.core.common.map.UmsArticleMap;
 import com.aperture.community.core.dao.UmsArticleMapper;
 import com.aperture.community.core.manager.PrimaryIdManager;
 import com.aperture.community.core.manager.TagManager;
-import com.aperture.community.core.module.UmsArticle;
-import com.aperture.community.core.module.UmsTagMerge;
+import com.aperture.community.core.module.UmsArticleEntity;
+import com.aperture.community.core.module.UmsTagMergeEntity;
 import com.aperture.community.core.module.converter.UmsArticleConverter;
 import com.aperture.community.core.module.param.CirclePageParam;
 import com.aperture.community.core.module.param.UmsArticleParam;
 import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.UmsArticleVO;
 import com.aperture.community.core.module.vo.UmsArticleViewVO;
-import com.aperture.community.core.service.IUmsArticleService;
+import com.aperture.community.core.service.UmsArticleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -33,7 +33,7 @@ import java.util.Queue;
  * @since 2020-09-23
  */
 @Service
-public class UmsArticleServiceImpl implements IUmsArticleService {
+public class UmsArticleServiceImpl implements UmsArticleService {
 
     private PrimaryIdManager primaryIdManager;
     private TagManager tagManager;
@@ -49,8 +49,8 @@ public class UmsArticleServiceImpl implements IUmsArticleService {
 
 
     @Override
-    public UmsArticleVO select(UmsArticleParam umsArticleParam) {
-        UmsArticle umsArticle = umsArticleMapper.getOne(new QueryWrapper<UmsArticle>().
+    public UmsArticleVO select(Long id) {
+        UmsArticleEntity umsArticleEntity = umsArticleMapper.getOne(new QueryWrapper<UmsArticleEntity>().
                 select(UmsArticleMap.ID.getValue(),
                         UmsArticleMap.TITLE.getValue(),
                         UmsArticleMap.COINS.getValue(),
@@ -58,8 +58,10 @@ public class UmsArticleServiceImpl implements IUmsArticleService {
                         UmsArticleMap.CONTENT.getValue(),
                         UmsArticleMap.USER_ID.getValue(),
                         UmsArticleMap.CIRCLE_ID.getValue())
-                .eq(UmsArticleMap.ID.getValue(), umsArticleParam.getId()));
-        UmsArticleVO articleVO = UmsArticleConverter.INSTANCE.toUmsArticleVO(umsArticle);
+                .eq(UmsArticleMap.ID.getValue(), id));
+
+        UmsArticleVO articleVO = UmsArticleConverter.INSTANCE.toUmsArticleVO(umsArticleEntity);
+
         // 需要user名和circle名
         return null;
     }
@@ -71,8 +73,8 @@ public class UmsArticleServiceImpl implements IUmsArticleService {
 
     @Override
     public PageVO<UmsArticleViewVO> listPage(CirclePageParam circlePageParam) {
-        IPage<UmsArticle> page = umsArticleMapper.page(new Page<>(circlePageParam.getPage(), circlePageParam.getSize()),
-                new QueryWrapper<UmsArticle>().
+        IPage<UmsArticleEntity> page = umsArticleMapper.page(new Page<>(circlePageParam.getPage(), circlePageParam.getSize()),
+                new QueryWrapper<UmsArticleEntity>().
                         select(UmsArticleMap.ID.getValue(),
                                 UmsArticleMap.TITLE.getValue(),
                                 UmsArticleMap.DESCRIPTION.getValue(),
@@ -90,7 +92,7 @@ public class UmsArticleServiceImpl implements IUmsArticleService {
 
     @Override
     public boolean update(UmsArticleParam umsArticleParam) {
-        UmsArticle article = UmsArticleConverter.INSTANCE.toUmsArticle(umsArticleParam);
+        UmsArticleEntity article = UmsArticleConverter.INSTANCE.toUmsArticle(umsArticleParam);
         if (umsArticleParam.getTags() != null) {
 
         }
@@ -105,17 +107,17 @@ public class UmsArticleServiceImpl implements IUmsArticleService {
         if (umsArticleParam.getTags() != null) {
             Queue<Long> ids = primaryIdManager.getPrimaryIdBatch(umsArticleParam.getTags().size() + 1);
             id = ids.remove();
-            List<UmsTagMerge> umsTagMerges = new ArrayList<>(umsArticleParam.getTags().size());
+            List<UmsTagMergeEntity> umsTagMergeEntities = new ArrayList<>(umsArticleParam.getTags().size());
             umsArticleParam.getTags().forEach(p -> {
-                umsTagMerges.add(new UmsTagMerge(ids.remove(), id, p));
+                umsTagMergeEntities.add(new UmsTagMergeEntity(ids.remove(), id, p));
             });
-            if (!tagManager.addContentTag(umsTagMerges)) {
+            if (!tagManager.addContentTag(umsTagMergeEntities)) {
                 throw new RuntimeException("数据库执行异常");
             }
         } else {
             id = primaryIdManager.getPrimaryId();
         }
-        UmsArticle article = UmsArticleConverter.INSTANCE.toUmsArticle(umsArticleParam);
+        UmsArticleEntity article = UmsArticleConverter.INSTANCE.toUmsArticle(umsArticleParam);
         article.setId(id);
         article.setCoins(0);
         article.setLike(0);
