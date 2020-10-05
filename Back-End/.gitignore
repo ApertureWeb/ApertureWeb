@@ -130,3 +130,4 @@ aperture-member/aperture-member.iml
 aperture-gateway/aperture-gateway.iml
 core-service/core-service.iml
 
+*.iml
