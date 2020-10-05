@@ -1,6 +1,7 @@
 package com.aperture.community.core.controller;
 
 
+import com.aperture.community.core.module.vo.UmsArticleViewVO;
 import com.aperture.community.standard.code.RESULT_BEAN_STATUS_CODE;
 import com.aperture.community.standard.response.ResultBean;
 import com.aperture.community.core.module.param.UmsArticleParam;
@@ -8,11 +9,7 @@ import com.aperture.community.core.module.validation.ValidationGroup;
 import com.aperture.community.core.service.impl.UmsArticleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -31,7 +28,6 @@ public class UmsArticleController {
     @PostMapping
     public ResultBean<Integer> saveArticle(@RequestBody @Validated({ValidationGroup.addGroup.class}) UmsArticleParam umsArticleParam) {
         ResultBean<Integer> bean = new ResultBean<>("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
-        //bean.setData(umsArticleService.save(umsArticleParam));
         return bean;
     }
 
@@ -40,6 +36,12 @@ public class UmsArticleController {
         return null;
     }
 
+
+    @GetMapping
+    public ResultBean<UmsArticleViewVO> getArticle(@RequestParam("articleId") Long id) {
+
+        return null;
+    }
 
 }
 

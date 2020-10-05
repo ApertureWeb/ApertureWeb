@@ -1,5 +1,6 @@
 package com.aperture.community.core.module;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -25,7 +26,7 @@ public class UmsTag implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId("id")
+    @TableId(value = "id",type = IdType.NONE)
     private Long id;
 
     @ApiModelProperty(value = "标签名")

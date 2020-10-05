@@ -8,7 +8,7 @@ import com.aperture.community.core.module.vo.UmsArticleViewVO;
 
 public interface IUmsArticleService {
 
-    UmsArticleVO select(UmsArticleParam umsArticleParam);
+    UmsArticleVO select(Long id);
 
     boolean delete(Long id);
 

@@ -49,7 +49,7 @@ public class UmsArticleServiceImpl implements IUmsArticleService {
 
 
     @Override
-    public UmsArticleVO select(UmsArticleParam umsArticleParam) {
+    public UmsArticleVO select(Long id) {
         UmsArticle umsArticle = umsArticleMapper.getOne(new QueryWrapper<UmsArticle>().
                 select(UmsArticleMap.ID.getValue(),
                         UmsArticleMap.TITLE.getValue(),
@@ -58,8 +58,10 @@ public class UmsArticleServiceImpl implements IUmsArticleService {
                         UmsArticleMap.CONTENT.getValue(),
                         UmsArticleMap.USER_ID.getValue(),
                         UmsArticleMap.CIRCLE_ID.getValue())
-                .eq(UmsArticleMap.ID.getValue(), umsArticleParam.getId()));
+                .eq(UmsArticleMap.ID.getValue(), id));
+
         UmsArticleVO articleVO = UmsArticleConverter.INSTANCE.toUmsArticleVO(umsArticle);
+
         // 需要user名和circle名
         return null;
     }

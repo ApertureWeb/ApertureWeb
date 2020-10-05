@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -22,9 +23,11 @@ import java.util.List;
  * @author HALOXIAO
  * @since 2020-10-04 16:57
  **/
+@Service
 public class UmsReplyServiceImpl implements IUmsReplyService {
 
     public InteractCommentManager interactCommentManager;
+
 
     @Autowired
     public UmsReplyServiceImpl(InteractCommentManager interactCommentManager) {
@@ -44,8 +47,8 @@ public class UmsReplyServiceImpl implements IUmsReplyService {
                 ));
         List<UmsReply> result = iPage.getRecords();
         long size = iPage.getTotal();
-//        UmsReplyConverter.INSTANCE.
-
+//        TODO 查找User的Name和各种信息
+        UmsReplyConverter.INSTANCE.toUmsReplyVOs(result);
         return null;
     }
 

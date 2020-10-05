@@ -8,6 +8,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * @author HALOXIAO
  * @since 2020-10-04 13:48
@@ -31,9 +33,13 @@ public interface UmsReplyConverter {
             @Mapping(source = "content", target = "content"),
             @Mapping(source = "commentDate", target = "commentDate"),
             @Mapping(source = "like", target = "like"),
-            @Mapping(source = "rootId",target = "rootId")
+            @Mapping(source = "rootId", target = "rootId"),
+            @Mapping(target = "username", ignore = true),
+            @Mapping(target = "icon", ignore = true)
 
     })
     UmsReplyVO toUmsReplyVO(UmsReply umsReply);
+
+    List<UmsReplyVO> toUmsReplyVOs(List<UmsReply> umsReplies);
 
 }

@@ -14,6 +14,8 @@ public class UmsReplyVO {
 
     private String username;
 
+    private String icon;
+
     private LocalDateTime commentDate;
 
     private String content;
