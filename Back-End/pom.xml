@@ -100,7 +100,6 @@
                 <version>${spring-data-redis}</version>
             </dependency>
 
-
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>

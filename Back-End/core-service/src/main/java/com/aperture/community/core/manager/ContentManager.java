@@ -9,6 +9,7 @@ public class ContentManager {
 
     private UmsArticleMapper umsArticleMapper;
     private UmsVideoMapper umsVideoMapper;
+    private EventManager eventManager;
 
     public ContentManager(UmsArticleMapper umsArticleMapper, UmsVideoMapper umsVideoMapper) {
         this.umsArticleMapper = umsArticleMapper;

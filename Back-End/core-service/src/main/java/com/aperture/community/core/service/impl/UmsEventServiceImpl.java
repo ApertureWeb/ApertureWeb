@@ -2,6 +2,7 @@ package com.aperture.community.core.service.impl;
 
 import com.aperture.community.core.dao.UmsEventMapper;
 import com.aperture.community.core.module.dto.MessageDto;
+import com.aperture.community.core.module.param.UmsEventParam;
 import com.aperture.community.core.module.vo.EventVO;
 import com.aperture.community.core.service.UmsEventService;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -39,7 +40,8 @@ public class UmsEventServiceImpl implements UmsEventService {
     }
 
     @Override
-    public MessageDto<EventVO> getEventVO(Long id) {
+    public MessageDto<EventVO> getEventVO(UmsEventParam eventParam) {
+
         return null;
     }
 }

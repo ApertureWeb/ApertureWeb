@@ -5,7 +5,8 @@ public enum UmsEventMap {
     CONTENT_ID("content_id"),
     LIKE("like"),
     DONUT("donut"),
-    STORE("store");
+    STORE("store"),
+    TYPE("type");
     private String value;
 
 

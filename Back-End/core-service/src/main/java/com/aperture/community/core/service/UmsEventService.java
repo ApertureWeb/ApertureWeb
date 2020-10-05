@@ -2,6 +2,7 @@ package com.aperture.community.core.service;
 
 
 import com.aperture.community.core.module.dto.MessageDto;
+import com.aperture.community.core.module.param.UmsEventParam;
 import com.aperture.community.core.module.vo.EventVO;
 
 /**
@@ -18,7 +19,7 @@ public interface UmsEventService {
 
     MessageDto<Boolean> store(Long id);
 
-    MessageDto<EventVO> getEventVO(Long id);
+    MessageDto<EventVO> getEventVO(UmsEventParam eventParam);
 
 
 }
