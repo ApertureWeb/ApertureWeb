@@ -8,7 +8,6 @@
         <module>core-service</module>
         <module>common</module>
         <module>aperture-acl</module>
-        <module>aperture-gateway</module>
         <module>aperture-member</module>
         <module>message-service</module>
     </modules>
