@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>io.renren</groupId>
-	<artifactId>renren-fast</artifactId>
+	<groupId>com.aperture</groupId>
+	<artifactId>manage</artifactId>
 	<version>3.0.0</version>
 	<packaging>jar</packaging>
-	<description>renren-fast</description>
+	<description>manage system</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -65,6 +65,7 @@
 		<dependency>
 			<groupId>com.aperture</groupId>
 			<artifactId>common-tools</artifactId>
+			<version>0.0.1-BEGIN</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>

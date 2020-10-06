@@ -43,10 +43,7 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-alibaba-starters</artifactId>
-        </dependency>
+
         <!--        服务注册/发现-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

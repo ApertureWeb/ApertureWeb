@@ -15,7 +15,7 @@
         <module>service-base</module>
         <module>spring-security</module>
         <module>common-tools</module>
-        <module>renren-generator</module>
+        <module>code-generator</module>
     </modules>
 
     <dependencies>

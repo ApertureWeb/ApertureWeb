@@ -10,6 +10,7 @@
         <module>aperture-acl</module>
         <module>aperture-member</module>
         <module>message-service</module>
+        <module>manage-service</module>
     </modules>
 
     <parent>
