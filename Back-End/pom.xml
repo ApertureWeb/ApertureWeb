@@ -42,10 +42,17 @@
         <commons-pool2>2.6.0</commons-pool2>
         <spring-boot>2.2.8.RELEASE</spring-boot>
         <caffeine>2.8.4</caffeine>
+        <httpcore>4.4.12</httpcore>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>${httpcore}</version>
+            </dependency>
             <!--spring2.X集成redis所需common-pool2-->
             <dependency>
                 <groupId>org.apache.commons</groupId>

@@ -3,7 +3,6 @@ package com.aperture.community.member.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,13 +16,16 @@ import com.aperture.common.utils.PageUtils;
 import com.aperture.common.utils.R;
 
 
+
 /**
+ * 
+ *
  * @author JavaJayV
  * @email 285075313@qq.com
- * @date 2020-10-06 15:38:25
+ * @date 2020-10-06 18:33:11
  */
 @RestController
-@RequestMapping("member/storearticlerela" )
+@RequestMapping("member/storearticlerela")
 public class StoreArticleRelaController {
     @Autowired
     private StoreArticleRelaService storeArticleRelaService;
@@ -31,59 +33,52 @@ public class StoreArticleRelaController {
     /**
      * 列表
      */
-    @RequestMapping("/list" )
-    @RequiresPermissions("member:storearticlerela:list" )
-    public ResultBean list(@RequestParam Map<String, Object> params) {
+    @RequestMapping("/list")
+    public R list(@RequestParam Map<String, Object> params){
         PageUtils page = storeArticleRelaService.queryPage(params);
-        ResultBean result = new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
 
-        return result;
+        return R.ok().put("page", page);
     }
 
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{memberId}" )
-    @RequiresPermissions("member:storearticlerela:info" )
-    public ResultBean info(@PathVariable("memberId" ) Long memberId) {
-            StoreArticleRelaEntity storeArticleRela = storeArticleRelaService.getById(memberId);
-        ResultBean result = new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+    @RequestMapping("/info/{memberId}")
+    public R info(@PathVariable("memberId") Long memberId){
+		StoreArticleRelaEntity storeArticleRela = storeArticleRelaService.getById(memberId);
 
-        return result;
+        return R.ok().put("storeArticleRela", storeArticleRela);
     }
 
     /**
      * 保存
      */
-    @RequestMapping("/save" )
-    @RequiresPermissions("member:storearticlerela:save" )
-    public ResultBean<Boolean> save(@RequestBody StoreArticleRelaEntity storeArticleRela) {
-            storeArticleRelaService.save(storeArticleRela);
+    @RequestMapping("/save")
+    public R save(@RequestBody StoreArticleRelaEntity storeArticleRela){
+		storeArticleRelaService.save(storeArticleRela);
 
-        return new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+        return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update" )
-    @RequiresPermissions("member:storearticlerela:update" )
-    public ResultBean<Boolean> update(@RequestBody StoreArticleRelaEntity storeArticleRela) {
-            storeArticleRelaService.updateById(storeArticleRela);
+    @RequestMapping("/update")
+    public R update(@RequestBody StoreArticleRelaEntity storeArticleRela){
+		storeArticleRelaService.updateById(storeArticleRela);
 
-        return new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+        return R.ok();
     }
 
     /**
      * 删除
      */
-    @RequestMapping("/delete" )
-    @RequiresPermissions("member:storearticlerela:delete" )
-    public ResultBean<Boolean> delete(@RequestBody Long[] memberIds) {
-            storeArticleRelaService.removeByIds(Arrays.asList(memberIds));
+    @RequestMapping("/delete")
+    public R delete(@RequestBody Long[] memberIds){
+		storeArticleRelaService.removeByIds(Arrays.asList(memberIds));
 
-        return new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+        return R.ok();
     }
 
 }

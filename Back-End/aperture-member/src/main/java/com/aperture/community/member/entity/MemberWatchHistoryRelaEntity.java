@@ -1,46 +1,32 @@
 package com.aperture.community.member.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-    import java.io.Serializable;
-import java.util.Date;
 
-import lombok.EqualsAndHashCode;
+import java.io.Serializable;
+import java.util.Date;
 import lombok.Data;
 
 /**
  * 
- *
+ * 
  * @author JavaJayV
  * @email 285075313@qq.com
- * @date 2020-10-06 15:38:25
+ * @date 2020-10-06 18:33:11
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@TableName("ums_member_watch_history_rela" )
-@ApiModel(value = "MemberWatchHistoryRela映射对象", description = "" )
+@TableName("ums_member_watch_history_rela")
 public class MemberWatchHistoryRelaEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-            /**
-         * 
-         */
+	/**
+	 * 
+	 */
+	@TableId
+	private Integer memberId;
+	/**
+	 * 
+	 */
+	private Integer historyId;
 
-                @ApiModelProperty(value = "" )
-                                    @TableId(value = "member_id", type = IdType.NONE)
-                        
-        private Integer memberId;
-            /**
-         * 
-         */
-
-                @ApiModelProperty(value = "" )
-                                                @TableField(value = "history_id" )
-            
-        private Integer historyId;
-    
 }

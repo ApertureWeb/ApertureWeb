@@ -11,9 +11,9 @@ import java.util.Map;
  *
  * @author JavaJayV
  * @email 285075313@qq.com
- * @date 2020-10-06 15:38:25
+ * @date 2020-10-06 18:33:11
  */
-public interface CollcetionsService  {
+public interface CollcetionsService extends IService<CollcetionsEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 }

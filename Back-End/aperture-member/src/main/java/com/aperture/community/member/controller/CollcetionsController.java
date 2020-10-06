@@ -3,7 +3,6 @@ package com.aperture.community.member.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,13 +16,16 @@ import com.aperture.common.utils.PageUtils;
 import com.aperture.common.utils.R;
 
 
+
 /**
+ * 
+ *
  * @author JavaJayV
  * @email 285075313@qq.com
- * @date 2020-10-06 15:38:25
+ * @date 2020-10-06 18:33:11
  */
 @RestController
-@RequestMapping("member/collcetions" )
+@RequestMapping("member/collcetions")
 public class CollcetionsController {
     @Autowired
     private CollcetionsService collcetionsService;
@@ -31,59 +33,52 @@ public class CollcetionsController {
     /**
      * 列表
      */
-    @RequestMapping("/list" )
-    @RequiresPermissions("member:collcetions:list" )
-    public ResultBean list(@RequestParam Map<String, Object> params) {
+    @RequestMapping("/list")
+    public R list(@RequestParam Map<String, Object> params){
         PageUtils page = collcetionsService.queryPage(params);
-        ResultBean result = new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
 
-        return result;
+        return R.ok().put("page", page);
     }
 
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}" )
-    @RequiresPermissions("member:collcetions:info" )
-    public ResultBean info(@PathVariable("id" ) Integer id) {
-            CollcetionsEntity collcetions = collcetionsService.getById(id);
-        ResultBean result = new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+    @RequestMapping("/info/{id}")
+    public R info(@PathVariable("id") Integer id){
+		CollcetionsEntity collcetions = collcetionsService.getById(id);
 
-        return result;
+        return R.ok().put("collcetions", collcetions);
     }
 
     /**
      * 保存
      */
-    @RequestMapping("/save" )
-    @RequiresPermissions("member:collcetions:save" )
-    public ResultBean<Boolean> save(@RequestBody CollcetionsEntity collcetions) {
-            collcetionsService.save(collcetions);
+    @RequestMapping("/save")
+    public R save(@RequestBody CollcetionsEntity collcetions){
+		collcetionsService.save(collcetions);
 
-        return new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+        return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update" )
-    @RequiresPermissions("member:collcetions:update" )
-    public ResultBean<Boolean> update(@RequestBody CollcetionsEntity collcetions) {
-            collcetionsService.updateById(collcetions);
+    @RequestMapping("/update")
+    public R update(@RequestBody CollcetionsEntity collcetions){
+		collcetionsService.updateById(collcetions);
 
-        return new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+        return R.ok();
     }
 
     /**
      * 删除
      */
-    @RequestMapping("/delete" )
-    @RequiresPermissions("member:collcetions:delete" )
-    public ResultBean<Boolean> delete(@RequestBody Integer[] ids) {
-            collcetionsService.removeByIds(Arrays.asList(ids));
+    @RequestMapping("/delete")
+    public R delete(@RequestBody Integer[] ids){
+		collcetionsService.removeByIds(Arrays.asList(ids));
 
-        return new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+        return R.ok();
     }
 
 }

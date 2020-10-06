@@ -1,8 +1,7 @@
 package com.aperture.community.core.service;
 
-import com.aperture.community.core.module.CmsCategoryCircleRelaEntity;
 import com.aperture.community.core.module.CmsCategoryEntity;
-import com.aperture.community.utils.PageUtils;
+import com.aperture.common.utils.PageUtils;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Map;

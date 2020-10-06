@@ -3,7 +3,6 @@ package com.aperture.community.member.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,13 +16,16 @@ import com.aperture.common.utils.PageUtils;
 import com.aperture.common.utils.R;
 
 
+
 /**
+ * 
+ *
  * @author JavaJayV
  * @email 285075313@qq.com
- * @date 2020-10-06 15:38:25
+ * @date 2020-10-06 18:33:11
  */
 @RestController
-@RequestMapping("member/membergrade" )
+@RequestMapping("member/membergrade")
 public class MemberGradeController {
     @Autowired
     private MemberGradeService memberGradeService;
@@ -31,59 +33,52 @@ public class MemberGradeController {
     /**
      * 列表
      */
-    @RequestMapping("/list" )
-    @RequiresPermissions("member:membergrade:list" )
-    public ResultBean list(@RequestParam Map<String, Object> params) {
+    @RequestMapping("/list")
+    public R list(@RequestParam Map<String, Object> params){
         PageUtils page = memberGradeService.queryPage(params);
-        ResultBean result = new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
 
-        return result;
+        return R.ok().put("page", page);
     }
 
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}" )
-    @RequiresPermissions("member:membergrade:info" )
-    public ResultBean info(@PathVariable("id" ) Integer id) {
-            MemberGradeEntity memberGrade = memberGradeService.getById(id);
-        ResultBean result = new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+    @RequestMapping("/info/{id}")
+    public R info(@PathVariable("id") Integer id){
+		MemberGradeEntity memberGrade = memberGradeService.getById(id);
 
-        return result;
+        return R.ok().put("memberGrade", memberGrade);
     }
 
     /**
      * 保存
      */
-    @RequestMapping("/save" )
-    @RequiresPermissions("member:membergrade:save" )
-    public ResultBean<Boolean> save(@RequestBody MemberGradeEntity memberGrade) {
-            memberGradeService.save(memberGrade);
+    @RequestMapping("/save")
+    public R save(@RequestBody MemberGradeEntity memberGrade){
+		memberGradeService.save(memberGrade);
 
-        return new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+        return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update" )
-    @RequiresPermissions("member:membergrade:update" )
-    public ResultBean<Boolean> update(@RequestBody MemberGradeEntity memberGrade) {
-            memberGradeService.updateById(memberGrade);
+    @RequestMapping("/update")
+    public R update(@RequestBody MemberGradeEntity memberGrade){
+		memberGradeService.updateById(memberGrade);
 
-        return new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+        return R.ok();
     }
 
     /**
      * 删除
      */
-    @RequestMapping("/delete" )
-    @RequiresPermissions("member:membergrade:delete" )
-    public ResultBean<Boolean> delete(@RequestBody Integer[] ids) {
-            memberGradeService.removeByIds(Arrays.asList(ids));
+    @RequestMapping("/delete")
+    public R delete(@RequestBody Integer[] ids){
+		memberGradeService.removeByIds(Arrays.asList(ids));
 
-        return new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+        return R.ok();
     }
 
 }

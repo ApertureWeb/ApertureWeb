@@ -3,7 +3,6 @@ package com.aperture.community.member.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,13 +16,16 @@ import com.aperture.common.utils.PageUtils;
 import com.aperture.common.utils.R;
 
 
+
 /**
+ * 
+ *
  * @author JavaJayV
  * @email 285075313@qq.com
- * @date 2020-10-06 15:38:25
+ * @date 2020-10-06 18:33:11
  */
 @RestController
-@RequestMapping("member/favorates" )
+@RequestMapping("member/favorates")
 public class FavoratesController {
     @Autowired
     private FavoratesService favoratesService;
@@ -31,59 +33,52 @@ public class FavoratesController {
     /**
      * 列表
      */
-    @RequestMapping("/list" )
-    @RequiresPermissions("member:favorates:list" )
-    public ResultBean list(@RequestParam Map<String, Object> params) {
+    @RequestMapping("/list")
+    public R list(@RequestParam Map<String, Object> params){
         PageUtils page = favoratesService.queryPage(params);
-        ResultBean result = new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
 
-        return result;
+        return R.ok().put("page", page);
     }
 
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}" )
-    @RequiresPermissions("member:favorates:info" )
-    public ResultBean info(@PathVariable("id" ) Integer id) {
-            FavoratesEntity favorates = favoratesService.getById(id);
-        ResultBean result = new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+    @RequestMapping("/info/{id}")
+    public R info(@PathVariable("id") Integer id){
+		FavoratesEntity favorates = favoratesService.getById(id);
 
-        return result;
+        return R.ok().put("favorates", favorates);
     }
 
     /**
      * 保存
      */
-    @RequestMapping("/save" )
-    @RequiresPermissions("member:favorates:save" )
-    public ResultBean<Boolean> save(@RequestBody FavoratesEntity favorates) {
-            favoratesService.save(favorates);
+    @RequestMapping("/save")
+    public R save(@RequestBody FavoratesEntity favorates){
+		favoratesService.save(favorates);
 
-        return new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+        return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update" )
-    @RequiresPermissions("member:favorates:update" )
-    public ResultBean<Boolean> update(@RequestBody FavoratesEntity favorates) {
-            favoratesService.updateById(favorates);
+    @RequestMapping("/update")
+    public R update(@RequestBody FavoratesEntity favorates){
+		favoratesService.updateById(favorates);
 
-        return new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+        return R.ok();
     }
 
     /**
      * 删除
      */
-    @RequestMapping("/delete" )
-    @RequiresPermissions("member:favorates:delete" )
-    public ResultBean<Boolean> delete(@RequestBody Integer[] ids) {
-            favoratesService.removeByIds(Arrays.asList(ids));
+    @RequestMapping("/delete")
+    public R delete(@RequestBody Integer[] ids){
+		favoratesService.removeByIds(Arrays.asList(ids));
 
-        return new ResultBean("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+        return R.ok();
     }
 
 }
