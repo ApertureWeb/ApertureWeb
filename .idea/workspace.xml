@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0a5bd4c0-882a-4d3e-894d-89ba97d08248" name="Default" comment="circle-category" />
+    <list default="true" id="0a5bd4c0-882a-4d3e-894d-89ba97d08248" name="Default" comment="circle-category">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/../xcEdu/xcEduService01/out/" />
     <ignored path="$PROJECT_DIR$/Back-End/aperture-acl/target/" />
     <ignored path="$PROJECT_DIR$/Back-End/common/service-base/target/" />
@@ -61,20 +63,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Back-End/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="100" column="6" selection-start-line="100" selection-start-column="6" selection-end-line="100" selection-end-column="6" />
+            <state relative-caret-position="187">
+              <caret line="96" column="43" selection-start-line="96" selection-start-column="43" selection-end-line="96" selection-end-column="43" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Back-End/common/renren-generator/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="17" column="5" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+            <state relative-caret-position="408">
+              <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
             </state>
           </provider>
         </entry>
@@ -104,6 +106,7 @@
       <find>open</find>
       <find>createToken</find>
       <find>class</find>
+      <find>target</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -132,7 +135,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Back-End/common/spring-security/pom.xml" />
         <option value="$PROJECT_DIR$/Back-End/common/pom.xml" />
         <option value="$PROJECT_DIR$/Back-End/common/spring-security/src/main/java/com/aperture/community/security/TokenManager.java" />
         <option value="$PROJECT_DIR$/Back-End/aperture-gateway/pom.xml" />
@@ -183,6 +185,7 @@
         <option value="$PROJECT_DIR$/Back-End/core-service/src/main/java/com/aperture/community/core/service/impl/CmsCategoryServiceImpl.java" />
         <option value="$PROJECT_DIR$/Back-End/core-service/src/main/java/com/aperture/community/core/dao/CategoryCircleRelaDao.java" />
         <option value="$PROJECT_DIR$/Back-End/core-service/src/main/java/com/aperture/community/core/dao/CategoryDao.java" />
+        <option value="$PROJECT_DIR$/Back-End/.gitignore" />
       </list>
     </option>
   </component>
@@ -256,13 +259,25 @@
               <item name="ApertureWeb" type="b2602c69:ProjectViewProjectNode" />
               <item name="ApertureWeb" type="462c0819:PsiDirectoryNode" />
               <item name="Back-End" type="462c0819:PsiDirectoryNode" />
+              <item name="aperture-acl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ApertureWeb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ApertureWeb" type="462c0819:PsiDirectoryNode" />
+              <item name="Back-End" type="462c0819:PsiDirectoryNode" />
+              <item name="aperture-member" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ApertureWeb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ApertureWeb" type="462c0819:PsiDirectoryNode" />
+              <item name="Back-End" type="462c0819:PsiDirectoryNode" />
               <item name="common" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ApertureWeb" type="b2602c69:ProjectViewProjectNode" />
               <item name="ApertureWeb" type="462c0819:PsiDirectoryNode" />
               <item name="Back-End" type="462c0819:PsiDirectoryNode" />
-              <item name="core-service" type="462c0819:PsiDirectoryNode" />
+              <item name="message-service" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -278,13 +293,13 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1601975659151" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1601976129644" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/Back-End/common/renren-generator" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Ignored.Files" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -430,7 +445,7 @@
       <workItem from="1601804407719" duration="1794000" />
       <workItem from="1601873625996" duration="5985000" />
       <workItem from="1601897951040" duration="1656000" />
-      <workItem from="1601956292111" duration="9833000" />
+      <workItem from="1601956292111" duration="10106000" />
     </task>
     <task id="LOCAL-00001" summary="acl">
       <created>1601551338126</created>
@@ -509,16 +524,23 @@
       <option name="project" value="LOCAL" />
       <updated>1601974455226</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="circle-category">
+      <created>1601975834504</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1601975834504</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="44372000" />
+    <option name="totallyTimeSpent" value="44645000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23987207" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23987207" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -537,7 +559,7 @@
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50159913" side_tool="true" visible="true" weight="0.22068231" />
       <window_info anchor="bottom" id="Java Enterprise" order="10" />
-      <window_info anchor="bottom" id="Version Control" order="11" sideWeight="0.49840087" visible="true" weight="0.22068231" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="11" sideWeight="0.49840087" visible="true" weight="0.22068231" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.4989339" weight="0.24520256" />
       <window_info anchor="bottom" id="Tail" order="13" />
       <window_info anchor="bottom" id="Docker" order="14" show_stripe_button="false" />
@@ -955,17 +977,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/.gitignore">
+    <entry file="file://$PROJECT_DIR$/Back-End/common/renren-generator/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="100" column="6" selection-start-line="100" selection-start-column="6" selection-end-line="100" selection-end-column="6" />
+        <state relative-caret-position="408">
+          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/common/renren-generator/.gitignore">
+    <entry file="file://$PROJECT_DIR$/Back-End/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="5" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+        <state relative-caret-position="187">
+          <caret line="96" column="43" selection-start-line="96" selection-start-column="43" selection-end-line="96" selection-end-column="43" />
         </state>
       </provider>
     </entry>
