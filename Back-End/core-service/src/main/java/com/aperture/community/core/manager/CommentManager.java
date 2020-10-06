@@ -1,21 +1,19 @@
 package com.aperture.community.core.manager;
 
-import com.aperture.community.core.dao.UmsCommentMapper;
-import com.aperture.community.core.dao.UmsReplyMapper;
-import com.aperture.community.core.module.UmsComment;
-import com.aperture.community.core.module.UmsReply;
+import com.aperture.community.core.dao.CmsCommentMapper;
+import com.aperture.community.core.dao.CmsReplyMapper;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CommentManager {
 
-    private UmsReplyMapper umsReplyMapper;
+    private CmsReplyMapper cmsReplyMapper;
 
-    private UmsCommentMapper umsCommentMapper;
+    private CmsCommentMapper cmsCommentMapper;
 
-    public CommentManager(UmsReplyMapper umsReplyMapper, UmsCommentMapper umsCommentMapper) {
-        this.umsCommentMapper = umsCommentMapper;
-        this.umsReplyMapper = umsReplyMapper;
+    public CommentManager(CmsReplyMapper cmsReplyMapper, CmsCommentMapper cmsCommentMapper) {
+        this.cmsCommentMapper = cmsCommentMapper;
+        this.cmsReplyMapper = cmsReplyMapper;
     }
 
     /**
@@ -27,20 +25,12 @@ public class CommentManager {
     }
 
 
-    public boolean sendReply(UmsReply umsReply) {
-        return umsReplyMapper.save(umsReply);
+
+    public CmsReplyMapper getUmsReplyMapper() {
+        return cmsReplyMapper;
     }
 
-    public boolean sendComment(UmsComment umsComment) {
-        return umsCommentMapper.save(umsComment);
-    }
-
-
-    public UmsReplyMapper getUmsReplyMapper() {
-        return umsReplyMapper;
-    }
-
-    public UmsCommentMapper getUmsCommentMapper() {
-        return umsCommentMapper;
+    public CmsCommentMapper getUmsCommentMapper() {
+        return cmsCommentMapper;
     }
 }

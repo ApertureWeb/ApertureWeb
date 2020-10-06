@@ -1,7 +1,7 @@
 package com.aperture.community.core.manager;
 
-import com.aperture.community.core.dao.UmsArticleMapper;
-import com.aperture.community.core.module.UmsArticleEntity;
+import com.aperture.community.core.dao.CmsArticleMapper;
+import com.aperture.community.core.module.CmsArticleEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +12,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class ArticleManager {
 
-    private UmsArticleMapper umsArticleMapper;
+    private CmsArticleMapper cmsArticleMapper;
 
 
     @Autowired
-    public ArticleManager(UmsArticleMapper umsArticleMapper) {
-        this.umsArticleMapper = umsArticleMapper;
+    public ArticleManager(CmsArticleMapper cmsArticleMapper) {
+        this.cmsArticleMapper = cmsArticleMapper;
     }
 
-    public UmsArticleEntity getArticle() {
+    public CmsArticleEntity getArticle() {
         return null;
     }
 

@@ -1,10 +1,10 @@
 package com.aperture.community.core.manager;
 
-import com.aperture.community.core.common.map.UmsCommentMap;
-import com.aperture.community.core.dao.UmsCommentMapper;
-import com.aperture.community.core.dao.UmsReplyMapper;
-import com.aperture.community.core.module.UmsCommentEntity;
-import com.aperture.community.core.module.UmsReplyEntity;
+import com.aperture.community.core.common.map.CmsCommentMap;
+import com.aperture.community.core.dao.CmsCommentMapper;
+import com.aperture.community.core.dao.CmsReplyMapper;
+import com.aperture.community.core.module.CmsCommentEntity;
+import com.aperture.community.core.module.CmsReplyEntity;
 import com.aperture.community.core.module.dto.MessageDto;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class InteractCommentManager {
 
-    private UmsCommentMapper umsCommentMapper;
+    private CmsCommentMapper cmsCommentMapper;
 
-    private UmsReplyMapper umsReplyMapper;
+    private CmsReplyMapper cmsReplyMapper;
 
     @Autowired
-    public InteractCommentManager(UmsCommentMapper umsCommentMapper, UmsReplyMapper umsReplyMapper) {
-        this.umsCommentMapper = umsCommentMapper;
-        this.umsReplyMapper = umsReplyMapper;
+    public InteractCommentManager(CmsCommentMapper cmsCommentMapper, CmsReplyMapper cmsReplyMapper) {
+        this.cmsCommentMapper = cmsCommentMapper;
+        this.cmsReplyMapper = cmsReplyMapper;
     }
 
 
@@ -33,14 +33,14 @@ public class InteractCommentManager {
      * 发送回复
      */
     @Transactional(rollbackFor = Exception.class)
-    public MessageDto<Boolean> sendReply(UmsReplyEntity umsReplyEntity) {
-        assert umsReplyEntity != null;
-        assert umsReplyEntity.getCommentId() != null;
-        UmsCommentEntity umsCommentEntity = umsCommentMapper.getOne(new QueryWrapper<UmsCommentEntity>().select("1").eq(UmsCommentMap.ID.getValue(), umsReplyEntity.getCommentId()));
-        if (umsCommentEntity == null) {
+    public MessageDto<Boolean> sendReply(CmsReplyEntity cmsReplyEntity) {
+        assert cmsReplyEntity != null;
+        assert cmsReplyEntity.getCommentId() != null;
+        CmsCommentEntity cmsCommentEntity = cmsCommentMapper.getOne(new QueryWrapper<CmsCommentEntity>().select("1").eq(CmsCommentMap.ID.getValue(), cmsReplyEntity.getCommentId()));
+        if (cmsCommentEntity == null) {
             new MessageDto<>("评论不存在或已被删除", false);
         }
-        if (!umsReplyMapper.save(umsReplyEntity)) {
+        if (!cmsReplyMapper.save(cmsReplyEntity)) {
             return new MessageDto<>("发生意外", false);
         }
         return new MessageDto<>("success", true);
@@ -48,11 +48,11 @@ public class InteractCommentManager {
 
 
 
-    public UmsCommentMapper getUmsCommentMapper() {
-        return umsCommentMapper;
+    public CmsCommentMapper getUmsCommentMapper() {
+        return cmsCommentMapper;
     }
 
-    public UmsReplyMapper getUmsReplyMapper() {
-        return umsReplyMapper;
+    public CmsReplyMapper getUmsReplyMapper() {
+        return cmsReplyMapper;
     }
 }

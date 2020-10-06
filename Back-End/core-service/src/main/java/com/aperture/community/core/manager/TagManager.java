@@ -1,10 +1,10 @@
 package com.aperture.community.core.manager;
 
-import com.aperture.community.core.common.map.UmsTagMergeMap;
-import com.aperture.community.core.dao.UmsTagMapper;
-import com.aperture.community.core.dao.UmsTagMergeMapper;
-import com.aperture.community.core.module.UmsTagEntity;
-import com.aperture.community.core.module.UmsTagMergeEntity;
+import com.aperture.community.core.common.map.CmsTagMergeMap;
+import com.aperture.community.core.dao.CmsTagMapper;
+import com.aperture.community.core.dao.CmsTagMergeMapper;
+import com.aperture.community.core.module.CmsTagEntity;
+import com.aperture.community.core.module.CmsTagMergeEntity;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,35 +16,35 @@ import java.util.stream.Collectors;
 @Service
 public class TagManager {
 
-    private UmsTagMapper umsTagMapper;
-    private UmsTagMergeMapper umsTagMergeMapper;
+    private CmsTagMapper cmsTagMapper;
+    private CmsTagMergeMapper cmsTagMergeMapper;
     private PrimaryIdManager primaryIdManager;
 
     @Autowired
-    public TagManager(UmsTagMapper umsTagMapper, UmsTagMergeMapper umsTagMergeMapper, PrimaryIdManager primaryIdManager) {
-        this.umsTagMapper = umsTagMapper;
-        this.umsTagMergeMapper = umsTagMergeMapper;
+    public TagManager(CmsTagMapper cmsTagMapper, CmsTagMergeMapper cmsTagMergeMapper, PrimaryIdManager primaryIdManager) {
+        this.cmsTagMapper = cmsTagMapper;
+        this.cmsTagMergeMapper = cmsTagMergeMapper;
         this.primaryIdManager = primaryIdManager;
     }
 
-    public UmsTagMapper getUmsTagMapper() {
-        return this.umsTagMapper;
+    public CmsTagMapper getUmsTagMapper() {
+        return this.cmsTagMapper;
 
     }
 
-    public UmsTagMergeMapper getUmsTagMergeMapper() {
-        return this.umsTagMergeMapper;
+    public CmsTagMergeMapper getUmsTagMergeMapper() {
+        return this.cmsTagMergeMapper;
     }
 
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean addContentTag(List<UmsTagMergeEntity> umsTagMergeEntities) {
+    public boolean addContentTag(List<CmsTagMergeEntity> umsTagMergeEntities) {
         assert umsTagMergeEntities.size() != 0;
-        List<UmsTagEntity> tags = umsTagMapper.list(new QueryWrapper<UmsTagEntity>().in(UmsTagMergeMap.TAG_ID.getValue(), umsTagMergeEntities.stream().map(UmsTagMergeEntity::getTagId).collect(Collectors.toList())));
+        List<CmsTagEntity> tags = cmsTagMapper.list(new QueryWrapper<CmsTagEntity>().in(CmsTagMergeMap.TAG_ID.getValue(), umsTagMergeEntities.stream().map(CmsTagMergeEntity::getTagId).collect(Collectors.toList())));
         if (tags.size() != umsTagMergeEntities.size()) {
             throw new IllegalArgumentException("tag不存在");
         }
-        return umsTagMergeMapper.saveBatch(umsTagMergeEntities);
+        return cmsTagMergeMapper.saveBatch(umsTagMergeEntities);
     }
 
 
