@@ -4,6 +4,7 @@ import com.aperture.community.acl.entity.ScsPermission;
 import com.aperture.community.acl.service.IScsPermissionService;
 import com.aperture.community.entity.RESULT_BEAN_STATUS_CODE;
 import com.aperture.community.entity.ResultBean;
+import com.aperture.config.RestTemplateConfig;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

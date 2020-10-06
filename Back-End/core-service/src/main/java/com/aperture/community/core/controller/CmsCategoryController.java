@@ -6,7 +6,7 @@ import java.util.Map;
 import com.aperture.community.core.module.CmsCategoryEntity;
 import com.aperture.community.entity.RESULT_BEAN_STATUS_CODE;
 import com.aperture.community.entity.ResultBean;
-import com.aperture.community.utils.PageUtils;
+import com.aperture.common.utils.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
