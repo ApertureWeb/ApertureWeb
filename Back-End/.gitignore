@@ -131,5 +131,9 @@ aperture-gateway/aperture-gateway.iml
 core-service/core-service.iml
 common/renren-generator/src/main/resource/application.yml
 common/renren-generator/src/main/resource/generator.properties
-
+common/renren-generator/target
+common/renren-generator
 *.iml
+aperture-member/target/
+aperture-member/aperture-member.iml
+aperture-member/renren/
