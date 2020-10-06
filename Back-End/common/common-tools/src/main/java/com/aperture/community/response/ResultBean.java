@@ -1,15 +1,19 @@
-package com.aperture.community.entity;
+package com.aperture.community.response;
 
-import lombok.*;
+import com.aperture.community.standard.code.RESULT_BEAN_STATUS_CODE;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
 /**
- * @Auther: JayV
- * @Date: 2020-9-7 20:31
- * @Description:
+ * 统一返回前端的数据类型 code + msg + data
+ *
+ * @author HALOXIAO
+ * @since 2020/9/23 19:18
  */
-@Data
+@Getter
+@Setter
 public class ResultBean<T> implements Serializable {
     private static final long serialVersionUID = 2L;
 
@@ -47,10 +51,4 @@ public class ResultBean<T> implements Serializable {
         this.code = code.getValue();
     }
 
-    public ResultBean(String msg, RESULT_BEAN_STATUS_CODE code, T data) {
-        super();
-        this.msg = msg;
-        this.code = code.getValue();
-        this.data = data;
-    }
 }

@@ -1,6 +1,6 @@
 package com.aperture.community.utils;
 
-import com.aperture.community.entity.ResultBean;
+import com.aperture.community.response.ResultBean;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
