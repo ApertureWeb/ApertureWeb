@@ -42,6 +42,7 @@
         <open-feign>2.2.5.RELEASE</open-feign>
         <commons-pool2>2.6.0</commons-pool2>
         <redis>2.2.5.RELEASE</redis>
+        <caffeine>2.8.4</caffeine>
     </properties>
 
     <dependencyManagement>
@@ -180,12 +181,19 @@
             </dependency>
 
 
+
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>${caffeine}</version>
+            </dependency>
+
+
         </dependencies>
     </dependencyManagement>
 
+
     <dependencies>
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
