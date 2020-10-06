@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +34,7 @@ public class ScsPermissionServiceImpl extends ServiceImpl<ScsPermissionMapper, S
     @Autowired
     private IScsRolePermissionService rolePermissionService;
 
-    @Resource
+    @Autowired
     private RestTemplate restTemplate;
 
     @Autowired

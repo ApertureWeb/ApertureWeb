@@ -1,5 +1,5 @@
 server:
-  port: 7000
+  port: 80
 
   datasource:
     druid:
@@ -20,3 +20,8 @@ spring:
             - Path=/api/**
           filters:
             - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+
+
+
+
+

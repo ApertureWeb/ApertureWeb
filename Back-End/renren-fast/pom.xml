@@ -51,10 +51,20 @@
 	</properties>
 
 	<dependencies>
+		<!--        服务注册/发现-->
 		<dependency>
-			<groupId>com.atguigu.gulimall</groupId>
-			<artifactId>gulimall-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>com.alibaba.cloud</groupId>
+			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+		</dependency>
+
+		<!--        配置中心来做配置管理-->
+		<dependency>
+			<groupId>com.alibaba.cloud</groupId>
+			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.aperture</groupId>
+			<artifactId>common-tools</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>

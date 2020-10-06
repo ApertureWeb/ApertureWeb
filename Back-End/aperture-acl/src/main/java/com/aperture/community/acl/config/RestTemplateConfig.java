@@ -1,4 +1,4 @@
-package com.aperture.config;
+package com.aperture.community.acl.config;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.aperture:common-tools:unknown">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/aperture/common-tools/unknown/common-tools-unknown.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/aperture/common-tools/unknown/common-tools-unknown-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/aperture/common-tools/unknown/common-tools-unknown-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
