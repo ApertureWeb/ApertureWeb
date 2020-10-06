@@ -1,6 +1,6 @@
 package com.aperture.community.core.manager;
 
-import com.aperture.community.core.common.EventStatus;
+import com.aperture.community.core.common.status.EventStatus;
 import com.aperture.community.core.common.map.CmsArticleMap;
 import com.aperture.community.core.common.map.CmsEventMap;
 import com.aperture.community.core.common.map.CmsVideoMap;

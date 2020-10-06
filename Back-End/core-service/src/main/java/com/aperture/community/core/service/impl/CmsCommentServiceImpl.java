@@ -1,7 +1,7 @@
 package com.aperture.community.core.service.impl;
 
-import com.aperture.community.core.common.CommentStatus;
-import com.aperture.community.core.common.ContentType;
+import com.aperture.community.core.common.status.CommentStatus;
+import com.aperture.community.core.common.status.ContentType;
 import com.aperture.community.core.common.map.CmsArticleMap;
 import com.aperture.community.core.common.map.CmsCommentMap;
 import com.aperture.community.core.common.map.CmsVideoMap;

@@ -55,5 +55,8 @@ public class CmsVideoEntity implements Serializable {
     @TableField("cicle_id")
     private Integer cicleId;
 
+    @TableField("status")
+    private Integer status;
+
 
 }

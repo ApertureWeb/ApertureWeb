@@ -1,6 +1,6 @@
 package com.aperture.community.core.controller;
 
-import com.aperture.community.core.common.ContentType;
+import com.aperture.community.core.common.status.ContentType;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.CmsCommentParam;
 import com.aperture.community.core.module.validation.ValidationGroup;
