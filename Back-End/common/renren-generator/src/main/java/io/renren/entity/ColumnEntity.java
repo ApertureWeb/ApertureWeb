@@ -23,18 +23,7 @@ public class ColumnEntity {
     private String attrType;
     //auto_increment
     private String extra;
-
-	//属性名称（字幕全部大写）
-	private String ATTR_NAME;
-
-	public String getATTR_NAME() {
-		return ATTR_NAME;
-	}
-
-	public void setATTR_NAME(String ATTR_NAME) {
-		this.ATTR_NAME = ATTR_NAME;
-	}
-
+    
 	public String getColumnName() {
 		return columnName;
 	}

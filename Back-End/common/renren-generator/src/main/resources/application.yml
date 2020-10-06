@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 80
 
 # mysql
 spring:
@@ -7,9 +7,10 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     #MySQL配置
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://119.3.186.94:3306/aperture-member?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+#    119.3.186.94    Haloxiao@123
+    url: jdbc:mysql://localhost:3306/aperture-member?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
-    password: Haloxiao@123
+    password: root
     #oracle配置
     #    driverClassName: oracle.jdbc.OracleDriver
     #    url: jdbc:oracle:thin:@47.100.206.162:1521:xe
