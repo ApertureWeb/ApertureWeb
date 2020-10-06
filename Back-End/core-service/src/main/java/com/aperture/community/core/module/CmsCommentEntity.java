@@ -1,10 +1,15 @@
 package com.aperture.community.core.module;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.time.LocalDateTime;
+
 import com.baomidou.mybatisplus.annotation.TableField;
+
 import java.io.Serializable;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -21,12 +26,12 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("cms_comment")
-@ApiModel(value="CmsComment对象", description="评论功能")
+@ApiModel(value = "CmsComment对象", description = "评论功能")
 public class CmsCommentEntity implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
-    @TableId("id")
+    @TableId(value = "id", type = IdType.NONE)
     private Long id;
 
     @ApiModelProperty(value = "目标视频/文章的ID ")

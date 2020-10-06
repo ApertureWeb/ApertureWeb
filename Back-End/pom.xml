@@ -31,7 +31,6 @@
         <fastjson>1.2.50</fastjson>
         <mysql-connector>8.0.21</mysql-connector>
         <mybatis-plus>3.3.2</mybatis-plus>
-        <spring-data-redis>2.2.4.RELEASE</spring-data-redis>
         <druid>1.1.22</druid>
         <slf4j-api>1.7.25</slf4j-api>
         <slf4j-log4j12>1.7.25</slf4j-log4j12>
@@ -41,7 +40,7 @@
         <mapstruct>1.3.1.Final</mapstruct>
         <open-feign>2.2.5.RELEASE</open-feign>
         <commons-pool2>2.6.0</commons-pool2>
-        <redis>2.2.5.RELEASE</redis>
+        <spring-boot>2.2.8.RELEASE</spring-boot>
         <caffeine>2.8.4</caffeine>
     </properties>
 
@@ -56,7 +55,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
-                <version>${redis}</version>
+                <version>${spring-boot}</version>
             </dependency>
 
             <dependency>
@@ -93,12 +92,6 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.data</groupId>
-                <artifactId>spring-data-redis</artifactId>
-                <version>${spring-data-redis}</version>
             </dependency>
 
             <dependency>
@@ -161,7 +154,7 @@
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${swagger}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
+
             <dependency>
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
@@ -187,6 +180,13 @@
                 <artifactId>caffeine</artifactId>
                 <version>${caffeine}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-aop</artifactId>
+                <version>${spring-boot}</version>
+            </dependency>
+
 
 
         </dependencies>
