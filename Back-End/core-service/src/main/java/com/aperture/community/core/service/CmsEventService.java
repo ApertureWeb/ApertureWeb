@@ -12,10 +12,10 @@ import com.aperture.community.core.module.vo.EventVO;
  */
 public interface CmsEventService {
 
-    MessageDto<Boolean> like(Long id);
+    void like(Long id);
 
 
-    MessageDto<Boolean> feed(Long id);
+    void feed(Long id);
 
     MessageDto<Boolean> store(Long id);
 
