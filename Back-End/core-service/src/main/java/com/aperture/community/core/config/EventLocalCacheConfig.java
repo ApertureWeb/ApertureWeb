@@ -49,22 +49,22 @@ public class EventLocalCacheConfig {
 
     @Bean("VideoLikeEventCache")
     public Cache<Long, AtomicInteger> getVideoLikeLocalCache() {
-        articleDonutCache = Caffeine.newBuilder().expireAfterWrite(2, TimeUnit.MINUTES)
+        videoLikeCache = Caffeine.newBuilder().expireAfterWrite(2, TimeUnit.MINUTES)
                 .build();
-        return articleDonutCache;
+        return videoLikeCache;
     }
 
     @Bean("VideoDonutEventCache")
     public Cache<Long, AtomicInteger> getVideoDonutLocalCache() {
-        articleDonutCache = Caffeine.newBuilder().expireAfterWrite(2, TimeUnit.MINUTES)
+        videoDonutCache = Caffeine.newBuilder().expireAfterWrite(2, TimeUnit.MINUTES)
                 .build();
-        return articleDonutCache;
+        return videoDonutCache;
     }
 
     @Bean("VideoStoreEventCache")
     public Cache<Long, AtomicInteger> getVideoStoreLocalCache() {
-        articleDonutCache = Caffeine.newBuilder().expireAfterWrite(2, TimeUnit.MINUTES)
+        videoStoreCache = Caffeine.newBuilder().expireAfterWrite(2, TimeUnit.MINUTES)
                 .build();
-        return articleDonutCache;
+        return videoStoreCache;
     }
 }

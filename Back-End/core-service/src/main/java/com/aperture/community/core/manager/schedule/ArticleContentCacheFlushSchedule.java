@@ -29,7 +29,6 @@ public class ArticleContentCacheFlushSchedule {
 
     StringRedisTemplate stringRedisTemplate;
 
-    private final int HOUR = 1000 * 60 * 60;
 
     @Autowired
     public ArticleContentCacheFlushSchedule(@Qualifier("ArticleLikeEventCache") Cache<Long, AtomicInteger> articleLikeLocalCache,
