@@ -15,31 +15,56 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Configuration
 public class EventLocalCacheConfig {
 
-    Cache<Long, AtomicInteger> likeCache;
-    Cache<Long, AtomicInteger> feedCache;
-    Cache<Long, AtomicInteger> storeCache;
+    Cache<Long, AtomicInteger> articleLikeCache;
+    Cache<Long, AtomicInteger> articleDonutCache;
+    Cache<Long, AtomicInteger> articleStoreCache;
+    Cache<Long, AtomicInteger> videoLikeCache;
+    Cache<Long, AtomicInteger> videoDonutCache;
+    Cache<Long, AtomicInteger> videoStoreCache;
 
+    @Bean("ArticleLikeEventCache")
 
-    @Bean("LikeEventCache")
-    public Cache<Long, AtomicInteger> getLikeLocalCache() {
-        likeCache = Caffeine.newBuilder()
+    public Cache<Long, AtomicInteger> getArticleLikeLocalCache() {
+        articleLikeCache = Caffeine.newBuilder()
                 .expireAfterWrite(2, TimeUnit.MINUTES)
                 .build();
-        return likeCache;
+        return articleLikeCache;
     }
 
-    @Bean("FeedEventCache")
-    public Cache<Long, AtomicInteger> getFeedLocalCache() {
-        feedCache = Caffeine.newBuilder().expireAfterWrite(2, TimeUnit.MINUTES)
+    @Bean("ArticleDonutEventCache")
+    public Cache<Long, AtomicInteger> getArticleFeedLocalCache() {
+        articleDonutCache = Caffeine.newBuilder().expireAfterWrite(2, TimeUnit.MINUTES)
                 .build();
-        return feedCache;
+        return articleDonutCache;
     }
 
-    @Bean("StoreEventCache")
-    public Cache<Long, AtomicInteger> getStoreLocalCache() {
-        feedCache = Caffeine.newBuilder().expireAfterWrite(2, TimeUnit.MINUTES)
+    @Bean("ArticleStoreEventCache")
+    public Cache<Long, AtomicInteger> getArticleStoreLocalCache() {
+        articleStoreCache = Caffeine.newBuilder().expireAfterWrite(2, TimeUnit.MINUTES)
                 .build();
-        return feedCache;
+        return articleStoreCache;
     }
 
+    //==============================================Article/Video分界线==============================================
+
+    @Bean("VideoLikeEventCache")
+    public Cache<Long, AtomicInteger> getVideoLikeLocalCache() {
+        articleDonutCache = Caffeine.newBuilder().expireAfterWrite(2, TimeUnit.MINUTES)
+                .build();
+        return articleDonutCache;
+    }
+
+    @Bean("VideoDonutEventCache")
+    public Cache<Long, AtomicInteger> getVideoDonutLocalCache() {
+        articleDonutCache = Caffeine.newBuilder().expireAfterWrite(2, TimeUnit.MINUTES)
+                .build();
+        return articleDonutCache;
+    }
+
+    @Bean("VideoStoreEventCache")
+    public Cache<Long, AtomicInteger> getVideoStoreLocalCache() {
+        articleDonutCache = Caffeine.newBuilder().expireAfterWrite(2, TimeUnit.MINUTES)
+                .build();
+        return articleDonutCache;
+    }
 }

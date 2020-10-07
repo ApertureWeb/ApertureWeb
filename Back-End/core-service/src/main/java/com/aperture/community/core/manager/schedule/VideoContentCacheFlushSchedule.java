@@ -3,7 +3,6 @@ package com.aperture.community.core.manager.schedule;
 import com.aperture.community.core.common.map.redis.RedisContentMap;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.google.common.collect.Maps;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.StringRedisConnection;
@@ -14,44 +13,42 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author HALOXIAO
- * @since 2020-10-06 14:40
+ * @since 2020-10-07 17:41
  **/
 @Component
-public class CacheFlushSchedule {
+public class VideoContentCacheFlushSchedule {
 
-    Cache<Long, AtomicInteger> likeLocalCache;
-    Cache<Long, AtomicInteger> feedLocalCache;
-    Cache<Long, AtomicInteger> storeLocalCache;
+    Cache<Long, AtomicInteger> videoLikeLocalCache;
+    Cache<Long, AtomicInteger> videoDonutLocalCache;
+    Cache<Long, AtomicInteger> videoStoreLocalCache;
     StringRedisTemplate stringRedisTemplate;
 
-    @Autowired
-    public CacheFlushSchedule(@Qualifier("LikeEventCache") Cache<Long, AtomicInteger> likeLocalCache,
-                              @Qualifier("FeedEventCache") Cache<Long, AtomicInteger> feedLocalCache,
-                              @Qualifier("StoreEventCache") Cache<Long, AtomicInteger> storeLocalCache,
-                              StringRedisTemplate stringRedisTemplate) {
-        this.likeLocalCache = likeLocalCache;
-        this.feedLocalCache = feedLocalCache;
-        this.storeLocalCache = storeLocalCache;
+    public VideoContentCacheFlushSchedule(@Qualifier("VideoLikeEventCache") Cache<Long, AtomicInteger> videoLikeLocalCache,
+                                          @Qualifier("VideoDonutEventCache") Cache<Long, AtomicInteger> videoDonutLocalCache,
+                                          @Qualifier("VideoStoreEventCache") Cache<Long, AtomicInteger> videoStoreLocalCache,
+                                          StringRedisTemplate stringRedisTemplate) {
+
+        this.videoLikeLocalCache = videoLikeLocalCache;
+        this.videoDonutLocalCache = videoDonutLocalCache;
+        this.videoStoreLocalCache = videoStoreLocalCache;
         this.stringRedisTemplate = stringRedisTemplate;
     }
 
 
     @Scheduled(initialDelay = 1000)
-    public void flushLikeEventCache() {
-        HashMap<Long, AtomicInteger> tempCache = Maps.newHashMap(likeLocalCache.asMap());
-        likeLocalCache.invalidateAll();
+    public void flushVideoLikeEventCache() {
+        HashMap<Long, AtomicInteger> tempCache = Maps.newHashMap(videoLikeLocalCache.asMap());
+        videoLikeLocalCache.invalidateAll();
         stringRedisTemplate.executePipelined(new SessionCallback<Object>() {
             @Override
             public <K, V> Object execute(RedisOperations<K, V> operations) throws DataAccessException {
                 StringRedisConnection connection = (StringRedisConnection) operations;
                 tempCache.forEach((k, v) -> {
-                    connection.incrBy(RedisContentMap.PRE_CONTENT_VALUE_NAMESPACE.getValue() + k + RedisContentMap.SUF_CONTENT_LIKE.getValue(), v.longValue());
+                    connection.zIncrBy(RedisContentMap.VIDEO_CONTENT_LIKE.getValue(), v.doubleValue(), String.valueOf(k));
                 });
                 return null;
             }
@@ -60,15 +57,15 @@ public class CacheFlushSchedule {
     }
 
     @Scheduled(initialDelay = 5000)
-    public void flushFeedEventCache() {
-        HashMap<Long, AtomicInteger> tempCache = Maps.newHashMap(feedLocalCache.asMap());
-        feedLocalCache.invalidateAll();
+    public void flushVideoDonutEventCache() {
+        HashMap<Long, AtomicInteger> tempCache = Maps.newHashMap(videoDonutLocalCache.asMap());
+        videoDonutLocalCache.invalidateAll();
         stringRedisTemplate.executePipelined(new SessionCallback<Object>() {
             @Override
             public <K, V> Object execute(RedisOperations<K, V> operations) throws DataAccessException {
                 StringRedisConnection connection = (StringRedisConnection) operations;
                 tempCache.forEach((k, v) -> {
-                    connection.incrBy(RedisContentMap.PRE_CONTENT_VALUE_NAMESPACE.getValue() + k + RedisContentMap.SUF_CONTENT_DONUT.getValue(), v.longValue());
+                    connection.zIncrBy(RedisContentMap.VIDEO_CONTENT_DONUT.getValue(), v.doubleValue(), String.valueOf(k));
                 });
                 return null;
             }
@@ -77,19 +74,20 @@ public class CacheFlushSchedule {
 
 
     @Scheduled(initialDelay = 8000)
-    public void flushStoreEventCache() {
-        HashMap<Long, AtomicInteger> tempCache = Maps.newHashMap(storeLocalCache.asMap());
-        storeLocalCache.invalidateAll();
+    public void flushVideoStoreEventCache() {
+        HashMap<Long, AtomicInteger> tempCache = Maps.newHashMap(videoStoreLocalCache.asMap());
+        videoStoreLocalCache.invalidateAll();
         stringRedisTemplate.executePipelined(new SessionCallback<Object>() {
             @Override
             public <K, V> Object execute(RedisOperations<K, V> operations) throws DataAccessException {
                 StringRedisConnection connection = (StringRedisConnection) operations;
+
                 tempCache.forEach((k, v) -> {
-                    connection.incrBy(RedisContentMap.PRE_CONTENT_VALUE_NAMESPACE.getValue() + k + RedisContentMap.SUF_CONTENT_STORE.getValue(), v.longValue());
+                    connection.zIncrBy(RedisContentMap.VIDEO_CONTENT_STORE.getValue(), v.doubleValue(), String.valueOf(k));
                 });
                 return null;
             }
         });
-
     }
+
 }
