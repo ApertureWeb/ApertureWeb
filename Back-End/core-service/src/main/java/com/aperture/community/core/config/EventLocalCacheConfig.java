@@ -23,19 +23,23 @@ public class EventLocalCacheConfig {
     @Bean("LikeEventCache")
     public Cache<Long, AtomicInteger> getLikeLocalCache() {
         likeCache = Caffeine.newBuilder()
-                .expireAfterWrite(10, TimeUnit.HOURS)
+                .expireAfterWrite(2, TimeUnit.MINUTES)
                 .build();
         return likeCache;
     }
 
     @Bean("FeedEventCache")
     public Cache<Long, AtomicInteger> getFeedLocalCache() {
-        return null;
+        feedCache = Caffeine.newBuilder().expireAfterWrite(2, TimeUnit.MINUTES)
+                .build();
+        return feedCache;
     }
 
     @Bean("StoreEventCache")
     public Cache<Long, AtomicInteger> getStoreLocalCache() {
-        return null;
+        feedCache = Caffeine.newBuilder().expireAfterWrite(2, TimeUnit.MINUTES)
+                .build();
+        return feedCache;
     }
 
 }

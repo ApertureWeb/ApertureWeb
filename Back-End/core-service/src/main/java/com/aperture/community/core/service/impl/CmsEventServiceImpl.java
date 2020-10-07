@@ -1,22 +1,15 @@
 package com.aperture.community.core.service.impl;
 
 import com.aperture.community.core.common.status.EventStatus;
-import com.aperture.community.core.common.tools.BloomFilterHelper;
 import com.aperture.community.core.manager.EventManager;
 import com.aperture.community.core.module.dto.MessageDto;
 import com.aperture.community.core.module.param.CmsEventParam;
 import com.aperture.community.core.module.vo.EventVO;
 import com.aperture.community.core.service.CmsEventService;
 import com.github.benmanes.caffeine.cache.Cache;
-import com.google.common.base.Charsets;
-import com.google.common.hash.BloomFilter;
-import com.google.common.hash.Funnel;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import rx.internal.operators.BlockingOperatorLatest;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -24,9 +17,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class CmsEventServiceImpl implements CmsEventService {
 
     private EventManager eventManager;
-    private Cache<Long, AtomicInteger> likeLocalCache;
-    private Cache<Long, AtomicInteger> feedLocalCache;
-    private Cache<Long, AtomicInteger> storeLocalCache;
+    private final Cache<Long, AtomicInteger> likeLocalCache;
+    private final Cache<Long, AtomicInteger> feedLocalCache;
+    private final Cache<Long, AtomicInteger> storeLocalCache;
 
     public CmsEventServiceImpl(EventManager eventManager,
                                @Qualifier("LikeEventCache") Cache<Long, AtomicInteger> likeLocalCache,
@@ -39,37 +32,53 @@ public class CmsEventServiceImpl implements CmsEventService {
     }
 
 
+//    TODO 不可以重复点击
+
     @Override
     public void like(Long id) {
         assert id != null;
-
-        BloomFilterHelper<String> myBloomFilterHelper = new BloomFilterHelper<>((Funnel<String>) (from,
-                                                                                                  into) -> into.putString(from, Charsets.UTF_8).putString(from, Charsets.UTF_8), 1500000, 0.00001);
-
-        Map<String, Object> result = new HashMap<>();
-
         AtomicInteger cache = likeLocalCache.getIfPresent(id);
         if (cache != null) {
             cache.addAndGet(1);
         } else {
-            likeLocalCache.put(id, new AtomicInteger(1));
+            synchronized (likeLocalCache) {
+                AtomicInteger tempCache = likeLocalCache.getIfPresent(id);
+                if (tempCache == null) {
+                    likeLocalCache.put(id, new AtomicInteger(1));
+                }
+            }
         }
     }
 
 
     @Override
     public void feed(Long id) {
-        AtomicInteger cache = likeLocalCache.getIfPresent(id);
+        AtomicInteger cache = feedLocalCache.getIfPresent(id);
         if (cache != null) {
             cache.addAndGet(1);
         } else {
-            likeLocalCache.put(id, new AtomicInteger(1));
+            synchronized (feedLocalCache) {
+                AtomicInteger tempCache = feedLocalCache.getIfPresent(id);
+                if (tempCache == null) {
+                    feedLocalCache.put(id, new AtomicInteger(1));
+                }
+            }
         }
     }
 
     @Override
-    public MessageDto<Boolean> store(Long id) {
-        return null;
+    public void store(Long id) {
+        AtomicInteger cache = storeLocalCache.getIfPresent(id);
+        if (cache != null) {
+            cache.addAndGet(1);
+        } else {
+            synchronized (storeLocalCache) {
+                AtomicInteger tempCache = storeLocalCache.getIfPresent(id);
+                if (tempCache == null) {
+                    storeLocalCache.put(id, new AtomicInteger(1));
+                }
+            }
+        }
     }
 
     @Override

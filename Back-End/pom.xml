@@ -46,6 +46,7 @@
         <guava>28.2-jre</guava>
         <httpcore>4.4.12</httpcore>
         <validation>2.0.1.Final</validation>
+        <hadoop>3.2.1</hadoop>
     </properties>
 
     <dependencyManagement>
@@ -222,7 +223,11 @@
                 <artifactId>guava</artifactId>
                 <version>${guava}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.apache.hadoop</groupId>
+                <artifactId>hadoop-common</artifactId>
+                <version>${hadoop}</version>
+            </dependency>
 
 
         </dependencies>

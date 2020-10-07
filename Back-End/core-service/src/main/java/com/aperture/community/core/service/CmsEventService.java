@@ -17,7 +17,7 @@ public interface CmsEventService {
 
     void feed(Long id);
 
-    MessageDto<Boolean> store(Long id);
+    void store(Long id);
 
     MessageDto<EventVO> getEventVO(CmsEventParam eventParam);
 
