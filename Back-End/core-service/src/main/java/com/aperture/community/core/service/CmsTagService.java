@@ -1,5 +1,6 @@
 package com.aperture.community.core.service;
 
+import com.aperture.community.core.module.dto.MessageDto;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.CmsTagParam;
 import com.aperture.community.core.module.vo.PageVO;
@@ -10,11 +11,10 @@ import org.springframework.stereotype.Service;
 public interface CmsTagService {
 
 
-     boolean delete(Long id);
+     MessageDto<Boolean> delete(Long id, Long contentId);
 
      PageVO<CmsTagVO> listPage(PageParam pageParam);
 
-     boolean update(CmsTagParam cmsTagParam);
 
      boolean save(CmsTagParam cmsTagParam);
 

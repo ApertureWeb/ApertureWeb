@@ -5,6 +5,7 @@ import com.aperture.community.core.manager.PrimaryIdManager;
 import com.aperture.community.core.manager.TagManager;
 import com.aperture.community.core.module.CmsTagEntity;
 import com.aperture.community.core.module.converter.CmsTagConverter;
+import com.aperture.community.core.module.dto.MessageDto;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.CmsTagParam;
 import com.aperture.community.core.module.vo.PageVO;
@@ -36,8 +37,8 @@ public class CmsTagServiceImpl implements CmsTagService {
     }
 
     @Override
-    public boolean delete(Long id) {
-        return tagManager.getUmsTagMapper().removeById(id);
+    public MessageDto<Boolean> delete(Long id, Long contentId) {
+        return tagManager.deleteTagMerge(contentId, id);
     }
 
     @Override
@@ -49,10 +50,7 @@ public class CmsTagServiceImpl implements CmsTagService {
     }
 
 
-    @Override
-    public boolean update(CmsTagParam cmsTagParam) {
-        return tagManager.getUmsTagMapper().updateById(CmsTagConverter.INSTANCE.toUmsTag(cmsTagParam));
-    }
+
 
     @Override
     public boolean save(CmsTagParam cmsTagParam) {
@@ -63,7 +61,6 @@ public class CmsTagServiceImpl implements CmsTagService {
         cmsTagParam.setId(id);
         return tagManager.getUmsTagMapper().save(CmsTagConverter.INSTANCE.toUmsTag(cmsTagParam));
     }
-
 
 
 }

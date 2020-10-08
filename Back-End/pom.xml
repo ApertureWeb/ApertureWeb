@@ -223,11 +223,6 @@
                 <artifactId>guava</artifactId>
                 <version>${guava}</version>
             </dependency>
-            <dependency>
-                <groupId>org.apache.hadoop</groupId>
-                <artifactId>hadoop-common</artifactId>
-                <version>${hadoop}</version>
-            </dependency>
 
 
         </dependencies>

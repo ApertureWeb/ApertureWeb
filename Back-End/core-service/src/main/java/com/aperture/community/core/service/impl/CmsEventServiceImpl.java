@@ -22,13 +22,13 @@ public class CmsEventServiceImpl implements CmsEventService {
     private final Cache<Long, AtomicInteger> storeLocalCache;
 
     public CmsEventServiceImpl(EventManager eventManager,
-                               @Qualifier("LikeEventCache") Cache<Long, AtomicInteger> likeLocalCache,
-                               @Qualifier("FeedEventCache") Cache<Long, AtomicInteger> feedLocalCache,
-                               @Qualifier("StoreEventCache") Cache<Long, AtomicInteger> storeLocalCache) {
+                               @Qualifier("ArticleLikeEventCache") Cache<Long, AtomicInteger> articleLikeLocalCache,
+                               @Qualifier("ArticleDonutEventCache") Cache<Long, AtomicInteger> articleDonutLocalCache,
+                               @Qualifier("ArticleStoreEventCache") Cache<Long, AtomicInteger> articleStoreLocalCache) {
         this.eventManager = eventManager;
-        this.likeLocalCache = likeLocalCache;
-        this.feedLocalCache = feedLocalCache;
-        this.storeLocalCache = storeLocalCache;
+        this.likeLocalCache = articleLikeLocalCache;
+        this.feedLocalCache = articleDonutLocalCache;
+        this.storeLocalCache = articleStoreLocalCache;
     }
 
 

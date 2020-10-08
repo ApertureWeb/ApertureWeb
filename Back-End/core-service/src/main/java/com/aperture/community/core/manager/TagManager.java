@@ -1,5 +1,6 @@
 package com.aperture.community.core.manager;
 
+import com.aperture.community.core.common.map.CmsTagMap;
 import com.aperture.community.core.common.map.CmsTagMergeMap;
 import com.aperture.community.core.dao.CmsTagMapper;
 import com.aperture.community.core.dao.CmsTagMergeMapper;
@@ -64,6 +65,13 @@ public class TagManager {
 //        }
 //        return cmsTagMergeMapper.saveBatch(umsTagMergeEntities);
 //    }
+
+    public MessageDto<Boolean> deleteTagMerge(Long contentId, Long id) {
+         if(!cmsTagMergeMapper.remove(new QueryWrapper<CmsTagMergeEntity>().eq(CmsTagMergeMap.CONTENT_ID.getValue(), contentId).eq(CmsTagMergeMap.TAG_ID.getValue(), id))){
+             return new MessageDto<>("删除标签失败", false);
+         }
+        return new MessageDto<>("success",true);
+    }
 
 
 }
