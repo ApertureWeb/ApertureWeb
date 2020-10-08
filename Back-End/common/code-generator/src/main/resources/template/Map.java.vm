@@ -1,0 +1,45 @@
+package ${package}.${moduleName}.common;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.time.LocalDateTime;
+
+import com.baomidou.mybatisplus.annotation.TableField;
+
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+    #if(${hasBigDecimal})
+    import java.math.BigDecimal;
+    #end
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public enum  ${className}Map {
+
+    #foreach ($column in $columns)
+        $column.ATTR_NAME ("${columnName}"),
+    #end
+    ;
+
+    String value;
+
+    CmsArticleMap(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    }

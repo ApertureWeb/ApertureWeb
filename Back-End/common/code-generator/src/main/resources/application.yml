@@ -7,12 +7,13 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     #MySQL配置
     driverClassName: com.mysql.cj.jdbc.Driver
-#
-    url: jdbc:mysql://localhost:3306/aperture-member?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
-#    url: jdbc:mysql://119.3.186.94:3306/aperture-member?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+      #
+      #    url: jdbc:mysql://localhost:3306/aperture-member?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://119.3.186.94:3306/aperture-core?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    #    url: jdbc:mysql://localhost:3306/aperture-member?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
-#    password: Haloxiao@123
-    password: root
+    password: Halo_xiao@123
+    #    password: root
 
     #oracle配置
     #    driverClassName: oracle.jdbc.OracleDriver

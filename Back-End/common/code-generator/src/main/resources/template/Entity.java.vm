@@ -1,35 +1,52 @@
 package ${package}.${moduleName}.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
-#if(${hasBigDecimal})
-import java.math.BigDecimal;
-#end
+import java.time.LocalDateTime;
+
+import com.baomidou.mybatisplus.annotation.TableField;
+
 import java.io.Serializable;
-import java.util.Date;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+    #if(${hasBigDecimal})
+    import java.math.BigDecimal;
+    #end
+import java.util.Date;
 
 /**
  * ${comments}
- * 
+ *
  * @author ${author}
  * @email ${email}
  * @date ${datetime}
  */
 @Data
 @TableName("${tableName}")
+@ApiModel(value = "${className}对象}", description = "comments")
 public class ${className}Entity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-#foreach ($column in $columns)
-	/**
-	 * $column.comments
-	 */
-	#if($column.columnName == $pk.columnName)
-@TableId
-	#end
-private $column.attrType $column.attrname;
-#end
+    #foreach ($column in $columns)
+        /**
+         * $column.comments
+         */
+        #if($column.columnName == $pk.columnName)
+        @TableId(value = $column.columnName , type = IdType.NONE)
+        #end
+
+        #if($column.columnName != $pk.columnName)
+        @TableField("$column.columnName")
+        #end
+
+    @ApiModelProperty(value = "$column.comments")
+    private $column.attrType $column.attrname;
+    #end
 
 }
