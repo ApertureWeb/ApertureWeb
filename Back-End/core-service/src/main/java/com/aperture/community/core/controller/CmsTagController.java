@@ -10,6 +10,9 @@ import javax.validation.Valid;
 @RestController("/tag")
 public class CmsTagController {
 
+
+
+
     @DeleteMapping
     public ResultBean<Boolean> delete(Long id) {
         return null;
@@ -20,7 +23,7 @@ public class CmsTagController {
         return null;
     }
 
-    @PostMapping("dawdas")
+    @PostMapping
     public ResultBean<Integer> save(@RequestBody @Valid CmsTagParam cmsTagParam) {
         return null;
     }

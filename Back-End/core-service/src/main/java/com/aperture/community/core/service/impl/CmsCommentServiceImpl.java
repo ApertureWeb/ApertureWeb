@@ -130,13 +130,13 @@ public class CmsCommentServiceImpl implements CmsCommentService {
         //获取user信息
 
         if (type.equals(ContentType.ARTICLE)) {
-            CmsArticleEntity article = contentManager.getUmsArticleMapper().getOne(new QueryWrapper<CmsArticleEntity>().select("1").
+            CmsArticleEntity article = contentManager.getCmsArticleMapper().getOne(new QueryWrapper<CmsArticleEntity>().select("1").
                     eq(CmsArticleMap.ID.getValue(), comment.getTargetId()));
             if (article == null) {
                 throw new IllegalArgumentException("找不到目标文章");
             }
         } else {
-            CmsVideoEntity video = contentManager.getUmsVideoMapper().getOne(new QueryWrapper<CmsVideoEntity>().select("1").
+            CmsVideoEntity video = contentManager.getCmsVideoMapper().getOne(new QueryWrapper<CmsVideoEntity>().select("1").
                     eq(CmsVideoMap.ID.getValue(), comment.getTargetId()));
             if (video == null) {
                 throw new IllegalArgumentException("找不到目标视频");

@@ -28,31 +28,29 @@ public class CmsEventEntity implements Serializable {
      */
     @ApiModelProperty(value = " 内容Id")
     @TableId(value = "content_id", type = IdType.NONE)
-
     private Long contentId;
+
     /**
      * 点赞数
      */
-
     @ApiModelProperty(value = "点赞数")
     @TableField(value = "like")
-
     private Integer like;
+
     /**
      * 收藏数
      */
-
     @ApiModelProperty(value = "收藏数")
     @TableField(value = "store")
-
     private Integer store;
+
     /**
      * 投喂数
      */
-
     @ApiModelProperty(value = "投喂数")
     @TableField(value = "donut")
     private Integer donut;
+
     /**
      * event类型：0为视频，1为文章
      */

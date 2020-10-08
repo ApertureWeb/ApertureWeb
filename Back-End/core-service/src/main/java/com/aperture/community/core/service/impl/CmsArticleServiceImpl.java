@@ -1,7 +1,8 @@
 package com.aperture.community.core.service.impl;
 
 import com.aperture.community.core.common.map.CmsArticleMap;
-import com.aperture.community.core.dao.CmsArticleMapper;
+import com.aperture.community.core.manager.ContentManager;
+import com.aperture.community.core.manager.EventManager;
 import com.aperture.community.core.manager.PrimaryIdManager;
 import com.aperture.community.core.manager.TagManager;
 import com.aperture.community.core.module.CmsArticleEntity;
@@ -37,20 +38,21 @@ public class CmsArticleServiceImpl implements CmsArticleService {
 
     private PrimaryIdManager primaryIdManager;
     private TagManager tagManager;
-    private CmsArticleMapper cmsArticleMapper;
-
+    private ContentManager contentManager;
+    private EventManager eventManager;
 
     @Autowired
-    public CmsArticleServiceImpl(PrimaryIdManager primaryIdManager, TagManager tagManager, CmsArticleMapper cmsArticleMapper) {
+    public CmsArticleServiceImpl(PrimaryIdManager primaryIdManager, TagManager tagManager, ContentManager contentManager,EventManager eventManager) {
         this.primaryIdManager = primaryIdManager;
         this.tagManager = tagManager;
-        this.cmsArticleMapper = cmsArticleMapper;
+        this.eventManager = eventManager;
+        this.contentManager = contentManager;
     }
 
 
     @Override
     public CmsArticleVO select(Long id) {
-        CmsArticleEntity cmsArticleEntity = cmsArticleMapper.getOne(new QueryWrapper<CmsArticleEntity>().
+        CmsArticleEntity cmsArticleEntity = contentManager.getCmsArticleMapper().getOne(new QueryWrapper<CmsArticleEntity>().
                 select(CmsArticleMap.ID.getValue(),
                         CmsArticleMap.TITLE.getValue(),
                         CmsArticleMap.CONTENT.getValue(),
@@ -66,12 +68,12 @@ public class CmsArticleServiceImpl implements CmsArticleService {
 
     @Override
     public boolean delete(Long id) {
-        return cmsArticleMapper.removeById(id);
+        return contentManager.getCmsArticleMapper().removeById(id);
     }
 
     @Override
     public PageVO<CmsArticleViewVO> listPage(CirclePageParam circlePageParam) {
-        IPage<CmsArticleEntity> page = cmsArticleMapper.page(new Page<>(circlePageParam.getPage(), circlePageParam.getSize()),
+        IPage<CmsArticleEntity> page = contentManager.getCmsArticleMapper().page(new Page<>(circlePageParam.getPage(), circlePageParam.getSize()),
                 new QueryWrapper<CmsArticleEntity>().
                         select(CmsArticleMap.ID.getValue(),
                                 CmsArticleMap.TITLE.getValue(),
@@ -81,7 +83,9 @@ public class CmsArticleServiceImpl implements CmsArticleService {
                         ).
                         eq(CmsArticleMap.CIRCLE_ID.getValue(), circlePageParam.getCircleId()));
         List<CmsArticleViewVO> resultList = CmsArticleConverter.INSTANCE.toUmsArticleViewVOList(page.getRecords());
+
         long total = page.getSize();
+
         return new PageVO<>(total, resultList);
     }
 
@@ -90,7 +94,7 @@ public class CmsArticleServiceImpl implements CmsArticleService {
     public boolean update(CmsArticleParam cmsArticleParam) {
         CmsArticleEntity article = CmsArticleConverter.INSTANCE.toUmsArticle(cmsArticleParam);
         if (cmsArticleParam.getTags() != null) {
-
+            return false;
         }
         return false;
     }
@@ -107,9 +111,9 @@ public class CmsArticleServiceImpl implements CmsArticleService {
             cmsArticleParam.getTags().forEach(p -> {
                 umsTagMergeEntities.add(new CmsTagMergeEntity(ids.remove(), id, p));
             });
-            if (!tagManager.addContentTag(umsTagMergeEntities)) {
-                throw new RuntimeException("数据库执行异常");
-            }
+//            if (!tagManager.addContentTag(umsTagMergeEntities)) {
+//                throw new RuntimeException("数据库执行异常");
+//            }
         } else {
             id = primaryIdManager.getPrimaryId();
         }
@@ -119,6 +123,8 @@ public class CmsArticleServiceImpl implements CmsArticleService {
         article.setLike(0);
         return id;
     }
+
+
 
 
 }

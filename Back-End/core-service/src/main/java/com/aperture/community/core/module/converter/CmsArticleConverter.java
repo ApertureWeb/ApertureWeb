@@ -39,8 +39,6 @@ public interface CmsArticleConverter {
             @Mapping(source = "title", target = "title"),
             @Mapping(source = "content", target = "content"),
             @Mapping(source = "circleId", target = "circleId"),
-            @Mapping(source = "like", target = "like"),
-            @Mapping(source = "coins", target = "coins"),
             @Mapping(source = "userId", target = "userUid"),
             @Mapping(target = "username", ignore = true),
             @Mapping(target = "circleName", ignore = true)
@@ -53,8 +51,6 @@ public interface CmsArticleConverter {
             @Mapping(source = "id", target = "id"),
             @Mapping(source = "title", target = "title"),
             @Mapping(source = "circleId", target = "circleId"),
-            @Mapping(source = "like", target = "like"),
-            @Mapping(source = "coins", target = "coins"),
             @Mapping(source = "userId", target = "userUid"),
             @Mapping(source = "description", target = "description"),
             @Mapping(target = "username", ignore = true),

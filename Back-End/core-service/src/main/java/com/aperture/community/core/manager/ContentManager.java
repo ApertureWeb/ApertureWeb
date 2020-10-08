@@ -17,13 +17,14 @@ public class ContentManager {
     }
 
 
-    public CmsArticleMapper getUmsArticleMapper() {
+    public CmsArticleMapper getCmsArticleMapper() {
         return cmsArticleMapper;
     }
 
-    public CmsVideoMapper getUmsVideoMapper() {
+    public CmsVideoMapper getCmsVideoMapper() {
         return cmsVideoMapper;
     }
+
 
 
 

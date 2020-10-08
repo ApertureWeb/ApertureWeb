@@ -20,4 +20,8 @@ public class CmsTagParam {
     @NotEmpty(groups = {ValidationGroup.addGroup.class})
     private String name;
 
+    @NotNull(groups = {ValidationGroup.addGroup.class})
+    @Null(groups = {ValidationGroup.deleteGroup.class, ValidationGroup.updateGroup.class})
+    private Long contentId;
+
 }

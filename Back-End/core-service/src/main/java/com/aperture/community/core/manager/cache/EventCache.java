@@ -1,14 +1,12 @@
 package com.aperture.community.core.manager.cache;
 
 import com.aperture.community.core.common.map.redis.RedisContentMap;
-import com.aperture.community.core.common.status.ContentStatus;
 import com.aperture.community.core.common.status.EventStatus;
 import com.aperture.community.core.module.dto.MessageDto;
 import com.aperture.community.core.module.vo.EventVO;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -26,7 +24,6 @@ public class EventCache {
     public EventCache(StringRedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;
     }
-
 
     /**
      * 三联Cache
@@ -47,12 +44,46 @@ public class EventCache {
             stringRedisTemplate.opsForZSet().score(RedisContentMap.VIDEO_CONTENT_STORE.getValue(), id);
             dataList = stringRedisTemplate.exec();
         }
-
         if (dataList == null || dataList.stream().filter(Objects::nonNull).count() != 3) {
-            return (MessageDto<EventVO>) pjp.proceed();
+            MessageDto<EventVO> result = (MessageDto<EventVO>) pjp.proceed();
+            if (status.getValue().equals(EventStatus.ARTICLE.getValue())) {
+                stringRedisTemplate.multi();
+                stringRedisTemplate.opsForZSet().add(RedisContentMap.ARTICLE_CONTENT_LIKE.getValue(), String.valueOf(id), result.getData().getLike());
+                stringRedisTemplate.opsForZSet().add(RedisContentMap.ARTICLE_CONTENT_DONUT.getValue(), String.valueOf(id), result.getData().getDonut());
+                stringRedisTemplate.opsForZSet().add(RedisContentMap.ARTICLE_CONTENT_STORE.getValue(), String.valueOf(id), result.getData().getStore());
+                stringRedisTemplate.exec();
+            } else if (status.getValue().equals(EventStatus.VIDEO.getValue())) {
+                stringRedisTemplate.multi();
+                stringRedisTemplate.opsForZSet().add(RedisContentMap.VIDEO_CONTENT_LIKE.getValue(), String.valueOf(id), result.getData().getLike());
+                stringRedisTemplate.opsForZSet().add(RedisContentMap.VIDEO_CONTENT_DONUT.getValue(), String.valueOf(id), result.getData().getDonut());
+                stringRedisTemplate.opsForZSet().add(RedisContentMap.VIDEO_CONTENT_STORE.getValue(), String.valueOf(id), result.getData().getStore());
+                stringRedisTemplate.exec();
+            }
+            return result;
         }
         EventVO eventVO = new EventVO((Integer) dataList.get(0), (Integer) dataList.get(1), (Integer) dataList.get(2));
         return new MessageDto<>("success", eventVO);
+    }
+
+    @Around(value = "execution(* com.aperture.community.core.manager.EventManager.deleteEvent(..))&&args(id,status)", argNames = "pjp,id,status")
+    public MessageDto<Boolean> deleteEventCache(ProceedingJoinPoint pjp, Long id, EventStatus status) throws Throwable {
+        MessageDto<Boolean> result = (MessageDto<Boolean>) pjp.proceed();
+        if (result.getData()) {
+            if (EventStatus.ARTICLE.equals(status)) {
+                stringRedisTemplate.multi();
+                stringRedisTemplate.opsForZSet().remove(RedisContentMap.ARTICLE_COMMENT_LIKE.getValue(), id);
+                stringRedisTemplate.opsForZSet().remove(RedisContentMap.ARTICLE_CONTENT_DONUT.getValue(), id);
+                stringRedisTemplate.opsForZSet().remove(RedisContentMap.ARTICLE_CONTENT_STORE.getValue(), id);
+                stringRedisTemplate.exec();
+            } else if (EventStatus.VIDEO.equals(status)) {
+                stringRedisTemplate.multi();
+                stringRedisTemplate.opsForZSet().remove(RedisContentMap.VIDEO_COMMENT_LIKE.getValue(), id);
+                stringRedisTemplate.opsForZSet().remove(RedisContentMap.VIDEO_CONTENT_DONUT.getValue(), id);
+                stringRedisTemplate.opsForZSet().remove(RedisContentMap.VIDEO_CONTENT_STORE.getValue(), id);
+                stringRedisTemplate.exec();
+            }
+        }
+        return result;
     }
 
 
