@@ -1,4 +1,4 @@
-package ${package}.${moduleName}.entity;
+package ${package}.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -38,7 +38,7 @@ public class ${className}Entity implements Serializable {
          * $column.comments
          */
         #if($column.columnName == $pk.columnName)
-        @TableId(value = $column.columnName , type = IdType.NONE)
+        @TableId(value = "$column.columnName" , type = IdType.NONE)
         #end
 
         #if($column.columnName != $pk.columnName)

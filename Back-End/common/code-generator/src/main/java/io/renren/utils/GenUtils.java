@@ -37,14 +37,14 @@ public class GenUtils {
         List<String> templates = new ArrayList<String>();
         templates.add("template/Entity.java.vm");
         templates.add("template/Dao.xml.vm");
-
         templates.add("template/menu.sql.vm");
-
         templates.add("template/Service.java.vm");
         templates.add("template/ServiceImpl.java.vm");
         templates.add("template/Controller.java.vm");
+        templates.add("template/Mapper.java.vm");
+        templates.add("template/Map.java.vm");
         templates.add("template/Dao.java.vm");
-
+        templates.add("template/Param.java.vm");
         templates.add("template/index.vue.vm");
         templates.add("template/add-or-update.vue.vm");
         if (MongoManager.isMongo()) {
@@ -306,7 +306,7 @@ public class GenUtils {
             return packagePath + "entity" + File.separator + "inner" + File.separator + currentTableName + File.separator + splitInnerName(className) + "InnerEntity.java";
         }
         if (template.contains("Entity.java.vm") || template.contains("MongoEntity.java.vm")) {
-            return packagePath + "entity" + File.separator + className + "Entity.java";
+            return packagePath + "module" + File.separator + className + "Entity.java";
         }
 
         if (template.contains("Dao.java.vm")) {
@@ -324,6 +324,18 @@ public class GenUtils {
         if (template.contains("Controller.java.vm")) {
             return packagePath + "controller" + File.separator + className + "Controller.java";
         }
+
+        if(template.contains("Map.java.vm")){
+            return packagePath + "common" + File.separator + className + "Map.java";
+        }
+        if(template.contains("Mapper.java.vm")){
+            return packagePath + "dao" + File.separator + className + "Mapper.java";
+        }
+
+        if(template.contains("Param.java.vm")){
+            return packagePath + "module/param" + File.separator + className + "Param.java";
+        }
+
 
         if (template.contains("Dao.xml.vm")) {
             return "main" + File.separator + "resources" + File.separator + "mapper" + File.separator + moduleName + File.separator + className + "Dao.xml";
