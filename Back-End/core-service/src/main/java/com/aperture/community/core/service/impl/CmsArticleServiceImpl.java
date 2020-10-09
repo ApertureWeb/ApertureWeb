@@ -10,9 +10,9 @@ import com.aperture.community.core.module.CmsTagMergeEntity;
 import com.aperture.community.core.module.converter.CmsArticleConverter;
 import com.aperture.community.core.module.param.CirclePageParam;
 import com.aperture.community.core.module.param.CmsArticleParam;
-import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.CmsArticleVO;
 import com.aperture.community.core.module.vo.CmsArticleViewVO;
+import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.service.CmsArticleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -42,7 +42,7 @@ public class CmsArticleServiceImpl implements CmsArticleService {
     private EventManager eventManager;
 
     @Autowired
-    public CmsArticleServiceImpl(PrimaryIdManager primaryIdManager, TagManager tagManager, ContentManager contentManager,EventManager eventManager) {
+    public CmsArticleServiceImpl(PrimaryIdManager primaryIdManager, TagManager tagManager, ContentManager contentManager, EventManager eventManager) {
         this.primaryIdManager = primaryIdManager;
         this.tagManager = tagManager;
         this.eventManager = eventManager;
@@ -83,9 +83,7 @@ public class CmsArticleServiceImpl implements CmsArticleService {
                         ).
                         eq(CmsArticleMap.CIRCLE_ID.getValue(), circlePageParam.getCircleId()));
         List<CmsArticleViewVO> resultList = CmsArticleConverter.INSTANCE.toUmsArticleViewVOList(page.getRecords());
-
         long total = page.getSize();
-
         return new PageVO<>(total, resultList);
     }
 
@@ -123,8 +121,5 @@ public class CmsArticleServiceImpl implements CmsArticleService {
         article.setLike(0);
         return id;
     }
-
-
-
 
 }

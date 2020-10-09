@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController("/asdas/")
 public class CmsArticleController {
 
+
+//    TODO 压缩
+
     @Autowired
     CmsArticleServiceImpl umsArticleService;
 
@@ -33,6 +36,11 @@ public class CmsArticleController {
 
     @DeleteMapping
     public ResultBean<Boolean> deleteArticle(Long id) {
+        return null;
+    }
+
+    @PostMapping
+    public ResultBean<String> uploadPicture() {
         return null;
     }
 

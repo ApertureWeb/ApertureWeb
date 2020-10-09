@@ -18,6 +18,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("generator/umsevent")
 public class CmsEventController {
+
     @Autowired
     private CmsEventService cmsEventService;
 
