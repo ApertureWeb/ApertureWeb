@@ -13,7 +13,6 @@ import com.aperture.community.core.module.vo.ChildCategoryVO;
 import com.aperture.community.core.module.vo.CmsCategoryVO;
 import com.aperture.community.core.service.CmsCategoryService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.bouncycastle.est.CACertsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -29,18 +28,22 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
 
 
     @Autowired
-    public CmsCategoryServiceImpl(CmsCategoryMapper cmsCategoryMapper) {
+    public CmsCategoryServiceImpl(CmsCategoryMapper cmsCategoryMapper,PrimaryIdManager primaryIdManager) {
         this.cmsCategoryMapper = cmsCategoryMapper;
+        this.primaryIdManager = primaryIdManager;
     }
 
 
     @Override
     public MessageDto<Boolean> addCategory(CmsCategoryParam param) {
+        Long id = primaryIdManager.getPrimaryId();
+        param.setId(id);
         CmsCategoryEntity cmsCategoryEntity = CmsCategoryConverter.INSTANCE.toCmsCategoryEntity(param);
         cmsCategoryEntity.setCircleCount(0);
-
-//        cmsCategoryMapper.save();
-        return null;
+        if (!cmsCategoryMapper.save(cmsCategoryEntity)) {
+            return new MessageDto<>("添加分类失败", false);
+        }
+        return new MessageDto<>("success", true);
     }
 
 
