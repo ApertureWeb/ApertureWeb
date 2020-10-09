@@ -30,10 +30,8 @@ public class CmsCategoryEntity implements Serializable {
      * 分类id
      */
     @TableId(value = "id", type = IdType.NONE)
-
-
     @ApiModelProperty(value = "分类id")
-    private Integer id;
+    private Long id;
     /**
      * 分类名称
      */
@@ -93,10 +91,5 @@ public class CmsCategoryEntity implements Serializable {
     /**
      * 圈子状态[0为正常，1为审核中]
      */
-
-    @TableField("status")
-
-    @ApiModelProperty(value = "圈子状态[0为正常，1为审核中]")
-    private Integer status;
 
 }

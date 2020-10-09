@@ -19,6 +19,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("core-service/cmscategory")
 public class CmsCategoryController {
+
     @Autowired
     private CmsCategoryService cmsCategoryService;
 
@@ -26,7 +27,7 @@ public class CmsCategoryController {
      * 列表
      */
     @RequestMapping("/list")
-    public ResultBean list(@RequestParam Map<String, Object> params) {
+    public ResultBean list() {
         return null;
     }
 

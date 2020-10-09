@@ -46,6 +46,9 @@ public class EventCache {
         }
         if (dataList == null || dataList.stream().filter(Objects::nonNull).count() != 3) {
             MessageDto<EventVO> result = (MessageDto<EventVO>) pjp.proceed();
+            if (!result.getFlag()) {
+                return result;
+            }
             if (status.getValue().equals(EventStatus.ARTICLE.getValue())) {
                 stringRedisTemplate.multi();
                 stringRedisTemplate.opsForZSet().add(RedisContentMap.ARTICLE_CONTENT_LIKE.getValue(), String.valueOf(id), result.getData().getLike());

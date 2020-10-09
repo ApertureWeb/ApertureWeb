@@ -16,8 +16,7 @@ public enum CmsCategoryMap {
     SHOW_STATUS("show_status"),
     SORT("sort"),
     ICON("icon"),
-    CIRCLE_COUNT("circle_count"),
-    STATUS("status");
+    CIRCLE_COUNT("circle_count");
 
     String value;
 

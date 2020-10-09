@@ -17,6 +17,11 @@ public class PageParam<T> {
     @Range(min = 1, max = 10)
     private Integer size;
 
+    public PageParam(@Range(min = 1) Integer page, @Range(min = 1, max = 10) Integer size) {
+        this.page = page;
+        this.size = size;
+    }
+
     T data;
 
 }
