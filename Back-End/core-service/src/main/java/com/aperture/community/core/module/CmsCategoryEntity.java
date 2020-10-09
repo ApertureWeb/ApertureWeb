@@ -87,7 +87,7 @@ public class CmsCategoryEntity implements Serializable {
     @TableField("circle_count")
 
     @ApiModelProperty(value = "圈子数量")
-    private String circleCount;
+    private Integer circleCount;
 
 
 }

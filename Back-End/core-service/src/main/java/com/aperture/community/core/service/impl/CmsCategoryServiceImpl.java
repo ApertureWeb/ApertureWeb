@@ -4,6 +4,7 @@ import com.aperture.community.core.common.map.CmsCategoryMap;
 import com.aperture.community.core.common.map.cache.RedisCategoryMap;
 import com.aperture.community.core.common.status.CategoryStatus;
 import com.aperture.community.core.dao.CmsCategoryMapper;
+import com.aperture.community.core.manager.PrimaryIdManager;
 import com.aperture.community.core.module.CmsCategoryEntity;
 import com.aperture.community.core.module.converter.CmsCategoryConverter;
 import com.aperture.community.core.module.dto.MessageDto;
@@ -12,6 +13,7 @@ import com.aperture.community.core.module.vo.ChildCategoryVO;
 import com.aperture.community.core.module.vo.CmsCategoryVO;
 import com.aperture.community.core.service.CmsCategoryService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.bouncycastle.est.CACertsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ import java.util.*;
 public class CmsCategoryServiceImpl implements CmsCategoryService {
 
     private CmsCategoryMapper cmsCategoryMapper;
+    private PrimaryIdManager primaryIdManager;
 
 
     @Autowired
@@ -33,7 +36,10 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
 
     @Override
     public MessageDto<Boolean> addCategory(CmsCategoryParam param) {
+        CmsCategoryEntity cmsCategoryEntity = CmsCategoryConverter.INSTANCE.toCmsCategoryEntity(param);
+        cmsCategoryEntity.setCircleCount(0);
 
+//        cmsCategoryMapper.save();
         return null;
     }
 
@@ -60,7 +66,7 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
                 CmsCategoryMap.PARENT_CID.getValue(),
                 CmsCategoryMap.SHOW_STATUS.getValue(),
                 CmsCategoryMap.SORT.getValue()
-        ));
+        ).eq(CmsCategoryMap.SHOW_STATUS.getValue(), CategoryStatus.DISPLAY.getValue()));
         categoryEntities.sort((o1, o2) -> {
             if (o1.getSort() > o2.getSort()) {
                 return 1;
@@ -88,6 +94,7 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
         return new ArrayList<>(map.values());
     }
 
+    //    TODO:圈子外键
     @Override
     public MessageDto<Boolean> deleteCategory(List<Long> ids) {
         if (!cmsCategoryMapper.removeByIds(ids)) {

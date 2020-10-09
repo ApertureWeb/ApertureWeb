@@ -2,18 +2,14 @@ package com.aperture.community.core.manager.cache;
 
 import com.aperture.community.core.common.map.cache.RedisCategoryMap;
 import com.aperture.community.core.module.dto.MessageDto;
-import com.aperture.community.core.module.param.CmsCategoryParam;
 import com.aperture.community.core.module.vo.CmsCategoryVO;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.security.MessageDigest;
-import java.util.List;
 
 /**
  * @author HALOXIAO
@@ -61,7 +57,6 @@ public class CategoryCache {
 
     @Around(value = "getList()", argNames = "pjp")
     public MessageDto<CmsCategoryVO> getCache(ProceedingJoinPoint pjp) {
-
         return null;
     }
 
