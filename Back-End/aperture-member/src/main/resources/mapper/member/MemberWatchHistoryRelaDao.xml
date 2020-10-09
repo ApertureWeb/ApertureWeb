@@ -3,7 +3,7 @@
 
 <mapper namespace="com.aperture.community.member.dao.MemberWatchHistoryRelaDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.aperture.community.member.entity.MemberWatchHistoryRelaEntity" id="memberWatchHistoryRelaMap">
         <result property="memberId" column="member_id"/>
         <result property="historyId" column="history_id"/>

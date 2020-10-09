@@ -3,7 +3,7 @@
 
 <mapper namespace="com.aperture.community.member.dao.MemberDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.aperture.community.member.entity.MemberEntity" id="memberMap">
         <result property="id" column="id"/>
         <result property="username" column="username"/>

@@ -22,6 +22,7 @@ public class DefaultPasswordEncoder implements PasswordEncoder {
 
     /**
      * 使用MD5对用户密码加密
+     *
      * @param rawPassword
      * @return
      */
@@ -31,6 +32,7 @@ public class DefaultPasswordEncoder implements PasswordEncoder {
 
     /**
      * 密码加密后和数据库的密码进行匹配
+     *
      * @param rawPassword
      * @param encodedPassword
      * @return

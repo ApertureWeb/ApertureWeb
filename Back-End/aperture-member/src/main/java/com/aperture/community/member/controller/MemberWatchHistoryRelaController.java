@@ -16,13 +16,10 @@ import com.aperture.common.utils.PageUtils;
 import com.aperture.common.utils.R;
 
 
-
 /**
- * 
- *
  * @author JavaJayV
  * @email 285075313@qq.com
- * @date 2020-10-06 18:33:11
+ * @date 2020-10-09 13:01:14
  */
 @RestController
 @RequestMapping("member/memberwatchhistoryrela")
@@ -34,7 +31,7 @@ public class MemberWatchHistoryRelaController {
      * 列表
      */
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = memberWatchHistoryRelaService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -45,8 +42,8 @@ public class MemberWatchHistoryRelaController {
      * 信息
      */
     @RequestMapping("/info/{memberId}")
-    public R info(@PathVariable("memberId") Integer memberId){
-		MemberWatchHistoryRelaEntity memberWatchHistoryRela = memberWatchHistoryRelaService.getById(memberId);
+    public R info(@PathVariable("memberId") Integer memberId) {
+        MemberWatchHistoryRelaEntity memberWatchHistoryRela = memberWatchHistoryRelaService.getById(memberId);
 
         return R.ok().put("memberWatchHistoryRela", memberWatchHistoryRela);
     }
@@ -55,8 +52,8 @@ public class MemberWatchHistoryRelaController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody MemberWatchHistoryRelaEntity memberWatchHistoryRela){
-		memberWatchHistoryRelaService.save(memberWatchHistoryRela);
+    public R save(@RequestBody MemberWatchHistoryRelaEntity memberWatchHistoryRela) {
+        memberWatchHistoryRelaService.save(memberWatchHistoryRela);
 
         return R.ok();
     }
@@ -65,8 +62,8 @@ public class MemberWatchHistoryRelaController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody MemberWatchHistoryRelaEntity memberWatchHistoryRela){
-		memberWatchHistoryRelaService.updateById(memberWatchHistoryRela);
+    public R update(@RequestBody MemberWatchHistoryRelaEntity memberWatchHistoryRela) {
+        memberWatchHistoryRelaService.updateById(memberWatchHistoryRela);
 
         return R.ok();
     }
@@ -75,8 +72,8 @@ public class MemberWatchHistoryRelaController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Integer[] memberIds){
-		memberWatchHistoryRelaService.removeByIds(Arrays.asList(memberIds));
+    public R delete(@RequestBody Integer[] memberIds) {
+        memberWatchHistoryRelaService.removeByIds(Arrays.asList(memberIds));
 
         return R.ok();
     }

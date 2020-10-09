@@ -27,20 +27,21 @@ public class SecurityUser implements UserDetails {
     }
 
     public SecurityUser(User user) {
-        if(user != null) {
+        if (user != null) {
             this.currentUserInfo = currentUserInfo;
         }
     }
 
     /**
      * 获取用户对应所有权限信息
+     *
      * @return
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        for(String permissionValue : permisionValueList) {
-            if(StringUtils.isEmpty(permissionValue)) continue;
+        for (String permissionValue : permisionValueList) {
+            if (StringUtils.isEmpty(permissionValue)) continue;
             SimpleGrantedAuthority authority = new SimpleGrantedAuthority(permissionValue);
             authorities.add(authority);
         }

@@ -17,11 +17,12 @@ import java.util.Date;
 @Component
 public class TokenManager {
 
-    private long tokenExpiration = 24*60*60*60;
+    private long tokenExpiration = 24 * 60 * 60 * 60;
     private String tokenSignKey = "aperture";  // 自定义签名
 
     /**
      * 根据JWT获取token值
+     *
      * @param userName
      * @return
      */
@@ -35,6 +36,7 @@ public class TokenManager {
 
     /**
      * 通过token获取到对应的用户
+     *
      * @param token
      * @return
      */

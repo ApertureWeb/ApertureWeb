@@ -40,6 +40,7 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
 
     /**
      * 内部过滤处理
+     *
      * @param request
      * @param response
      * @param chain
@@ -47,7 +48,7 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         // 如果URI资源标识符中带有admin，表明是管理员登录，可以放行
-        if(request.getRequestURI().indexOf("admin") == -1) {
+        if (request.getRequestURI().indexOf("admin") == -1) {
             chain.doFilter(request, response); // 放行
             return;
         }
@@ -59,7 +60,7 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
             ResponseUtil.out(response, new ResultBean("认证失败", RESULT_BEAN_STATUS_CODE.NO_PERMISSION));
         }
 
-        if(authentication != null) {
+        if (authentication != null) {
             // 往security容器中添加认证信息，该容器是全局容器，其他类方法可以获得里面的信息
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {
@@ -70,6 +71,7 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
 
     /**
      * 根据请求信息，从redis中获取认证、权限信息
+     *
      * @param request
      * @return
      */
@@ -77,13 +79,13 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
         // 从请求头获取到token
         String token = request.getHeader("token");
         // trim(): 取出token字符串前后的空格
-        if(token != null && "".equals(token.trim())) {
+        if (token != null && "".equals(token.trim())) {
             String username = tokenManager.getUserFromToken(token);
             // 根据username从redis获取用户的权限信息
             List<String> permissionList = (List<String>) redisTemplate.opsForValue().get(username);
             // 用户权限信息
             Collection<GrantedAuthority> authorities = new ArrayList<>();
-            for(String permission : permissionList) {
+            for (String permission : permissionList) {
                 if (StringUtils.isEmpty(permission)) {
                     continue;
                 }
@@ -91,7 +93,7 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
                 authorities.add(authority);  // 添加认证信息
             }
 
-            if(!StringUtils.isEmpty(username)) {
+            if (!StringUtils.isEmpty(username)) {
                 // 将用户的认证信息返回
                 return new UsernamePasswordAuthenticationToken(username, token, authorities);
             }

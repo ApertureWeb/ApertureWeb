@@ -7,11 +7,9 @@ import com.aperture.community.member.entity.StoreArticleRelaEntity;
 import java.util.Map;
 
 /**
- * 
- *
  * @author JavaJayV
  * @email 285075313@qq.com
- * @date 2020-10-06 18:33:11
+ * @date 2020-10-09 13:01:14
  */
 public interface StoreArticleRelaService extends IService<StoreArticleRelaEntity> {
 

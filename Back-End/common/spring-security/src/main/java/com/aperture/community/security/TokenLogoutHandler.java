@@ -27,6 +27,7 @@ public class TokenLogoutHandler implements LogoutHandler {
 
     /**
      * 退出登录
+     *
      * @param request
      * @param response
      * @param authentication
@@ -34,7 +35,7 @@ public class TokenLogoutHandler implements LogoutHandler {
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         String token = request.getHeader("token");  // 从请求头中获取到token
-        if(token != null) {
+        if (token != null) {
             String userName = tokenManager.getUserFromToken(token);
             redisTemplate.delete(userName);  // 根据用户名删除redis中保存的对应数据
         }

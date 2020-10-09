@@ -35,7 +35,7 @@ public class TokenWebSecurityConfig extends WebSecurityConfigurerAdapter {
     private RedisTemplate redisTemplate;
 
     @Autowired
-    public TokenWebSecurityConfig( UserDetailsService userDetailsService, DefaultPasswordEncoder defaultPasswordEncoder,
+    public TokenWebSecurityConfig(UserDetailsService userDetailsService, DefaultPasswordEncoder defaultPasswordEncoder,
                                   TokenManager tokenManager, RedisTemplate redisTemplate) {
         this.userDetailsService = userDetailsService;
         this.defaultPasswordEncoder = defaultPasswordEncoder;
@@ -45,6 +45,7 @@ public class TokenWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 配置HTTP请求的异常设置
+     *
      * @param http
      * @throws Exception
      */
@@ -64,6 +65,7 @@ public class TokenWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 设置忽略不拦截的请求路径
+     *
      * @param web
      * @throws Exception
      */
@@ -74,6 +76,7 @@ public class TokenWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 密码处理
+     *
      * @param auth
      * @throws Exception
      */

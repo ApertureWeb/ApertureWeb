@@ -47,7 +47,8 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     /**
      * 从请求输入流中获取到user，从而获取到username和password
-      * @param request
+     *
+     * @param request
      * @param response
      * @return
      */
@@ -65,6 +66,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     /**
      * 认证、登录成功
+     *
      * @param request
      * @param response
      * @param chain
@@ -87,6 +89,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     /**
      * 认证、登录失败
+     *
      * @param request
      * @param response
      * @param failed

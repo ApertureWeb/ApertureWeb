@@ -28,6 +28,12 @@
     <el-form-item label="等级描述" prop="description">
       <el-input v-model="dataForm.description" placeholder="等级描述"></el-input>
     </el-form-item>
+    <el-form-item label="是否可以开通创建圈子" prop="isCreateCircle">
+      <el-input v-model="dataForm.isCreateCircle" placeholder="是否可以开通创建圈子"></el-input>
+    </el-form-item>
+    <el-form-item label="是否开通了大会员" prop="isVip">
+      <el-input v-model="dataForm.isVip" placeholder="是否开通了大会员"></el-input>
+    </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="visible = false">取消</el-button>
@@ -50,7 +56,9 @@
           publishGrowthValue: '',
           commentGrowthValue: '',
           isVipDiscount: '',
-          description: ''
+          description: '',
+          isCreateCircle: '',
+          isVip: ''
         },
         dataRule: {
           name: [
@@ -76,6 +84,12 @@
           ],
           description: [
             { required: true, message: '等级描述不能为空', trigger: 'blur' }
+          ],
+          isCreateCircle: [
+            { required: true, message: '是否可以开通创建圈子不能为空', trigger: 'blur' }
+          ],
+          isVip: [
+            { required: true, message: '是否开通了大会员不能为空', trigger: 'blur' }
           ]
         }
       }
@@ -101,6 +115,8 @@
                 this.dataForm.commentGrowthValue = data.memberGrade.commentGrowthValue
                 this.dataForm.isVipDiscount = data.memberGrade.isVipDiscount
                 this.dataForm.description = data.memberGrade.description
+                this.dataForm.isCreateCircle = data.memberGrade.isCreateCircle
+                this.dataForm.isVip = data.memberGrade.isVip
               }
             })
           }
@@ -122,7 +138,9 @@
                 'publishGrowthValue': this.dataForm.publishGrowthValue,
                 'commentGrowthValue': this.dataForm.commentGrowthValue,
                 'isVipDiscount': this.dataForm.isVipDiscount,
-                'description': this.dataForm.description
+                'description': this.dataForm.description,
+                'isCreateCircle': this.dataForm.isCreateCircle,
+                'isVip': this.dataForm.isVip
               })
             }).then(({data}) => {
               if (data && data.code === 0) {

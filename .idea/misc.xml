@@ -4,17 +4,16 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/Back-End/aperture-acl/pom.xml" />
-        <option value="$PROJECT_DIR$/Back-End/common/pom.xml" />
-        <option value="$PROJECT_DIR$/Back-End/core-service/pom.xml" />
         <option value="$PROJECT_DIR$/Back-End/pom.xml" />
-        <option value="$PROJECT_DIR$/Back-End/common/common-tools/pom.xml" />
-        <option value="$PROJECT_DIR$/Back-End/renren-fast/pom.xml" />
-        <option value="$PROJECT_DIR$/Back-End/common/renren-generator/pom.xml" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/pom.xml" />
+        <option value="$PROJECT_DIR$/Back-End/manage/pom.xml" />
+        <option value="$PROJECT_DIR$/Back-End/common/pom.xml" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-gateway/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
-        <option value="$PROJECT_DIR$/Back-End/aperture-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/Back-End/core-service/pom.xml" />
       </set>
     </option>
   </component>

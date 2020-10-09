@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 @MapperScan("io.renren.dao")
 public class GeneratorApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GeneratorApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GeneratorApplication.class, args);
+    }
 }

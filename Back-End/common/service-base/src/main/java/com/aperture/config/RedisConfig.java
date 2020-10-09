@@ -30,6 +30,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 
     /**
      * RedisTemplate配置以及序列化
+     *
      * @param factory
      * @return
      */
@@ -54,6 +55,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 
     /**
      * 缓存管理器配置
+     *
      * @param factory
      * @return
      */

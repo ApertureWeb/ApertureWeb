@@ -5,12 +5,11 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>core-service</module>
         <module>common</module>
         <module>aperture-acl</module>
         <module>aperture-member</module>
         <module>message-service</module>
-        <module>manage-service</module>
+        <module>manage</module>
     </modules>
 
     <parent>
@@ -199,11 +198,11 @@
             </dependency>
 
 
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
-                <version>${spring-cloud-alibaba}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>com.alibaba.cloud</groupId>-->
+                <!--<artifactId>spring-cloud-starter-alibaba-seata</artifactId>-->
+                <!--<version>${spring-cloud-alibaba}</version>-->
+            <!--</dependency>-->
 
 
             <dependency>

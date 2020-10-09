@@ -15,11 +15,11 @@ import java.util.Date;
  */
 public class JwtUtils {
 
-//    public static final long EXPIRE = 1000 * 60 * 60 * 24; // 设置token过期时间
-    public static final long EXPIRE = 7*24*3600*1000; // 设置token过期时间
+    //    public static final long EXPIRE = 1000 * 60 * 60 * 24; // 设置token过期时间
+    public static final long EXPIRE = 7 * 24 * 3600 * 1000; // 设置token过期时间
     public static final String APP_SECRET = "ukc8BDbRigUDaY6pZFfWus2jZWLPHO"; // 密钥
 
-    public static String getJwtToken(String id, String nickname){
+    public static String getJwtToken(String id, String nickname) {
 
         String JwtToken = Jwts.builder()
                 .setHeaderParam("typ", "JWT")
@@ -40,11 +40,12 @@ public class JwtUtils {
 
     /**
      * 判断token是否存在与有效
+     *
      * @param jwtToken
      * @return
      */
     public static boolean checkToken(String jwtToken) {
-        if(StringUtils.isEmpty(jwtToken)) return false;
+        if (StringUtils.isEmpty(jwtToken)) return false;
         try {
             Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
         } catch (Exception e) {
@@ -56,13 +57,14 @@ public class JwtUtils {
 
     /**
      * 判断token是否存在与有效
+     *
      * @param request
      * @return
      */
     public static boolean checkToken(HttpServletRequest request) {
         try {
             String jwtToken = request.getHeader("token");
-            if(StringUtils.isEmpty(jwtToken)) return false;
+            if (StringUtils.isEmpty(jwtToken)) return false;
             Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,14 +75,15 @@ public class JwtUtils {
 
     /**
      * 根据token获取会员id
+     *
      * @param request
      * @return
      */
     public static String getMemberIdByJwtToken(HttpServletRequest request) {
         String jwtToken = request.getHeader("token");
-        if(StringUtils.isEmpty(jwtToken)) return "";
+        if (StringUtils.isEmpty(jwtToken)) return "";
         Jws<Claims> claimsJws = Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
         Claims claims = claimsJws.getBody();  // 获取到主体信息
-        return (String)claims.get("id");
+        return (String) claims.get("id");
     }
 }

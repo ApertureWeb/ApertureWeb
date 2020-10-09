@@ -16,13 +16,10 @@ import com.aperture.common.utils.PageUtils;
 import com.aperture.common.utils.R;
 
 
-
 /**
- * 
- *
  * @author JavaJayV
  * @email 285075313@qq.com
- * @date 2020-10-06 18:33:11
+ * @date 2020-10-09 13:01:14
  */
 @RestController
 @RequestMapping("member/storearticlerela")
@@ -34,7 +31,7 @@ public class StoreArticleRelaController {
      * 列表
      */
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = storeArticleRelaService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -45,8 +42,8 @@ public class StoreArticleRelaController {
      * 信息
      */
     @RequestMapping("/info/{memberId}")
-    public R info(@PathVariable("memberId") Long memberId){
-		StoreArticleRelaEntity storeArticleRela = storeArticleRelaService.getById(memberId);
+    public R info(@PathVariable("memberId") Long memberId) {
+        StoreArticleRelaEntity storeArticleRela = storeArticleRelaService.getById(memberId);
 
         return R.ok().put("storeArticleRela", storeArticleRela);
     }
@@ -55,8 +52,8 @@ public class StoreArticleRelaController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody StoreArticleRelaEntity storeArticleRela){
-		storeArticleRelaService.save(storeArticleRela);
+    public R save(@RequestBody StoreArticleRelaEntity storeArticleRela) {
+        storeArticleRelaService.save(storeArticleRela);
 
         return R.ok();
     }
@@ -65,8 +62,8 @@ public class StoreArticleRelaController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody StoreArticleRelaEntity storeArticleRela){
-		storeArticleRelaService.updateById(storeArticleRela);
+    public R update(@RequestBody StoreArticleRelaEntity storeArticleRela) {
+        storeArticleRelaService.updateById(storeArticleRela);
 
         return R.ok();
     }
@@ -75,8 +72,8 @@ public class StoreArticleRelaController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] memberIds){
-		storeArticleRelaService.removeByIds(Arrays.asList(memberIds));
+    public R delete(@RequestBody Long[] memberIds) {
+        storeArticleRelaService.removeByIds(Arrays.asList(memberIds));
 
         return R.ok();
     }

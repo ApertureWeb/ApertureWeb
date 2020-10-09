@@ -16,13 +16,10 @@ import com.aperture.common.utils.PageUtils;
 import com.aperture.common.utils.R;
 
 
-
 /**
- * 
- *
  * @author JavaJayV
  * @email 285075313@qq.com
- * @date 2020-10-06 18:33:11
+ * @date 2020-10-09 13:01:14
  */
 @RestController
 @RequestMapping("member/memberfavoratesrela")
@@ -34,7 +31,7 @@ public class MemberFavoratesRelaController {
      * 列表
      */
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = memberFavoratesRelaService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -45,8 +42,8 @@ public class MemberFavoratesRelaController {
      * 信息
      */
     @RequestMapping("/info/{memberId}")
-    public R info(@PathVariable("memberId") Integer memberId){
-		MemberFavoratesRelaEntity memberFavoratesRela = memberFavoratesRelaService.getById(memberId);
+    public R info(@PathVariable("memberId") Integer memberId) {
+        MemberFavoratesRelaEntity memberFavoratesRela = memberFavoratesRelaService.getById(memberId);
 
         return R.ok().put("memberFavoratesRela", memberFavoratesRela);
     }
@@ -55,8 +52,8 @@ public class MemberFavoratesRelaController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody MemberFavoratesRelaEntity memberFavoratesRela){
-		memberFavoratesRelaService.save(memberFavoratesRela);
+    public R save(@RequestBody MemberFavoratesRelaEntity memberFavoratesRela) {
+        memberFavoratesRelaService.save(memberFavoratesRela);
 
         return R.ok();
     }
@@ -65,8 +62,8 @@ public class MemberFavoratesRelaController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody MemberFavoratesRelaEntity memberFavoratesRela){
-		memberFavoratesRelaService.updateById(memberFavoratesRela);
+    public R update(@RequestBody MemberFavoratesRelaEntity memberFavoratesRela) {
+        memberFavoratesRelaService.updateById(memberFavoratesRela);
 
         return R.ok();
     }
@@ -75,8 +72,8 @@ public class MemberFavoratesRelaController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Integer[] memberIds){
-		memberFavoratesRelaService.removeByIds(Arrays.asList(memberIds));
+    public R delete(@RequestBody Integer[] memberIds) {
+        memberFavoratesRelaService.removeByIds(Arrays.asList(memberIds));
 
         return R.ok();
     }

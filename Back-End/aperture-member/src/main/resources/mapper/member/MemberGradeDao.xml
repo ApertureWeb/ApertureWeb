@@ -3,7 +3,7 @@
 
 <mapper namespace="com.aperture.community.member.dao.MemberGradeDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.aperture.community.member.entity.MemberGradeEntity" id="memberGradeMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
@@ -14,6 +14,8 @@
         <result property="commentGrowthValue" column="comment_growth_value"/>
         <result property="isVipDiscount" column="is_vip_discount"/>
         <result property="description" column="description"/>
+        <result property="isCreateCircle" column="is_create_circle"/>
+        <result property="isVip" column="is_vip"/>
     </resultMap>
 
 

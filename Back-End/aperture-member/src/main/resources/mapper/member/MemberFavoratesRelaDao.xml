@@ -3,7 +3,7 @@
 
 <mapper namespace="com.aperture.community.member.dao.MemberFavoratesRelaDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.aperture.community.member.entity.MemberFavoratesRelaEntity" id="memberFavoratesRelaMap">
         <result property="memberId" column="member_id"/>
         <result property="favoratesId" column="favorates_id"/>

@@ -16,13 +16,10 @@ import com.aperture.common.utils.PageUtils;
 import com.aperture.common.utils.R;
 
 
-
 /**
- * 
- *
  * @author JavaJayV
  * @email 285075313@qq.com
- * @date 2020-10-06 18:33:11
+ * @date 2020-10-09 13:01:14
  */
 @RestController
 @RequestMapping("member/storevideorela")
@@ -34,7 +31,7 @@ public class StoreVideoRelaController {
      * 列表
      */
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = storeVideoRelaService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -45,8 +42,8 @@ public class StoreVideoRelaController {
      * 信息
      */
     @RequestMapping("/info/{memberId}")
-    public R info(@PathVariable("memberId") Long memberId){
-		StoreVideoRelaEntity storeVideoRela = storeVideoRelaService.getById(memberId);
+    public R info(@PathVariable("memberId") Long memberId) {
+        StoreVideoRelaEntity storeVideoRela = storeVideoRelaService.getById(memberId);
 
         return R.ok().put("storeVideoRela", storeVideoRela);
     }
@@ -55,8 +52,8 @@ public class StoreVideoRelaController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody StoreVideoRelaEntity storeVideoRela){
-		storeVideoRelaService.save(storeVideoRela);
+    public R save(@RequestBody StoreVideoRelaEntity storeVideoRela) {
+        storeVideoRelaService.save(storeVideoRela);
 
         return R.ok();
     }
@@ -65,8 +62,8 @@ public class StoreVideoRelaController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody StoreVideoRelaEntity storeVideoRela){
-		storeVideoRelaService.updateById(storeVideoRela);
+    public R update(@RequestBody StoreVideoRelaEntity storeVideoRela) {
+        storeVideoRelaService.updateById(storeVideoRela);
 
         return R.ok();
     }
@@ -75,8 +72,8 @@ public class StoreVideoRelaController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] memberIds){
-		storeVideoRelaService.removeByIds(Arrays.asList(memberIds));
+    public R delete(@RequestBody Long[] memberIds) {
+        storeVideoRelaService.removeByIds(Arrays.asList(memberIds));
 
         return R.ok();
     }

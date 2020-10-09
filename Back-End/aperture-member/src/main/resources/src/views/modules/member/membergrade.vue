@@ -77,6 +77,18 @@
         label="等级描述">
       </el-table-column>
       <el-table-column
+        prop="isCreateCircle"
+        header-align="center"
+        align="center"
+        label="是否可以开通创建圈子">
+      </el-table-column>
+      <el-table-column
+        prop="isVip"
+        header-align="center"
+        align="center"
+        label="是否开通了大会员">
+      </el-table-column>
+      <el-table-column
         fixed="right"
         header-align="center"
         align="center"

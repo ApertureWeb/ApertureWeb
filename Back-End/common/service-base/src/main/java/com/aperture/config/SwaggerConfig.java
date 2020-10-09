@@ -21,7 +21,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
 
     @Bean
-    public Docket webApiConfig(){
+    public Docket webApiConfig() {
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("webApi")
@@ -32,7 +32,7 @@ public class SwaggerConfig {
                 .build();
     }
 
-    private ApiInfo webApiInfo(){
+    private ApiInfo webApiInfo() {
         return new ApiInfoBuilder()
                 .title("网站-用户权限中心API文档")
                 .description("本文档描述了ApertureWeb微服务接口定义")
