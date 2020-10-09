@@ -1,6 +1,8 @@
 package com.aperture.community.core.module.converter;
 
 import com.aperture.community.core.module.CmsCategoryEntity;
+import com.aperture.community.core.module.param.CmsCategoryParam;
+import com.aperture.community.core.module.vo.ChildCategoryVO;
 import com.aperture.community.core.module.vo.CmsCategoryVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -24,6 +26,19 @@ public interface CmsCategoryConverter {
     })
     CmsCategoryVO toCmsCategoryVO(CmsCategoryEntity cmsCategoryEntity);
     List<CmsCategoryVO> toCmsCategoryVOs(List<CmsCategoryEntity> cmsCategoryEntities);
+
+    @Mappings({
+            @Mapping(source = "id", target = "id"),
+            @Mapping(source = "name", target = "name"),
+            @Mapping(source = "circleCount", target = "circleCount"),
+            @Mapping(source = "icon", target = "icon")
+    })
+    ChildCategoryVO toChildCategoryVO(CmsCategoryEntity cmsCategoryEntity);
+
+
+    @Mappings({
+    })
+    CmsCategoryEntity toCmsCategoryEntity(CmsCategoryParam param);
 
 
 }

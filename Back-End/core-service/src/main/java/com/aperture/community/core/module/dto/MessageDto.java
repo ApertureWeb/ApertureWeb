@@ -16,11 +16,11 @@ public class MessageDto<T> {
 
     private T data;
 
-    private boolean flag = false;
+    private boolean flag;
 
-    public MessageDto(String msg, T data) {
+    public MessageDto(String msg, boolean flag) {
         this.msg = msg;
-        this.data = data;
+        this.flag = flag;
     }
 
     public String getMsg() {

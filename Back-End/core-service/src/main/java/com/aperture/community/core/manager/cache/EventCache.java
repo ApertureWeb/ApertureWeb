@@ -1,6 +1,6 @@
 package com.aperture.community.core.manager.cache;
 
-import com.aperture.community.core.common.map.redis.RedisContentMap;
+import com.aperture.community.core.common.map.cache.RedisContentMap;
 import com.aperture.community.core.common.status.EventStatus;
 import com.aperture.community.core.module.dto.MessageDto;
 import com.aperture.community.core.module.vo.EventVO;
@@ -65,7 +65,7 @@ public class EventCache {
             return result;
         }
         EventVO eventVO = new EventVO((Integer) dataList.get(0), (Integer) dataList.get(1), (Integer) dataList.get(2));
-        return new MessageDto<>("success", eventVO);
+        return new MessageDto<>("success", eventVO, true);
     }
 
     @Around(value = "execution(* com.aperture.community.core.manager.EventManager.deleteEvent(..))&&args(id,status)", argNames = "pjp,id,status")

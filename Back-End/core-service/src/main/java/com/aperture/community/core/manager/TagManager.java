@@ -38,7 +38,7 @@ public class TagManager {
 
 
     @Transactional(rollbackFor = Exception.class)
-    public MessageDto<Boolean> addTag(CmsTagParam tagParam) {
+    public MessageDto addTag(CmsTagParam tagParam) {
         CmsTagEntity tag = CmsTagConverter.INSTANCE.toUmsTag(tagParam);
 
         tag.setId(primaryIdManager.getPrimaryId());
@@ -67,10 +67,10 @@ public class TagManager {
 //    }
 
     public MessageDto<Boolean> deleteTagMerge(Long contentId, Long id) {
-         if(!cmsTagMergeMapper.remove(new QueryWrapper<CmsTagMergeEntity>().eq(CmsTagMergeMap.CONTENT_ID.getValue(), contentId).eq(CmsTagMergeMap.TAG_ID.getValue(), id))){
-             return new MessageDto<>("删除标签失败", false);
-         }
-        return new MessageDto<>("success",true);
+        if (!cmsTagMergeMapper.remove(new QueryWrapper<CmsTagMergeEntity>().eq(CmsTagMergeMap.CONTENT_ID.getValue(), contentId).eq(CmsTagMergeMap.TAG_ID.getValue(), id))) {
+            return new MessageDto<>("删除标签失败", false);
+        }
+        return new MessageDto<>("success",  true);
     }
 
 

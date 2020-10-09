@@ -2,20 +2,22 @@ package com.aperture.community.core.service.impl;
 
 
 import com.aperture.community.core.common.map.CmsCategoryMap;
+import com.aperture.community.core.common.map.cache.RedisCategoryMap;
 import com.aperture.community.core.common.status.CategoryStatus;
 import com.aperture.community.core.dao.CmsCategoryMapper;
 import com.aperture.community.core.module.CmsCategoryEntity;
+import com.aperture.community.core.module.converter.CmsCategoryConverter;
 import com.aperture.community.core.module.dto.MessageDto;
 import com.aperture.community.core.module.param.CmsCategoryParam;
+import com.aperture.community.core.module.vo.ChildCategoryVO;
 import com.aperture.community.core.module.vo.CmsCategoryVO;
 import com.aperture.community.core.service.CmsCategoryService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -29,20 +31,21 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
         this.cmsCategoryMapper = cmsCategoryMapper;
     }
 
+
     @Override
     public MessageDto<Boolean> addCategory(CmsCategoryParam param) {
         return null;
     }
 
+
     @Override
     public MessageDto<Boolean> updateCategory(CmsCategoryParam param) {
+
         return null;
     }
 
-    /**
-     * 较少发生变更，可以直接放进缓存层并且较长expire time；
-     * 需要进行延迟双删
-     */
+
+    @Cacheable(value = "CategoryCache", key = RedisCategoryMap.CATEGORY_CACHE)
     @Override
     public List<CmsCategoryVO> listPage() {
         List<CmsCategoryEntity> categoryEntities = cmsCategoryMapper.list(new QueryWrapper<CmsCategoryEntity>().select(
@@ -62,14 +65,33 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
                 return 0;
             }
         });
-        List<CmsCategoryVO> list = new LinkedList<>();
-        HashMap<Long, CmsCategoryVO> map = new HashMap<>((int) (categoryEntities.size() / 0.75f));
+        Queue<CmsCategoryEntity> categoryQueue = new LinkedList<>();
+        LinkedHashMap<Long, CmsCategoryVO> map = new LinkedHashMap<>((int) (categoryEntities.size() / 0.75f));
         categoryEntities.forEach(p -> {
             if (p.getLevel().equals(CategoryStatus.FIRST_LEVEL.getValue())) {
-//                map.put(p.getId(),)
+                map.put(p.getId(), CmsCategoryConverter.INSTANCE.toCmsCategoryVO(p));
+            } else if (p.getLevel().equals(CategoryStatus.SECOND_LEVEL.getValue())) {
+                categoryQueue.add(p);
             }
         });
-
-        return null;
+        categoryQueue.forEach(p -> {
+            CmsCategoryVO categoryVO = map.get(p.getParentCid());
+            List<ChildCategoryVO> childCategoryVOs = categoryVO.getChildCategoryVO();
+            if (childCategoryVOs == null) {
+                childCategoryVOs = new LinkedList<>();
+            }
+            childCategoryVOs.add(CmsCategoryConverter.INSTANCE.toChildCategoryVO(p));
+        });
+        return new ArrayList<>(map.values());
     }
+
+    @Override
+    public MessageDto<Boolean> deleteCategory(List<Long> ids) {
+        if (!cmsCategoryMapper.removeByIds(ids)) {
+            return new MessageDto<>("删除失败", false);
+        }
+        return new MessageDto<>("success", true);
+    }
+
+
 }

@@ -1,6 +1,6 @@
 package com.aperture.community.core.manager.schedule;
 
-import com.aperture.community.core.common.map.redis.RedisContentMap;
+import com.aperture.community.core.common.map.cache.RedisContentMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;

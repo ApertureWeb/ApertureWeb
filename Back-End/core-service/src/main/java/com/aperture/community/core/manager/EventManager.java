@@ -34,18 +34,18 @@ public class EventManager {
                 eq(CmsEventMap.CONTENT_ID.getValue(), id));
         if (eventEntity == null) {
             if (status.equals(EventStatus.ARTICLE)) {
-                return new MessageDto<>("文章不存在", null,false);
+                return new MessageDto<>("文章不存在", null, false);
             } else if (status.equals(EventStatus.VIDEO)) {
-                return new MessageDto<>("视频不存在", null,false);
+                return new MessageDto<>("视频不存在", null, false);
             }
         }
         EventVO result = CmsEventConverter.INSTANCE.toUmsEventEntity(eventEntity);
-        return new MessageDto<>("success", result,true);
+        return new MessageDto<>("success", result, true);
     }
 
     public MessageDto<Boolean> deleteEvent(Long id, EventStatus status) {
         if (!cmsEventMapper.removeById(id)) {
-            return new MessageDto<>("",null,false);
+            return new MessageDto<>("", null, false);
         }
         return null;
     }

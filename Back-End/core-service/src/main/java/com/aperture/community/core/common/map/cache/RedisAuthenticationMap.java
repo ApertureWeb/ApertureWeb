@@ -1,4 +1,4 @@
-package com.aperture.community.core.common.map.redis;
+package com.aperture.community.core.common.map.cache;
 
 public enum RedisAuthenticationMap {
     /**

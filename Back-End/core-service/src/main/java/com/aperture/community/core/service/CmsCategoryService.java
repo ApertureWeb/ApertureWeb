@@ -22,5 +22,7 @@ public interface CmsCategoryService {
 
     List<CmsCategoryVO> listPage();
 
+    MessageDto<Boolean> deleteCategory(List<Long> ids);
+
 }
 

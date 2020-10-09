@@ -47,7 +47,7 @@ public class CmsCategoryEntity implements Serializable {
     @TableField("parent_cid")
 
     @ApiModelProperty(value = "父分类id,顶层默认为0")
-    private Integer parentCid;
+    private Long parentCid;
     /**
      * 分类层级
      */

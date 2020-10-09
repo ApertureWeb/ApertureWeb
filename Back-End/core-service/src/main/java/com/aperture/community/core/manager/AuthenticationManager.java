@@ -1,6 +1,6 @@
 package com.aperture.community.core.manager;
 
-import com.aperture.community.core.common.map.redis.RedisAuthenticationMap;
+import com.aperture.community.core.common.map.cache.RedisAuthenticationMap;
 import com.aperture.community.core.module.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;

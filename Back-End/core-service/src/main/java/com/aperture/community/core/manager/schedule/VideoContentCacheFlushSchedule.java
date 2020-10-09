@@ -1,6 +1,6 @@
 package com.aperture.community.core.manager.schedule;
 
-import com.aperture.community.core.common.map.redis.RedisContentMap;
+import com.aperture.community.core.common.map.cache.RedisContentMap;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Qualifier;
