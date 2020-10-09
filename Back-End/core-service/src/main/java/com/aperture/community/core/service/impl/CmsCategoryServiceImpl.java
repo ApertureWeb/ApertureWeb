@@ -1,6 +1,5 @@
 package com.aperture.community.core.service.impl;
 
-
 import com.aperture.community.core.common.map.CmsCategoryMap;
 import com.aperture.community.core.common.map.cache.RedisCategoryMap;
 import com.aperture.community.core.common.status.CategoryStatus;
@@ -34,20 +33,24 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
 
     @Override
     public MessageDto<Boolean> addCategory(CmsCategoryParam param) {
+
         return null;
     }
 
 
     @Override
     public MessageDto<Boolean> updateCategory(CmsCategoryParam param) {
-
-        return null;
+        CmsCategoryEntity cmsCategoryEntity = CmsCategoryConverter.INSTANCE.toCmsCategoryEntity(param);
+        if (!cmsCategoryMapper.updateById(cmsCategoryEntity)) {
+            return new MessageDto<>("更新分类失败", false);
+        }
+        return new MessageDto<>("success", true);
     }
 
 
     @Cacheable(value = "CategoryCache", key = RedisCategoryMap.CATEGORY_CACHE)
     @Override
-    public List<CmsCategoryVO> listPage() {
+    public List<CmsCategoryVO> list() {
         List<CmsCategoryEntity> categoryEntities = cmsCategoryMapper.list(new QueryWrapper<CmsCategoryEntity>().select(
                 CmsCategoryMap.ID.getValue(),
                 CmsCategoryMap.CIRCLE_COUNT.getValue(),
@@ -88,7 +91,7 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
     @Override
     public MessageDto<Boolean> deleteCategory(List<Long> ids) {
         if (!cmsCategoryMapper.removeByIds(ids)) {
-            return new MessageDto<>("删除失败", false);
+            return new MessageDto<>("删除分类失败", false);
         }
         return new MessageDto<>("success", true);
     }

@@ -22,7 +22,7 @@ public class CmsCategoryParam {
     @Length(min = 1, max = 10)
     private String name;
 
-    private Long parentCId;
+    private Long parentCid;
 
     private Integer level;
 

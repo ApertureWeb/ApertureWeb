@@ -3,6 +3,7 @@ package com.aperture.community.core.manager.cache;
 import com.aperture.community.core.common.map.cache.RedisCategoryMap;
 import com.aperture.community.core.module.dto.MessageDto;
 import com.aperture.community.core.module.param.CmsCategoryParam;
+import com.aperture.community.core.module.vo.CmsCategoryVO;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.security.MessageDigest;
 import java.util.List;
 
 /**
@@ -40,7 +42,12 @@ public class CategoryCache {
     public void add() {
     }
 
-    @Around(value = "(update()||delete()||add())&&args(*)",argNames = "pjp")
+    @Pointcut(value = "execution(* com.aperture.community.core.service.impl.CmsCategoryServiceImpl.list(..))")
+    public void getList() {
+    }
+
+
+    @Around(value = "(update()||delete()||add())&&args(*)", argNames = "pjp")
     public MessageDto<Boolean> deleteCache(ProceedingJoinPoint pjp) throws Throwable {
         stringRedisTemplate.delete(RedisCategoryMap.CATEGORY_CACHE);
         MessageDto<Boolean> result = (MessageDto<Boolean>) pjp.proceed();
@@ -50,6 +57,12 @@ public class CategoryCache {
         Thread.sleep(800);
         stringRedisTemplate.delete(RedisCategoryMap.CATEGORY_CACHE);
         return result;
+    }
+
+    @Around(value = "getList()", argNames = "pjp")
+    public MessageDto<CmsCategoryVO> getCache(ProceedingJoinPoint pjp) {
+
+        return null;
     }
 
 

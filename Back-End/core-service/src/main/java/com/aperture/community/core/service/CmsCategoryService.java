@@ -20,7 +20,7 @@ public interface CmsCategoryService {
 
     MessageDto<Boolean> updateCategory(CmsCategoryParam param);
 
-    List<CmsCategoryVO> listPage();
+    List<CmsCategoryVO> list();
 
     MessageDto<Boolean> deleteCategory(List<Long> ids);
 

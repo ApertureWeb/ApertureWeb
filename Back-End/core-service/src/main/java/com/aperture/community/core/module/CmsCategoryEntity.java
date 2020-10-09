@@ -88,8 +88,6 @@ public class CmsCategoryEntity implements Serializable {
 
     @ApiModelProperty(value = "圈子数量")
     private String circleCount;
-    /**
-     * 圈子状态[0为正常，1为审核中]
-     */
+
 
 }

@@ -25,6 +25,7 @@ public interface CmsCategoryConverter {
             @Mapping(target = "childCategoryVO", ignore = true)
     })
     CmsCategoryVO toCmsCategoryVO(CmsCategoryEntity cmsCategoryEntity);
+
     List<CmsCategoryVO> toCmsCategoryVOs(List<CmsCategoryEntity> cmsCategoryEntities);
 
     @Mappings({
@@ -37,8 +38,15 @@ public interface CmsCategoryConverter {
 
 
     @Mappings({
+            @Mapping(source = "id", target = "id"),
+            @Mapping(source = "name", target = "name"),
+            @Mapping(source = "getParentCid", target = "parentCid"),
+            @Mapping(source = "level", target = "level"),
+            @Mapping(source = "sort", target = "sort"),
+            @Mapping(source = "icon", target = "icon"),
+            @Mapping(source = "showStatus", target = "showStatus"),
+            @Mapping(target = "circleCount", ignore = true)
     })
     CmsCategoryEntity toCmsCategoryEntity(CmsCategoryParam param);
-
 
 }
