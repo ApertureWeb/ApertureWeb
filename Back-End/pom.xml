@@ -46,11 +46,17 @@
         <httpcore>4.4.12</httpcore>
         <validation>2.0.1.Final</validation>
         <hadoop>3.2.1</hadoop>
+        <commons-lang>2.6</commons-lang>
     </properties>
 
     <dependencyManagement>
 
         <dependencies>
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>${commons-lang}</version>
+            </dependency>
             <!--        服务注册/发现-->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
