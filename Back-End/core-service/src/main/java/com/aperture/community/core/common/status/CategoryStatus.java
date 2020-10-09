@@ -8,7 +8,11 @@ public enum CategoryStatus {
     /**
      * 不显示
      */
-    NO_DISPLAY(1);
+    NO_DISPLAY(1),
+
+    FIRST_LEVEL(1),
+
+    SECOND_LEVEL(2);
 
     Integer value;
 

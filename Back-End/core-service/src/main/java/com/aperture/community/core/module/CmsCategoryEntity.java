@@ -55,7 +55,7 @@ public class CmsCategoryEntity implements Serializable {
     @TableField("level")
 
     @ApiModelProperty(value = "分类层级")
-    private String level;
+    private Integer level;
     /**
      * 是否显示[0-不显示，1显示]
      */

@@ -2,6 +2,7 @@ package com.aperture.community.core.service.impl;
 
 
 import com.aperture.community.core.common.map.CmsCategoryMap;
+import com.aperture.community.core.common.status.CategoryStatus;
 import com.aperture.community.core.dao.CmsCategoryMapper;
 import com.aperture.community.core.module.CmsCategoryEntity;
 import com.aperture.community.core.module.dto.MessageDto;
@@ -12,6 +13,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,6 +39,10 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
         return null;
     }
 
+    /**
+     * 较少发生变更，可以直接放进缓存层并且较长expire time；
+     * 需要进行延迟双删
+     */
     @Override
     public List<CmsCategoryVO> listPage() {
         List<CmsCategoryEntity> categoryEntities = cmsCategoryMapper.list(new QueryWrapper<CmsCategoryEntity>().select(
@@ -57,8 +63,11 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
             }
         });
         List<CmsCategoryVO> list = new LinkedList<>();
+        HashMap<Long, CmsCategoryVO> map = new HashMap<>((int) (categoryEntities.size() / 0.75f));
         categoryEntities.forEach(p -> {
-
+            if (p.getLevel().equals(CategoryStatus.FIRST_LEVEL.getValue())) {
+//                map.put(p.getId(),)
+            }
         });
 
         return null;
