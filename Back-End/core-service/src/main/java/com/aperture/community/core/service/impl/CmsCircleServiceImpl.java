@@ -10,6 +10,8 @@ public class CmsCircleServiceImpl implements CmsCircleService {
 
     private CmsCircleMapper cmsCircleMapper;
 
+
+
     @Autowired
     public CmsCircleServiceImpl(CmsCircleMapper cmsCircleMapper) {
         this.cmsCircleMapper = cmsCircleMapper;

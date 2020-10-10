@@ -57,6 +57,7 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
     }
 
 
+
     @Cacheable(value = "CategoryCache", key = RedisCategoryMap.CATEGORY_CACHE)
     @Override
     public List<CmsCategoryVO> list() {
