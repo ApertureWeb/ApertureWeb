@@ -8,5 +8,4 @@ public class ImageVO {
     private Integer size;
     private String url;
 
-
 }

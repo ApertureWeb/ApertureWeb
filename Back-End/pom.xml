@@ -47,6 +47,7 @@
         <httpcore>4.4.12</httpcore>
         <validation>2.0.1.Final</validation>
         <hadoop>3.2.1</hadoop>
+        <thumbnailator>0.4.8</thumbnailator>
     </properties>
 
     <dependencyManagement>
@@ -224,6 +225,11 @@
                 <version>${guava}</version>
             </dependency>
 
+            <dependency>
+                <groupId>net.coobird</groupId>
+                <artifactId>thumbnailator</artifactId>
+                <version>${thumbnailator}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>

@@ -1,10 +1,11 @@
-package ${package}.${moduleName}.dao;
+package ${package}.${moduleName};
 
-import ${package}.${moduleName}.dao.${className}Dao;
+import ${package}.${moduleName}dao.${className}Dao;
 import ${package}.${moduleName}.module.${className}Entity;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.stereotype.Repository;
 
-
+@Repository
 public class ${className}Mapper extends ServiceImpl<${className}Dao,${className}Entity>{
 
 }
