@@ -11,6 +11,8 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = false)
 @Data
-public  class  CmsCircleParam{
+public class CmsCircleParam {
+    public static void main(String[] args) {
 
+    }
 }
