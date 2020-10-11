@@ -11,6 +11,7 @@
         <module>aperture-member</module>
         <module>message-service</module>
         <module>manage-service</module>
+        <module>primary-service</module>
     </modules>
 
     <parent>
