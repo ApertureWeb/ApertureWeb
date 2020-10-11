@@ -13,6 +13,9 @@
     <el-form-item label="收藏夹里的作品数量" prop="favoratesCount">
       <el-input v-model="dataForm.favoratesCount" placeholder="收藏夹里的作品数量"></el-input>
     </el-form-item>
+    <el-form-item label="用户id" prop="memberId">
+      <el-input v-model="dataForm.memberId" placeholder="用户id"></el-input>
+    </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="visible = false">取消</el-button>
@@ -30,7 +33,8 @@
           id: 0,
           name: '',
           playCount: '',
-          favoratesCount: ''
+          favoratesCount: '',
+          memberId: ''
         },
         dataRule: {
           name: [
@@ -41,6 +45,9 @@
           ],
           favoratesCount: [
             { required: true, message: '收藏夹里的作品数量不能为空', trigger: 'blur' }
+          ],
+          memberId: [
+            { required: true, message: '用户id不能为空', trigger: 'blur' }
           ]
         }
       }
@@ -61,6 +68,7 @@
                 this.dataForm.name = data.favorates.name
                 this.dataForm.playCount = data.favorates.playCount
                 this.dataForm.favoratesCount = data.favorates.favoratesCount
+                this.dataForm.memberId = data.favorates.memberId
               }
             })
           }
@@ -77,7 +85,8 @@
                 'id': this.dataForm.id || undefined,
                 'name': this.dataForm.name,
                 'playCount': this.dataForm.playCount,
-                'favoratesCount': this.dataForm.favoratesCount
+                'favoratesCount': this.dataForm.favoratesCount,
+                'memberId': this.dataForm.memberId
               })
             }).then(({data}) => {
               if (data && data.code === 0) {

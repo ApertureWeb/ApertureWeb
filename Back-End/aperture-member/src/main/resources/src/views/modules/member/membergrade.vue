@@ -29,6 +29,12 @@
         label="等级id">
       </el-table-column>
       <el-table-column
+        prop="currentGrade"
+        header-align="center"
+        align="center"
+        label="当前等级">
+      </el-table-column>
+      <el-table-column
         prop="name"
         header-align="center"
         align="center"
@@ -87,6 +93,12 @@
         header-align="center"
         align="center"
         label="是否开通了大会员">
+      </el-table-column>
+      <el-table-column
+        prop="topGrade"
+        header-align="center"
+        align="center"
+        label="最高等级">
       </el-table-column>
       <el-table-column
         fixed="right"

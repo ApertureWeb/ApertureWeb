@@ -9,10 +9,13 @@
         <option value="$PROJECT_DIR$/Back-End/manage/pom.xml" />
         <option value="$PROJECT_DIR$/Back-End/common/pom.xml" />
         <option value="$PROJECT_DIR$/Back-End/aperture-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/Back-End/common/renren-generator/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/Back-End/common/code-generator/pom.xml" />
+        <option value="$PROJECT_DIR$/Back-End/common/member-common/pom.xml" />
         <option value="$PROJECT_DIR$/Back-End/core-service/pom.xml" />
       </set>
     </option>

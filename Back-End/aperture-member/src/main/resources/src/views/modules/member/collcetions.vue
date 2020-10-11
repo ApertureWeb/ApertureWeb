@@ -53,10 +53,16 @@
         label="播放量">
       </el-table-column>
       <el-table-column
-        prop="targetUid"
+        prop="targetId"
         header-align="center"
         align="center"
         label="收藏目标的id">
+      </el-table-column>
+      <el-table-column
+        prop="favoratesId"
+        header-align="center"
+        align="center"
+        label="收藏夹id">
       </el-table-column>
       <el-table-column
         fixed="right"

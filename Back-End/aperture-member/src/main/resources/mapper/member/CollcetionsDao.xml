@@ -3,14 +3,15 @@
 
 <mapper namespace="com.aperture.community.member.dao.CollcetionsDao">
 
-    <!-- 可根据自己的需求，是否要使用 -->
+	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.aperture.community.member.entity.CollcetionsEntity" id="collcetionsMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="collectionCount" column="collection_count"/>
         <result property="collectionDate" column="collection_date"/>
         <result property="watchCount" column="watch_count"/>
-        <result property="targetUid" column="target_uid"/>
+        <result property="targetId" column="target_id"/>
+        <result property="favoratesId" column="favorates_id"/>
     </resultMap>
 
 

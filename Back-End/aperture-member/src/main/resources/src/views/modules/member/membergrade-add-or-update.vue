@@ -4,6 +4,9 @@
     :close-on-click-modal="false"
     :visible.sync="visible">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+    <el-form-item label="当前等级" prop="currentGrade">
+      <el-input v-model="dataForm.currentGrade" placeholder="当前等级"></el-input>
+    </el-form-item>
     <el-form-item label="等级名称" prop="name">
       <el-input v-model="dataForm.name" placeholder="等级名称"></el-input>
     </el-form-item>
@@ -34,6 +37,9 @@
     <el-form-item label="是否开通了大会员" prop="isVip">
       <el-input v-model="dataForm.isVip" placeholder="是否开通了大会员"></el-input>
     </el-form-item>
+    <el-form-item label="最高等级" prop="topGrade">
+      <el-input v-model="dataForm.topGrade" placeholder="最高等级"></el-input>
+    </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="visible = false">取消</el-button>
@@ -49,6 +55,7 @@
         visible: false,
         dataForm: {
           id: 0,
+          currentGrade: '',
           name: '',
           isDefaultGrade: '',
           growthValue: '',
@@ -58,9 +65,13 @@
           isVipDiscount: '',
           description: '',
           isCreateCircle: '',
-          isVip: ''
+          isVip: '',
+          topGrade: ''
         },
         dataRule: {
+          currentGrade: [
+            { required: true, message: '当前等级不能为空', trigger: 'blur' }
+          ],
           name: [
             { required: true, message: '等级名称不能为空', trigger: 'blur' }
           ],
@@ -90,6 +101,9 @@
           ],
           isVip: [
             { required: true, message: '是否开通了大会员不能为空', trigger: 'blur' }
+          ],
+          topGrade: [
+            { required: true, message: '最高等级不能为空', trigger: 'blur' }
           ]
         }
       }
@@ -107,6 +121,7 @@
               params: this.$http.adornParams()
             }).then(({data}) => {
               if (data && data.code === 0) {
+                this.dataForm.currentGrade = data.memberGrade.currentGrade
                 this.dataForm.name = data.memberGrade.name
                 this.dataForm.isDefaultGrade = data.memberGrade.isDefaultGrade
                 this.dataForm.growthValue = data.memberGrade.growthValue
@@ -117,6 +132,7 @@
                 this.dataForm.description = data.memberGrade.description
                 this.dataForm.isCreateCircle = data.memberGrade.isCreateCircle
                 this.dataForm.isVip = data.memberGrade.isVip
+                this.dataForm.topGrade = data.memberGrade.topGrade
               }
             })
           }
@@ -131,6 +147,7 @@
               method: 'post',
               data: this.$http.adornData({
                 'id': this.dataForm.id || undefined,
+                'currentGrade': this.dataForm.currentGrade,
                 'name': this.dataForm.name,
                 'isDefaultGrade': this.dataForm.isDefaultGrade,
                 'growthValue': this.dataForm.growthValue,
@@ -140,7 +157,8 @@
                 'isVipDiscount': this.dataForm.isVipDiscount,
                 'description': this.dataForm.description,
                 'isCreateCircle': this.dataForm.isCreateCircle,
-                'isVip': this.dataForm.isVip
+                'isVip': this.dataForm.isVip,
+                'topGrade': this.dataForm.topGrade
               })
             }).then(({data}) => {
               if (data && data.code === 0) {

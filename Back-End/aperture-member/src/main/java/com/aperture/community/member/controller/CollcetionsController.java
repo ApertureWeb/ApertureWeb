@@ -16,10 +16,13 @@ import com.aperture.common.utils.PageUtils;
 import com.aperture.common.utils.R;
 
 
+
 /**
+ * 
+ *
  * @author JavaJayV
  * @email 285075313@qq.com
- * @date 2020-10-09 13:01:14
+ * @date 2020-10-11 13:30:06
  */
 @RestController
 @RequestMapping("member/collcetions")
@@ -31,7 +34,7 @@ public class CollcetionsController {
      * 列表
      */
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params) {
+    public R list(@RequestParam Map<String, Object> params){
         PageUtils page = collcetionsService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -42,8 +45,8 @@ public class CollcetionsController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") Integer id) {
-        CollcetionsEntity collcetions = collcetionsService.getById(id);
+    public R info(@PathVariable("id") Integer id){
+		CollcetionsEntity collcetions = collcetionsService.getById(id);
 
         return R.ok().put("collcetions", collcetions);
     }
@@ -52,8 +55,8 @@ public class CollcetionsController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody CollcetionsEntity collcetions) {
-        collcetionsService.save(collcetions);
+    public R save(@RequestBody CollcetionsEntity collcetions){
+		collcetionsService.save(collcetions);
 
         return R.ok();
     }
@@ -62,8 +65,8 @@ public class CollcetionsController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody CollcetionsEntity collcetions) {
-        collcetionsService.updateById(collcetions);
+    public R update(@RequestBody CollcetionsEntity collcetions){
+		collcetionsService.updateById(collcetions);
 
         return R.ok();
     }
@@ -72,8 +75,8 @@ public class CollcetionsController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Integer[] ids) {
-        collcetionsService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestBody Integer[] ids){
+		collcetionsService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

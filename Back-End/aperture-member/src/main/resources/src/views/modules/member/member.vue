@@ -56,7 +56,7 @@
         prop="gender"
         header-align="center"
         align="center"
-        label="性别">
+        label="性别[0：男  1：女]">
       </el-table-column>
       <el-table-column
         prop="birthday"
@@ -65,10 +65,10 @@
         label="生日">
       </el-table-column>
       <el-table-column
-        prop="header"
+        prop="headUrl"
         header-align="center"
         align="center"
-        label="头像">
+        label="头像url">
       </el-table-column>
       <el-table-column
         prop="email"
@@ -77,34 +77,22 @@
         label="邮箱">
       </el-table-column>
       <el-table-column
-        prop="doughnut"
+        prop="donut"
         header-align="center"
         align="center"
         label="甜甜圈，类比B站硬币">
       </el-table-column>
       <el-table-column
-        prop="startTime"
-        header-align="center"
-        align="center"
-        label="注册时间">
-      </el-table-column>
-      <el-table-column
         prop="integration"
         header-align="center"
         align="center"
-        label="会员积分">
+        label="大会员积分">
       </el-table-column>
       <el-table-column
         prop="updateTime"
         header-align="center"
         align="center"
         label="信息修改日期">
-      </el-table-column>
-      <el-table-column
-        prop="online"
-        header-align="center"
-        align="center"
-        label="在线时长(分钟)">
       </el-table-column>
       <el-table-column
         prop="description"
@@ -131,6 +119,18 @@
         label="爱好">
       </el-table-column>
       <el-table-column
+        prop="startTime"
+        header-align="center"
+        align="center"
+        label="注册时间">
+      </el-table-column>
+      <el-table-column
+        prop="online"
+        header-align="center"
+        align="center"
+        label="在线时长(分钟)">
+      </el-table-column>
+      <el-table-column
         prop="status"
         header-align="center"
         align="center"
@@ -143,12 +143,6 @@
         label="等级id">
       </el-table-column>
       <el-table-column
-        prop="signUid"
-        header-align="center"
-        align="center"
-        label="用户所在圈子的标签id">
-      </el-table-column>
-      <el-table-column
         prop="followCount"
         header-align="center"
         align="center"
@@ -159,6 +153,12 @@
         header-align="center"
         align="center"
         label="粉丝数">
+      </el-table-column>
+      <el-table-column
+        prop="isCertificated"
+        header-align="center"
+        align="center"
+        label="是否实名认证">
       </el-table-column>
       <el-table-column
         fixed="right"

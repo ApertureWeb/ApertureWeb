@@ -3,13 +3,14 @@
 
 <mapper namespace="com.aperture.community.member.dao.MemberCircleRelaDao">
 
-    <!-- 可根据自己的需求，是否要使用 -->
+	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.aperture.community.member.entity.MemberCircleRelaEntity" id="memberCircleRelaMap">
         <result property="id" column="id"/>
-        <result property="memberId" column="member_id"/>
+        <result property="memebrId" column="memebr_id"/>
         <result property="circleId" column="circle_id"/>
+        <result property="memberNickname" column="member_nickname"/>
+        <result property="circleName" column="circle_name"/>
         <result property="position" column="position"/>
-        <result property="status" column="status"/>
     </resultMap>
 
 

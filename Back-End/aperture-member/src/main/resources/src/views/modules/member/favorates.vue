@@ -47,6 +47,12 @@
         label="收藏夹里的作品数量">
       </el-table-column>
       <el-table-column
+        prop="memberId"
+        header-align="center"
+        align="center"
+        label="用户id">
+      </el-table-column>
+      <el-table-column
         fixed="right"
         header-align="center"
         align="center"

@@ -16,8 +16,11 @@
     <el-form-item label="播放量" prop="watchCount">
       <el-input v-model="dataForm.watchCount" placeholder="播放量"></el-input>
     </el-form-item>
-    <el-form-item label="收藏目标的id" prop="targetUid">
-      <el-input v-model="dataForm.targetUid" placeholder="收藏目标的id"></el-input>
+    <el-form-item label="收藏目标的id" prop="targetId">
+      <el-input v-model="dataForm.targetId" placeholder="收藏目标的id"></el-input>
+    </el-form-item>
+    <el-form-item label="收藏夹id" prop="favoratesId">
+      <el-input v-model="dataForm.favoratesId" placeholder="收藏夹id"></el-input>
     </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -38,7 +41,8 @@
           collectionCount: '',
           collectionDate: '',
           watchCount: '',
-          targetUid: ''
+          targetId: '',
+          favoratesId: ''
         },
         dataRule: {
           name: [
@@ -53,8 +57,11 @@
           watchCount: [
             { required: true, message: '播放量不能为空', trigger: 'blur' }
           ],
-          targetUid: [
+          targetId: [
             { required: true, message: '收藏目标的id不能为空', trigger: 'blur' }
+          ],
+          favoratesId: [
+            { required: true, message: '收藏夹id不能为空', trigger: 'blur' }
           ]
         }
       }
@@ -76,7 +83,8 @@
                 this.dataForm.collectionCount = data.collcetions.collectionCount
                 this.dataForm.collectionDate = data.collcetions.collectionDate
                 this.dataForm.watchCount = data.collcetions.watchCount
-                this.dataForm.targetUid = data.collcetions.targetUid
+                this.dataForm.targetId = data.collcetions.targetId
+                this.dataForm.favoratesId = data.collcetions.favoratesId
               }
             })
           }
@@ -95,7 +103,8 @@
                 'collectionCount': this.dataForm.collectionCount,
                 'collectionDate': this.dataForm.collectionDate,
                 'watchCount': this.dataForm.watchCount,
-                'targetUid': this.dataForm.targetUid
+                'targetId': this.dataForm.targetId,
+                'favoratesId': this.dataForm.favoratesId
               })
             }).then(({data}) => {
               if (data && data.code === 0) {

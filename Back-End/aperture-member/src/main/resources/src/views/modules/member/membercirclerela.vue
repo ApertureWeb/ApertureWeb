@@ -29,10 +29,10 @@
         label="">
       </el-table-column>
       <el-table-column
-        prop="memberId"
+        prop="memebrId"
         header-align="center"
         align="center"
-        label="用户id">
+        label="会员id">
       </el-table-column>
       <el-table-column
         prop="circleId"
@@ -41,16 +41,22 @@
         label="圈子id">
       </el-table-column>
       <el-table-column
+        prop="memberNickname"
+        header-align="center"
+        align="center"
+        label="会员昵称">
+      </el-table-column>
+      <el-table-column
+        prop="circleName"
+        header-align="center"
+        align="center"
+        label="圈子名">
+      </el-table-column>
+      <el-table-column
         prop="position"
         header-align="center"
         align="center"
-        label="在对应圈子里的位置">
-      </el-table-column>
-      <el-table-column
-        prop="status"
-        header-align="center"
-        align="center"
-        label="创建圈子审核状态(1：通过  0：不通过)">
+        label="在圈子的职位">
       </el-table-column>
       <el-table-column
         fixed="right"

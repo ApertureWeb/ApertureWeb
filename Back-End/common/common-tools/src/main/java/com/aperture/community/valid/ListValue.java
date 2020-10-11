@@ -16,7 +16,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.PARAMETER, ElementType.TYPE_USE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ListValue {
-    String message() default "{com.aperture.community.valid.ListValue.message}";
+    String message() default "{ListValue.message}";
 
     Class<?>[] groups() default {};
 

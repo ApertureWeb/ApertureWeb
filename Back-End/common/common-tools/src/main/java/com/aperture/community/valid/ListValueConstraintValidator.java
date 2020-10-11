@@ -16,21 +16,19 @@ public class ListValueConstraintValidator implements ConstraintValidator<ListVal
 
     /**
      * 校验条件
-     *
      * @param constraintAnnotation
      */
     @Override
     public void initialize(ListValue constraintAnnotation) {
         // 获取到@ListValue注解里的vals
         int[] vals = constraintAnnotation.vals();
-        for (int val : vals) {
+        for(int val : vals) {
             set.add(val);  // 设置校验条件
         }
     }
 
     /**
      * 判断是否校验成功，
-     *
      * @param value：需要校验的值
      * @param context
      * @return

@@ -7,9 +7,11 @@ import com.aperture.community.member.entity.CollcetionsEntity;
 import java.util.Map;
 
 /**
+ * 
+ *
  * @author JavaJayV
  * @email 285075313@qq.com
- * @date 2020-10-09 13:01:14
+ * @date 2020-10-11 13:30:06
  */
 public interface CollcetionsService extends IService<CollcetionsEntity> {
 

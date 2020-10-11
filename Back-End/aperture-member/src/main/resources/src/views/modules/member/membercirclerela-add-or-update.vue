@@ -4,17 +4,20 @@
     :close-on-click-modal="false"
     :visible.sync="visible">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
-    <el-form-item label="用户id" prop="memberId">
-      <el-input v-model="dataForm.memberId" placeholder="用户id"></el-input>
+    <el-form-item label="会员id" prop="memebrId">
+      <el-input v-model="dataForm.memebrId" placeholder="会员id"></el-input>
     </el-form-item>
     <el-form-item label="圈子id" prop="circleId">
       <el-input v-model="dataForm.circleId" placeholder="圈子id"></el-input>
     </el-form-item>
-    <el-form-item label="在对应圈子里的位置" prop="position">
-      <el-input v-model="dataForm.position" placeholder="在对应圈子里的位置"></el-input>
+    <el-form-item label="会员昵称" prop="memberNickname">
+      <el-input v-model="dataForm.memberNickname" placeholder="会员昵称"></el-input>
     </el-form-item>
-    <el-form-item label="创建圈子审核状态(1：通过  0：不通过)" prop="status">
-      <el-input v-model="dataForm.status" placeholder="创建圈子审核状态(1：通过  0：不通过)"></el-input>
+    <el-form-item label="圈子名" prop="circleName">
+      <el-input v-model="dataForm.circleName" placeholder="圈子名"></el-input>
+    </el-form-item>
+    <el-form-item label="在圈子的职位" prop="position">
+      <el-input v-model="dataForm.position" placeholder="在圈子的职位"></el-input>
     </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -31,23 +34,27 @@
         visible: false,
         dataForm: {
           id: 0,
-          memberId: '',
+          memebrId: '',
           circleId: '',
-          position: '',
-          status: ''
+          memberNickname: '',
+          circleName: '',
+          position: ''
         },
         dataRule: {
-          memberId: [
-            { required: true, message: '用户id不能为空', trigger: 'blur' }
+          memebrId: [
+            { required: true, message: '会员id不能为空', trigger: 'blur' }
           ],
           circleId: [
             { required: true, message: '圈子id不能为空', trigger: 'blur' }
           ],
-          position: [
-            { required: true, message: '在对应圈子里的位置不能为空', trigger: 'blur' }
+          memberNickname: [
+            { required: true, message: '会员昵称不能为空', trigger: 'blur' }
           ],
-          status: [
-            { required: true, message: '创建圈子审核状态(1：通过  0：不通过)不能为空', trigger: 'blur' }
+          circleName: [
+            { required: true, message: '圈子名不能为空', trigger: 'blur' }
+          ],
+          position: [
+            { required: true, message: '在圈子的职位不能为空', trigger: 'blur' }
           ]
         }
       }
@@ -65,10 +72,11 @@
               params: this.$http.adornParams()
             }).then(({data}) => {
               if (data && data.code === 0) {
-                this.dataForm.memberId = data.memberCircleRela.memberId
+                this.dataForm.memebrId = data.memberCircleRela.memebrId
                 this.dataForm.circleId = data.memberCircleRela.circleId
+                this.dataForm.memberNickname = data.memberCircleRela.memberNickname
+                this.dataForm.circleName = data.memberCircleRela.circleName
                 this.dataForm.position = data.memberCircleRela.position
-                this.dataForm.status = data.memberCircleRela.status
               }
             })
           }
@@ -83,10 +91,11 @@
               method: 'post',
               data: this.$http.adornData({
                 'id': this.dataForm.id || undefined,
-                'memberId': this.dataForm.memberId,
+                'memebrId': this.dataForm.memebrId,
                 'circleId': this.dataForm.circleId,
-                'position': this.dataForm.position,
-                'status': this.dataForm.status
+                'memberNickname': this.dataForm.memberNickname,
+                'circleName': this.dataForm.circleName,
+                'position': this.dataForm.position
               })
             }).then(({data}) => {
               if (data && data.code === 0) {

@@ -1,6 +1,3 @@
-#mybatis-plus:
-#  mapper-locations: classpath:/mapper/**/*.xml
-
 spring:
   cloud:
     gateway:
@@ -12,7 +9,12 @@ spring:
           filters:
             - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
 
-
+        - id: member_route
+          uri: lb://aperture-member
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/aperture-member/$\{segment}
 
 
 
