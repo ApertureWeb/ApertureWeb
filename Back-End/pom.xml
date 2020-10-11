@@ -194,12 +194,6 @@
                 <artifactId>mapstruct</artifactId>
                 <version>${mapstruct}</version>
             </dependency>
-            <dependency>
-                <groupId>com.aperture</groupId>
-                <artifactId>common-tools</artifactId>
-                <version>0.0.1-BEGIN</version>
-            </dependency>
-
 
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
