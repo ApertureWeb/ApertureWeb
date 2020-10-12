@@ -49,10 +49,10 @@ public class MsEventRemindEntity implements Serializable {
 
     @ApiModelProperty(value = "事件源")
     private Long sourceId;
+
     /**
      * 行为地址
      */
-
     @TableField("url")
 
     @ApiModelProperty(value = "行为地址")
@@ -91,20 +91,18 @@ public class MsEventRemindEntity implements Serializable {
     @TableField("source_content")
     @ApiModelProperty(value = "事件源的内容（文章/视频就为标题，评论就是省略（前20个字左右））")
     private String sourceContent;
+
     /**
      * 行为发起时间
      */
-
     @TableField("remind_time")
-
     @ApiModelProperty(value = "行为发起时间")
     private Date remindTime;
+
     /**
      * 事件源类型
      */
-
     @TableField("source_type")
-
     @ApiModelProperty(value = "事件源类型")
     private String sourceType;
 

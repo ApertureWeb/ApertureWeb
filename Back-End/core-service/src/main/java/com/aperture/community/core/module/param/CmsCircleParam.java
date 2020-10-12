@@ -3,6 +3,9 @@ package com.aperture.community.core.module.param;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+
 
 /**
  * @author HALOXIAO
@@ -12,7 +15,19 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @Data
 public class CmsCircleParam {
-    public static void main(String[] args) {
 
-    }
+    @NotNull
+    @Null
+    private Long id;
+
+    @NotNull
+    private Long categoryId;
+
+    @NotNull
+    private String image;
+
+    @NotNull
+    private String icon;
+
+
 }

@@ -14,7 +14,7 @@ public class SnowflakeIDGenImplTest {
 
         IDGen idGen = new SnowflakeIDGenImpl(properties.getProperty("leaf.zk.list"), 8080);
         for (int i = 1; i < 1000; ++i) {
-            Result r = idGen.get("a");
+            Result r = idGen.get("1");
             System.out.println(r);
         }
     }

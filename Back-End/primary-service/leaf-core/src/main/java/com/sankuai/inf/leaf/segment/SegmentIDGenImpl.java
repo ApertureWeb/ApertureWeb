@@ -131,7 +131,7 @@ public class SegmentIDGenImpl implements IDGen {
     }
 
     @Override
-    public Result get(final String key) {
+    public Result get(String key) {
         if (!initOK) {
             return new Result(EXCEPTION_ID_IDCACHE_INIT_FALSE, Status.EXCEPTION);
         }

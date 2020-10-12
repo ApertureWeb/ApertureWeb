@@ -22,7 +22,6 @@ public class AuthenticationManager {
 
     public UserDto getUser(String token) {
         Object infor = authentications.boundHashOps(RedisAuthenticationMap.TOKEN_MAP_KEY.getValue()).get(token);
-
         return null;
     }
 

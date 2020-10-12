@@ -24,19 +24,18 @@ public class LeafController {
 
     @RequestMapping(value = "/api/segment/get/{key}")
     public String getSegmentId(@PathVariable("key") String key) {
-        return get(key, segmentService.getId(key));
+        return get(segmentService.getId(key));
     }
 
-    @RequestMapping(value = "/api/snowflake/get/{key}")
-    public String getSnowflakeId(@PathVariable("key") String key) {
-        return get(key, snowflakeService.getId(key));
+    @RequestMapping(value = "/api/snowflake/get")
+    public String getSnowflakeId() {
+        return get(snowflakeService.getId());
     }
 
-    private String get(@PathVariable("key") String key, Result id) {
+
+
+    private String get(Result id) {
         Result result;
-        if (key == null || key.isEmpty()) {
-            throw new NoKeyException();
-        }
         result = id;
         if (result.getStatus().equals(Status.EXCEPTION)) {
             throw new LeafServerException(result.toString());

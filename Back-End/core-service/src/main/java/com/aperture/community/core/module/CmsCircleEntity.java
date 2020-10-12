@@ -26,8 +26,6 @@ public class CmsCircleEntity implements Serializable {
      *
      */
     @TableId(value = "id", type = IdType.NONE)
-
-
     @ApiModelProperty(value = "")
     private Long id;
     /**

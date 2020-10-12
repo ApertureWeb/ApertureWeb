@@ -17,7 +17,7 @@ public class SpringIDGenServiceTest {
     @Test
     public void testGetId() {
         for (int i = 0; i < 100; i++) {
-            Result r = idGen.get("leaf-segment-test");
+            Result r = idGen.get("key");
             System.out.println(r);
         }
     }

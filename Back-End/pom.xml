@@ -49,6 +49,7 @@
         <validation>2.0.1.Final</validation>
         <hadoop>3.2.1</hadoop>
         <thumbnailator>0.4.8</thumbnailator>
+        <jackson>2.11.2</jackson>
     </properties>
 
     <dependencyManagement>
@@ -226,6 +227,11 @@
                 <version>${thumbnailator}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

@@ -14,7 +14,6 @@ import org.springframework.messaging.handler.annotation.SendTo;
  * @author HALOXIAO
  * @since 2020-10-11 18:59
  **/
-@EnableBinding(EventRemindChannel.class)
 public class EventRemindManager {
 
     private MsEventRemindMapper eventRemindMapper;
@@ -24,15 +23,7 @@ public class EventRemindManager {
 
     }
 
-    @StreamListener(target = EventRemindChannel.EVENT_REMIND_CHANNEL)
-    public void add(@Payload EventRemindDto dto) {
-        eventRemindMapper.save(EventRemindConverter.INSTANCE.toEventRemindEntity(dto));
-    }
 
-    @SendTo(EventRemindChannel.EVENT_REMIND_RELAY_CHANNEL)
-    public EventRemindDto asd() {
-        return null;
-    }
 
 
 }
