@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Time;
 
 /**
@@ -129,5 +130,5 @@ public class CmsCircleEntity implements Serializable {
     @TableField("gmt_create")
 
     @ApiModelProperty(value = "创建时间 ")
-    private Time gmtCreate;
+    private Date gmtCreate;
 }

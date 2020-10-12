@@ -29,7 +29,6 @@ public class MsEventRemindServiceImpl implements MsEventRemindService {
      */
     @StreamListener(target = EventRemindChannel.EVENT_REMIND_CHANNEL)
     public void add(@Payload EventRemindDto dto) {
-        //
         eventRemindMapper.save(EventRemindConverter.INSTANCE.toEventRemindEntity(dto));
     }
 

@@ -9,6 +9,12 @@ import com.aperture.community.core.service.CmsCircleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.TemporalField;
+
 @Service
 public class CmsCircleServiceImpl implements CmsCircleService {
 
@@ -22,7 +28,7 @@ public class CmsCircleServiceImpl implements CmsCircleService {
 
     public MessageDto addCircle(CmsCircleParam circleParam) {
         CmsCircleEntity circleEntity = CmsCircleConverter.INSTANCE.toCircleEntity(circleParam);
-
+//        circleEntity.setGmtCreate(new Date(LocalDateTime.now().getLong()));
 
         return null;
     }

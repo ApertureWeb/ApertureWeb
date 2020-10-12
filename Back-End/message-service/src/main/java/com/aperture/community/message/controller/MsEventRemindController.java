@@ -44,30 +44,12 @@ public class MsEventRemindController {
         return null;
     }
 
-    /**
-     * 保存
-     */
-    @RequestMapping("/save")
-    public ResultBean save(@RequestBody MsEventRemindParam msEventRemindParam){
-
-        return null;
-    }
-
-    /**
-     * 修改
-     */
-    @RequestMapping("/update")
-    public ResultBean update(@RequestBody MsEventRemindEntity msEventRemind){
-
-        return null;
-    }
 
     /**
      * 删除
      */
     @RequestMapping("/delete")
     public ResultBean delete(@RequestBody Long[] eventRemindIds){
-
         return null;
     }
 
