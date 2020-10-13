@@ -12,7 +12,7 @@ import lombok.Data;
  * 
  * @author JavaJayV
  * @email 285075313@qq.com
- * @date 2020-10-11 13:30:06
+ * @date 2020-10-12 21:32:49
  */
 @Data
 @TableName("ums_member")
@@ -20,10 +20,10 @@ public class MemberEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 * 用户id
 	 */
 	@TableId
-	private Integer id;
+	private Long id;
 	/**
 	 * 用户名
 	 */
@@ -61,21 +61,25 @@ public class MemberEntity implements Serializable {
 	 */
 	private Integer donut;
 	/**
-	 * 大会员积分
+	 * 会员积分
 	 */
-	private Integer integration;
+	private Integer memberPoint;
 	/**
 	 * 信息修改日期
 	 */
 	private Date updateTime;
 	/**
-	 * 认证用户为认证信息 普通用户为交友宣言
+	 * 认证信息/交由宣言
 	 */
 	private String description;
 	/**
 	 * 所在地
 	 */
 	private String place;
+	/**
+	 * 是否开通了会员
+	 */
+	private Integer isVip;
 	/**
 	 * 个性签名
 	 */
@@ -97,9 +101,13 @@ public class MemberEntity implements Serializable {
 	 */
 	private String status;
 	/**
+	 * 等级
+	 */
+	private Integer gradeLevel;
+	/**
 	 * 等级id
 	 */
-	private Integer gradeUid;
+	private Long gradeUid;
 	/**
 	 * 关注数
 	 */

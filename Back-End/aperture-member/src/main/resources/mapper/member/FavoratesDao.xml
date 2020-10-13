@@ -7,9 +7,9 @@
     <resultMap type="com.aperture.community.member.entity.FavoratesEntity" id="favoratesMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
-        <result property="playCount" column="play_count"/>
-        <result property="favoratesCount" column="favorates_count"/>
+        <result property="collectionCount" column="collection_count"/>
         <result property="memberId" column="member_id"/>
+        <result property="description" column="description"/>
     </resultMap>
 
 

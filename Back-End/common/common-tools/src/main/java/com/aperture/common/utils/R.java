@@ -9,6 +9,7 @@
 package com.aperture.common.utils;
 
 
+import com.aperture.community.entity.RESULT_BEAN_STATUS_CODE;
 import org.apache.http.HttpStatus;
 
 import java.util.HashMap;
@@ -23,21 +24,29 @@ public class R extends HashMap<String, Object> {
     private static final long serialVersionUID = 1L;
 
     public R() {
-        put("code", 0);
+        put("code", RESULT_BEAN_STATUS_CODE.SUCCESS);
         put("msg", "success");
     }
 
+//    public static R error() {
+//        return error(HttpStatus.SC_INTERNAL_SERVER_ERROR, "未知异常，请联系管理员");
+//    }
+//
+//    public static R error(String msg) {
+//        return error(HttpStatus.SC_INTERNAL_SERVER_ERROR, msg);
+//    }
+
+
     public static R error() {
-        return error(HttpStatus.SC_INTERNAL_SERVER_ERROR, "未知异常，请联系管理员");
+        return error(RESULT_BEAN_STATUS_CODE.UNKNOWN_EXCEPTION, "未知异常，请联系管理员");
     }
 
     public static R error(String msg) {
-        return error(HttpStatus.SC_INTERNAL_SERVER_ERROR, msg);
+        return error(RESULT_BEAN_STATUS_CODE.UNKNOWN_EXCEPTION, msg);
     }
 
 
-
-    public static R error(int code, String msg) {
+    public static R error(RESULT_BEAN_STATUS_CODE code, String msg) {
         R r = new R();
         r.put("code", code);
         r.put("msg", msg);

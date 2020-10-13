@@ -26,7 +26,7 @@
         prop="id"
         header-align="center"
         align="center"
-        label="">
+        label="用户id">
       </el-table-column>
       <el-table-column
         prop="username"
@@ -83,10 +83,10 @@
         label="甜甜圈，类比B站硬币">
       </el-table-column>
       <el-table-column
-        prop="integration"
+        prop="memberPoint"
         header-align="center"
         align="center"
-        label="大会员积分">
+        label="会员积分">
       </el-table-column>
       <el-table-column
         prop="updateTime"
@@ -98,13 +98,19 @@
         prop="description"
         header-align="center"
         align="center"
-        label="认证用户为认证信息 普通用户为交友宣言">
+        label="认证信息/交由宣言">
       </el-table-column>
       <el-table-column
         prop="place"
         header-align="center"
         align="center"
         label="所在地">
+      </el-table-column>
+      <el-table-column
+        prop="isVip"
+        header-align="center"
+        align="center"
+        label="是否开通了会员">
       </el-table-column>
       <el-table-column
         prop="sign"
@@ -135,6 +141,12 @@
         header-align="center"
         align="center"
         label="状态">
+      </el-table-column>
+      <el-table-column
+        prop="gradeLevel"
+        header-align="center"
+        align="center"
+        label="等级">
       </el-table-column>
       <el-table-column
         prop="gradeUid"

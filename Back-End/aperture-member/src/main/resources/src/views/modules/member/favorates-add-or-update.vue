@@ -7,14 +7,14 @@
     <el-form-item label="收藏夹名称" prop="name">
       <el-input v-model="dataForm.name" placeholder="收藏夹名称"></el-input>
     </el-form-item>
-    <el-form-item label="收藏夹播放数" prop="playCount">
-      <el-input v-model="dataForm.playCount" placeholder="收藏夹播放数"></el-input>
-    </el-form-item>
-    <el-form-item label="收藏夹里的作品数量" prop="favoratesCount">
-      <el-input v-model="dataForm.favoratesCount" placeholder="收藏夹里的作品数量"></el-input>
+    <el-form-item label="收藏夹里的作品数量" prop="collectionCount">
+      <el-input v-model="dataForm.collectionCount" placeholder="收藏夹里的作品数量"></el-input>
     </el-form-item>
     <el-form-item label="用户id" prop="memberId">
       <el-input v-model="dataForm.memberId" placeholder="用户id"></el-input>
+    </el-form-item>
+    <el-form-item label="收藏夹描述" prop="description">
+      <el-input v-model="dataForm.description" placeholder="收藏夹描述"></el-input>
     </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -32,22 +32,22 @@
         dataForm: {
           id: 0,
           name: '',
-          playCount: '',
-          favoratesCount: '',
-          memberId: ''
+          collectionCount: '',
+          memberId: '',
+          description: ''
         },
         dataRule: {
           name: [
             { required: true, message: '收藏夹名称不能为空', trigger: 'blur' }
           ],
-          playCount: [
-            { required: true, message: '收藏夹播放数不能为空', trigger: 'blur' }
-          ],
-          favoratesCount: [
+          collectionCount: [
             { required: true, message: '收藏夹里的作品数量不能为空', trigger: 'blur' }
           ],
           memberId: [
             { required: true, message: '用户id不能为空', trigger: 'blur' }
+          ],
+          description: [
+            { required: true, message: '收藏夹描述不能为空', trigger: 'blur' }
           ]
         }
       }
@@ -66,9 +66,9 @@
             }).then(({data}) => {
               if (data && data.code === 0) {
                 this.dataForm.name = data.favorates.name
-                this.dataForm.playCount = data.favorates.playCount
-                this.dataForm.favoratesCount = data.favorates.favoratesCount
+                this.dataForm.collectionCount = data.favorates.collectionCount
                 this.dataForm.memberId = data.favorates.memberId
+                this.dataForm.description = data.favorates.description
               }
             })
           }
@@ -84,9 +84,9 @@
               data: this.$http.adornData({
                 'id': this.dataForm.id || undefined,
                 'name': this.dataForm.name,
-                'playCount': this.dataForm.playCount,
-                'favoratesCount': this.dataForm.favoratesCount,
-                'memberId': this.dataForm.memberId
+                'collectionCount': this.dataForm.collectionCount,
+                'memberId': this.dataForm.memberId,
+                'description': this.dataForm.description
               })
             }).then(({data}) => {
               if (data && data.code === 0) {

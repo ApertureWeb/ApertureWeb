@@ -2,19 +2,24 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: member_route
+          uri: lb://aperture-member
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+
+
+
+
+
+
+
+
         - id: admin_route
           uri: lb://renren-fast
           predicates:
             - Path=/api/**
           filters:
             - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
-
-        - id: member_route
-          uri: lb://aperture-member
-          predicates:
-            - Path=/api/**
-          filters:
-            - RewritePath=/api/(?<segment>.*),/aperture-member/$\{segment}
-
-
-

@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
  * 
  * @author JavaJayV
  * @email 285075313@qq.com
- * @date 2020-10-11 13:30:06
+ * @date 2020-10-11 21:14:46
  */
 @Mapper
 public interface MemberCircleRelaDao extends BaseMapper<MemberCircleRelaEntity> {

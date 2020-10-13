@@ -22,7 +22,7 @@ import com.aperture.common.utils.R;
  *
  * @author JavaJayV
  * @email 285075313@qq.com
- * @date 2020-10-11 13:30:06
+ * @date 2020-10-11 19:26:10
  */
 @RestController
 @RequestMapping("member/membercirclerela")
@@ -45,7 +45,7 @@ public class MemberCircleRelaController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") Integer id){
+    public R info(@PathVariable("id") Long id){
 		MemberCircleRelaEntity memberCircleRela = memberCircleRelaService.getById(id);
 
         return R.ok().put("memberCircleRela", memberCircleRela);
@@ -57,6 +57,26 @@ public class MemberCircleRelaController {
     @RequestMapping("/save")
     public R save(@RequestBody MemberCircleRelaEntity memberCircleRela){
 		memberCircleRelaService.save(memberCircleRela);
+
+        return R.ok();
+    }
+
+    /**
+     * 创建圈子
+     */
+    @RequestMapping("/createCircle")
+    public R createCircle(@RequestBody MemberCircleRelaEntity memberCircleRela){
+        memberCircleRelaService.createCircle(memberCircleRela);
+
+        return R.ok();
+    }
+
+    /**
+     * 加入圈子
+     */
+    @RequestMapping("/joinCircle")
+    public R joinCircle(@RequestBody MemberCircleRelaEntity memberCircleRela){
+        memberCircleRelaService.addCircle(memberCircleRela);
 
         return R.ok();
     }
@@ -75,7 +95,7 @@ public class MemberCircleRelaController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Integer[] ids){
+    public R delete(@RequestBody Long[] ids){
 		memberCircleRelaService.removeByIds(Arrays.asList(ids));
 
         return R.ok();

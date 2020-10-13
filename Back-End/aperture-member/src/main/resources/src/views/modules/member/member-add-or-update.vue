@@ -31,17 +31,20 @@
     <el-form-item label="甜甜圈，类比B站硬币" prop="donut">
       <el-input v-model="dataForm.donut" placeholder="甜甜圈，类比B站硬币"></el-input>
     </el-form-item>
-    <el-form-item label="大会员积分" prop="integration">
-      <el-input v-model="dataForm.integration" placeholder="大会员积分"></el-input>
+    <el-form-item label="会员积分" prop="memberPoint">
+      <el-input v-model="dataForm.memberPoint" placeholder="会员积分"></el-input>
     </el-form-item>
     <el-form-item label="信息修改日期" prop="updateTime">
       <el-input v-model="dataForm.updateTime" placeholder="信息修改日期"></el-input>
     </el-form-item>
-    <el-form-item label="认证用户为认证信息 普通用户为交友宣言" prop="description">
-      <el-input v-model="dataForm.description" placeholder="认证用户为认证信息 普通用户为交友宣言"></el-input>
+    <el-form-item label="认证信息/交由宣言" prop="description">
+      <el-input v-model="dataForm.description" placeholder="认证信息/交由宣言"></el-input>
     </el-form-item>
     <el-form-item label="所在地" prop="place">
       <el-input v-model="dataForm.place" placeholder="所在地"></el-input>
+    </el-form-item>
+    <el-form-item label="是否开通了会员" prop="isVip">
+      <el-input v-model="dataForm.isVip" placeholder="是否开通了会员"></el-input>
     </el-form-item>
     <el-form-item label="个性签名" prop="sign">
       <el-input v-model="dataForm.sign" placeholder="个性签名"></el-input>
@@ -57,6 +60,9 @@
     </el-form-item>
     <el-form-item label="状态" prop="status">
       <el-input v-model="dataForm.status" placeholder="状态"></el-input>
+    </el-form-item>
+    <el-form-item label="等级" prop="gradeLevel">
+      <el-input v-model="dataForm.gradeLevel" placeholder="等级"></el-input>
     </el-form-item>
     <el-form-item label="等级id" prop="gradeUid">
       <el-input v-model="dataForm.gradeUid" placeholder="等级id"></el-input>
@@ -94,15 +100,17 @@
           headUrl: '',
           email: '',
           donut: '',
-          integration: '',
+          memberPoint: '',
           updateTime: '',
           description: '',
           place: '',
+          isVip: '',
           sign: '',
           intrest: '',
           startTime: '',
           online: '',
           status: '',
+          gradeLevel: '',
           gradeUid: '',
           followCount: '',
           fansCount: '',
@@ -136,17 +144,20 @@
           donut: [
             { required: true, message: '甜甜圈，类比B站硬币不能为空', trigger: 'blur' }
           ],
-          integration: [
-            { required: true, message: '大会员积分不能为空', trigger: 'blur' }
+          memberPoint: [
+            { required: true, message: '会员积分不能为空', trigger: 'blur' }
           ],
           updateTime: [
             { required: true, message: '信息修改日期不能为空', trigger: 'blur' }
           ],
           description: [
-            { required: true, message: '认证用户为认证信息 普通用户为交友宣言不能为空', trigger: 'blur' }
+            { required: true, message: '认证信息/交由宣言不能为空', trigger: 'blur' }
           ],
           place: [
             { required: true, message: '所在地不能为空', trigger: 'blur' }
+          ],
+          isVip: [
+            { required: true, message: '是否开通了会员不能为空', trigger: 'blur' }
           ],
           sign: [
             { required: true, message: '个性签名不能为空', trigger: 'blur' }
@@ -162,6 +173,9 @@
           ],
           status: [
             { required: true, message: '状态不能为空', trigger: 'blur' }
+          ],
+          gradeLevel: [
+            { required: true, message: '等级不能为空', trigger: 'blur' }
           ],
           gradeUid: [
             { required: true, message: '等级id不能为空', trigger: 'blur' }
@@ -200,15 +214,17 @@
                 this.dataForm.headUrl = data.member.headUrl
                 this.dataForm.email = data.member.email
                 this.dataForm.donut = data.member.donut
-                this.dataForm.integration = data.member.integration
+                this.dataForm.memberPoint = data.member.memberPoint
                 this.dataForm.updateTime = data.member.updateTime
                 this.dataForm.description = data.member.description
                 this.dataForm.place = data.member.place
+                this.dataForm.isVip = data.member.isVip
                 this.dataForm.sign = data.member.sign
                 this.dataForm.intrest = data.member.intrest
                 this.dataForm.startTime = data.member.startTime
                 this.dataForm.online = data.member.online
                 this.dataForm.status = data.member.status
+                this.dataForm.gradeLevel = data.member.gradeLevel
                 this.dataForm.gradeUid = data.member.gradeUid
                 this.dataForm.followCount = data.member.followCount
                 this.dataForm.fansCount = data.member.fansCount
@@ -236,15 +252,17 @@
                 'headUrl': this.dataForm.headUrl,
                 'email': this.dataForm.email,
                 'donut': this.dataForm.donut,
-                'integration': this.dataForm.integration,
+                'memberPoint': this.dataForm.memberPoint,
                 'updateTime': this.dataForm.updateTime,
                 'description': this.dataForm.description,
                 'place': this.dataForm.place,
+                'isVip': this.dataForm.isVip,
                 'sign': this.dataForm.sign,
                 'intrest': this.dataForm.intrest,
                 'startTime': this.dataForm.startTime,
                 'online': this.dataForm.online,
                 'status': this.dataForm.status,
+                'gradeLevel': this.dataForm.gradeLevel,
                 'gradeUid': this.dataForm.gradeUid,
                 'followCount': this.dataForm.followCount,
                 'fansCount': this.dataForm.fansCount,

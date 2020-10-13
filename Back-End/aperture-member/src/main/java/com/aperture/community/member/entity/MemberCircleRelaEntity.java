@@ -12,7 +12,7 @@ import lombok.Data;
  * 
  * @author JavaJayV
  * @email 285075313@qq.com
- * @date 2020-10-11 13:30:06
+ * @date 2020-10-11 21:14:46
  */
 @Data
 @TableName("ums_member_circle_rela")
@@ -20,18 +20,18 @@ public class MemberCircleRelaEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 * 主键id
 	 */
 	@TableId
-	private Integer id;
+	private Long id;
 	/**
 	 * 会员id
 	 */
-	private Integer memebrId;
+	private Long memebrId;
 	/**
 	 * 圈子id
 	 */
-	private Integer circleId;
+	private Long circleId;
 	/**
 	 * 会员昵称
 	 */
@@ -41,7 +41,7 @@ public class MemberCircleRelaEntity implements Serializable {
 	 */
 	private String circleName;
 	/**
-	 * 在圈子的职位
+	 * 职位:0圈友、1管理员、2圈主`1
 	 */
 	private String position;
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aperture.community.member.dao.GradeDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.aperture.community.member.entity.GradeEntity" id="gradeMap">
+        <result property="id" column="id"/>
+        <result property="currentGrade" column="current_grade"/>
+        <result property="name" column="name"/>
+        <result property="isDefaultGrade" column="is_default_grade"/>
+        <result property="growthValue" column="growth_value"/>
+        <result property="signInGrowthValue" column="sign_in_growth_value"/>
+        <result property="publishGrowthValue" column="publish_growth_value"/>
+        <result property="commentGrowthValue" column="comment_growth_value"/>
+        <result property="isVipDiscount" column="is_vip_discount"/>
+        <result property="description" column="description"/>
+        <result property="isCreateCircle" column="is_create_circle"/>
+        <result property="topGrade" column="top_grade"/>
+    </resultMap>
+
+
+</mapper>

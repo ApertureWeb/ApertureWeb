@@ -26,7 +26,7 @@
         prop="id"
         header-align="center"
         align="center"
-        label="等级id">
+        label="用户等级id">
       </el-table-column>
       <el-table-column
         prop="currentGrade"
@@ -35,70 +35,10 @@
         label="当前等级">
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="currentValue"
         header-align="center"
         align="center"
-        label="等级名称">
-      </el-table-column>
-      <el-table-column
-        prop="isDefaultGrade"
-        header-align="center"
-        align="center"
-        label="是否为默认等级">
-      </el-table-column>
-      <el-table-column
-        prop="growthValue"
-        header-align="center"
-        align="center"
-        label="当前等级升级需要的经验">
-      </el-table-column>
-      <el-table-column
-        prop="signInGrowthValue"
-        header-align="center"
-        align="center"
-        label="签到增加的经验">
-      </el-table-column>
-      <el-table-column
-        prop="publishGrowthValue"
-        header-align="center"
-        align="center"
-        label="发布作品增加的经验">
-      </el-table-column>
-      <el-table-column
-        prop="commentGrowthValue"
-        header-align="center"
-        align="center"
-        label="评论增加的经验">
-      </el-table-column>
-      <el-table-column
-        prop="isVipDiscount"
-        header-align="center"
-        align="center"
-        label="是否有会员价格优惠特权">
-      </el-table-column>
-      <el-table-column
-        prop="description"
-        header-align="center"
-        align="center"
-        label="等级描述">
-      </el-table-column>
-      <el-table-column
-        prop="isCreateCircle"
-        header-align="center"
-        align="center"
-        label="是否可以开通创建圈子">
-      </el-table-column>
-      <el-table-column
-        prop="isVip"
-        header-align="center"
-        align="center"
-        label="是否开通了大会员">
-      </el-table-column>
-      <el-table-column
-        prop="topGrade"
-        header-align="center"
-        align="center"
-        label="最高等级">
+        label="当前等级经验值">
       </el-table-column>
       <el-table-column
         fixed="right"

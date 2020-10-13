@@ -15,15 +15,17 @@
         <result property="headUrl" column="head_url"/>
         <result property="email" column="email"/>
         <result property="donut" column="donut"/>
-        <result property="integration" column="integration"/>
+        <result property="memberPoint" column="member_point"/>
         <result property="updateTime" column="update_time"/>
         <result property="description" column="description"/>
         <result property="place" column="place"/>
+        <result property="isVip" column="is_vip"/>
         <result property="sign" column="sign"/>
         <result property="intrest" column="intrest"/>
         <result property="startTime" column="start_time"/>
         <result property="online" column="online"/>
         <result property="status" column="status"/>
+        <result property="gradeLevel" column="grade_level"/>
         <result property="gradeUid" column="grade_uid"/>
         <result property="followCount" column="follow_count"/>
         <result property="fansCount" column="fans_count"/>

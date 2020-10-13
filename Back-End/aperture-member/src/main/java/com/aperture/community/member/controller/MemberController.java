@@ -22,7 +22,7 @@ import com.aperture.common.utils.R;
  *
  * @author JavaJayV
  * @email 285075313@qq.com
- * @date 2020-10-11 13:30:06
+ * @date 2020-10-12 21:32:49
  */
 @RestController
 @RequestMapping("member/member")
@@ -36,6 +36,7 @@ public class MemberController {
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = memberService.queryPage(params);
+
         return R.ok().put("page", page);
     }
 
@@ -44,7 +45,7 @@ public class MemberController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") Integer id){
+    public R info(@PathVariable("id") Long id){
 		MemberEntity member = memberService.getById(id);
 
         return R.ok().put("member", member);
@@ -74,7 +75,7 @@ public class MemberController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Integer[] ids){
+    public R delete(@RequestBody Long[] ids){
 		memberService.removeByIds(Arrays.asList(ids));
 
         return R.ok();

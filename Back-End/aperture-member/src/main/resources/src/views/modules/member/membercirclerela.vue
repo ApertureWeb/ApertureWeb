@@ -26,7 +26,7 @@
         prop="id"
         header-align="center"
         align="center"
-        label="">
+        label="主键id">
       </el-table-column>
       <el-table-column
         prop="memebrId"

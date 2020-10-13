@@ -35,13 +35,7 @@
         label="收藏夹名称">
       </el-table-column>
       <el-table-column
-        prop="playCount"
-        header-align="center"
-        align="center"
-        label="收藏夹播放数">
-      </el-table-column>
-      <el-table-column
-        prop="favoratesCount"
+        prop="collectionCount"
         header-align="center"
         align="center"
         label="收藏夹里的作品数量">
@@ -51,6 +45,12 @@
         header-align="center"
         align="center"
         label="用户id">
+      </el-table-column>
+      <el-table-column
+        prop="description"
+        header-align="center"
+        align="center"
+        label="收藏夹描述">
       </el-table-column>
       <el-table-column
         fixed="right"
