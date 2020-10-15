@@ -1,9 +1,0 @@
-package com.aperture.community.message.config;
-
-import org.springframework.context.annotation.Configuration;
-
-@Configuration
-public class MessageQueueConfig {
-
-
-}

@@ -11,10 +11,7 @@
 
     <artifactId>message-service</artifactId>
     <packaging>pom</packaging>
-    <modules>
-        <module>notify</module>
-        <module>feed</module>
-    </modules>
+
 
 
     <dependencies>
@@ -73,8 +70,16 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-core</artifactId>
-            <version>4.0.0-milestone5</version>
         </dependency>
+
+
+
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-web-client</artifactId>
+        </dependency>
+
+
 
 
 

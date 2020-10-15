@@ -30,6 +30,7 @@
         <java.version>12</java.version>
         <spring-cloud-alibaba>2.1.2.RELEASE</spring-cloud-alibaba>
         <spring-cloud>Hoxton.SR5</spring-cloud>
+        <spring-boot>2.2.8.RELEASE</spring-boot>
         <fastjson>1.2.50</fastjson>
         <mysql-connector>8.0.21</mysql-connector>
         <mybatis-plus>3.3.2</mybatis-plus>
@@ -38,7 +39,6 @@
         <slf4j-log4j12>1.7.25</slf4j-log4j12>
         <velocity>2.2</velocity>
         <swagger>2.9.2</swagger>
-        <web>2.2.8.RELEASE</web>
         <mapstruct>1.3.1.Final</mapstruct>
         <open-feign>2.2.5.RELEASE</open-feign>
         <commons-pool2>2.6.0</commons-pool2>
@@ -50,6 +50,7 @@
         <hadoop>3.2.1</hadoop>
         <thumbnailator>0.4.8</thumbnailator>
         <jackson>2.11.2</jackson>
+        <vertx>4.0.0-milestone5</vertx>
     </properties>
 
     <dependencyManagement>
@@ -96,7 +97,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
-                <version>${web}</version>
+                <version>${spring-boot}</version>
             </dependency>
 
             <dependency>
@@ -212,7 +213,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-aop</artifactId>
-
+                <version>${spring-boot}</version>
             </dependency>
 
             <dependency>
@@ -232,6 +233,29 @@
                 <artifactId>jackson-core</artifactId>
                 <version>${jackson}</version>
             </dependency>
+
+
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-core</artifactId>
+                <version>${vertx}</version>
+            </dependency>
+
+
+
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-web-client</artifactId>
+                <version>${vertx}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-mysql-client</artifactId>
+                <version>${vertx}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>
