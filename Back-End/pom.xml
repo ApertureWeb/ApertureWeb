@@ -212,7 +212,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-aop</artifactId>
-                <version>${spring-boot}</version>
+
             </dependency>
 
             <dependency>
@@ -232,6 +232,7 @@
                 <artifactId>jackson-core</artifactId>
                 <version>${jackson}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 

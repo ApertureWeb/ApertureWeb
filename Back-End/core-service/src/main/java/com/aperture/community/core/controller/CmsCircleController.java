@@ -2,9 +2,12 @@ package com.aperture.community.core.controller;
 
 import com.aperture.community.core.module.CmsCircleEntity;
 import com.aperture.community.core.module.param.CmsCircleParam;
+import com.aperture.community.core.module.validation.ValidationGroup;
+import com.aperture.community.core.module.vo.CmsCircleVO;
 import com.aperture.community.core.service.CmsCircleService;
 import com.aperture.community.entity.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -23,8 +26,9 @@ public class CmsCircleController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    public ResultBean list(@RequestParam Map<String, Object> params) {
+    @GetMapping("/list")
+    public ResultBean<CmsCircleVO> list(@RequestParam Long categoryId) {
+
         return null;
     }
 
@@ -40,9 +44,9 @@ public class CmsCircleController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
-    public ResultBean save(@RequestBody CmsCircleParam cmsCircleParam) {
-
+    @PostMapping("/xxxx")
+    public ResultBean save(@RequestBody @Validated(ValidationGroup.addGroup.class) CmsCircleParam cmsCircleParam) {
+        cmsCircleService.addCricle(cmsCircleParam);
         return null;
     }
 
@@ -50,18 +54,10 @@ public class CmsCircleController {
      * 修改
      */
     @RequestMapping("/update")
-    public ResultBean update(@RequestBody CmsCircleEntity cmsCircle) {
+    public ResultBean update(@RequestBody CmsCircleParam cmsCircleParam) {
 
         return null;
     }
 
-    /**
-     * 删除
-     */
-    @RequestMapping("/delete")
-    public ResultBean delete(@RequestBody Long[] ids) {
-
-        return null;
-    }
 
 }
