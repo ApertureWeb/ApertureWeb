@@ -2,9 +2,13 @@ package com.aperture.community.message.manager;
 
 import com.aperture.community.message.config.DingProperties;
 import com.aperture.community.message.config.WebClientProperties;
+import com.aperture.community.message.module.dto.DingDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
+import org.apache.catalina.loader.WebappClassLoaderBase;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
@@ -15,21 +19,24 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class NotifyManager implements MessageListenerConcurrently {
+public class DingNotifyManager implements MessageListenerConcurrently {
 
     private WebClient webClient;
     private DingProperties dingProperties;
+    private ObjectMapper objectMapper;
 
     @Autowired
-    public NotifyManager(WebClient webClient, DingProperties dingProperties) {
+    public DingNotifyManager(WebClient webClient, DingProperties dingProperties) {
         this.webClient = webClient;
         this.dingProperties = dingProperties;
     }
 
+
     @Override
     public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
-
-        webClient.post(dingProperties.getAddress()).sendJson(null);
-        return null;
+        msgs.forEach(p -> {
+            webClient.post(dingProperties.getHost()).addQueryParam("access_token", dingProperties.getToken()).sendJson(null);
+        });
+        return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
     }
 }
