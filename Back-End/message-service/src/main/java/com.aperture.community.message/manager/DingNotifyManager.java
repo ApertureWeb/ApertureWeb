@@ -32,6 +32,7 @@ public class DingNotifyManager implements MessageListenerConcurrently {
     }
 
 
+    //    TODO 不能一直@人，需要将异常进行集合
     @Override
     public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
         msgs.forEach(p -> {
