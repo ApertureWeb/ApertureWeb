@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class FeedController {
 
 
-    @GetMapping("test")
+    @GetMapping("")
     public void fluxTest() {
 
     }

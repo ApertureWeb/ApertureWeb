@@ -1,5 +1,6 @@
 package com.aperture.community.message.service;
 
+import com.aperture.community.message.common.MqMap;
 import com.aperture.community.message.component.DingNotify;
 import com.aperture.community.message.config.RocketMQProperties;
 import com.aperture.community.message.manager.DingNotifyManager;
@@ -24,9 +25,8 @@ import org.springframework.stereotype.Service;
 public class DingService implements ApplicationRunner {
 
     private final RocketMQProperties rocketMQProperties;
-    private final String DING_TOPIC = "dingding";
     private final DingNotifyManager dingNotifyManager;
-    private DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("notify");
+    private DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(MqMap.NOTIFY_GROUP.getValue());
 
     @Autowired
     public DingService(RocketMQProperties rocketMQProperties, DingNotifyManager dingNotifyManager) {
@@ -37,7 +37,7 @@ public class DingService implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         log.info("Ding Ding notify start");
-        consumer.subscribe(DING_TOPIC, "");
+        consumer.subscribe(MqMap.NOTIFY_GROUP.getValue(), "");
         consumer.setNamesrvAddr(rocketMQProperties.getNamesrv());
         consumer.registerMessageListener(dingNotifyManager);
         consumer.start();
