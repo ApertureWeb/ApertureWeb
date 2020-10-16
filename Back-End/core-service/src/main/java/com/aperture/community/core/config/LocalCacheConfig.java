@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @since 2020-10-06 16:19
  **/
 @Configuration
-public class EventLocalCacheConfig {
+public class LocalCacheConfig {
 
     Cache<Long, AtomicInteger> articleLikeCache;
     Cache<Long, AtomicInteger> articleDonutCache;
@@ -67,4 +67,5 @@ public class EventLocalCacheConfig {
                 .build();
         return videoStoreCache;
     }
+
 }

@@ -255,8 +255,6 @@
                 <artifactId>vertx-mysql-client</artifactId>
                 <version>${vertx}</version>
             </dependency>
-
-
         </dependencies>
     </dependencyManagement>
 
@@ -286,6 +284,8 @@
             </exclusions>
         </dependency>
     </dependencies>
+
+
 
 
 </project>
