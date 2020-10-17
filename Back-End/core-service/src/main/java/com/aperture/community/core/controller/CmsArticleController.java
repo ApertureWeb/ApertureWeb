@@ -29,28 +29,21 @@ import javax.validation.constraints.Size;
 public class CmsArticleController {
 
 
-
     @Autowired
     CmsArticleServiceImpl umsArticleService;
 
 
-
-
-    @PostMapping
-    public ResultBean<Integer> saveArticle(@RequestBody @Validated({ValidationGroup.addGroup.class}) CmsArticleParam cmsArticleParam) {
-        ResultBean<Integer> bean = new ResultBean<>("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+    @PostMapping("article")
+    public ResultBean<Long> saveArticle(@RequestBody @Validated({ValidationGroup.addGroup.class}) CmsArticleParam cmsArticleParam) throws Exception {
+        Long id = umsArticleService.save(cmsArticleParam);
+        ResultBean<Long> bean = new ResultBean<>("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
+        bean.setData(id);
         return bean;
     }
 
     @DeleteMapping
     public ResultBean<Boolean> deleteArticle(Long id) {
-        return null;
-    }
-
-    @PostMapping("/image")
-    public ResultBean<ImageVO> uploadImage(@RequestParam("file") MultipartFile file) {
-
-        return null;
+        return umsArticleService.delete(id) ? ResultBean.ok() : ResultBean.error("删除失败", RESULT_BEAN_STATUS_CODE.UNKNOWN_EXCEPTION);
     }
 
 

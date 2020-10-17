@@ -51,6 +51,7 @@
         <thumbnailator>0.4.8</thumbnailator>
         <jackson>2.11.2</jackson>
         <vertx>4.0.0-milestone5</vertx>
+        <oss>2.8.3</oss>
     </properties>
 
     <dependencyManagement>
@@ -255,6 +256,15 @@
                 <artifactId>vertx-mysql-client</artifactId>
                 <version>${vertx}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${oss}</version>
+            </dependency>
+
+
+
         </dependencies>
     </dependencyManagement>
 
@@ -284,6 +294,37 @@
             </exclusions>
         </dependency>
     </dependencies>
+
+
+    <repositories>
+
+        <repository>
+            <id>fix central and jcenter</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+
+        <repository>
+            <id>spring</id>
+            <url>https://maven.aliyun.com/repository/spring</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+
+
+    </repositories>
+
 
 
 

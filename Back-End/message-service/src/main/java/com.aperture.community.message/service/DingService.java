@@ -1,18 +1,13 @@
 package com.aperture.community.message.service;
 
 import com.aperture.community.message.common.MqMap;
-import com.aperture.community.message.component.DingNotify;
 import com.aperture.community.message.config.RocketMQProperties;
 import com.aperture.community.message.manager.DingNotifyManager;
-import io.vertx.core.Vertx;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.stereotype.Service;
 
 /**

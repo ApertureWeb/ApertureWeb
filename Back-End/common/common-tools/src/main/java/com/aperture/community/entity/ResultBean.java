@@ -53,4 +53,30 @@ public class ResultBean<T> implements Serializable {
         this.code = code.getValue();
         this.data = data;
     }
+
+
+    public static ResultBean<Boolean> ok() {
+        ResultBean<Boolean> bean = new ResultBean<>();
+        bean.setMsg("success");
+        bean.setCode(RESULT_BEAN_STATUS_CODE.SUCCESS.getValue());
+        bean.setData(null);
+        return bean;
+    }
+
+    public static ResultBean<Object> ok(Object data) {
+        ResultBean<Object> bean = new ResultBean<>();
+        bean.setMsg("success");
+        bean.setCode(RESULT_BEAN_STATUS_CODE.SUCCESS.getValue());
+        bean.setData(data);
+        return bean;
+    }
+
+
+    public static ResultBean<Boolean> error(String msg, RESULT_BEAN_STATUS_CODE code) {
+        ResultBean<Boolean> bean = new ResultBean<>();
+        bean.setMsg(msg);
+        bean.setCode(code.getValue());
+        return bean;
+    }
+
 }
