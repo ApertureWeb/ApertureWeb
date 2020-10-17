@@ -3,7 +3,7 @@ package com.aperture.community.member.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-import com.aperture.community.member.vo.FavoratesVo;
+import com.aperture.community.member.vo.FavoratesUpdateVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,6 +49,17 @@ public class FavoratesController {
     }
 
     /**
+     * 查询观看历史
+     */
+    @GetMapping("/getWatchHistory/{memberId}")
+    public R getWatchHistory(@PathVariable("memberId") Long memberId){
+        FavoratesEntity favorates = favoratesService.getWatchHistory(memberId);
+
+        return R.ok().put("favorates", favorates);
+    }
+
+
+    /**
      * 保存
      */
     @PostMapping("/save")
@@ -61,17 +72,26 @@ public class FavoratesController {
      * 新增收藏夹
      */
     @PostMapping("/saveFavorates")
-    public R saveFavorates( @RequestBody FavoratesVo favoratesVo){
-		favoratesService.saveFavorates(favoratesVo);
+    public R saveFavorates( @RequestBody FavoratesEntity favoratesEntity){
+		favoratesService.saveFavorates(favoratesEntity);
         return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PutMapping("/update")
     public R update(@RequestBody FavoratesEntity favorates){
 		favoratesService.updateById(favorates);
+        return R.ok();
+    }
+
+    /**
+     * 修改收藏夹
+     */
+    @PutMapping("/updateFavorates")
+    public R updateFavorates(@RequestBody FavoratesUpdateVo vo){
+        favoratesService.updateFavorates(vo);
 
         return R.ok();
     }
@@ -79,9 +99,20 @@ public class FavoratesController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		favoratesService.removeByIds(Arrays.asList(ids));
+
+        return R.ok();
+    }
+
+
+    /**
+     * 删除
+     */
+    @DeleteMapping("/deleteFavorates")
+    public R deleteFavorates(@RequestParam Long id){
+        favoratesService.deleteById(id);
 
         return R.ok();
     }

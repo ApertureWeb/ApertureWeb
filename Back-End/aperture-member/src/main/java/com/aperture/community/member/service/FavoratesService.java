@@ -1,6 +1,6 @@
 package com.aperture.community.member.service;
 
-import com.aperture.community.member.vo.FavoratesVo;
+import com.aperture.community.member.vo.FavoratesUpdateVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.aperture.common.utils.PageUtils;
 import com.aperture.community.member.entity.FavoratesEntity;
@@ -18,10 +18,18 @@ public interface FavoratesService extends IService<FavoratesEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-
     void addCount(Long favoratesId);
 
-    void saveFavorates(FavoratesVo favoratesVo);
+    void saveDefaultFavorates(Long memberId);
 
+    void saveFavorates(FavoratesEntity favoratesEntity);
+
+    void updateFavorates(FavoratesUpdateVo favoratesUpdateVo);
+
+    void subCount(Long favoratesId);
+
+    void deleteById(Long id);
+
+    FavoratesEntity getWatchHistory(Long memberId);
 }
 

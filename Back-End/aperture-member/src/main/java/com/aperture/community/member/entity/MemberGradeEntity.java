@@ -23,14 +23,14 @@ public class MemberGradeEntity implements Serializable {
 	 * 用户等级id
 	 */
 	@TableId
-	private Integer id;
+	private Long id;
 	/**
 	 * 当前等级
 	 */
-	private String currentGrade;
+	private Integer gradeLevel;
 	/**
 	 * 当前等级经验值
 	 */
-	private String currentValue;
+	private Integer gradeValue;
 
 }

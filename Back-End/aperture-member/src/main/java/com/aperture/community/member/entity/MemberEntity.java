@@ -1,11 +1,17 @@
 package com.aperture.community.member.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  * 
@@ -27,18 +33,22 @@ public class MemberEntity implements Serializable {
 	/**
 	 * 用户名
 	 */
+	@NotNull
 	private String username;
 	/**
 	 * 手机号
 	 */
+	@NotNull
 	private Integer telephone;
 	/**
 	 * 密码
 	 */
+	@NotNull
 	private String password;
 	/**
 	 * 昵称
 	 */
+	@NotNull
 	private String nickname;
 	/**
 	 * 性别[0：男  1：女]
@@ -87,19 +97,11 @@ public class MemberEntity implements Serializable {
 	/**
 	 * 爱好
 	 */
-	private String intrest;
+	private String interest;
 	/**
-	 * 注册时间
+	 * -2：封号中  -1：已注销  0：正常
 	 */
-	private Date startTime;
-	/**
-	 * 在线时长(分钟)
-	 */
-	private Integer online;
-	/**
-	 * 状态
-	 */
-	private String status;
+	private Integer memberStatus;
 	/**
 	 * 等级
 	 */
@@ -117,8 +119,8 @@ public class MemberEntity implements Serializable {
 	 */
 	private Integer fansCount;
 	/**
-	 * 是否实名认证
+	 * 是否实名认证   0：未认证  1：已认证
 	 */
-	private String isCertificated;
+	private Integer isCertificated;
 
 }

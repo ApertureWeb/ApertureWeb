@@ -3,12 +3,9 @@ package com.aperture.community.member.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.aperture.community.member.vo.WatchHistoryVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.aperture.community.member.entity.WatchHistoryEntity;
 import com.aperture.community.member.service.WatchHistoryService;
@@ -54,7 +51,7 @@ public class WatchHistoryController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody WatchHistoryEntity watchHistory){
 		watchHistoryService.save(watchHistory);
 
@@ -62,9 +59,19 @@ public class WatchHistoryController {
     }
 
     /**
+     * 新增观看历史
+     */
+    @PostMapping("/addHistory")
+    public R addHistory(@RequestBody WatchHistoryEntity watchHistory){
+        watchHistoryService.saveHistory(watchHistory);
+
+        return R.ok();
+    }
+
+    /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PutMapping("/update")
     public R update(@RequestBody WatchHistoryEntity watchHistory){
 		watchHistoryService.updateById(watchHistory);
 
@@ -72,12 +79,31 @@ public class WatchHistoryController {
     }
 
     /**
+     * 更新观看历史
+     */
+    @PutMapping("/updateWatchHistory")
+    public R updateWatchHistory(@RequestBody WatchHistoryVo watchHistoryVo){
+        watchHistoryService.updateWatchHistory(watchHistoryVo);
+
+        return R.ok();
+    }
+
+    /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		watchHistoryService.removeByIds(Arrays.asList(ids));
 
+        return R.ok();
+    }
+
+    /**
+     * 删除观看历史
+     */
+    @DeleteMapping("/deleteWatchHistory")
+    public R deleteWatchHistory(@RequestParam Long id){
+        watchHistoryService.removeById(id);
         return R.ok();
     }
 

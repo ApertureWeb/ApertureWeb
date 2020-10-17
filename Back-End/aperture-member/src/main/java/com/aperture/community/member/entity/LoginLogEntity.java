@@ -29,9 +29,9 @@ public class LoginLogEntity implements Serializable {
 	 */
 	private Long memberId;
 	/**
-	 * 用户创建时间
+	 * 在线时长(分钟)
 	 */
-	private Date createTime;
+	private Integer onlineTime;
 	/**
 	 * 用户登录时的ip
 	 */
@@ -44,5 +44,15 @@ public class LoginLogEntity implements Serializable {
 	 * 登录类型[1-web，2-app]
 	 */
 	private Integer loginType;
+	/**
+	 * 注册时间
+	 */
+	private Date registTime;
+
+	// 0：已下线  1：上线中
+	private Integer loginStatus;
+
+	// 封禁时长
+	private Integer banTime;
 
 }

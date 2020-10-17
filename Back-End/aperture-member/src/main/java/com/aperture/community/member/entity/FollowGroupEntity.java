@@ -31,11 +31,11 @@ public class FollowGroupEntity implements Serializable {
 	/**
 	 * 分组的关注数
 	 */
-	private String followCount;
+	private Integer followCount;
 	/**
 	 * 是否为默认分组
 	 */
-	private String isDefault;
+	private Integer isDefault;
 	/**
 	 * 该分组所属用户id
 	 */

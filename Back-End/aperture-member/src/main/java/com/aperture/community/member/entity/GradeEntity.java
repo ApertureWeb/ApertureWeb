@@ -27,7 +27,7 @@ public class GradeEntity implements Serializable {
 	/**
 	 * 当前等级
 	 */
-	private Integer currentGrade;
+	private Integer gradeLevel;
 	/**
 	 * 等级名称
 	 */

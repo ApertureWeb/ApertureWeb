@@ -8,7 +8,7 @@
 
 package com.aperture.community.xss;
 
-import com.aperture.community.utils.RRException;
+import com.aperture.common.utils.RRException;
 import org.apache.commons.lang3.StringUtils;
 
 /**

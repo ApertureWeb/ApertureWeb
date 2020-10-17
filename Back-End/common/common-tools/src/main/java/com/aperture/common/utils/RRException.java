@@ -15,7 +15,8 @@ package com.aperture.common.utils;
  */
 public class RRException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
-	
+
+	private Boolean success;
     private String msg;
     private int code = 500;
     
@@ -23,7 +24,11 @@ public class RRException extends RuntimeException {
 		super(msg);
 		this.msg = msg;
 	}
-	
+
+	public RRException(int code) {
+		this.code = code;
+	}
+
 	public RRException(String msg, Throwable e) {
 		super(msg, e);
 		this.msg = msg;
@@ -34,7 +39,18 @@ public class RRException extends RuntimeException {
 		this.msg = msg;
 		this.code = code;
 	}
-	
+
+	public RRException(Boolean success, String msg, int code) {
+		super(msg);
+		this.success = success;
+		this.msg = msg;
+		this.code = code;
+	}
+
+	public Boolean getSuccess() {
+    	return success;
+	}
+
 	public RRException(String msg, int code, Throwable e) {
 		super(msg, e);
 		this.msg = msg;

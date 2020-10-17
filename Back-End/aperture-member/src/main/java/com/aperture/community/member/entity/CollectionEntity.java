@@ -41,5 +41,9 @@ public class CollectionEntity implements Serializable {
 	 * 所属收藏夹id
 	 */
 	private Long favoratesId;
+	/**
+	 * 当前用户id
+	 */
+	private Long memebrId;
 
 }

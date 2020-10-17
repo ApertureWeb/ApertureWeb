@@ -1,6 +1,5 @@
 package com.aperture.community.member.dao;
 
-import com.aperture.community.member.entity.MemberFansRelaEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

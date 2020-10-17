@@ -5,6 +5,7 @@ import com.aperture.community.member.vo.CollectionVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.aperture.common.utils.PageUtils;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,6 +19,15 @@ public interface CollectionService extends IService<CollectionEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    void saveCollection(CollectionVo vo);
+    void saveCollection(CollectionEntity collectionEntity);
+
+    void removeCollection(Long id);
+
+    void copyCollection(CollectionVo collectionVo);
+
+    void moveCollection(CollectionVo collectionVo);
+
+
+    PageUtils queryCollections(Long memberId, Map<String, Object> params);
 }
 

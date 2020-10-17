@@ -20,5 +20,9 @@ public interface FollowGroupService extends IService<FollowGroupEntity> {
     void addfollowCount(Long groupId);
 
     void saveFollowGroup(FollowGroupEntity followGroup);
+
+    void subFollowCount(Long groupId);
+
+    void removeFollowGroup(Long groupId);
 }
 

@@ -1,105 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/CollectionController.java" line="129" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="f40abfe3-a9d0-4a7e-b715-0cb2c0074725" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FollowController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FollowGroupController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/GradeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/LoginLogController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/SubscribeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/WatchHistoryController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/CollectionDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/FollowDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/GradeDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/LoginLogDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/SubscribeDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/WatchHistoryDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FollowEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FollowGroupEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/GradeEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberFansRelaEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/SubscribeEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/WatchHistoryEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FollowGroupService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FollowService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/GradeService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/LoginLogService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/SubscribeService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/WatchHistoryService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/CollectionServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FollowServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/GradeServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/LoginLogServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/SubscribeServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/WatchHistoryServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/CollectionVo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/FavoratesVo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/FollowDao.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/FollowGroupDao.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/GradeDao.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/MemberFansRelaDao.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/SubscribeDao.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/WatchHistoryDao.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/follow-add-or-update.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/follow.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/followgroup-add-or-update.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/followgroup.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/grade-add-or-update.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/grade.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/memberfansrela-add-or-update.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/memberfansrela.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/subscribe-add-or-update.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/subscribe.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/watchhistory-add-or-update.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/watchhistory.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/FavoratesUpdateVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/FollowCopyVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/LoginLogVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/MemberCircleVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/MemberUpdateVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/WatchHistoryVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/rspVo/GradeValueRespVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/common/utils/CastExcepion.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/constant/FavoratesConstant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/constant/GradeConstant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/constant/LoginConstant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/constant/MemberCircleConstant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/constant/MemberConstant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/constant/TargetTypeConstant.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-gateway/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/ApertureMemberApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/ApertureMemberApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/CollcetionsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/CollectionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/config/MybatisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/config/MybatisConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/CollectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/CollectionController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FavoratesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FavoratesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FollowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FollowController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FollowGroupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FollowGroupController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/GradeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/GradeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/LoginLogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/LoginLogController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberCircleRelaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberCircleRelaController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberFansRelaController.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberGradeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberGradeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberLoginLogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberFansRelaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/CollcetionsDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/FollowGroupDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/FavoratesDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/FavoratesDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/MemberCircleRelaDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/MemberCircleRelaDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/MemberDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/MemberDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/MemberGradeDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/MemberGradeDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/MemberLoginLogDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/MemberFansRelaDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/CollcetionsEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/CollectionEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/SubscribeController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/WatchHistoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/WatchHistoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/MemberFansRelaDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/MemberFansRelaDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/SubscribeDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/CollectionEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/CollectionEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FavoratesEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FavoratesEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FollowEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FollowEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FollowGroupEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FollowGroupEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/GradeEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/GradeEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/LoginLogEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/LoginLogEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberCircleRelaEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberCircleRelaEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberFansRelaEntity.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberGradeEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberGradeEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberLoginLogEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/LoginLogEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/CollcetionsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/CollectionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/SubscribeEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/WatchHistoryEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/WatchHistoryEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/CollectionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/CollectionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FavoratesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FavoratesService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FollowGroupService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FollowGroupService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FollowService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FollowService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/GradeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/GradeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/LoginLogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/LoginLogService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberCircleRelaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberCircleRelaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberFansRelaService.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberGradeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberGradeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberLoginLogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberFansRelaService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/CollcetionsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FollowGroupServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/SubscribeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/WatchHistoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/WatchHistoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/CollectionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/CollectionServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FavoratesServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FavoratesServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberLoginLogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberFansRelaServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/CollcetionsDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/CollectionDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/FavoratesDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/FavoratesDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/MemberDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/MemberDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/MemberGradeDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/MemberGradeDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/MemberLoginLogDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/LoginLogDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/collcetions-add-or-update.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/collection-add-or-update.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/collcetions.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/collection.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/favorates-add-or-update.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/favorates-add-or-update.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/favorates.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/favorates.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/member-add-or-update.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/member-add-or-update.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/member.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/member.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/membercirclerela.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/membercirclerela.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/membergrade-add-or-update.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/membergrade-add-or-update.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/membergrade.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/membergrade.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/memberloginlog-add-or-update.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/loginlog-add-or-update.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/memberloginlog.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/loginlog.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/common/utils/R.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/common/utils/R.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/common/service-base/src/main/java/com/aperture/entity/IdWorker.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FollowGroupServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FollowGroupServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FollowServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FollowServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/GradeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/GradeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/LoginLogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/LoginLogServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberCircleRelaServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberCircleRelaServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberFansRelaServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberGradeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberGradeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/SubscribeServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/WatchHistoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/WatchHistoryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/CollectionVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/CollectionVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/FavoratesVo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/MemberFansRelaDao.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/common/utils/RRException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/common/utils/RRException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/utils/RRException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/valid/ListValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/valid/ListValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/valid/UpdateStatusGroup.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/xss/SQLFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/xss/SQLFilter.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/../xcEdu/xcEduService01/out/" />
     <ignored path="$PROJECT_DIR$/Back-End/aperture-acl/target/" />
@@ -127,70 +106,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberCircleRelaController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="918">
-              <caret line="67" column="52" selection-start-line="67" selection-start-column="52" selection-end-line="67" selection-end-column="52" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberCircleRelaEntity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="23" selection-start-line="23" selection-end-line="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/WatchHistoryEntity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="31" column="14" lean-forward="true" selection-start-line="31" selection-start-column="14" selection-end-line="31" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/entity/ResultBean.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="37" column="57" selection-start-line="37" selection-start-column="34" selection-end-line="37" selection-end-column="57" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/entity/RESULT_BEAN_STATUS_CODE.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="13" column="21" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/common/utils/R.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="500">
-              <caret line="44" column="44" selection-start-line="44" selection-start-column="44" selection-end-line="44" selection-end-column="44" />
-              <folding>
-                <element signature="e#818#819#0" expanded="true" />
-                <element signature="e#898#899#0" expanded="true" />
-                <element signature="e#939#940#0" expanded="true" />
-                <element signature="e#1009#1010#0" expanded="true" />
-                <element signature="e#1111#1112#0" expanded="true" />
-                <element signature="e#1141#1142#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -224,6 +140,8 @@
       <find>web</find>
       <find>manage</find>
       <find>CollcetionsEntity</find>
+      <find>favoratesService</find>
+      <find>e</find>
     </findStrings>
     <replaceStrings>
       <replace>CollectionEntity</replace>
@@ -269,57 +187,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/bootstrap.properties" />
-        <option value="$PROJECT_DIR$/Back-End/common/service-base/pom.xml" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/pom.xml" />
-        <option value="$PROJECT_DIR$/Back-End/common/pom.xml" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/config/MybatisConfig.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-gateway/src/test/java/com/aperture/gateway/ApertureGatewayApplicationTests.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-gateway/src/main/resources/application.properties" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-gateway/pom.xml" />
-        <option value="$PROJECT_DIR$/Back-End/renren-fast/pom.xml" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/feign/IdMaker.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/application.yml" />
-        <option value="$PROJECT_DIR$/Back-End/.gitignore" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-gateway/src/main/resources/application.yml" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberController.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/ApertureMemberApplication.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/MemberDao.xml" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/MemberRespVo.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberServiceImpl.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/CollcetionsEntity.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FavoratesEntity.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/CollectionVo.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/CollcetionsController.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/CollcetionsService.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/CollcetionsServiceImpl.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/CollectionService.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/FavoratesVo.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/CollectionController.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FavoratesController.java" />
         <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FollowEntity.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/FollowDao.xml" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FollowController.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/CollectionEntity.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/CollectionDao.xml" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FavoratesService.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FollowServiceImpl.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FollowService.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FavoratesServiceImpl.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FollowGroupController.java" />
+        <option value="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/constant/CollectionGroupConstant.java" />
         <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FollowGroupService.java" />
         <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FollowGroupServiceImpl.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/GradeEntity.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberEntity.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberGradeDao.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/LoginLogController.java" />
+        <option value="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/constant/MemberCircleConstant.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/CollectionEntity.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/CollectionVo.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FavoratesEntity.java" />
+        <option value="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/constant/FavoratesConstant.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/FavoratesUpdateVo.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/FollowCopyVo.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FollowService.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FollowServiceImpl.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/config/MybatisConfig.java" />
+        <option value="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/constant/LoginConstant.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/LoginLogEntity.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/LoginLogVo.java" />
         <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/LoginLogService.java" />
         <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/LoginLogServiceImpl.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/CollectionServiceImpl.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/GradeController.java" />
-        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberCircleRelaController.java" />
         <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberCircleRelaEntity.java" />
-        <option value="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/common/utils/R.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/MemberCircleVo.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberCircleRelaService.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberCircleRelaController.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FollowGroupController.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FollowController.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/LoginLogController.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberGradeController.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberGradeService.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/rspVo/GradeValueRespVo.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/GradeService.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/GradeController.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/GradeServiceImpl.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/WatchHistoryEntity.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/WatchHistoryVo.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/WatchHistoryController.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/WatchHistoryService.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/WatchHistoryServiceImpl.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberCircleRelaServiceImpl.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberGradeServiceImpl.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberController.java" />
+        <option value="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/valid/ListValue.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberEntity.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberService.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/MemberUpdateVo.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberServiceImpl.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/CollectionServiceImpl.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/CollectionService.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/CollectionController.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FavoratesController.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FavoratesService.java" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FavoratesServiceImpl.java" />
       </list>
     </option>
   </component>
@@ -382,6 +300,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -510,34 +429,6 @@
               <item name="aperture" type="462c0819:PsiDirectoryNode" />
               <item name="community" type="462c0819:PsiDirectoryNode" />
               <item name="member" type="462c0819:PsiDirectoryNode" />
-              <item name="entity" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ApertureWeb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ApertureWeb" type="462c0819:PsiDirectoryNode" />
-              <item name="Back-End" type="462c0819:PsiDirectoryNode" />
-              <item name="aperture-member" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="aperture" type="462c0819:PsiDirectoryNode" />
-              <item name="community" type="462c0819:PsiDirectoryNode" />
-              <item name="member" type="462c0819:PsiDirectoryNode" />
-              <item name="feign" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ApertureWeb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ApertureWeb" type="462c0819:PsiDirectoryNode" />
-              <item name="Back-End" type="462c0819:PsiDirectoryNode" />
-              <item name="aperture-member" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="aperture" type="462c0819:PsiDirectoryNode" />
-              <item name="community" type="462c0819:PsiDirectoryNode" />
-              <item name="member" type="462c0819:PsiDirectoryNode" />
               <item name="service" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -552,7 +443,31 @@
               <item name="aperture" type="462c0819:PsiDirectoryNode" />
               <item name="community" type="462c0819:PsiDirectoryNode" />
               <item name="member" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="impl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ApertureWeb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ApertureWeb" type="462c0819:PsiDirectoryNode" />
+              <item name="Back-End" type="462c0819:PsiDirectoryNode" />
+              <item name="aperture-member" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="aperture" type="462c0819:PsiDirectoryNode" />
+              <item name="community" type="462c0819:PsiDirectoryNode" />
+              <item name="member" type="462c0819:PsiDirectoryNode" />
               <item name="vo" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ApertureWeb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ApertureWeb" type="462c0819:PsiDirectoryNode" />
+              <item name="Back-End" type="462c0819:PsiDirectoryNode" />
+              <item name="aperture-member" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ApertureWeb" type="b2602c69:ProjectViewProjectNode" />
@@ -669,71 +584,27 @@
               <item name="com" type="462c0819:PsiDirectoryNode" />
               <item name="aperture" type="462c0819:PsiDirectoryNode" />
               <item name="community" type="462c0819:PsiDirectoryNode" />
-              <item name="entity" type="462c0819:PsiDirectoryNode" />
+              <item name="constant" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ApertureWeb" type="b2602c69:ProjectViewProjectNode" />
               <item name="ApertureWeb" type="462c0819:PsiDirectoryNode" />
               <item name="Back-End" type="462c0819:PsiDirectoryNode" />
               <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="service-base" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ApertureWeb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ApertureWeb" type="462c0819:PsiDirectoryNode" />
-              <item name="Back-End" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="service-base" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ApertureWeb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ApertureWeb" type="462c0819:PsiDirectoryNode" />
-              <item name="Back-End" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="service-base" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ApertureWeb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ApertureWeb" type="462c0819:PsiDirectoryNode" />
-              <item name="Back-End" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="service-base" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ApertureWeb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ApertureWeb" type="462c0819:PsiDirectoryNode" />
-              <item name="Back-End" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="service-base" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ApertureWeb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ApertureWeb" type="462c0819:PsiDirectoryNode" />
-              <item name="Back-End" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="service-base" type="462c0819:PsiDirectoryNode" />
+              <item name="common-tools" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="com" type="462c0819:PsiDirectoryNode" />
               <item name="aperture" type="462c0819:PsiDirectoryNode" />
+              <item name="community" type="462c0819:PsiDirectoryNode" />
+              <item name="valid" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -744,7 +615,7 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1602511766429" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1602856487564" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/Back-End/common/renren-generator" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -758,11 +629,11 @@
       <recent name="D:\JAVA\Java_Learning\IDEA_Project02\ApertureWeb\Back-End\aperture-acl\src\main\resources\mapper\acl" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.aperture.community.constant" />
       <recent name="com.aperture.common.utils" />
       <recent name="com.aperture.gateway.config" />
       <recent name="com.aperture.community.acl.config" />
       <recent name="com.aperture.community.utils" />
-      <recent name="com.aperture.community.gateway.config" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\JAVA\Java_Learning\IDEA_Project02\ApertureWeb\Back-End\aperture-member\src\main\resources\mapper\member" />
@@ -947,7 +818,13 @@
       <workItem from="1602482185617" duration="1309000" />
       <workItem from="1602500564606" duration="859000" />
       <workItem from="1602508197636" duration="3530000" />
-      <workItem from="1602552698929" duration="1969000" />
+      <workItem from="1602552698929" duration="9564000" />
+      <workItem from="1602585348934" duration="10163000" />
+      <workItem from="1602649142791" duration="863000" />
+      <workItem from="1602654188950" duration="20060000" />
+      <workItem from="1602728562805" duration="23947000" />
+      <workItem from="1602810083882" duration="23026000" />
+      <workItem from="1602900167831" duration="592000" />
     </task>
     <task id="LOCAL-00001" summary="acl">
       <created>1601551338126</created>
@@ -1096,17 +973,39 @@
       <option name="project" value="LOCAL" />
       <updated>1602403403320</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="member">
+      <created>1602554931060</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1602554931061</updated>
+    </task>
+    <task id="LOCAL-00023" summary="member">
+      <created>1602554957384</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1602554957384</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="107690000" />
+    <option name="totallyTimeSpent" value="193936000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23081024" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24733475" />
       <window_info id="Designer" order="1" />
       <window_info id="Image Layers" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -1115,22 +1014,22 @@
       <window_info id="Web" order="6" side_tool="true" />
       <window_info id="Structure" order="7" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info active="true" anchor="bottom" id="Find" order="1" sideWeight="0.49733475" visible="true" weight="0.32942432" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4963112" weight="0.041608877" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32942432" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.4978678" visible="true" weight="0.08848614" />
       <window_info anchor="bottom" id="Spring" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.08848614" side_tool="true" visible="true" weight="0.21428572" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5021322" side_tool="true" visible="true" weight="0.08848614" />
       <window_info anchor="bottom" id="Java Enterprise" order="10" />
-      <window_info anchor="bottom" id="Version Control" order="11" sideWeight="0.49733475" weight="0.22068231" />
+      <window_info anchor="bottom" id="Version Control" order="11" sideWeight="0.4968017" weight="0.22068231" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48720682" weight="0.24520256" />
       <window_info anchor="bottom" id="Tail" order="13" />
       <window_info anchor="bottom" id="Docker" order="14" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="15" />
-      <window_info anchor="bottom" content_ui="combo" x="-77" y="816" width="1716" height="241" id="Run Dashboard" order="16" sideWeight="0.91151386" visible="true" weight="0.21428572" />
+      <window_info anchor="bottom" content_ui="combo" x="-77" y="816" width="1716" height="241" id="Run Dashboard" order="16" sideWeight="0.91151386" weight="0.12899786" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1140,8 +1039,8 @@
       <window_info anchor="right" id="Maven Projects" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Theme Preview" order="8" />
-      <window_info anchor="right" id="Bean Validation" order="9" weight="0.32995737" />
-      <window_info anchor="right" id="Maven" order="10" visible="true" weight="0.071428575" />
+      <window_info anchor="right" id="Bean Validation" order="9" weight="0.3283582" />
+      <window_info anchor="right" id="Maven" order="10" weight="0.08981233" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1159,361 +1058,403 @@
     <MESSAGE value="member" />
     <option name="LAST_COMMIT_MESSAGE" value="member" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FollowService.java</url>
+          <line>22</line>
+          <properties class="com.aperture.community.member.service.FollowService" method="removeFollow">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/ApertureMemberApplication.java">
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FollowEntity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#704#705#0" expanded="true" />
-            <element signature="e#780#781#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="85">
+          <caret line="10" column="3" lean-forward="true" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/config/MybatisConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="30" column="5" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="187">
+          <caret line="16" column="17" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/FollowGroupDao.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/MemberDao.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="25" column="51" lean-forward="true" selection-start-line="25" selection-start-column="51" selection-end-line="25" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/CollcetionsDao.java" />
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/MemberRespVo.java" />
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberService.java">
+    <entry file="file://$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/constant/LoginConstant.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
-          <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="30" column="35" lean-forward="true" selection-start-line="30" selection-start-column="35" selection-end-line="30" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="35" column="28" lean-forward="true" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/common/service-base/src/main/java/com/aperture/entity/IdWorker.java" />
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/CollcetionsEntity.java" />
-    <entry file="jar://$MAVEN_REPOSITORY$/com/baomidou/mybatis-plus-extension/3.3.2/mybatis-plus-extension-3.3.2.jar!/com/baomidou/mybatisplus/extension/service/IService.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="32" column="20" selection-start-line="32" selection-start-column="20" selection-end-line="32" selection-end-column="20" />
+          <caret line="13" column="8" lean-forward="true" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="19" />
           <folding>
-            <element signature="e#1355#1356#0" expanded="true" />
-            <element signature="e#1432#1433#0" expanded="true" />
+            <element signature="e#533#534#0" expanded="true" />
+            <element signature="e#568#569#0" expanded="true" />
+            <element signature="e#602#603#0" expanded="true" />
+            <element signature="e#636#637#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FavoratesController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="63" column="39" selection-start-line="63" selection-start-column="39" selection-end-line="63" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/FollowDao.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/CollectionDao.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="47" lean-forward="true" selection-start-line="8" selection-start-column="47" selection-end-line="8" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/CollectionController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="509">
-          <caret line="69" column="33" lean-forward="true" selection-start-line="69" selection-start-column="33" selection-end-line="69" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FavoratesServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="46" column="31" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FollowService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="19" column="9" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FollowServiceImpl.java">
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/LoginLogVo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
-          <caret line="43" column="5" lean-forward="true" selection-start-line="43" selection-start-column="5" selection-end-line="43" selection-end-column="5" />
+          <caret line="27" column="7" lean-forward="true" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/LoginLogEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="669">
+          <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/LoginLogService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="26" column="8" selection-start-line="26" selection-start-column="4" selection-end-line="26" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberCircleRelaService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="3" selection-start-column="3" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberCircleRelaEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="11" column="3" lean-forward="true" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/MemberCircleVo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="26" lean-forward="true" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FollowGroupController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="574">
+          <caret line="51" column="11" selection-start-line="51" selection-start-column="11" selection-end-line="51" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FollowController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="68" column="28" selection-start-line="68" selection-start-column="28" selection-end-line="68" selection-end-column="28" />
+        <state relative-caret-position="567">
+          <caret line="103" column="18" selection-start-line="103" selection-start-column="18" selection-end-line="103" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FollowEntity.java">
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/LoginLogController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
+        <state relative-caret-position="323">
+          <caret line="53" column="16" selection-start-line="53" selection-start-column="16" selection-end-line="53" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FollowGroupEntity.java">
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberCircleRelaController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="22" column="13" lean-forward="true" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+        <state relative-caret-position="-317">
+          <caret line="72" column="7" lean-forward="true" selection-start-line="72" selection-start-column="7" selection-end-line="72" selection-end-column="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FollowGroupService.java">
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberGradeEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="28" column="7" lean-forward="true" selection-start-line="28" selection-start-column="7" selection-end-line="28" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/GradeService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="22" column="20" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/GradeController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="482">
+          <caret line="57" column="48" selection-start-line="57" selection-start-column="48" selection-end-line="57" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/GradeEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="21" column="7" lean-forward="true" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/rspVo/GradeValueRespVo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" column="38" lean-forward="true" selection-start-line="24" selection-start-column="38" selection-end-line="24" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberGradeService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="21" column="9" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberGradeController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6">
+          <caret line="47" column="7" lean-forward="true" selection-start-line="47" selection-start-column="7" selection-end-line="47" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/GradeServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/CollectionVo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/LoginLogServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="90" column="30" selection-start-line="90" selection-start-column="30" selection-end-line="90" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/5.2.7.RELEASE/spring-beans-5.2.7.RELEASE.jar!/org/springframework/beans/BeanUtils.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="356" column="23" selection-start-line="356" selection-start-column="23" selection-end-line="356" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/WatchHistoryEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="21" column="4" selection-start-line="21" selection-start-column="4" selection-end-line="49" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/WatchHistoryVo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="7" lean-forward="true" selection-start-line="23" selection-start-column="7" selection-end-line="23" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberCircleRelaServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="58" column="13" lean-forward="true" selection-start-line="58" selection-start-column="13" selection-end-line="58" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/WatchHistoryController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="85" column="35" selection-start-line="85" selection-start-column="35" selection-end-line="85" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/WatchHistoryService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="22" column="9" selection-start-line="22" selection-start-column="9" selection-end-line="22" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/WatchHistoryServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="48" column="5" selection-start-line="48" selection-start-column="5" selection-end-line="48" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/javax/validation/validation-api/2.0.1.Final/validation-api-2.0.1.Final.jar!/javax/validation/Payload.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/valid/UpdateStatusGroup.java" />
+    <entry file="file://$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/valid/AddGroup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/valid/UpdateGroup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/valid/ListValue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="18" selection-start-line="17" selection-start-column="18" selection-end-line="17" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/valid/ListValueConstraintValidator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="17" column="11" lean-forward="true" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="431">
+          <caret line="84" column="37" lean-forward="true" selection-start-line="84" selection-start-column="37" selection-end-line="84" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="21" column="8" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="8" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FollowGroupServiceImpl.java">
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberEntity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="39" column="31" selection-start-line="39" selection-start-column="31" selection-end-line="39" selection-end-column="31" />
+        <state relative-caret-position="91">
+          <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="123" selection-end-column="35" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FollowGroupController.java">
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/MemberUpdateVo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="26" column="35" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="35" />
+        <state relative-caret-position="-45">
+          <caret line="20" column="7" lean-forward="true" selection-start-line="20" selection-start-column="7" selection-end-line="20" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberEntity.java">
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="86" lean-forward="true" selection-start-line="86" selection-end-line="86" />
+        <state relative-caret-position="149">
+          <caret line="49" column="18" lean-forward="true" selection-start-line="49" selection-start-column="18" selection-end-line="49" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberGradeDao.java" />
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/MemberGradeDao.java">
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FollowServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        <state relative-caret-position="714">
+          <caret line="68" column="28" lean-forward="true" selection-start-line="68" selection-start-column="28" selection-end-line="68" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/GradeService.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/GradeServiceImpl.java">
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberGradeServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="28" column="1" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/src/views/modules/member/grade.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="22" lean-forward="true" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/GradeDao.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="38" lean-forward="true" selection-start-column="38" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FavoratesEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="31" column="16" lean-forward="true" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/FavoratesVo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="31" lean-forward="true" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/LoginLogService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="19" column="8" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/LoginLogController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="68" column="36" selection-start-line="68" selection-start-column="35" selection-end-line="68" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/LoginLogEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="31" column="13" lean-forward="true" selection-start-line="31" selection-start-column="13" selection-end-line="32" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/LoginLogServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="25" column="36" selection-start-line="25" selection-start-column="36" selection-end-line="25" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FavoratesService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        <state relative-caret-position="795">
+          <caret line="72" column="9" lean-forward="true" selection-start-line="72" selection-start-column="9" selection-end-line="72" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/CollectionService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="52" lean-forward="true" selection-start-line="18" selection-start-column="52" selection-end-line="18" selection-end-column="52" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="391">
+          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/CollectionServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="40" selection-start-line="40" selection-end-line="40" />
+        <state relative-caret-position="516">
+          <caret line="101" selection-start-line="101" selection-end-line="101" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/GradeEntity.java">
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/CollectionController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-163">
-          <caret line="28" column="7" lean-forward="true" selection-start-line="28" selection-start-column="7" selection-end-line="28" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/GradeController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="619">
-          <caret line="68" column="31" selection-start-line="68" selection-start-column="31" selection-end-line="68" selection-end-column="31" />
+        <state relative-caret-position="187">
+          <caret line="34" column="52" lean-forward="true" selection-start-line="34" selection-start-column="52" selection-end-line="34" selection-end-column="52" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/CollectionEntity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="33" column="7" lean-forward="true" selection-start-line="33" selection-start-column="7" selection-end-line="33" selection-end-column="7" />
+        <state relative-caret-position="493">
+          <caret line="34" column="31" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/CollectionVo.java">
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FavoratesEntity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="14" lean-forward="true" selection-start-line="22" selection-start-column="14" selection-end-line="22" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="601">
+          <caret line="45" column="28" selection-start-line="45" selection-start-column="20" selection-end-line="45" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberCircleRelaController.java">
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FavoratesController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
-          <caret line="67" column="52" selection-start-line="67" selection-start-column="52" selection-end-line="67" selection-end-column="52" />
+        <state relative-caret-position="357">
+          <caret line="55" column="68" selection-start-line="55" selection-start-column="68" selection-end-line="55" selection-end-column="68" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberCircleRelaEntity.java">
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FavoratesService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="23" selection-start-line="23" selection-end-line="23" />
+        <state relative-caret-position="238">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/WatchHistoryEntity.java">
+    <entry file="file://$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FavoratesServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="31" column="14" lean-forward="true" selection-start-line="31" selection-start-column="14" selection-end-line="31" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/entity/ResultBean.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="37" column="57" selection-start-line="37" selection-start-column="34" selection-end-line="37" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/common/utils/R.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="44" column="44" selection-start-line="44" selection-start-column="44" selection-end-line="44" selection-end-column="44" />
-          <folding>
-            <element signature="e#818#819#0" expanded="true" />
-            <element signature="e#898#899#0" expanded="true" />
-            <element signature="e#939#940#0" expanded="true" />
-            <element signature="e#1009#1010#0" expanded="true" />
-            <element signature="e#1111#1112#0" expanded="true" />
-            <element signature="e#1141#1142#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/entity/RESULT_BEAN_STATUS_CODE.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="21" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="21" />
+        <state relative-caret-position="686">
+          <caret line="124" column="5" lean-forward="true" selection-start-line="124" selection-start-column="5" selection-end-line="124" selection-end-column="5" />
         </state>
       </provider>
     </entry>

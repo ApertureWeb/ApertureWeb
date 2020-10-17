@@ -33,13 +33,17 @@ public class WatchHistoryEntity implements Serializable {
 	 */
 	private String targetName;
 	/**
-	 * 目标的类型
+	 * 目标的类型,0视频  1帖子  2文章
 	 */
 	private Integer targetType;
 	/**
-	 * 观看到哪个时间点
+	 * 看了多少分钟
 	 */
-	private Date watchWhere;
+	private Integer watchMinutes;
+	/**
+	 * 看到第几集
+	 */
+	private Integer watchEpisode;
 	/**
 	 * 用户id
 	 */

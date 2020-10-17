@@ -3,12 +3,10 @@ package com.aperture.community.member.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.aperture.community.member.feign.IdMaker;
+import com.aperture.community.member.vo.rspVo.GradeValueRespVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.aperture.community.member.entity.GradeEntity;
 import com.aperture.community.member.service.GradeService;
@@ -52,19 +50,28 @@ public class GradeController {
     }
 
     /**
+     * 查询等级经验信息
+     */
+    @RequestMapping("/getGradeValueInfo")
+    public R getGradeValueInfo(){
+        GradeValueRespVo gradeValueInfo = gradeService.getGradeValueInfo();
+        return R.ok().put("data", gradeValueInfo);
+    }
+
+    /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody GradeEntity grade){
-		gradeService.save(grade);
-
+		gradeService.saveGrade(grade);
         return R.ok();
     }
+
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PutMapping("/update")
     public R update(@RequestBody GradeEntity grade){
 		gradeService.updateById(grade);
 
@@ -74,7 +81,7 @@ public class GradeController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		gradeService.removeByIds(Arrays.asList(ids));
 

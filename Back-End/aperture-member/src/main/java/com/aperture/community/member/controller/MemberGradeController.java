@@ -4,18 +4,12 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.aperture.community.member.entity.MemberGradeEntity;
 import com.aperture.community.member.service.MemberGradeService;
 import com.aperture.common.utils.PageUtils;
 import com.aperture.common.utils.R;
-
-
 
 /**
  * 
@@ -54,17 +48,16 @@ public class MemberGradeController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody MemberGradeEntity memberGrade){
 		memberGradeService.save(memberGrade);
-
         return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PutMapping("/update")
     public R update(@RequestBody MemberGradeEntity memberGrade){
 		memberGradeService.updateById(memberGrade);
 
@@ -72,13 +65,24 @@ public class MemberGradeController {
     }
 
     /**
-     * 删除
+     * 增加等级经验值
      */
-    @RequestMapping("/delete")
-    public R delete(@RequestBody Integer[] ids){
-		memberGradeService.removeByIds(Arrays.asList(ids));
+    @PutMapping("/AddGradeValue/{memberId}")
+    public R AddGradeValue(@PathVariable("memberId") Long memberId){
+        memberGradeService.updateGradeValue(memberId);
 
         return R.ok();
     }
+
+    /**
+     * 用户等级升级
+     */
+    @PutMapping("/MemberGradeUp/{memberId}")
+    public R MemberGradeUp(@PathVariable("memberId") Long memberId){
+        memberGradeService.updateMemberGrade(memberId);
+
+        return R.ok();
+    }
+
 
 }

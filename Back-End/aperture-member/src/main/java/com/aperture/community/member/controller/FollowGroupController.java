@@ -4,11 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.aperture.community.member.entity.FollowGroupEntity;
 import com.aperture.community.member.service.FollowGroupService;
@@ -53,7 +49,7 @@ public class FollowGroupController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody FollowGroupEntity followGroup){
 		followGroupService.save(followGroup);
 
@@ -61,9 +57,9 @@ public class FollowGroupController {
     }
 
     /**
-     * 保存
+     * 添加关注
      */
-    @RequestMapping("/saveFollowGroup")
+    @PostMapping("/saveFollowGroup")
     public R saveFollowGroup(@RequestBody FollowGroupEntity followGroup){
         followGroupService.saveFollowGroup(followGroup);
 
@@ -73,7 +69,7 @@ public class FollowGroupController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PutMapping("/update")
     public R update(@RequestBody FollowGroupEntity followGroup){
 		followGroupService.updateById(followGroup);
 
@@ -83,9 +79,19 @@ public class FollowGroupController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		followGroupService.removeByIds(Arrays.asList(ids));
+
+        return R.ok();
+    }
+
+    /**
+     * 删除关注分组
+     */
+    @DeleteMapping("/deleteFollowGroup")
+    public R deleteFollowGroup(@RequestParam Long id){
+        followGroupService.removeFollowGroup(id);
 
         return R.ok();
     }

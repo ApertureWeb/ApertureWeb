@@ -1,5 +1,6 @@
 package com.aperture.community.member.service;
 
+import com.aperture.community.member.vo.MemberCircleVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.aperture.common.utils.PageUtils;
 import com.aperture.community.member.entity.MemberCircleRelaEntity;
@@ -16,5 +17,15 @@ import java.util.Map;
 public interface MemberCircleRelaService extends IService<MemberCircleRelaEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void createCircle(MemberCircleVo memberCircleVo);
+
+    void joinCircle(MemberCircleRelaEntity memberCircleRela);
+
+    void removeCircle(Long circleId);
+
+    void exitCircle(Long memberId, Long circleId);
+
+    void updatePositioon(MemberCircleRelaEntity memberCircleRela);
 }
 

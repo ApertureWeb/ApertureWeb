@@ -1,5 +1,6 @@
 package com.aperture.community.member.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -20,7 +21,7 @@ public class FavoratesEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 收藏夹分类id
+	 * 收藏夹id
 	 */
 	@TableId
 	private Long id;
@@ -40,5 +41,11 @@ public class FavoratesEntity implements Serializable {
 	 * 收藏夹描述
 	 */
 	private String description;
+
+	// 1:公开   0：不公开
+	private Integer isPublic;
+
+	// 1：默认收藏夹  0：非默认
+	private Integer isDefault;
 
 }

@@ -1,6 +1,7 @@
 package com.aperture.community.member.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
@@ -33,16 +34,9 @@ public class MemberCircleRelaEntity implements Serializable {
 	 */
 	private Long circleId;
 	/**
-	 * 会员昵称
+	 * 职位:0圈友、1管理员、2圈主
 	 */
-	private String memberNickname;
-	/**
-	 * 圈子名
-	 */
-	private String circleName;
-	/**
-	 * 职位:0圈友、1管理员、2圈主`1
-	 */
-	private String position;
+	private Integer position;
+
 
 }

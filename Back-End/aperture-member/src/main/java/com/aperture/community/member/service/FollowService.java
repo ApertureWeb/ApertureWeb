@@ -1,5 +1,6 @@
 package com.aperture.community.member.service;
 
+import com.aperture.community.member.vo.FollowCopyVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.aperture.common.utils.PageUtils;
 import com.aperture.community.member.entity.FollowEntity;
@@ -19,5 +20,10 @@ public interface FollowService extends IService<FollowEntity> {
 
     void saveFollow(FollowEntity follow);
 
+    void removeFollow(Long id);
+
+    void removeBatchByGroupId(Long groupId);
+
+    void updateFollow(Long memberId, FollowCopyVo followCopyVo);
 }
 

@@ -3,12 +3,9 @@ package com.aperture.community.member.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.aperture.community.member.vo.FollowCopyVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.aperture.community.member.entity.FollowEntity;
 import com.aperture.community.member.service.FollowService;
@@ -54,7 +51,7 @@ public class FollowController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody FollowEntity follow){
 		followService.save(follow);
 
@@ -64,18 +61,27 @@ public class FollowController {
     /**
      * 添加关注
      */
-    @RequestMapping("/saveFollow")
+    @PostMapping("/saveFollow")
     public R saveFollow(@RequestBody FollowEntity follow){
         followService.saveFollow(follow);
 
         return R.ok();
     }
 
+    /**
+     * 设置分组(关注复制)
+     */
+    @PostMapping("/copyFollow/{memberId}")
+    public R copyFollow(@PathVariable("memberId") Long memberId,
+                        @RequestBody FollowCopyVo followCopyVo){
+        followService.updateFollow(memberId, followCopyVo);
+        return R.ok();
+    }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PutMapping("/update")
     public R update(@RequestBody FollowEntity follow){
 		followService.updateById(follow);
 
@@ -85,9 +91,19 @@ public class FollowController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		followService.removeByIds(Arrays.asList(ids));
+
+        return R.ok();
+    }
+
+    /**
+     * 取消关注
+     */
+    @DeleteMapping("/cancelFollow")
+    public R cancelFollow(@RequestParam Long id){
+        followService.removeFollow(id);
 
         return R.ok();
     }

@@ -34,4 +34,9 @@ public class FollowEntity implements Serializable {
 	 */
 	private Long groupId;
 
+	/**
+	 * 当前用户id
+	 */
+	private Long memberId;
+
 }

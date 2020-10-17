@@ -3,12 +3,9 @@ package com.aperture.community.member.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.aperture.community.member.vo.LoginLogVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.aperture.community.member.entity.LoginLogEntity;
 import com.aperture.community.member.service.LoginLogService;
@@ -54,7 +51,7 @@ public class LoginLogController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody LoginLogEntity loginLog){
 		loginLogService.save(loginLog);
 
@@ -62,9 +59,9 @@ public class LoginLogController {
     }
 
     /**
-     * 保存
+     * 新增用户登录日志
      */
-    @RequestMapping("/saveLoginLog")
+    @PostMapping("/saveLoginLog")
     public R saveLoginLog(@RequestBody LoginLogEntity loginLog){
         loginLogService.saveLoginLog(loginLog);
 
@@ -74,7 +71,7 @@ public class LoginLogController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PutMapping("/update")
     public R update(@RequestBody LoginLogEntity loginLog){
 		loginLogService.updateById(loginLog);
 
@@ -82,13 +79,44 @@ public class LoginLogController {
     }
 
     /**
+     * 每十分钟更新在线时长
+     */
+    @PutMapping("/updateTime/{memberId}")
+    public R updateTime(@PathVariable("memberId") Long memberId){
+        loginLogService.updateTime(memberId);
+
+        return R.ok();
+    }
+
+    /**
+     * 更新登录日志
+     */
+    @PutMapping("/updateLoginLog")
+    public R updateLoginLog(@RequestBody LoginLogVo loginLogVo){
+        loginLogService.updateLoginLog(loginLogVo);
+        return R.ok();
+    }
+
+
+    /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		loginLogService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }
+
+    /**
+     * 删除登录日志
+     */
+    @DeleteMapping("/deleteLoginLog/{memberId}")
+    public R deleteLoginLog(@PathVariable("memberId") Long memberId){
+        loginLogService.removeLoginLog(memberId);
+        return R.ok();
+    }
+
+
 
 }
