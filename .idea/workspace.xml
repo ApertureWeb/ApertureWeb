@@ -5,80 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f40abfe3-a9d0-4a7e-b715-0cb2c0074725" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/FavoratesUpdateVo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/FollowCopyVo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/LoginLogVo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/MemberCircleVo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/MemberUpdateVo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/WatchHistoryVo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/rspVo/GradeValueRespVo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/common/utils/CastExcepion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/constant/FavoratesConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/constant/GradeConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/constant/LoginConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/constant/MemberCircleConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/constant/MemberConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/constant/TargetTypeConstant.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/config/MybatisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/config/MybatisConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/CollectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/CollectionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FavoratesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FavoratesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FollowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FollowController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FollowGroupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/FollowGroupController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/GradeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/GradeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/LoginLogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/LoginLogController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberCircleRelaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberCircleRelaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberFansRelaController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberGradeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/MemberGradeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/SubscribeController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/WatchHistoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/controller/WatchHistoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/MemberFansRelaDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/MemberFansRelaDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/dao/SubscribeDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/CollectionEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/CollectionEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FavoratesEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FavoratesEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FollowEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FollowEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FollowGroupEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/FollowGroupEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/GradeEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/GradeEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/LoginLogEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/LoginLogEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberCircleRelaEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberCircleRelaEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberFansRelaEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberGradeEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/MemberGradeEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/SubscribeEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/WatchHistoryEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/entity/WatchHistoryEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/CollectionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/CollectionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FavoratesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FavoratesService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FollowGroupService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FollowGroupService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FollowService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/FollowService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/GradeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/GradeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/LoginLogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/LoginLogService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberCircleRelaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberCircleRelaService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberFansRelaService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberGradeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberGradeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/MemberService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/SubscribeService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/WatchHistoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/WatchHistoryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/CollectionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/CollectionServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FavoratesServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FavoratesServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FollowGroupServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FollowGroupServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FollowServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/FollowServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/GradeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/GradeServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/LoginLogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/LoginLogServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberCircleRelaServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberCircleRelaServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberFansRelaServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberGradeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberGradeServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/MemberServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/SubscribeServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/WatchHistoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/service/impl/WatchHistoryServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/CollectionVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/CollectionVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/java/com/aperture/community/member/vo/FavoratesVo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/aperture-member/src/main/resources/mapper/member/MemberFansRelaDao.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/common/utils/RRException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/common/utils/RRException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/utils/RRException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/valid/ListValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/valid/ListValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/valid/UpdateStatusGroup.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/xss/SQLFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Back-End/common/common-tools/src/main/java/com/aperture/community/xss/SQLFilter.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/../xcEdu/xcEduService01/out/" />
     <ignored path="$PROJECT_DIR$/Back-End/aperture-acl/target/" />
@@ -824,7 +751,7 @@
       <workItem from="1602654188950" duration="20060000" />
       <workItem from="1602728562805" duration="23947000" />
       <workItem from="1602810083882" duration="23026000" />
-      <workItem from="1602900167831" duration="592000" />
+      <workItem from="1602900167831" duration="1234000" />
     </task>
     <task id="LOCAL-00001" summary="acl">
       <created>1601551338126</created>
@@ -987,11 +914,18 @@
       <option name="project" value="LOCAL" />
       <updated>1602554957384</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="member">
+      <created>1602901776118</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1602901776118</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="193936000" />
+    <option name="totallyTimeSpent" value="194578000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
