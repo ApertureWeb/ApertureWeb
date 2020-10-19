@@ -21,12 +21,8 @@ public class MySQLConnectionFactory {
     private MySQLConnectionFactory() {
     }
 
-    public SqlConnection getConnectionInstance() {
-        Future<SqlConnection> result = mySQLPool.getConnection();
-        if (result.succeeded()) {
-
-        }
-        return null;
+    public Future<SqlConnection> getConnectionInstance() {
+        return mySQLPool.getConnection();
     }
 
 }

@@ -1,4 +1,4 @@
-package com.aperture.community.message.service;
+package com.aperture.community.message.service.listener;
 
 import com.aperture.community.message.common.MqMap;
 import com.aperture.community.message.config.RocketMQProperties;
@@ -17,14 +17,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class DingService implements ApplicationRunner {
+public class DingListener implements ApplicationRunner {
 
     private final RocketMQProperties rocketMQProperties;
     private final DingNotifyManager dingNotifyManager;
     private DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(MqMap.NOTIFY_GROUP.getValue());
 
     @Autowired
-    public DingService(RocketMQProperties rocketMQProperties, DingNotifyManager dingNotifyManager) {
+    public DingListener(RocketMQProperties rocketMQProperties, DingNotifyManager dingNotifyManager) {
         this.rocketMQProperties = rocketMQProperties;
         this.dingNotifyManager = dingNotifyManager;
     }
@@ -36,5 +36,6 @@ public class DingService implements ApplicationRunner {
         consumer.setNamesrvAddr(rocketMQProperties.getNamesrv());
         consumer.registerMessageListener(dingNotifyManager);
         consumer.start();
+
     }
 }

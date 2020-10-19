@@ -1,13 +1,13 @@
 package com.aperture.community.message.common;
 
 /**
- * 
+ * 用户Event
  *
  * @author HALOXIAO
  * @email haloxql@gmail.com
- * @date 2020-10-11 17:32:34
+ * @date 2020-10-19 15:41:46
  */
-public enum MsEventRemindMap {
+public enum  MsEventRemindMap {
 
     
         /**
@@ -41,9 +41,15 @@ public enum MsEventRemindMap {
         RECEIVER_ID ("receiver_id"),
     
         /**
-        * 行为发起人
+        * 行为发起人ID
+
         */
         SENDER_ID ("sender_id"),
+    
+        /**
+        * 行为发起人姓名
+        */
+        SENDER_NAME ("sender_name"),
     
         /**
         * 事件源的内容（文章/视频就为标题，评论就是省略（前20个字左右））

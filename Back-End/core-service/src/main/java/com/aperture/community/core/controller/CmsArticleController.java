@@ -34,17 +34,16 @@ public class CmsArticleController {
 
 
     @PostMapping("article")
-    public ResultBean<Long> saveArticle(@RequestBody @Validated({ValidationGroup.addGroup.class}) CmsArticleParam cmsArticleParam) throws Exception {
-        Long id = umsArticleService.save(cmsArticleParam);
-        ResultBean<Long> bean = new ResultBean<>("success", RESULT_BEAN_STATUS_CODE.SUCCESS);
-        bean.setData(id);
-        return bean;
+    public ResultBean saveArticle(@RequestBody @Validated({ValidationGroup.addGroup.class}) CmsArticleParam cmsArticleParam) throws Exception {
+        umsArticleService.save(cmsArticleParam);
+        return ResultBean.ok();
     }
 
     @DeleteMapping
     public ResultBean<Boolean> deleteArticle(Long id) {
         return umsArticleService.delete(id) ? ResultBean.ok() : ResultBean.error("删除失败", RESULT_BEAN_STATUS_CODE.UNKNOWN_EXCEPTION);
     }
+
 
 
     @GetMapping
@@ -54,6 +53,7 @@ public class CmsArticleController {
     }
 
     private boolean checkSize(MultipartFile file) {
+
 
         return false;
     }
