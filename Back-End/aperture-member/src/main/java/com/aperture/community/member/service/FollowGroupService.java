@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.aperture.common.utils.PageUtils;
 import com.aperture.community.member.entity.FollowGroupEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,5 +25,7 @@ public interface FollowGroupService extends IService<FollowGroupEntity> {
     void subFollowCount(Long groupId);
 
     void removeFollowGroup(Long groupId);
+
+    List<FollowGroupEntity> getGroupList(Long memberId);
 }
 

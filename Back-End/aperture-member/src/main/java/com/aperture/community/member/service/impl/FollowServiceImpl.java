@@ -2,6 +2,7 @@ package com.aperture.community.member.service.impl;
 
 import com.aperture.common.utils.CastExcepion;
 import com.aperture.community.entity.RESULT_BEAN_STATUS_CODE;
+import com.aperture.community.member.entity.FavoratesEntity;
 import com.aperture.community.member.entity.MemberCircleRelaEntity;
 import com.aperture.community.member.entity.WatchHistoryEntity;
 import com.aperture.community.member.feign.IdMaker;
@@ -16,6 +17,7 @@ import org.springframework.data.annotation.Reference;
 import org.springframework.stereotype.Service;
 
 import java.text.FieldPosition;
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -34,6 +36,9 @@ public class FollowServiceImpl extends ServiceImpl<FollowDao, FollowEntity> impl
 
     @Autowired
     private FollowGroupService followGroupService;
+
+    @Autowired
+    private FollowDao followDao;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -90,5 +95,15 @@ public class FollowServiceImpl extends ServiceImpl<FollowDao, FollowEntity> impl
         followEntity.setMemberId(memberId);
         this.updateById(followEntity);
         followGroupService.addfollowCount(followCopyVo.getGroupId());
+    }
+
+    @Override
+    public List<FollowEntity> getfollowList(Long groupId) {
+        if(groupId == null) {
+            CastExcepion.cast("getfollowList Error", RESULT_BEAN_STATUS_CODE.ARGUMENT_EXCEPTION);
+        }
+        QueryWrapper<FollowEntity> queryWrapper = new QueryWrapper<FollowEntity>().eq("group_id", groupId);
+        List<FollowEntity> followEntityList = followDao.selectList(queryWrapper);
+        return followEntityList;
     }
 }

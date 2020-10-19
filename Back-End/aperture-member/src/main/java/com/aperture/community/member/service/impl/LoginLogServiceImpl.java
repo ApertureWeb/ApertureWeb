@@ -95,4 +95,25 @@ public class LoginLogServiceImpl extends ServiceImpl<LoginLogDao, LoginLogEntity
         BeanUtils.copyProperties(loginLogVo, loginLogEntity);
         this.updateById(loginLogEntity);
     }
+
+
+    @Override
+    public Integer getLoginStatus(Long memberId) {
+        if(memberId == null) {
+            CastExcepion.cast("getLoginStatus Error", RESULT_BEAN_STATUS_CODE.ARGUMENT_EXCEPTION);
+        }
+        QueryWrapper<LoginLogEntity> queryWrapper = new QueryWrapper<LoginLogEntity>().eq("member_id", memberId).select("login_status");
+        LoginLogEntity logEntity = this.getOne(queryWrapper);
+        return logEntity.getLoginStatus();
+    }
+
+    @Override
+    public LoginLogEntity getLoginLog(Long memberId) {
+        if(memberId == null) {
+            CastExcepion.cast("getLoginStatus Error", RESULT_BEAN_STATUS_CODE.ARGUMENT_EXCEPTION);
+        }
+        QueryWrapper<LoginLogEntity> queryWrapper = new QueryWrapper<LoginLogEntity>().eq("member_id", memberId);
+        LoginLogEntity logEntity = this.getOne(queryWrapper);
+        return logEntity;
+    }
 }

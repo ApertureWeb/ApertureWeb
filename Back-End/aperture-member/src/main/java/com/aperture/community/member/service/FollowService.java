@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.aperture.common.utils.PageUtils;
 import com.aperture.community.member.entity.FollowEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,5 +26,8 @@ public interface FollowService extends IService<FollowEntity> {
     void removeBatchByGroupId(Long groupId);
 
     void updateFollow(Long memberId, FollowCopyVo followCopyVo);
+
+    List<FollowEntity> getfollowList(Long groupId);
+
 }
 

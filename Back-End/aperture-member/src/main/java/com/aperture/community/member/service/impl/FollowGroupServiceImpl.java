@@ -11,6 +11,8 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -31,6 +33,9 @@ public class FollowGroupServiceImpl extends ServiceImpl<FollowGroupDao, FollowGr
 
     @Autowired
     private FollowService followService;
+
+    @Autowired
+    private FollowGroupDao followGroupDao;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -82,5 +87,16 @@ public class FollowGroupServiceImpl extends ServiceImpl<FollowGroupDao, FollowGr
         }
         this.removeById(groupId);
         followService.remove(new QueryWrapper<FollowEntity>().eq("group_id", groupId));
+    }
+
+    @Override
+    public List<FollowGroupEntity> getGroupList(Long memberId) {
+        if(memberId == null) {
+            CastExcepion.cast("getGroupList Error", RESULT_BEAN_STATUS_CODE.ARGUMENT_EXCEPTION);
+        }
+        QueryWrapper<FollowGroupEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("member_id", memberId);
+        List<FollowGroupEntity> followGroupEntityList = followGroupDao.selectList(queryWrapper);
+        return followGroupEntityList;
     }
 }

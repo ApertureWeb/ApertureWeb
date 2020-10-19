@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.aperture.common.utils.PageUtils;
 import com.aperture.community.member.entity.FavoratesEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,6 +31,6 @@ public interface FavoratesService extends IService<FavoratesEntity> {
 
     void deleteById(Long id);
 
-    FavoratesEntity getWatchHistory(Long memberId);
+    List<FavoratesEntity> getFavorates(Long memberId);
 }
 

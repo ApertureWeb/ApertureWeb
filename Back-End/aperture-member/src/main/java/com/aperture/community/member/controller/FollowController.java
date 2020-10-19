@@ -1,6 +1,7 @@
 package com.aperture.community.member.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import com.aperture.community.member.vo.FollowCopyVo;
@@ -12,6 +13,7 @@ import com.aperture.community.member.service.FollowService;
 import com.aperture.common.utils.PageUtils;
 import com.aperture.common.utils.R;
 
+import javax.validation.constraints.Pattern;
 
 
 /**
@@ -37,6 +39,15 @@ public class FollowController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 查询分组关注列表
+     */
+    @RequestMapping("/getfollowList")
+    public R getfollowList(@RequestParam Long groupId){
+        List<FollowEntity> followList = followService.getfollowList(groupId);
+
+        return R.ok().put("followList", followList);
+    }
 
     /**
      * 信息

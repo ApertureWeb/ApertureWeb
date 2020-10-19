@@ -18,7 +18,6 @@ import lombok.Data;
 @TableName("ums_collection")
 public class CollectionEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	/**
 	 * 收藏主键id
 	 */
@@ -28,7 +27,6 @@ public class CollectionEntity implements Serializable {
 	 * 收藏名
 	 */
 	private String name;
-
 	/**
 	 * 收藏日期
 	 */
@@ -37,6 +35,8 @@ public class CollectionEntity implements Serializable {
 	 * 收藏目标的id
 	 */
 	private Long targetId;
+
+	private String authorName;
 	/**
 	 * 所属收藏夹id
 	 */

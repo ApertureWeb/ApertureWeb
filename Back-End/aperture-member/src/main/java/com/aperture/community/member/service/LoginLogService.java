@@ -25,5 +25,9 @@ public interface LoginLogService extends IService<LoginLogEntity> {
     void updateTime(Long memberId);
 
     void updateLoginLog(LoginLogVo loginLogVo);
+
+    Integer getLoginStatus(Long memberId);
+
+    LoginLogEntity getLoginLog(Long memberId);
 }
 

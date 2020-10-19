@@ -24,3 +24,13 @@ server:
 logging:
   level:
     com.atguigu.gulimall: debug
+
+rocketmq:
+  name-server: 49.234.83.167:9876
+  producer:
+    group: memberGroup
+mq:
+  topic: memberTopic
+  member:
+    tag: memberTag
+

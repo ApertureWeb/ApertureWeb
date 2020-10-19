@@ -1,6 +1,7 @@
 package com.aperture.community.member.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import com.aperture.community.member.vo.FavoratesUpdateVo;
@@ -49,13 +50,13 @@ public class FavoratesController {
     }
 
     /**
-     * 查询观看历史
+     * 查询收藏夹
      */
-    @GetMapping("/getWatchHistory/{memberId}")
-    public R getWatchHistory(@PathVariable("memberId") Long memberId){
-        FavoratesEntity favorates = favoratesService.getWatchHistory(memberId);
+    @GetMapping("/getFavoratesList/{memberId}")
+    public R getFavoratesList(@PathVariable("memberId") Long memberId){
+        List<FavoratesEntity> favoratesList = favoratesService.getFavorates(memberId);
 
-        return R.ok().put("favorates", favorates);
+        return R.ok().put("favoratesList", favoratesList);
     }
 
 

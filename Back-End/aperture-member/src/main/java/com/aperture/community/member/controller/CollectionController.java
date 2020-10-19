@@ -39,9 +39,9 @@ public class CollectionController {
     }
 
     /**
-     * 查询收藏列表
+     * 查询收藏夹收藏列表
      */
-    @RequestMapping("/getCollections/{memberId}")
+    @GetMapping("/getCollections/{memberId}")
     public R getCollections(@PathVariable("memberId") Long memberId,
                             @RequestParam Map<String, Object> params){
         PageUtils page = collectionService.queryCollections(memberId, params);

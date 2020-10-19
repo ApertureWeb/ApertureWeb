@@ -1,6 +1,7 @@
 package com.aperture.community.member.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,16 @@ public class FollowGroupController {
 		FollowGroupEntity followGroup = followGroupService.getById(id);
 
         return R.ok().put("followGroup", followGroup);
+    }
+
+    /**
+     * 查询分组列表
+     */
+    @RequestMapping("/getGroupList/{memberId}")
+    public R getGroupList(@PathVariable("memberId") Long memberId){
+        List<FollowGroupEntity> followGroupList = followGroupService.getGroupList(memberId);
+
+        return R.ok().put("followGroupList", followGroupList);
     }
 
     /**

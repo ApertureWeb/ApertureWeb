@@ -16,6 +16,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -34,6 +36,9 @@ public class FavoratesServiceImpl extends ServiceImpl<FavoratesDao, FavoratesEnt
 
     @Autowired
     private CollectionService collectionService;
+
+    @Autowired
+    private FavoratesDao favoratesDao;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -118,9 +123,9 @@ public class FavoratesServiceImpl extends ServiceImpl<FavoratesDao, FavoratesEnt
     }
 
     @Override
-    public FavoratesEntity getWatchHistory(Long memberId) {
+    public List<FavoratesEntity> getFavorates(Long memberId) {
         QueryWrapper<FavoratesEntity> queryWrapper = new QueryWrapper<FavoratesEntity>().eq("member_id", memberId);
-        FavoratesEntity favoratesEntity = this.getOne(queryWrapper);
-        return favoratesEntity;
+        List<FavoratesEntity> favoratesEntityList = favoratesDao.selectList(queryWrapper);
+        return favoratesEntityList;
     }
 }

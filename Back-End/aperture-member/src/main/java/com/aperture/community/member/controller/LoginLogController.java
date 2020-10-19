@@ -49,6 +49,26 @@ public class LoginLogController {
     }
 
     /**
+     * 根据memberId查询登录日志信息
+     */
+    @GetMapping("/getLoginLog/{memberId}")
+    public R getLoginLog(@PathVariable("memberId") Long memberId){
+        LoginLogEntity loginLog = loginLogService.getLoginLog(memberId);
+
+        return R.ok().put("loginLog", loginLog);
+    }
+
+    /**
+     * 查询用户是否在线
+     */
+    @GetMapping("/getLoginStatus/{memberId}")
+    public R getLoginStatus(@PathVariable("memberId") Long memberId){
+        Integer loginStatus = loginLogService.getLoginStatus(memberId);
+
+        return R.ok().put("loginStatus", loginStatus);
+    }
+
+    /**
      * 保存
      */
     @PostMapping("/save")

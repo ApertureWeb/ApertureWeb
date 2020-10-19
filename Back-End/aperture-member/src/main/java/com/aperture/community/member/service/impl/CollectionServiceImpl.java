@@ -106,16 +106,18 @@ public class CollectionServiceImpl extends ServiceImpl<CollectionDao, Collection
         if(params == null || memberId == null) {
             CastExcepion.cast("queryCollections Error", RESULT_BEAN_STATUS_CODE.ARGUMENT_EXCEPTION);
         }
-        QueryWrapper<CollectionEntity> queryWrapper = new QueryWrapper<CollectionEntity>().eq("member_id", memberId);
+        QueryWrapper<CollectionEntity> queryWrapper = new QueryWrapper<CollectionEntity>();
         String key = (String) params.get("key");
+        Long favoratesId = (Long) params.get("favoratesId");
+        if(!StringUtils.isEmpty(favoratesId.toString())) {
+            queryWrapper.eq("favorates_id", favoratesId);
+        }
         if(!StringUtils.isEmpty(key)) {
             queryWrapper.likeRight("name", key);
         }
-
         IPage<CollectionEntity> page = this.page(
                 new Query<CollectionEntity>().getPage(params), queryWrapper
         );
-
         return new PageUtils(page);
     }
 }
