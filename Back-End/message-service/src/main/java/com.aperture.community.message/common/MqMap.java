@@ -10,8 +10,10 @@ import org.bouncycastle.cms.PasswordRecipientId;
 public enum MqMap {
     NOTIFY_GROUP("notify"),
     NOTIFY_TOPIC("notify"),
-
     FEED_TOPIC("feed"),
+
+    EVENT_GROUP("event"),
+    EVENT_TOPIC("evnet"),
 
     ;
 

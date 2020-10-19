@@ -14,19 +14,20 @@ import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class DingNotifyManager implements MessageListenerConcurrently {
+@Component
+public class DingMessageListenerImpl implements MessageListenerConcurrently {
 
     private WebClient webClient;
     private DingProperties dingProperties;
     private ObjectMapper objectMapper;
 
     @Autowired
-    public DingNotifyManager(WebClient webClient, DingProperties dingProperties) {
+    public DingMessageListenerImpl(WebClient webClient, DingProperties dingProperties) {
         this.webClient = webClient;
         this.dingProperties = dingProperties;
     }
