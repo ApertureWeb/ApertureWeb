@@ -1,7 +1,7 @@
 package com.aperture.community.message.service.listener;
 
 import com.aperture.community.message.common.MqMap;
-import com.aperture.community.message.config.RocketMQProperties;
+import com.aperture.community.message.config.properties.RocketMQProperties;
 import com.aperture.community.message.manager.DingMessageListenerImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;

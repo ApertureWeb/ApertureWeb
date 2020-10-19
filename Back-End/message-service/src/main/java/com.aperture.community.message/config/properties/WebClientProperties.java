@@ -1,4 +1,4 @@
-package com.aperture.community.message.config;
+package com.aperture.community.message.config.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

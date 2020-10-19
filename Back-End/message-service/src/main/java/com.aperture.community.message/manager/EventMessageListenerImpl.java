@@ -1,6 +1,5 @@
 package com.aperture.community.message.manager;
 
-import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.mysqlclient.MySQLPool;
 import io.vertx.sqlclient.SqlConnection;
@@ -22,6 +21,7 @@ public class EventMessageListenerImpl implements MessageListenerConcurrently {
 
     private final MySQLPool pool;
     private final Vertx vertx;
+    private final String INSERT_EVENT = "INSERT INTO ms_event_remind";
 
     @Autowired
     public EventMessageListenerImpl(MySQLPool pool, Vertx vertx) {
@@ -32,6 +32,15 @@ public class EventMessageListenerImpl implements MessageListenerConcurrently {
     @Override
     public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
 
+
+        pool.getConnection(res -> {
+            if (res.succeeded()) {
+                SqlConnection conn = res.result();
+
+            } else {
+
+            }
+        });
         return null;
     }
 }
