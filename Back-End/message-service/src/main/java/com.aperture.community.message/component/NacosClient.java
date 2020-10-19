@@ -33,13 +33,10 @@ public class NacosClient<T> {
                 .add("port", properties.getServicePort())
                 .add("serviceName", properties.getServiceName());
 
-//        (map, "namespaceId", properties.getNamespaceId());
-
 //                .add("namespaceId", properties.getNamespaceId())
 //                .add("enabled", properties.getOnlineEnabled().toString())
 //                .add("weight", properties.getWeight().toString())
 //                .add("healthy", properties.getHealthy().toString())
-//                .add("")
         webClient.post(properties.getPort(), properties.getIp(), NacosUrlMap.DISCOVERY_INSTANCE_REGISTER.getValue())
                 .queryParams().setAll(map);
 
