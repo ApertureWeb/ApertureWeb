@@ -1,12 +1,14 @@
 package com.aperture.community.message.component;
 
+import com.alibaba.fastjson.JSON;
 import com.aperture.community.message.common.NacosUrlMap;
 import com.aperture.community.message.config.properties.NacosProperties;
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Handler;
-import io.vertx.core.MultiMap;
-import io.vertx.core.Vertx;
+import com.aperture.community.message.module.dto.QueryServerDto;
+import com.esotericsoftware.kryo.util.ObjectMap;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.eventbus.EventBus;
 import io.vertx.ext.web.client.HttpRequest;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Nullable;
 import java.net.UnknownServiceException;
+import java.util.List;
 
 /**
  * @author HALOXIAO
@@ -28,12 +31,14 @@ public class NacosClient<T> {
     private final Vertx vertx;
     private final WebClient webClient;
     private final NacosProperties properties;
+    private final EventBus eventBus;
 
     @Autowired
-    public NacosClient(Vertx vertx, WebClient webClient, NacosProperties properties) {
+    public NacosClient(Vertx vertx, WebClient webClient, NacosProperties properties, EventBus eventBus) {
         this.vertx = vertx;
         this.webClient = webClient;
         this.properties = properties;
+        this.eventBus = eventBus;
     }
 
     /**
@@ -109,6 +114,22 @@ public class NacosClient<T> {
                 .add("groupName", groupName)
                 .add("namespaceId", namespaceId);
 
+    }
+
+    public Future<List<QueryServerDto>> queryServerList(@Nullable Boolean healthy) {
+        HttpRequest<Buffer> sender = webClient.get(properties.getPort(), properties.getIp(), NacosUrlMap.DISCOVERY_SERVICE_LIST.getValue());
+        if (healthy != null) {
+            sender.addQueryParam("healthy", healthy.toString());
+        }
+        sender.send(res -> {
+            if (res.succeeded()) {
+                HttpResponse<Buffer> response = res.result();
+                List<QueryServerDto> result = JSON.parseArray(response.bodyAsString(), QueryServerDto.class);
+
+            }
+
+        });
+        return null;
 
     }
 

@@ -2,6 +2,7 @@ package com.aperture.community.message.config;
 
 import com.aperture.community.message.config.properties.WebClientProperties;
 import io.vertx.core.Vertx;
+import io.vertx.core.eventbus.EventBus;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,11 @@ public class VertxConfig {
         options.setMaxWaitQueueSize(webClientProperties.getMaxWaitQueueSize());
         WebClient client = WebClient.create(vertx, options);
         return client;
+    }
+
+    @Bean
+    public EventBus getEventBus() {
+        return vertx.eventBus();
     }
 
 
