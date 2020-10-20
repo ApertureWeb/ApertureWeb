@@ -6,7 +6,7 @@ package com.aperture.community.message.common;
  **/
 public enum NacosUrlMap {
     DISCOVERY_INSTANCE_REGISTER("/nacos/v1/ns/instance"),
-    DISCOVERY_INSTANCE_CANCEL("/nacos/v1/ns/instance"),
+    DISCOVERY_INSTANCE_DEREGISTER("/nacos/v1/ns/instance"),
     DISCOVERY_INSTANCE_UPDATE("/nacos/v1/ns/instance"),
     DISCOVERY_INSTANCE_LIST("/nacos/v1/ns/instance/list"),
     DISCOVERY_INSTANCE_DETAIL("/nacos/v1/ns/instance"),
