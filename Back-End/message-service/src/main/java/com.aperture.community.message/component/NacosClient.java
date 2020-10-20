@@ -2,12 +2,16 @@ package com.aperture.community.message.component;
 
 import com.alibaba.fastjson.JSON;
 import com.aperture.community.message.common.NacosUrlMap;
+import com.aperture.community.message.common.ServiceBusMap;
 import com.aperture.community.message.config.properties.NacosProperties;
+import com.aperture.community.message.module.dto.EventBusDto;
 import com.aperture.community.message.module.dto.QueryServerDto;
-import com.esotericsoftware.kryo.util.ObjectMap;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.vertx.core.*;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.MultiMap;
+import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.ext.web.client.HttpRequest;
 import io.vertx.ext.web.client.HttpResponse;
@@ -17,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nullable;
-import java.net.UnknownServiceException;
 import java.util.List;
 
 /**
@@ -26,25 +29,23 @@ import java.util.List;
  **/
 @Component
 @Slf4j
-public class NacosClient<T> {
+public class NacosClient {
 
     private final Vertx vertx;
     private final WebClient webClient;
     private final NacosProperties properties;
-    private final EventBus eventBus;
 
     @Autowired
-    public NacosClient(Vertx vertx, WebClient webClient, NacosProperties properties, EventBus eventBus) {
+    public NacosClient(Vertx vertx, WebClient webClient, NacosProperties properties) {
         this.vertx = vertx;
         this.webClient = webClient;
         this.properties = properties;
-        this.eventBus = eventBus;
     }
 
     /**
      * 注册实例
      */
-    public void registerInstance() throws Throwable {
+    public void registerInstance() {
         MultiMap map = MultiMap.caseInsensitiveMultiMap();
         map.add("ip", properties.getServiceIp())
                 .add("port", properties.getServicePort())
@@ -60,8 +61,16 @@ public class NacosClient<T> {
         HttpRequest<Buffer> sender = webClient.post(properties.getPort(), properties.getIp(), NacosUrlMap.DISCOVERY_INSTANCE_REGISTER.getValue());
         sender.queryParams().setAll(map);
         sender.send(res -> {
-            requestHandler(res, "register success", "register fail");
-
+            if (!res.succeeded()) {
+                Throwable failResult = res.cause();
+                log.error("注册实例失败", failResult);
+                DeliveryOptions options = new DeliveryOptions();
+                options.setLocalOnly(true);
+                EventBus eventBus = vertx.eventBus();
+                eventBus.send(ServiceBusMap.DISCOVERY_INSTANCE_REGISTER.name(), JSON.toJSON(new EventBusDto(false, failResult.getMessage())), options);
+            } else {
+                log.info("注册实例成功");
+            }
         });
 
     }
@@ -108,11 +117,11 @@ public class NacosClient<T> {
     /**
      * load balanced
      */
-    public void queryInstanceList(String requestServiceName, @Nullable String groupName, @Nullable String namespaceId) {
+    public void queryInstanceList(String requestServiceName) {
         MultiMap map = MultiMap.caseInsensitiveMultiMap();
         map.add("serviceName", requestServiceName)
-                .add("groupName", groupName)
-                .add("namespaceId", namespaceId);
+                .add("groupName", properties.getGroupName())
+                .add("namespaceId", properties.getNamespaceId());
 
     }
 
@@ -138,14 +147,16 @@ public class NacosClient<T> {
         if (!res.succeeded()) {
             Throwable failResult = res.cause();
             log.error(failMsg, failResult);
+
             //快速失败
         }
         log.info(successMsg + res.result().bodyAsString());
     }
 
 
-    private NacosClient<T> addParam(MultiMap map, String key, String value) {
+    private NacosClient addParam(MultiMap map, String key, String value) {
         if (!value.isEmpty()) {
+
             map.add(key, value);
         }
         return this;

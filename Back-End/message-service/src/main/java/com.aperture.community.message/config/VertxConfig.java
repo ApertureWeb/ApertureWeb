@@ -42,10 +42,5 @@ public class VertxConfig {
         return client;
     }
 
-    @Bean
-    public EventBus getEventBus() {
-        return vertx.eventBus();
-    }
-
 
 }
