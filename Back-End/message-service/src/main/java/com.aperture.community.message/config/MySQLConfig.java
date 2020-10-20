@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Import;
  * @since 2020-10-16 21:37
  **/
 @Configuration
-@Import((VertxConfig.class))
+@Import(VertxConfig.class)
 public class MySQLConfig {
 
     public final Vertx vertx;

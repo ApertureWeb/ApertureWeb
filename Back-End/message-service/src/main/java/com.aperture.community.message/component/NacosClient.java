@@ -13,6 +13,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.HttpRequest;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nullable;
+import javax.validation.constraints.Null;
 import java.util.List;
 
 /**
@@ -67,8 +69,10 @@ public class NacosClient {
                 DeliveryOptions options = new DeliveryOptions();
                 options.setLocalOnly(true);
                 EventBus eventBus = vertx.eventBus();
-                eventBus.send(ServiceBusMap.DISCOVERY_INSTANCE_REGISTER.name(), JSON.toJSON(new EventBusDto(false, failResult.getMessage())), options);
+                eventBus.publish(ServiceBusMap.DISCOVERY_INSTANCE_REGISTER.name(), JSON.toJSON(new EventBusDto(false, failResult.getMessage())), options);
+
             } else {
+
                 log.info("注册实例成功");
             }
         });
@@ -142,6 +146,21 @@ public class NacosClient {
 
     }
 
+    public void sendBeat(@Nullable Boolean ephemeral) {
+        MultiMap map = MultiMap.caseInsensitiveMultiMap();
+        map.add("serviceName", properties.getServiceName())
+                .add("beat", properties.getServiceName() + " heart beat ");
+        addParam(map, "ephemeral", ephemeral)
+                .addParam(map, "groupName", properties.getGroupName());
+        HttpRequest<Buffer> sender = webClient.put(properties.getPort(), properties.getIp(), NacosUrlMap.DISCOVERY_INSTANCE_BEAT.getValue());
+        sender.queryParams().setAll(map);
+        sender.send(res -> {
+            if (res.failed()) {
+                log.error("heat beat error", res.cause());
+            }
+        });
+    }
+
 
     private void requestHandler(AsyncResult<HttpResponse<Buffer>> res, String successMsg, String failMsg) {
         if (!res.succeeded()) {
@@ -154,10 +173,12 @@ public class NacosClient {
     }
 
 
-    private NacosClient addParam(MultiMap map, String key, String value) {
-        if (!value.isEmpty()) {
-
-            map.add(key, value);
+    private NacosClient addParam(MultiMap map, String key, Object value) {
+        if (value != null) {
+            String str = value.toString();
+            if (!str.isEmpty()) {
+                map.add(key, str);
+            }
         }
         return this;
     }
