@@ -5,7 +5,6 @@ import com.aperture.community.message.common.ServiceBusMap;
 import com.aperture.community.message.module.dto.EventBusDto;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
-import jdk.jshell.EvalException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
