@@ -4,13 +4,18 @@ import io.vertx.core.Vertx;
 
 public class NormalTest {
     public static void main(String[] args) {
-        Vertx vertx = Vertx.vertx();
-
-        long id=  vertx.setPeriodic(1000,res->{
-            System.out.println(res.longValue());
-
-
-        });
-        System.out.println("this is end");
+        NormalTest test = new NormalTest();
+        test.test();
     }
+
+    public void test(){
+        for (int i = 0; i < 10; i++) {
+            try{
+                throw new Exception();
+            }catch (Exception e ){
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
 }

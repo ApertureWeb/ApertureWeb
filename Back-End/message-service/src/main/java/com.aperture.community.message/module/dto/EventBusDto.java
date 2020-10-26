@@ -9,7 +9,13 @@ import lombok.Data;
  **/
 @Data
 @AllArgsConstructor
-public class EventBusDto {
+public class EventBusDto<T> {
     private boolean success;
     private String msg;
+    private T data;
+
+    public EventBusDto(boolean success, String msg) {
+        this.success = success;
+        this.msg = msg;
+    }
 }

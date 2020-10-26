@@ -98,4 +98,6 @@ public class NacosProperties {
      */
     private Float protectThreshold = 0f;
 
+    private Integer beatIntervalTime = 5000;
+
 }
