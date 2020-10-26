@@ -1,7 +1,7 @@
 package com.aperture.community.message.component.nacos.client;
 
 import com.aperture.community.message.component.nacos.api.exception.NacosException;
-import com.aperture.community.message.component.nacos.api.NamingMaintainService;
+import com.aperture.community.message.component.nacos.api.naming.NamingMaintainService;
 import com.aperture.community.message.component.nacos.api.naming.pojo.Instance;
 import com.aperture.community.message.component.nacos.api.naming.pojo.Service;
 import com.aperture.community.message.component.nacos.api.selector.AbstractSelector;

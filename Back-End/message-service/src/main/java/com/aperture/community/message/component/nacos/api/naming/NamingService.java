@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.aperture.community.message.component.nacos.api;
+package com.aperture.community.message.component.nacos.api.naming;
 
 import com.aperture.community.message.component.nacos.api.exception.NacosException;
 import com.aperture.community.message.component.nacos.api.naming.pojo.Instance;

@@ -7,6 +7,8 @@ import com.aperture.community.message.component.nacos.api.config.ConfigService;
 import com.aperture.community.message.component.nacos.api.exception.NacosException;
 import com.aperture.community.message.component.nacos.api.naming.NamingFactory;
 import com.aperture.community.message.component.nacos.api.naming.NamingMaintainFactory;
+import com.aperture.community.message.component.nacos.api.naming.NamingMaintainService;
+import com.aperture.community.message.component.nacos.api.naming.NamingService;
 
 import java.util.Properties;
 

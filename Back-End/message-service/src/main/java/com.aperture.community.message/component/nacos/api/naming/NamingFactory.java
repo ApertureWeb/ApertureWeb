@@ -1,6 +1,5 @@
 package com.aperture.community.message.component.nacos.api.naming;
 
-import com.aperture.community.message.component.nacos.api.NamingService;
 import com.aperture.community.message.component.nacos.api.exception.NacosException;
 
 import java.lang.reflect.Constructor;
