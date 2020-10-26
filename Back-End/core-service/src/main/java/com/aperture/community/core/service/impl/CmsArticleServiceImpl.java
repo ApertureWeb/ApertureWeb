@@ -36,6 +36,7 @@ import java.util.Queue;
 @Service
 public class CmsArticleServiceImpl implements CmsArticleService {
 
+
     private PrimaryIdManager primaryIdManager;
     private TagManager tagManager;
     private ContentManager contentManager;
