@@ -16,10 +16,11 @@
 
 package com.aperture.community.message.component.nacos.api;
 
-import com.alibaba.nacos.api.exception.NacosException;
-import com.alibaba.nacos.api.naming.pojo.Instance;
-import com.alibaba.nacos.api.naming.pojo.Service;
-import com.alibaba.nacos.api.selector.AbstractSelector;
+
+import com.aperture.community.message.component.nacos.api.exception.NacosException;
+import com.aperture.community.message.component.nacos.api.naming.pojo.Instance;
+import com.aperture.community.message.component.nacos.api.naming.pojo.Service;
+import com.aperture.community.message.component.nacos.api.selector.AbstractSelector;
 
 import java.util.Map;
 
@@ -30,7 +31,7 @@ import java.util.Map;
  * @since 1.0.1
  */
 public interface NamingMaintainService {
-    
+
     /**
      * update instance info.
      *
@@ -39,7 +40,7 @@ public interface NamingMaintainService {
      * @throws NacosException nacos exception
      */
     void updateInstance(String serviceName, Instance instance) throws NacosException;
-    
+
     /**
      * update instance info.
      *
@@ -49,7 +50,7 @@ public interface NamingMaintainService {
      * @throws NacosException nacos exception
      */
     void updateInstance(String serviceName, String groupName, Instance instance) throws NacosException;
-    
+
     /**
      * query service.
      *
@@ -58,7 +59,7 @@ public interface NamingMaintainService {
      * @throws NacosException nacos exception
      */
     Service queryService(String serviceName) throws NacosException;
-    
+
     /**
      * query service.
      *
@@ -68,7 +69,7 @@ public interface NamingMaintainService {
      * @throws NacosException nacos exception
      */
     Service queryService(String serviceName, String groupName) throws NacosException;
-    
+
     /**
      * create service to Nacos.
      *
@@ -76,7 +77,7 @@ public interface NamingMaintainService {
      * @throws NacosException nacos exception
      */
     void createService(String serviceName) throws NacosException;
-    
+
     /**
      * create service to Nacos.
      *
@@ -85,7 +86,7 @@ public interface NamingMaintainService {
      * @throws NacosException nacos exception
      */
     void createService(String serviceName, String groupName) throws NacosException;
-    
+
     /**
      * create service to Nacos.
      *
@@ -95,7 +96,7 @@ public interface NamingMaintainService {
      * @throws NacosException nacos exception
      */
     void createService(String serviceName, String groupName, float protectThreshold) throws NacosException;
-    
+
     /**
      * create service to Nacos.
      *
@@ -107,7 +108,7 @@ public interface NamingMaintainService {
      */
     void createService(String serviceName, String groupName, float protectThreshold, String expression)
             throws NacosException;
-    
+
     /**
      * create service to Nacos.
      *
@@ -116,7 +117,7 @@ public interface NamingMaintainService {
      * @throws NacosException nacos exception
      */
     void createService(Service service, AbstractSelector selector) throws NacosException;
-    
+
     /**
      * delete service from Nacos.
      *
@@ -125,7 +126,7 @@ public interface NamingMaintainService {
      * @throws NacosException nacos exception
      */
     boolean deleteService(String serviceName) throws NacosException;
-    
+
     /**
      * delete service from Nacos.
      *
@@ -135,7 +136,7 @@ public interface NamingMaintainService {
      * @throws NacosException nacos exception
      */
     boolean deleteService(String serviceName, String groupName) throws NacosException;
-    
+
     /**
      * update service to Nacos.
      *
@@ -145,7 +146,7 @@ public interface NamingMaintainService {
      * @throws NacosException nacos exception
      */
     void updateService(String serviceName, String groupName, float protectThreshold) throws NacosException;
-    
+
     /**
      * update service to Nacos.
      *
@@ -157,7 +158,7 @@ public interface NamingMaintainService {
      */
     void updateService(String serviceName, String groupName, float protectThreshold, Map<String, String> metadata)
             throws NacosException;
-    
+
     /**
      * update service to Nacos with selector.
      *
@@ -166,5 +167,5 @@ public interface NamingMaintainService {
      * @throws NacosException nacos exception
      */
     void updateService(Service service, AbstractSelector selector) throws NacosException;
-    
+
 }
