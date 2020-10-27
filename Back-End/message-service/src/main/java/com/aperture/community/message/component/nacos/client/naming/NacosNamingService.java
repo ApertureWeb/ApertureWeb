@@ -1,21 +1,56 @@
-package com.aperture.community.message.component.nacos.client;
+package com.aperture.community.message.component.nacos.client.naming;
 
-
-import com.aperture.community.message.component.nacos.api.naming.NamingService;
 import com.aperture.community.message.component.nacos.api.exception.NacosException;
+import com.aperture.community.message.component.nacos.api.naming.NamingService;
 import com.aperture.community.message.component.nacos.api.naming.pojo.Instance;
 import com.aperture.community.message.component.nacos.api.naming.pojo.ListView;
 import com.aperture.community.message.component.nacos.api.naming.pojo.ServiceInfo;
 import com.aperture.community.message.component.nacos.api.selector.AbstractSelector;
+import com.aperture.community.message.component.nacos.client.naming.beat.BeatReactor;
+import com.aperture.community.message.component.nacos.client.naming.core.EventDispatcher;
+import com.aperture.community.message.component.nacos.client.naming.core.HostReactor;
+import com.aperture.community.message.component.nacos.client.naming.net.NamingProxy;
 import com.aperture.community.message.service.listener.EventListener;
 
 import java.util.List;
+import java.util.Properties;
 
 /**
  * @author HALOXIAO
- * @since 2020-10-25 19:35
+ * @since 2020-10-27 16:43
  **/
 public class NacosNamingService implements NamingService {
+
+
+    /**
+     * Each Naming service should have different namespace.
+     */
+    private String namespace;
+
+    private String endpoint;
+
+    private String serverList;
+
+    /**
+     * 默认为 ${user}/nacos/naming
+     */
+    private String cacheDir;
+
+    private String logName;
+
+    private HostReactor hostReactor;
+
+    private BeatReactor beatReactor;
+
+    private EventDispatcher eventDispatcher;
+
+    //    private NamingProxy serverProxy;
+    public NamingProxy serverProxy;
+
+
+    NacosNamingService(Properties properties) {
+
+    }
 
     @Override
     public void registerInstance(String serviceName, String ip, int port) throws NacosException {
@@ -272,3 +307,5 @@ public class NacosNamingService implements NamingService {
 
     }
 }
+
+

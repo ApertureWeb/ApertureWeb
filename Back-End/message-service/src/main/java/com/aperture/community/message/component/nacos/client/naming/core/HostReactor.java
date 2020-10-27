@@ -1,4 +1,4 @@
-package com.aperture.community.message.component.nacos.client.core;
+package com.aperture.community.message.component.nacos.client.naming.core;
 
 /**
  * @author HALOXIAO
