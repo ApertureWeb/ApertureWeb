@@ -34,6 +34,7 @@ public class ConcurrentDiskUtil {
                 int i = 0;
                 do {
                     lock = channel.tryLock();
+
                 } while (lock == null);
 
             } catch (FileNotFoundException e) {
@@ -42,13 +43,8 @@ public class ConcurrentDiskUtil {
                 e.printStackTrace();
 
             }
-        });
-
-        FileLock lock = null;
-
-        OpenOptions openOptions = new OpenOptions();
-
-        return false;
+        }).succeeded();
+        return null;
     }
 
 
