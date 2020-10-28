@@ -6,5 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class DiscoveryTest {
 
     public static void main(String[] args) {
+
+
     }
 }
