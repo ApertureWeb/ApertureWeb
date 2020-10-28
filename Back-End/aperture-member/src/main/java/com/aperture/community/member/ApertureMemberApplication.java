@@ -1,8 +1,10 @@
 package com.aperture.community.member;
 
 import org.mybatis.spring.annotation.MapperScan;
+import org.redisson.spring.session.config.EnableRedissonHttpSession;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -19,6 +21,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 @EnableTransactionManagement
 @MapperScan("com.aperture.community.member.dao")
 @EnableFeignClients(basePackages = "com.aperture.community.member.feign")
+@EnableRedissonHttpSession
+@EnableCaching
 public class ApertureMemberApplication {
     public static void main(String[] args) {
         SpringApplication.run(ApertureMemberApplication.class, args);

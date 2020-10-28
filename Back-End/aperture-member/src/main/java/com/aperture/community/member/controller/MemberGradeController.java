@@ -34,6 +34,14 @@ public class MemberGradeController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 根据memberId获取用户等级
+     */
+    @GetMapping("/getMemberGrade/{memberId}")
+    public R getMemberGrade(@PathVariable("memberId") Long memberId){
+        MemberGradeEntity memberGrade = memberGradeService.getGradeByMemberId(memberId);
+        return R.ok().put("memberGrade", memberGrade);
+    }
 
     /**
      * 信息

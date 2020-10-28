@@ -1,6 +1,7 @@
 package com.aperture.community.member.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import com.aperture.community.entity.RESULT_BEAN_STATUS_CODE;
@@ -35,7 +36,6 @@ public class MemberCircleRelaController {
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = memberCircleRelaService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 
@@ -46,8 +46,16 @@ public class MemberCircleRelaController {
     @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		MemberCircleRelaEntity memberCircleRela = memberCircleRelaService.getById(id);
-
         return R.ok().put("memberCircleRela", memberCircleRela);
+    }
+
+    /**
+     * 根据memberId获取用户相关圈子信息
+     */
+    @GetMapping("/getMemberCircle/{memberId}")
+    public R getMemberCircle(@PathVariable("memberId") Long memberId){
+        List<MemberCircleRelaEntity> memberCircleList = memberCircleRelaService.getMemberCircleByMemberId(memberId);
+        return R.ok().put("memberCircleList", memberCircleList);
     }
 
     /**

@@ -18,4 +18,6 @@ public class MemberCircleVo {
      */
     private Long circleId;
 
+    private String circleName;
+
 }

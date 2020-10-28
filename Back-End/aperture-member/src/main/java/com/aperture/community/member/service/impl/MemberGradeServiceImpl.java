@@ -74,8 +74,14 @@ public class MemberGradeServiceImpl extends ServiceImpl<MemberGradeDao, MemberGr
     @Override
     @Transactional
     public void updateMemberGrade(Long memberId) {
-        // TODO: 升级
+        // TODO: 升级, 发送升级消息
 
 
+    }
+
+    @Override
+    public MemberGradeEntity getGradeByMemberId(Long memberId) {
+        MemberGradeEntity memberGrade = this.getOne(new QueryWrapper<MemberGradeEntity>().eq("member_id", memberId));
+        return memberGrade;
     }
 }

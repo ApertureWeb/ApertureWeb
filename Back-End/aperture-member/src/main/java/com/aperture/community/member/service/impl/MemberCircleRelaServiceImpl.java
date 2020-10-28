@@ -1,7 +1,6 @@
 package com.aperture.community.member.service.impl;
 
 import com.aperture.common.utils.CastExcepion;
-import com.aperture.common.utils.RRException;
 import com.aperture.community.constant.MemberCircleConstant;
 import com.aperture.community.entity.RESULT_BEAN_STATUS_CODE;
 import com.aperture.community.member.feign.IdMaker;
@@ -9,6 +8,8 @@ import com.aperture.community.member.vo.MemberCircleVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -95,5 +96,14 @@ public class MemberCircleRelaServiceImpl extends ServiceImpl<MemberCircleRelaDao
 
         // TODO: 发送广播消息，xxx已经成为xxx
 
+    }
+
+    @Override
+    public List<MemberCircleRelaEntity> getMemberCircleByMemberId(Long memberId) {
+        if(StringUtils.isEmpty(memberId.toString()) || memberId == null) {
+            CastExcepion.cast("getMemberCircleByMemberId error", RESULT_BEAN_STATUS_CODE.ARGUMENT_EXCEPTION);
+        }
+        List<MemberCircleRelaEntity> memberCircle = baseMapper.selectList(new QueryWrapper<MemberCircleRelaEntity>().eq("member_id", memberId));
+        return memberCircle;
     }
 }

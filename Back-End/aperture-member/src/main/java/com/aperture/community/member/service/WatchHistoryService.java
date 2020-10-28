@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.aperture.common.utils.PageUtils;
 import com.aperture.community.member.entity.WatchHistoryEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,5 +22,7 @@ public interface WatchHistoryService extends IService<WatchHistoryEntity> {
     void saveHistory(WatchHistoryEntity watchHistory);
 
     void updateWatchHistory(WatchHistoryVo watchHistoryVo);
+
+    List<WatchHistoryEntity> getWatchHistoryListByMemberId(Long memberId);
 }
 

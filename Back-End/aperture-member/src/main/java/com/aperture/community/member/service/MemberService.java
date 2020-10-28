@@ -1,5 +1,6 @@
 package com.aperture.community.member.service;
 
+import com.aperture.community.member.vo.rspVo.MemberBaseInfoRespVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.aperture.common.utils.PageUtils;
 import com.aperture.community.member.entity.MemberEntity;
@@ -20,5 +21,7 @@ public interface MemberService extends IService<MemberEntity> {
     void saveMemberInfo(MemberEntity member);
 
     void updateMemberInfo(MemberEntity member);
+
+    MemberBaseInfoRespVo getMemberBaseInfo(Long memberId);
 }
 

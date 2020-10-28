@@ -8,6 +8,8 @@ import com.aperture.community.member.vo.WatchHistoryVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -55,4 +57,12 @@ public class WatchHistoryServiceImpl extends ServiceImpl<WatchHistoryDao, WatchH
         this.updateById(watchHistoryEntity);
     }
 
+    @Override
+    public List<WatchHistoryEntity> getWatchHistoryListByMemberId(Long memberId) {
+        if(memberId == null) {
+            CastExcepion.cast("getWatchHistoryListByMemberId Error", RESULT_BEAN_STATUS_CODE.ARGUMENT_EXCEPTION);
+        }
+        List<WatchHistoryEntity> historyList = baseMapper.selectList(new QueryWrapper<WatchHistoryEntity>().eq("member_id", memberId));
+        return historyList;
+    }
 }

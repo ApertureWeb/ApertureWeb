@@ -22,5 +22,7 @@ public interface MemberGradeService extends IService<MemberGradeEntity> {
     void updateGradeValue(Long memberId);
 
     void updateMemberGrade(Long memberId);
+
+    MemberGradeEntity getGradeByMemberId(Long memberId);
 }
 

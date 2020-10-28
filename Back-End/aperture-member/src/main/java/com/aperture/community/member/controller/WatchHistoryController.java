@@ -1,6 +1,7 @@
 package com.aperture.community.member.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import com.aperture.community.member.vo.WatchHistoryVo;
@@ -35,6 +36,16 @@ public class WatchHistoryController {
         PageUtils page = watchHistoryService.queryPage(params);
 
         return R.ok().put("page", page);
+    }
+
+    /**
+     * 根据memberId获取用户观看历史
+     */
+    @RequestMapping("/getWatchHistoryList/{memberId}")
+    public R getWatchHistoryList(@PathVariable("memberId") Long memberId){
+        List<WatchHistoryEntity> watchHistoryList = watchHistoryService.getWatchHistoryListByMemberId(memberId);
+
+        return R.ok().put("watchHistoryList", watchHistoryList);
     }
 
 

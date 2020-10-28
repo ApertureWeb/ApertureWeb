@@ -3,6 +3,7 @@ package com.aperture.community.member.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.aperture.community.member.vo.rspVo.MemberBaseInfoRespVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +47,18 @@ public class MemberController {
 
         return R.ok().put("member", member);
     }
+
+
+    /**
+     * 信息
+     */
+    @GetMapping("/getMemberBaseInfo/{memberId}")
+    public R getMemberBaseInfo(@PathVariable("memberId") Long memberId){
+        MemberBaseInfoRespVo memberBaseInfo = memberService.getMemberBaseInfo(memberId);
+
+        return R.ok().put("memberBaseInfo", memberBaseInfo);
+    }
+
 
     /**
      * 保存

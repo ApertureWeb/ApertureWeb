@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.aperture.common.utils.PageUtils;
 import com.aperture.community.member.entity.MemberCircleRelaEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,5 +28,9 @@ public interface MemberCircleRelaService extends IService<MemberCircleRelaEntity
     void exitCircle(Long memberId, Long circleId);
 
     void updatePositioon(MemberCircleRelaEntity memberCircleRela);
+
+    List<MemberCircleRelaEntity> getMemberCircleByMemberId(Long memberId);
+
+
 }
 

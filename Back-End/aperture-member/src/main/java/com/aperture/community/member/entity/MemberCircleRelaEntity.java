@@ -33,10 +33,16 @@ public class MemberCircleRelaEntity implements Serializable {
 	 * 圈子id
 	 */
 	private Long circleId;
+
+	private String circleName;
 	/**
 	 * 职位:0圈友、1管理员、2圈主
 	 */
 	private Integer position;
 
+	/**
+	 * 用户在圈子的等级
+	 */
+	private Integer memberGrade;
 
 }

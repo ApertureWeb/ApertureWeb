@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.aperture.community.member.feign.IdMaker;
 import com.aperture.community.member.vo.rspVo.GradeValueRespVo;
+import com.aperture.community.member.vo.rspVo.MemberBaseInfoRespVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,10 +50,11 @@ public class GradeController {
         return R.ok().put("grade", grade);
     }
 
+
     /**
      * 查询等级经验信息
      */
-    @RequestMapping("/getGradeValueInfo")
+    @GetMapping("/getGradeValueInfo")
     public R getGradeValueInfo(){
         GradeValueRespVo gradeValueInfo = gradeService.getGradeValueInfo();
         return R.ok().put("data", gradeValueInfo);

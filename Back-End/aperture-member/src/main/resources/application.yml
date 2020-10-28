@@ -1,3 +1,6 @@
+server:
+  port: 9001
+
 spring:
   datasource:
     username: root
@@ -10,6 +13,25 @@ spring:
     nacos:
       discovery:
         server-addr: 49.234.83.167:8848
+    sentinel:
+      transport:
+        dashboard: 49.234.83.167:8080
+        port: 8719
+      datasource:
+        ds1:
+          nacos:
+            server-addr: 49.234.83.167:8848
+  #            dataId:
+#            groupId
+#            data-type: json
+#            rule-type: flow
+
+#    alibaba:
+#      seata:
+#        tx-service-group:
+
+  redis:
+    host: 192.168.200.128
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
@@ -19,11 +41,11 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
 
-server:
-  port: 9009
 logging:
   level:
-    com.atguigu.gulimall: debug
+    com.aperture.community.member: debug
+    io:
+      seata: info
 
 rocketmq:
   name-server: 49.234.83.167:9876
@@ -33,4 +55,14 @@ mq:
   topic: memberTopic
   member:
     tag: memberTag
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+feign:
+  sentinel:
+    enabled: true # 激活sentinel对feign的支持
 

@@ -1,18 +1,26 @@
 package com.aperture.community.member.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.aperture.common.utils.CastExcepion;
 import com.aperture.community.constant.GradeConstant;
 import com.aperture.community.constant.MemberConstant;
 import com.aperture.community.entity.RESULT_BEAN_STATUS_CODE;
-import com.aperture.community.member.entity.MemberCircleRelaEntity;
 import com.aperture.community.member.feign.IdMaker;
 import com.aperture.community.member.service.MemberGradeService;
+import com.aperture.community.member.vo.rspVo.MemberBaseInfoRespVo;
 import com.aperture.community.utils.MD5;
-import com.sun.xml.internal.bind.v2.TODO;
-import org.apache.commons.lang.StringUtils;
+import com.sun.xml.internal.ws.message.EmptyMessageImpl;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -30,6 +38,9 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
 
     @Autowired
     private MemberGradeService memberGradeService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -81,4 +92,36 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
         }
         this.updateById(memberEntity);
     }
+
+    @Override
+    public MemberBaseInfoRespVo getMemberBaseInfo(Long memberId) {
+        if(memberId == null || !StringUtils.isEmpty(memberId.toString())) {
+            CastExcepion.cast("getMemberBaseInfo error", RESULT_BEAN_STATUS_CODE.ARGUMENT_EXCEPTION);
+        }
+        String memberBaseInfo = (String) redisTemplate.opsForValue().get("memberBaseInfo");
+        if(StringUtils.isEmpty(memberBaseInfo)) {
+            MemberBaseInfoRespVo memberBaseInfoFromDB = getMemberBaseInfoFromDB(memberId);
+            return memberBaseInfoFromDB;
+        }
+        // 缓存中有数据
+        MemberBaseInfoRespVo memberBaseInfoRespVo = JSON.parseObject(memberBaseInfo, new TypeReference<MemberBaseInfoRespVo>() {
+        });
+        return memberBaseInfoRespVo;
+    }
+
+    private MemberBaseInfoRespVo getMemberBaseInfoFromDB(Long memberId) {
+        String memberBaseInfo = (String) redisTemplate.opsForValue().get("memberBaseInfo");
+        if(!StringUtils.isEmpty(memberBaseInfo)) {
+            MemberBaseInfoRespVo memberBaseInfoRespVo = JSON.parseObject(memberBaseInfo, new TypeReference<MemberBaseInfoRespVo>() {
+            });
+            return memberBaseInfoRespVo;
+        }
+        MemberEntity memberEntity = this.getOne(new QueryWrapper<MemberEntity>().eq("member_id", memberId));
+        MemberBaseInfoRespVo memberBaseInfoRespVo = new MemberBaseInfoRespVo();
+        BeanUtils.copyProperties(memberEntity, memberBaseInfoRespVo);
+
+        redisTemplate.opsForValue().setIfAbsent("memberBaseInfo", JSON.toJSONString(memberBaseInfoRespVo), 30, TimeUnit.DAYS);
+        return memberBaseInfoRespVo;
+    }
+
 }

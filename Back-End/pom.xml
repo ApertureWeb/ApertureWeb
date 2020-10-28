@@ -47,11 +47,14 @@
         <validation>2.0.1.Final</validation>
         <hadoop>3.2.1</hadoop>
         <commons-lang>2.6</commons-lang>
+
     </properties>
 
     <dependencyManagement>
 
         <dependencies>
+
+
             <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
@@ -199,11 +202,11 @@
             </dependency>
 
 
-            <!--<dependency>-->
-                <!--<groupId>com.alibaba.cloud</groupId>-->
-                <!--<artifactId>spring-cloud-starter-alibaba-seata</artifactId>-->
-                <!--<version>${spring-cloud-alibaba}</version>-->
-            <!--</dependency>-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+                <version>${spring-cloud-alibaba}</version>
+            </dependency>
 
 
             <dependency>

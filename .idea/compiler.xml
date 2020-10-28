@@ -13,10 +13,15 @@
         <module name="common-tools" />
         <module name="common-utils" />
         <module name="message-service" />
-        <module name="renren-fast" />
         <module name="renren-generator" />
         <module name="service-base" />
         <module name="spring-security" />
+      </profile>
+      <profile name="Annotation profile for community" enabled="true">
+        <sourceOutputDir name="../target/generated-sources/annotations" />
+        <sourceTestOutputDir name="../target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="renren-fast" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
