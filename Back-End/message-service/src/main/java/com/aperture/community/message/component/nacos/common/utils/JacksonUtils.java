@@ -38,6 +38,7 @@ public class JacksonUtils {
      */
     public static String toJson(Object obj) {
         try {
+
             return mapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             throw new NacosSerializationException(obj.getClass(), e);
