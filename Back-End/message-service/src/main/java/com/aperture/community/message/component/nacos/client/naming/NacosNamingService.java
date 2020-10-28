@@ -11,6 +11,7 @@ import com.aperture.community.message.component.nacos.client.naming.core.EventDi
 import com.aperture.community.message.component.nacos.client.naming.core.HostReactor;
 import com.aperture.community.message.component.nacos.client.naming.net.NamingProxy;
 import com.aperture.community.message.service.listener.EventListener;
+import io.vertx.core.Vertx;
 
 import java.util.List;
 import java.util.Properties;
@@ -44,11 +45,18 @@ public class NacosNamingService implements NamingService {
 
     private EventDispatcher eventDispatcher;
 
+    private Vertx vertx;
+
     //    private NamingProxy serverProxy;
     public NamingProxy serverProxy;
 
 
-    NacosNamingService(Properties properties) {
+    NacosNamingService(Properties properties, Vertx vertx) {
+        this.vertx = vertx;
+        init(properties);
+    }
+
+    private void init(Properties properties) {
 
     }
 
