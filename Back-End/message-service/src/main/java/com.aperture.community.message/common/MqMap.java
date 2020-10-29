@@ -1,7 +1,6 @@
 package com.aperture.community.message.common;
 
-import io.netty.handler.codec.mqtt.MqttPublishMessage;
-import org.bouncycastle.cms.PasswordRecipientId;
+
 
 /**
  * @author HALOXIAO
