@@ -60,7 +60,7 @@ public class HostReactor {
 
         //是否从磁盘读取缓存,默认为false
         if (loadCacheAtStart) {
-//            this.serviceInfoMap = new ConcurrentHashMap<String, ServiceInfo>(DiskCache.read(this.cacheDir));
+            this.serviceInfoMap = new ConcurrentHashMap<String, ServiceInfo>(DiskCache.read(this.cacheDir));
             this.serviceInfoMap = new ConcurrentHashMap<>(16);
         } else {
             this.serviceInfoMap = new ConcurrentHashMap<String, ServiceInfo>(16);

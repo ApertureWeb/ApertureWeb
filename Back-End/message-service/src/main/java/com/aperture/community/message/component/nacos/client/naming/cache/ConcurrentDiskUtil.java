@@ -18,6 +18,10 @@ import java.nio.channels.FileLock;
  **/
 public class ConcurrentDiskUtil {
 
+    private static final int RETRY_COUNT = 5;
+    private static final int SLEEP_BASETIME = 10;
+
+
     private static Logger logger = LoggerFactory.getLogger(ConcurrentDiskUtil.class);
 
     public static Boolean writeFileContent(Vertx vertx, String filePath, String content, String charsetName) throws IOException {
@@ -33,18 +37,35 @@ public class ConcurrentDiskUtil {
                 FileLock lock = null;
                 int i = 0;
                 do {
-                    lock = channel.tryLock();
-
+                    try {
+                        lock = channel.tryLock();
+                    } catch (Exception e) {
+                        ++i;
+                        if (i > RETRY_COUNT) {
+                            logger.error("[NA] write {} fail;retryed time:{}", filePath, i);
+                            throw new IOException("write " + filePath + " conflict", e);
+                        }
+                        sleep(SLEEP_BASETIME * i);
+                        logger.warn("write " + filePath + " conflict;retry time: " + i);
+                    }
                 } while (lock == null);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-
             }
         }).succeeded();
+
         return null;
+    }
+
+    private static void sleep(int time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            logger.warn("sleep wrong", e);
+        }
     }
 
 
