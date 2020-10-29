@@ -13,13 +13,13 @@ public class Service {
         this.vertx = vertx;
     }
 
-    public void test() {
-        Future<String> future = Future.succeededFuture("outside");
-        System.out.println(vertx.createSharedWorkerExecutor("test").executeBlocking(y -> {
-
-        }).compose(y -> {
+    public Future<String> test() {
+        Future<String> future = Future.succeededFuture();
+        return vertx.createSharedWorkerExecutor("test").executeBlocking(y -> {
+            future.map("Something");
+        }).compose(x -> {
             return future;
-        }).result());
+        });
 
     }
         /*
