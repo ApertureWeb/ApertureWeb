@@ -8,6 +8,7 @@ import com.aperture.community.message.component.nacos.client.naming.net.NamingPr
 import com.aperture.community.message.component.nacos.client.naming.utils.UtilAndComs;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
+import io.vertx.core.WorkerExecutor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -20,9 +21,14 @@ import java.util.concurrent.*;
  **/
 @Slf4j
 public class HostReactor {
-    //默认更新延迟
+    /**
+     * 更新延迟
+     */
     private static final long DEFAULT_DELAY = 1000L;
 
+    /**
+     * 更新间隔
+     */
     private static final long UPDATE_HOLD_INTERVAL = 5000L;
 
     private final Map<String, ScheduledFuture<?>> futureMap = new HashMap<String, ScheduledFuture<?>>();
@@ -44,14 +50,16 @@ public class HostReactor {
 
     private final String cacheDir;
     private final Vertx vertx;
+    //TODO init it
+    private WorkerExecutor executor;
 
     public HostReactor(EventDispatcher eventDispatcher, NamingProxy serverProxy, BeatReactor beatReactor,
                        String cacheDir, Vertx vertx) {
-        this(eventDispatcher, serverProxy, beatReactor, cacheDir, false, UtilAndComs.DEFAULT_POLLING_THREAD_COUNT, vertx);
+        this(eventDispatcher, serverProxy, beatReactor, cacheDir, false, vertx);
     }
 
     public HostReactor(EventDispatcher eventDispatcher, NamingProxy serverProxy, BeatReactor beatReactor,
-                       String cacheDir, boolean loadCacheAtStart, int pollingThreadCount, Vertx vertx) {
+                       String cacheDir, boolean loadCacheAtStart, Vertx vertx) {
         this.vertx = vertx;
         this.eventDispatcher = eventDispatcher;
         this.beatReactor = beatReactor;
@@ -60,8 +68,7 @@ public class HostReactor {
 
         //是否从磁盘读取缓存,默认为false
         if (loadCacheAtStart) {
-            this.serviceInfoMap = new ConcurrentHashMap<String, ServiceInfo>(DiskCache.read(this.cacheDir));
-            this.serviceInfoMap = new ConcurrentHashMap<>(16);
+            this.serviceInfoMap = new ConcurrentHashMap<String, ServiceInfo>(DiskCache.read(vertx, executor, cacheDir));
         } else {
             this.serviceInfoMap = new ConcurrentHashMap<String, ServiceInfo>(16);
         }
@@ -72,6 +79,15 @@ public class HostReactor {
     }
 
 
+    public ServiceInfo getServiceInfo(final String sericeNmae, final String clusters) {
+
+        return null;
+    }
+
+
+    /**
+     * update serviceInfoMap on time
+     */
     public class UpdateTask extends AbstractVerticle {
         long lastRefTime = Long.MAX_VALUE;
 

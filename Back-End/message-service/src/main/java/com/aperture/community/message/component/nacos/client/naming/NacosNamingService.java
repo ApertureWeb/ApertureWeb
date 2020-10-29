@@ -48,7 +48,7 @@ public class NacosNamingService implements NamingService {
     private Vertx vertx;
 
     //    private NamingProxy serverProxy;
-    public NamingProxy serverProxy;
+    private NamingProxy serverProxy;
 
 
     NacosNamingService(Properties properties, Vertx vertx) {

@@ -77,17 +77,14 @@ public class ConcurrentDiskUtil {
     //
     public static String getFileContent(WorkerExecutor executor, String filepath, String charsetName) {
         executor.executeBlocking(exe -> {
-
             FileLock rlock = null;
             try (RandomAccessFile fis = new RandomAccessFile(filepath, "r");
                  FileChannel fcin = fis.getChannel()
             ) {
-
-
                 int i = 0;
                 do {
                     try {
-                        rlock = fcin.tryLock(0L, Long.MAX_VALUE, true);
+                        rlock = fcin.tryLock(0, Long.MAX_VALUE, true);
                     } catch (Exception e) {
                         ++i;
                         if (i > RETRY_COUNT) {
@@ -97,26 +94,25 @@ public class ConcurrentDiskUtil {
                         sleep(SLEEP_BASETIME * i);
                         logger.warn("read " + logger.getName() + " conflict;retry time: " + i);
                     }
-                } while (null == rlock);
+                } while (rlock == null);
                 int fileSize = (int) fcin.size();
                 ByteBuffer byteBuffer = ByteBuffer.allocate(fileSize);
                 fcin.read(byteBuffer);
                 byteBuffer.flip();
-                return byteBufferToString(byteBuffer, charsetName);
             } catch (IOException e) {
                 logger.error("fail to read cache", e);
             } finally {
-
                 if (rlock != null) {
-                    rlock.release();
+                    try {
+                        rlock.release();
+                    } catch (IOException e) {
+                        logger.warn("release file lock fail", e);
+                    }
                 }
-
             }
-
         });
         return null;
     }
-
 
     private static void sleep(int time) {
         try {
@@ -134,6 +130,12 @@ public class ConcurrentDiskUtil {
         decoder = charset.newDecoder();
         charBuffer = decoder.decode(buffer.asReadOnlyBuffer());
         return charBuffer.toString();
+    }
+
+    static void exceptionWrapper(FileLock lock) throws Exception {
+        if (lock != null) {
+            lock.release();
+        }
     }
 
 
