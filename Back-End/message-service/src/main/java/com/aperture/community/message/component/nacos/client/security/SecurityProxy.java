@@ -9,6 +9,8 @@ import com.aperture.community.message.component.nacos.common.utils.StringUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.vertx.core.MultiMap;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -126,6 +128,7 @@ public class SecurityProxy {
             try {
                 webClient.post(url).addQueryParam("username", username)
                         .putHeaders(Header.EMPTY.getMultiMap()).sendJson(bodyMap);
+
                 //TODO need to change
                 HttpRestResult<String> restResult = nacosRestTemplate
                         .postForm(url, Header.EMPTY, params, bodyMap, String.class);
