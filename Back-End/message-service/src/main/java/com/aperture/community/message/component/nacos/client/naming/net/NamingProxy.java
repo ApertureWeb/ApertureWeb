@@ -147,6 +147,7 @@ public class NamingProxy implements Closeable {
         try {
             String urlString = "http://" + endpoint + "/nacos/serverlist";
             Header header = builderHeader();
+
             //获取服务器地址列表
             HttpRestResult<String> restResult = nacosRestTemplate.get(urlString, header, Query.EMPTY, String.class);
             if (!restResult.ok()) {
