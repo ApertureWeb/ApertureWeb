@@ -10,6 +10,9 @@ import java.nio.charset.Charset;
  **/
 public class StringUtils {
 
+
+
+
     public static final String DOT = ".";
 
     private static final int INDEX_NOT_FOUND = -1;
@@ -24,5 +27,31 @@ public class StringUtils {
 
     public static String newStringForUtf8(byte[] bytes) {
         return new String(bytes, Charset.forName(Constants.ENCODE));
+    }
+
+
+    public static boolean isNotBlank(String str) {
+        return !isBlank(str);
+    }
+
+
+
+    /**
+     * Judge whether string is blank.
+     *
+     * @param str string
+     * @return true if str is null, empty string or only blanks, otherwise false
+     */
+    public static boolean isBlank(String str) {
+        int strLen;
+        if (str == null || (strLen = str.length()) == 0) {
+            return true;
+        }
+        for (int i = 0; i < strLen; i++) {
+            if (!Character.isWhitespace(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 }

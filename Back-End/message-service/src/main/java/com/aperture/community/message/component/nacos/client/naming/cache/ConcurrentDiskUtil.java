@@ -74,8 +74,7 @@ public class ConcurrentDiskUtil {
         return true;
     }
 
-    //
-    public static String getFileContent(WorkerExecutor executor, String filepath, String charsetName) {
+    public static void getFileContent(WorkerExecutor executor, Vertx vertx, String address, String filepath, String charsetName) {
         executor.executeBlocking(exe -> {
             FileLock rlock = null;
             try (RandomAccessFile fis = new RandomAccessFile(filepath, "r");
@@ -99,6 +98,7 @@ public class ConcurrentDiskUtil {
                 ByteBuffer byteBuffer = ByteBuffer.allocate(fileSize);
                 fcin.read(byteBuffer);
                 byteBuffer.flip();
+                vertx.eventBus().send(address, byteBuffer.toString());
             } catch (IOException e) {
                 logger.error("fail to read cache", e);
             } finally {
@@ -111,7 +111,6 @@ public class ConcurrentDiskUtil {
                 }
             }
         });
-        return null;
     }
 
     private static void sleep(int time) {

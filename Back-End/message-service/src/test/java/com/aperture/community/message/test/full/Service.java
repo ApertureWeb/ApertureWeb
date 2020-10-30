@@ -1,5 +1,6 @@
 package com.aperture.community.message.test.full;
 
+import com.alibaba.fastjson.JSON;
 import io.vertx.core.*;
 
 import java.util.HashMap;
@@ -14,22 +15,11 @@ public class Service {
     }
 
     public void test() {
-//        Future<String> future = Future.succeededFuture();
-//         vertx.createSharedWorkerExecutor("test").executeBlocking(y -> {
-//            future.map("Something");
-//        }).compose(x -> {
-//            return Future.succeededFuture("HelloWorld");
-//        });
-//        System.out.println(future.result());
-
-         Future<String> future1 = Future.succeededFuture();
-        System.out.println(future1.compose(x -> {
-            return Future.succeededFuture("hellow");
-        }).result());
-
-
 
     }
+
+
+
         /*
         Future<Map<Integer, String>> future = Future.succeededFuture(new HashMap<>());
         System.out.println(future.onSuccess(x -> {
