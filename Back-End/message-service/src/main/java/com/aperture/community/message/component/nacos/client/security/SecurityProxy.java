@@ -7,10 +7,8 @@ import com.aperture.community.message.component.nacos.common.http.param.Header;
 import com.aperture.community.message.component.nacos.common.utils.JacksonUtils;
 import com.aperture.community.message.component.nacos.common.utils.StringUtils;
 import com.fasterxml.jackson.databind.JsonNode;
-import io.vertx.core.MultiMap;
-import io.vertx.core.Vertx;
-import io.vertx.core.buffer.Buffer;
-import io.vertx.ext.web.client.HttpResponse;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.Future;
 import io.vertx.ext.web.client.WebClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,24 +85,25 @@ public class SecurityProxy {
      * @param servers server list
      * @return true if login successfully
      */
-    public boolean login(List<String> servers) {
+    public Future<Object> login(List<String> servers) {
 
         try {
             if ((System.currentTimeMillis() - lastRefreshTime) < TimeUnit.SECONDS
                     .toMillis(tokenTtl - tokenRefreshWindow)) {
-                return true;
+                return Future.succeededFuture();
             }
 
             for (String server : servers) {
-                if (login(server)) {
+                if (login(server).succeeded()) {
                     lastRefreshTime = System.currentTimeMillis();
-                    return true;
+                    return Future.succeededFuture();
                 }
             }
         } catch (Throwable ignore) {
+
         }
 
-        return false;
+        return Future.failedFuture("login fail");
     }
 
     /**
@@ -113,42 +112,34 @@ public class SecurityProxy {
      * @param server server address
      * @return true if login successfully
      */
-    public boolean login(String server) {
-
+    public Future<Object> login(String server) {
         if (StringUtils.isNotBlank(username)) {
-            Map<String, String> params = new HashMap<String, String>(2);
             Map<String, String> bodyMap = new HashMap<String, String>(2);
-            params.put("username", username);
             bodyMap.put("password", password);
             String url = "http://" + server + contextPath + LOGIN_URL;
-
             if (server.contains(Constants.HTTP_PREFIX)) {
                 url = server + contextPath + LOGIN_URL;
             }
-            try {
-                webClient.post(url).addQueryParam("username", username)
-                        .putHeaders(Header.EMPTY.getMultiMap()).sendJson(bodyMap);
+            return webClient.postAbs(url).addQueryParam("username", username)
+                    .putHeaders(Header.EMPTY.getMultiMap()).sendJson(bodyMap).compose(res -> {
+                        if (res.statusCode() == HttpResponseStatus.OK.code()) {
+                            JsonNode obj = JacksonUtils.toObj(res.bodyAsString());
+                            if (obj.has(Constants.ACCESS_TOKEN)) {
+                                accessToken = obj.get(Constants.ACCESS_TOKEN).asText();
+                                tokenTtl = obj.get(Constants.TOKEN_TTL).asInt();
+                                tokenRefreshWindow = tokenTtl / 10;
+                            }
 
-                //TODO need to change
-                HttpRestResult<String> restResult = nacosRestTemplate
-                        .postForm(url, Header.EMPTY, params, bodyMap, String.class);
-                if (!restResult.ok()) {
-                    SECURITY_LOGGER.error("login failed: {}", JacksonUtils.toJson(restResult));
-                    return false;
-                }
-                JsonNode obj = JacksonUtils.toObj(restResult.getData());
-                if (obj.has(Constants.ACCESS_TOKEN)) {
-                    accessToken = obj.get(Constants.ACCESS_TOKEN).asText();
-                    tokenTtl = obj.get(Constants.TOKEN_TTL).asInt();
-                    tokenRefreshWindow = tokenTtl / 10;
-                }
-            } catch (Exception e) {
-                SECURITY_LOGGER.error("[SecurityProxy] login http request failed"
-                        + " url: {}, params: {}, bodyMap: {}, errorMsg: {}", url, params, bodyMap, e.getMessage());
-                return false;
-            }
+                            return Future.succeededFuture();
+                        } else {
+                            SECURITY_LOGGER.error("login fail:{}", JacksonUtils.toJson(res.bodyAsString()));
+                            return Future.failedFuture("login fail");
+                        }
+                    }).onFailure(err -> {
+                        SECURITY_LOGGER.error("login fail:{}", JacksonUtils.toJson(err.getMessage()));
+                    });
         }
-        return true;
+        return Future.succeededFuture();
     }
 
 }
