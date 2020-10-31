@@ -54,4 +54,10 @@ public class StringUtils {
         }
         return true;
     }
+    public static boolean isNotEmpty(String str) {
+        return !StringUtils.isEmpty(str);
+    }
+
+
+
 }

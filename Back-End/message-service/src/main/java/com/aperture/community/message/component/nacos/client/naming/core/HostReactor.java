@@ -104,9 +104,7 @@ public class HostReactor {
     }
 
     private ServiceInfo getServiceInfo0(String serviceName, String clusters) {
-
         String key = ServiceInfo.getKey(serviceName, clusters);
-
         return serviceInfoMap.get(key);
     }
 
@@ -223,38 +221,38 @@ public class HostReactor {
                                     dom.setHosts(ips);
 
 
-                                    vertx.eventBus().consumer(ADDRESS).handler(msg -> {
-                                        ServiceInfo newFormat = null;
-                                        Objects.requireNonNull(msg.body());
-                                        String dataString = msg.body().toString();
-                                        try (BufferedReader reader = new BufferedReader(new StringReader(dataString))) {
-                                            String json;
-                                            //TODO blocking，optimize it
-                                            while ((json = reader.readLine()) != null) {
-                                                try {
-                                                    if (!json.startsWith("{")) {
-                                                        continue;
+                                    ConcurrentDiskUtil.getFileContent(executor, vertx, ADDRESS, cacheDir, Charset.defaultCharset().toString()).onComplete(msg -> {
+                                        if (msg.succeeded()) {
+                                            ServiceInfo newFormat = null;
+                                            String dataString = msg.toString();
+                                            try (BufferedReader reader = new BufferedReader(new StringReader(dataString))) {
+                                                String json;
+                                                //TODO blocking，optimize it
+                                                while ((json = reader.readLine()) != null) {
+                                                    try {
+                                                        if (!json.startsWith("{")) {
+                                                            continue;
+                                                        }
+                                                        newFormat = JacksonUtils.toObj(json, ServiceInfo.class);
+                                                        if (StringUtils.isEmpty(newFormat.getName())) {
+                                                            ips.add(JacksonUtils.toObj(json, Instance.class));
+                                                        }
+                                                    } catch (Throwable e) {
+                                                        logger.error("[NA] error while parsing cache file: " + json, e);
                                                     }
-                                                    newFormat = JacksonUtils.toObj(json, ServiceInfo.class);
-                                                    if (StringUtils.isEmpty(newFormat.getName())) {
-                                                        ips.add(JacksonUtils.toObj(json, Instance.class));
-                                                    }
-                                                } catch (Throwable e) {
-                                                    logger.error("[NA] error while parsing cache file: " + json, e);
                                                 }
+                                            } catch (Exception e) {
+                                                logger.error("[NA] failed to read cache for dom: " + filePath, e);
                                             }
-                                        } catch (Exception e) {
-                                            logger.error("[NA] failed to read cache for dom: " + filePath, e);
+                                            if (newFormat != null && !StringUtils.isEmpty(newFormat.getName()) && !CollectionUtils
+                                                    .isEmpty(newFormat.getHosts())) {
+                                                domMap.put(dom.getKey(), newFormat);
+                                            } else if (!CollectionUtils.isEmpty(dom.getHosts())) {
+                                                domMap.put(dom.getKey(), dom);
+                                            }
                                         }
-                                        if (newFormat != null && !StringUtils.isEmpty(newFormat.getName()) && !CollectionUtils
-                                                .isEmpty(newFormat.getHosts())) {
-                                            domMap.put(dom.getKey(), newFormat);
-                                        } else if (!CollectionUtils.isEmpty(dom.getHosts())) {
-                                            domMap.put(dom.getKey(), dom);
-                                        }
-
                                     });
-                                    ConcurrentDiskUtil.getFileContent(executor, vertx, ADDRESS, cacheDir, Charset.defaultCharset().toString());
+
 
                                 }
                             }
@@ -264,7 +262,6 @@ public class HostReactor {
                             logger.error("[NA] failed to read cache file", err.getCause());
                         }
                 );
-
 
             }
             serviceInfoMap = domMap;

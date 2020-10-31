@@ -5,6 +5,7 @@ import io.vertx.core.file.FileSystem;
 import io.vertx.core.file.OpenOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Mono;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -74,8 +75,8 @@ public class ConcurrentDiskUtil {
         return true;
     }
 
-    public static void getFileContent(WorkerExecutor executor, Vertx vertx, String address, String filepath, String charsetName) {
-        executor.executeBlocking(exe -> {
+    public static Future<String> getFileContent(WorkerExecutor executor, Vertx vertx, String address, String filepath, String charsetName) {
+        return executor.executeBlocking(exe -> {
             FileLock rlock = null;
             try (RandomAccessFile fis = new RandomAccessFile(filepath, "r");
                  FileChannel fcin = fis.getChannel()
@@ -98,9 +99,10 @@ public class ConcurrentDiskUtil {
                 ByteBuffer byteBuffer = ByteBuffer.allocate(fileSize);
                 fcin.read(byteBuffer);
                 byteBuffer.flip();
-                vertx.eventBus().send(address, byteBuffer.toString());
+                exe.complete(byteBuffer.toString());
             } catch (IOException e) {
                 logger.error("fail to read cache", e);
+                exe.complete(e);
             } finally {
                 if (rlock != null) {
                     try {
@@ -110,6 +112,11 @@ public class ConcurrentDiskUtil {
                     }
                 }
             }
+        }).compose(x -> {
+            if (x instanceof Exception) {
+                return Future.failedFuture(((Exception) x).getMessage());
+            }
+            return Future.succeededFuture((String) x);
         });
     }
 

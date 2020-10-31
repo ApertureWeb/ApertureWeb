@@ -7,10 +7,17 @@ import com.aperture.community.message.component.nacos.client.naming.utils.UtilAn
 import com.aperture.community.message.component.nacos.client.security.SecurityProxy;
 import com.aperture.community.message.component.nacos.common.constant.HttpHeaderConsts;
 import com.aperture.community.message.component.nacos.common.http.param.Header;
+import com.aperture.community.message.component.nacos.common.utils.IoUtils;
 import com.aperture.community.message.component.nacos.common.utils.UuidUtils;
 import com.aperture.community.message.component.nacos.common.utils.VersionUtils;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.file.FileSystem;
+import io.vertx.core.file.OpenOptions;
+import io.vertx.core.parsetools.RecordParser;
 import io.vertx.ext.web.client.WebClient;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -68,7 +75,7 @@ public class NamingProxy implements Closeable {
     public NamingProxy(String namespaceId, String endpoint, String serverList, Properties properties, Vertx vertx) {
         this.vertx = vertx;
         this.webClient = WebClientFactory.getWebClient();
-        this.securityProxy = new SecurityProxy(properties, webClient);
+        this.securityProxy = new SecurityProxy(properties);
         this.properties = properties;
         this.setServerPort(DEFAULT_SERVER_PORT);
         this.namespaceId = namespaceId;
@@ -139,17 +146,44 @@ public class NamingProxy implements Closeable {
         }
     }
 
+
     /**
      * 获取服务器地址
      */
-    public List<String> getServerListFromEndpoint() {
+    public Future<List<String>> getServerListFromEndpoint() {
 
         try {
             String urlString = "http://" + endpoint + "/nacos/serverlist";
             Header header = builderHeader();
+            Future<List<String>> future = Future.succeededFuture(new ArrayList<>());
 
             //获取服务器地址列表
-            HttpRestResult<String> restResult = nacosRestTemplate.get(urlString, header, Query.EMPTY, String.class);
+            return webClient.getAbs(urlString).putHeaders(header.getMultiMap()).ssl(false).send().
+                    compose(res -> {
+                        if (res.statusCode() != HttpResponseStatus.OK.code()) {
+                            NAMING_LOGGER.error("Error while requesting: " + urlString + "'. Server returned: " + res.statusCode());
+                            return Future.failedFuture("Error while requesting: " + urlString + "'. Server returned: " + res.statusCode());
+                        } else {
+                            Buffer content = res.body();
+                            //将服务器地址一行一行读入
+
+                            try {
+                                IoUtils.readLines(content).onSuccess(msg -> {
+                                    for (String line : msg) {
+                                        if (!line.trim().isEmpty()) {
+                                            future.result().add(line.trim());
+                                        }
+                                    }
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            return future;
+                        }
+                    }).onFailure(err -> {
+                NAMING_LOGGER.error("Error while requesting: " + urlString + "; reason:" + err.getMessage());
+            });
+
             if (!restResult.ok()) {
                 throw new IOException(
                         "Error while requesting: " + urlString + "'. Server returned: " + restResult.getCode());
