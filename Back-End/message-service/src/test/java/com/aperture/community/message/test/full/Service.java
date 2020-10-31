@@ -1,10 +1,6 @@
 package com.aperture.community.message.test.full;
 
-import com.alibaba.fastjson.JSON;
-import io.vertx.core.*;
-
-import java.util.HashMap;
-import java.util.Map;
+import io.vertx.core.Vertx;
 
 public class Service {
 
