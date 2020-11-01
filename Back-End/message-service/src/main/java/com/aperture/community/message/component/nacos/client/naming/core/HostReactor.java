@@ -3,14 +3,15 @@ package com.aperture.community.message.component.nacos.client.naming.core;
 import com.aperture.community.message.component.nacos.api.common.Constants;
 import com.aperture.community.message.component.nacos.api.naming.pojo.Instance;
 import com.aperture.community.message.component.nacos.api.naming.pojo.ServiceInfo;
-import com.aperture.community.message.component.nacos.api.utils.StringUtils;
 import com.aperture.community.message.component.nacos.client.naming.backups.FailoverReactor;
+import com.aperture.community.message.component.nacos.client.naming.beat.BeatInfo;
 import com.aperture.community.message.component.nacos.client.naming.beat.BeatReactor;
 import com.aperture.community.message.component.nacos.client.naming.cache.ConcurrentDiskUtil;
 import com.aperture.community.message.component.nacos.client.naming.cache.DiskCache;
 import com.aperture.community.message.component.nacos.client.naming.net.NamingProxy;
 import com.aperture.community.message.component.nacos.client.naming.utils.CollectionUtils;
 import com.aperture.community.message.component.nacos.common.utils.JacksonUtils;
+import com.aperture.community.message.component.nacos.common.utils.StringUtils;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
@@ -111,9 +112,9 @@ public class HostReactor {
 
     /**
      * 更新服务实例
-     *
+     * <p>
      * param:ServiceInfo 服务信息
-     * */
+     */
     public ServiceInfo processServiceJson(String json) {
         //新的服务信息
         ServiceInfo serviceInfo = JacksonUtils.toObj(json, ServiceInfo.class);
@@ -205,7 +206,7 @@ public class HostReactor {
                 //放入事件分发器当中
                 eventDispatcher.serviceChanged(serviceInfo);
                 //写入磁盘缓存
-                DiskCache.write(serviceInfo, cacheDir,vertx,executor);
+                DiskCache.write(serviceInfo, cacheDir, vertx, executor);
             }
 
         } else {
@@ -215,7 +216,7 @@ public class HostReactor {
             serviceInfoMap.put(serviceInfo.getKey(), serviceInfo);
             eventDispatcher.serviceChanged(serviceInfo);
             serviceInfo.setJsonFromServer(json);
-            DiskCache.write(serviceInfo, cacheDir);
+            DiskCache.write(serviceInfo, cacheDir, vertx, executor);
         }
         //监控
 //        MetricsMonitor.getServiceInfoMapSizeMonitor().set(serviceInfoMap.size());
@@ -268,7 +269,6 @@ public class HostReactor {
             }
         }
     }
-
 
 
     /**

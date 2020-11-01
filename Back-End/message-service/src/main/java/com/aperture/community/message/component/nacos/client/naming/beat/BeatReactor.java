@@ -64,7 +64,7 @@ public class BeatReactor {
         dom2Beat.put(key, beatInfo);
         //大约5s 发送一次心跳
         executorService.schedule(new BeatTask(beatInfo), beatInfo.getPeriod(), TimeUnit.MILLISECONDS);
-        MetricsMonitor.getDom2BeatSizeMonitor().set(dom2Beat.size());
+//        MetricsMonitor.getDom2BeatSizeMonitor().set(dom2Beat.size());
     }
 
     public String buildKey(String serviceName, String ip, int port) {
@@ -83,7 +83,6 @@ public class BeatReactor {
                 return;
             }
             long nextTime = beatInfo.getPeriod();
-
 
         }
     }
