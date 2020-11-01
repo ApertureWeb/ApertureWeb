@@ -4,11 +4,14 @@ import com.aperture.community.message.component.nacos.api.PropertyKeyConst;
 import com.aperture.community.message.component.nacos.api.SystemPropertyKeyConst;
 import com.aperture.community.message.component.nacos.api.WebClientFactory;
 import com.aperture.community.message.component.nacos.api.common.Constants;
+import com.aperture.community.message.component.nacos.api.exception.NacosException;
 import com.aperture.community.message.component.nacos.client.config.impl.SpasAdapter;
 import com.aperture.community.message.component.nacos.client.naming.beat.BeatInfo;
 import com.aperture.community.message.component.nacos.client.naming.utils.CollectionUtils;
+import com.aperture.community.message.component.nacos.client.naming.utils.SignUtil;
 import com.aperture.community.message.component.nacos.client.naming.utils.UtilAndComs;
 import com.aperture.community.message.component.nacos.client.security.SecurityProxy;
+import com.aperture.community.message.component.nacos.client.utils.AppNameUtils;
 import com.aperture.community.message.component.nacos.client.utils.TemplateUtils;
 import com.aperture.community.message.component.nacos.common.constant.HttpHeaderConsts;
 import com.aperture.community.message.component.nacos.common.http.param.Header;
@@ -18,10 +21,12 @@ import com.aperture.community.message.component.nacos.common.utils.VersionUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Future;
+import io.vertx.core.MultiMap;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.client.HttpRequest;
+import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -226,16 +231,46 @@ public class NamingProxy implements Closeable {
     }
 
 
-    public String reqApi(String api, Map<String, String> params, Map<String, String> body, List<String> servers,
-                         String method) {
+    public Future<String> reqApi(String api, MultiMap params, Map<String, String> body, List<String> servers,
+                                 HttpMethod method) throws NacosException {
+        if (CollectionUtils.isEmpty(servers) && StringUtils.isEmpty(nacosDomain)) {
+            throw new NacosException(NacosException.INVALID_PARAM, "no server available");
+        }
+        if (servers != null && !servers.isEmpty()) {
+            Random random = new Random(System.currentTimeMillis());
+            int index = random.nextInt(servers.size());
+            //依次向每个服务器发送注册实例信息,直到遍历完服务或者有服务正常响应
 
+            for (int i = 0; i < servers.size(); i++) {
+                String server = servers.get(index);
+                //TODO need to
+                callServer(api, params, body, server, method);
+                index = (index + 1) % servers.size();
+            }
+        }
+        if (StringUtils.isNotBlank(nacosDomain)) {
+
+            for (int i = 0; i < UtilAndComs.REQUEST_DOMAIN_RETRY_COUNT; i++) {
+                Future<String> result = callServer(api, params, body, nacosDomain, method);
+                result.onFailure(e -> {
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("request {} failed.", nacosDomain, e);
+                    }
+                }).compose(res -> {
+                    return result;
+                });
+
+            }
+        }
+        logger.error("request: {} failed, servers: {}, code: {}, msg: {}", api, servers, exception.getErrCode(),
+                exception.getErrMsg());
+        return Future.failedFuture("");
     }
 
-    public String callServer(String api, Map<String, String> params, Map<String, String> body, String curServer,
-                             HttpMethod method) {
+    public Future<String> callServer(String api, MultiMap params, Map<String, String> body, String curServer,
+                                     HttpMethod method) {
 
         long start = System.currentTimeMillis();
-        long end = 0;
         injectSecurityInfo(params);
         Header header = builderHeader();
 
@@ -252,33 +287,52 @@ public class NamingProxy implements Closeable {
             url = NamingHttpClientManager.getInstance().getPrefix() + curServer + api;
         }
         WebClient webClient = WebClientFactory.getWebClient();
-        webClient.requestAbs(method, url);
-
+        HttpRequest<Buffer> sender = webClient.requestAbs(method, url).putHeaders(header.getMultiMap());
+        sender.queryParams().setAll(params);
+        return sender.sendJson(body).onComplete(res -> {
+            long end = System.currentTimeMillis();
+//            TODO  性能监控：etricsMonitor.getNamingRequestMonitor(method, url, String.valueOf(restResult.getCode()))
+//                .observe(end - start);
+        }).onFailure(err -> {
+            logger.error("[NA] failed to request", err);
+        }).compose(res -> {
+            if (res.statusCode() == HttpResponseStatus.OK.code()) {
+                return Future.succeededFuture(res.bodyAsString());
+            } else if (res.statusCode() == HttpResponseStatus.NOT_MODIFIED.code()) {
+                return Future.succeededFuture(com.aperture.community.message.component.nacos.common.utils.StringUtils.EMPTY);
+            }
+            return Future.failedFuture("result code:" + res.statusCode() + ";reason" + res.bodyAsString());
+        });
 
     }
 
-    private void injectSecurityInfo(Map<String, String> params) {
+    private void injectSecurityInfo(MultiMap params) {
 
         // Inject token if exist:
         if (StringUtils.isNotBlank(securityProxy.getAccessToken())) {
-            params.put(Constants.ACCESS_TOKEN, securityProxy.getAccessToken());
+            params.add(Constants.ACCESS_TOKEN, securityProxy.getAccessToken());
         }
 
         // Inject ak/sk if exist:
         String ak = getAccessKey();
         String sk = getSecretKey();
-        params.put("app", AppNameUtils.getAppName());
+        params.add("app", AppNameUtils.getAppName());
         if (StringUtils.isNotBlank(ak) && StringUtils.isNotBlank(sk)) {
             try {
                 String signData = getSignData(params.get("serviceName"));
                 String signature = SignUtil.sign(signData, sk);
-                params.put("signature", signature);
-                params.put("data", signData);
-                params.put("ak", ak);
+                params.add("signature", signature);
+                params.add("data", signData);
+                params.add("ak", ak);
             } catch (Exception e) {
-                NAMING_LOGGER.error("inject ak/sk failed.", e);
+                logger.error("inject ak/sk failed.", e);
             }
         }
+    }
+
+    private static String getSignData(String serviceName) {
+        return StringUtils.isNotEmpty(serviceName) ? System.currentTimeMillis() + "@@" + serviceName
+                : String.valueOf(System.currentTimeMillis());
     }
 
     public String getAccessKey() {

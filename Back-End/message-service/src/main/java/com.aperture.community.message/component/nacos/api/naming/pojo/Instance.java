@@ -18,7 +18,6 @@ package com.aperture.community.message.component.nacos.api.naming.pojo;
 
 import com.aperture.community.message.component.nacos.api.common.Constants;
 import com.aperture.community.message.component.nacos.api.naming.PreservedMetadataKeys;
-import com.aperture.community.message.component.nacos.api.utils.StringUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 

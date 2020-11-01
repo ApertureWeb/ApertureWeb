@@ -17,6 +17,7 @@
 package com.aperture.community.message.component.nacos.client.naming.net;
 
 
+import com.aperture.community.message.component.nacos.api.exception.NacosException;
 import com.aperture.community.message.component.nacos.common.lifecycle.Closeable;
 import org.slf4j.Logger;
 
@@ -26,8 +27,9 @@ import org.slf4j.Logger;
  *
  * @author mai.jh
  */
-public class NamingHttpClientManager implements Closeable {
-    
+public class NamingHttpClientManager {
+
+    //TODO change it
     private static final int READ_TIME_OUT_MILLIS = Integer
             .getInteger("com.alibaba.nacos.client.naming.rtimeout", 50000);
     
@@ -37,8 +39,7 @@ public class NamingHttpClientManager implements Closeable {
     
     private static final int MAX_REDIRECTS = 5;
     
-    private static final HttpClientFactory HTTP_CLIENT_FACTORY = new NamingHttpClientFactory();
-    
+
     private static class NamingHttpClientManagerInstance {
         
         private static final NamingHttpClientManager INSTANCE = new NamingHttpClientManager();
@@ -54,34 +55,7 @@ public class NamingHttpClientManager implements Closeable {
         }
         return "http://";
     }
-    
-    public NacosRestTemplate getNacosRestTemplate() {
-        return HttpClientBeanHolder.getNacosRestTemplate(HTTP_CLIENT_FACTORY);
-    }
-    
-    @Override
-    public void shutdown() throws NacosException {
-        NAMING_LOGGER.warn("[NamingHttpClientManager] Start destroying NacosRestTemplate");
-        try {
-            HttpClientBeanHolder.shutdownNacostSyncRest(HTTP_CLIENT_FACTORY.getClass().getName());
-        } catch (Exception ex) {
-            NAMING_LOGGER.error("[NamingHttpClientManager] An exception occurred when the HTTP client was closed : {}",
-                    ExceptionUtil.getStackTrace(ex));
-        }
-        NAMING_LOGGER.warn("[NamingHttpClientManager] Destruction of the end");
-    }
-    
-    private static class NamingHttpClientFactory extends AbstractHttpClientFactory {
-        
-        @Override
-        protected HttpClientConfig buildHttpClientConfig() {
-            return HttpClientConfig.builder().setConTimeOutMillis(CON_TIME_OUT_MILLIS)
-                    .setReadTimeOutMillis(READ_TIME_OUT_MILLIS).setMaxRedirects(MAX_REDIRECTS).build();
-        }
-    
-        @Override
-        protected Logger assignLogger() {
-            return NAMING_LOGGER;
-        }
-    }
+
+
+
 }

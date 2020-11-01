@@ -1,11 +1,19 @@
 package com.aperture.community.message.component.nacos.client.naming.beat;
 
 import com.aperture.community.message.component.nacos.api.common.Constants;
+import com.aperture.community.message.component.nacos.api.exception.NacosException;
+import com.aperture.community.message.component.nacos.api.naming.CommonParams;
+import com.aperture.community.message.component.nacos.api.naming.NamingResponseCode;
+import com.aperture.community.message.component.nacos.api.naming.pojo.Instance;
+import com.aperture.community.message.component.nacos.api.utils.NamingUtils;
 import com.aperture.community.message.component.nacos.client.naming.net.NamingProxy;
 import com.aperture.community.message.component.nacos.client.naming.utils.UtilAndComs;
+import com.aperture.community.message.component.nacos.common.utils.JacksonUtils;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.vertx.core.AbstractVerticle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Mono;
 
 import java.util.Map;
 import java.util.concurrent.*;
@@ -71,20 +79,71 @@ public class BeatReactor {
         return serviceName + Constants.NAMING_INSTANCE_ID_SPLITTER + ip + Constants.NAMING_INSTANCE_ID_SPLITTER + port;
     }
 
-    class BeatTask extends AbstractVerticle {
+    class BeatTask {
         BeatInfo beatInfo;
-        public BeatTask(BeatInfo beatInfo){
+
+        public BeatTask(BeatInfo beatInfo) {
             this.beatInfo = beatInfo;
         }
 
-        @Override
-        public void start() throws Exception {
-            if(beatInfo.isStopped()){
+        void sendBeat() {
+            if (beatInfo.isStopped()) {
                 return;
             }
+            //Beat时间（ms）
             long nextTime = beatInfo.getPeriod();
+            try {
+                //发送心跳
+                JsonNode result = serverProxy.sendBeat(beatInfo, BeatReactor.this.lightBeatEnabled);
+                //服务端对Beat间隔的控制
+                long interval = result.get("clientBeatInterval").asLong();
+                //lighBeatEnabled 表示这次Beat是否为轻量级Beat（即是否携带beat数据，默认只有第一次时才需要携带，第二次往后都是lighBeat）
+                boolean lightBeatEnabled = false;
+                if (result.has(CommonParams.LIGHT_BEAT_ENABLED)) {
+                    lightBeatEnabled = result.get(CommonParams.LIGHT_BEAT_ENABLED).asBoolean();
+                }
+                BeatReactor.this.lightBeatEnabled = lightBeatEnabled;
+                //下一次心跳时间，默认5s
+                if (interval > 0) {
+                    nextTime = interval;
+                }
+                int code = NamingResponseCode.OK;
+                if (result.has(CommonParams.CODE)) {
+                    code = result.get(CommonParams.CODE).asInt();
+                }
+                //如果是404
+                if (code == NamingResponseCode.RESOURCE_NOT_FOUND) {
+                    System.out.println("404");
+                    System.out.println(result.toString());
+                    //需要注册的实例
+                    Instance instance = new Instance();
+                    instance.setPort(beatInfo.getPort());
+                    instance.setIp(beatInfo.getIp());
+                    instance.setWeight(beatInfo.getWeight());
+                    instance.setMetadata(beatInfo.getMetadata());
+                    instance.setClusterName(beatInfo.getCluster());
+                    instance.setServiceName(beatInfo.getServiceName());
+                    instance.setInstanceId(instance.getInstanceId());
+                    instance.setEphemeral(true);
+                    try {
+                        //重新注册下实例
+                        serverProxy.registerService(beatInfo.getServiceName(),
+                                NamingUtils.getGroupName(beatInfo.getServiceName()), instance);
+                    } catch (Exception ignore) {
+
+                    }
+                }
+                System.out.println("200");
+            } catch (NacosException ex) {
+                logger.error("[CLIENT-BEAT] failed to send beat: {}, code: {}, msg: {}",
+                        JacksonUtils.toJson(beatInfo), ex.getErrCode(), ex.getErrMsg());
+
+            }
+            //准备下一次心跳
+
 
         }
-    }
 
+    }
 }
+
