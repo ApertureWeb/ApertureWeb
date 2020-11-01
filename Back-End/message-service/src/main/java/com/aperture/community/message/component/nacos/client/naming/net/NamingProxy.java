@@ -370,5 +370,11 @@ public class NamingProxy implements Closeable {
 
     }
 
+    private Future<NamingProxy> failedAttempt() {
+
+    }
+
+
+
 
 }
