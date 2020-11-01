@@ -1,19 +1,26 @@
 package com.aperture.community.message.component.nacos.client.naming.net;
 
+import com.aperture.community.message.component.nacos.api.PropertyKeyConst;
 import com.aperture.community.message.component.nacos.api.SystemPropertyKeyConst;
 import com.aperture.community.message.component.nacos.api.WebClientFactory;
+import com.aperture.community.message.component.nacos.api.common.Constants;
+import com.aperture.community.message.component.nacos.client.config.impl.SpasAdapter;
+import com.aperture.community.message.component.nacos.client.naming.beat.BeatInfo;
 import com.aperture.community.message.component.nacos.client.naming.utils.CollectionUtils;
 import com.aperture.community.message.component.nacos.client.naming.utils.UtilAndComs;
 import com.aperture.community.message.component.nacos.client.security.SecurityProxy;
+import com.aperture.community.message.component.nacos.client.utils.TemplateUtils;
 import com.aperture.community.message.component.nacos.common.constant.HttpHeaderConsts;
 import com.aperture.community.message.component.nacos.common.http.param.Header;
 import com.aperture.community.message.component.nacos.common.utils.IoUtils;
 import com.aperture.community.message.component.nacos.common.utils.UuidUtils;
 import com.aperture.community.message.component.nacos.common.utils.VersionUtils;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.ext.web.client.HttpRequest;
 import io.vertx.ext.web.client.WebClient;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -21,10 +28,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -35,7 +40,7 @@ import java.util.concurrent.TimeUnit;
 
 public class NamingProxy implements Closeable {
 
-    private final Logger NAMING_LOGGER = LoggerFactory.getLogger(NamingProxy.class);
+    private final Logger logger = LoggerFactory.getLogger(NamingProxy.class);
     private static final int DEFAULT_SERVER_PORT = 8848;
     private final WebClient webClient;
     private final Vertx vertx;
@@ -111,7 +116,7 @@ public class NamingProxy implements Closeable {
     private void refreshSrvIfNeed() {
 
         if (!CollectionUtils.isEmpty(serverList)) {
-            NAMING_LOGGER.debug("server list provided by user: " + serverList);
+            logger.debug("server list provided by user: " + serverList);
             return;
         }
         //如果距离上次刷新的间隔事件少于30s则直接返回，避免频繁调用导致不必性能开销
@@ -121,16 +126,16 @@ public class NamingProxy implements Closeable {
         //获取Nacos Server地址
         getServerListFromEndpoint().onSuccess(list -> {
             if (CollectionUtils.isEmpty(list)) {
-                NAMING_LOGGER.warn("Can not acquire Nacos list");
+                logger.warn("Can not acquire Nacos list");
             }
             if (!CollectionUtils.isEqualCollection(list, serversFromEndpoint)) {
-                NAMING_LOGGER.info("[SERVER-LIST] server list is updated: " + list);
+                logger.info("[SERVER-LIST] server list is updated: " + list);
             }
             //保存地址
             serversFromEndpoint = list;
             lastSrvRefTime = System.currentTimeMillis();
         }).onFailure(err -> {
-            NAMING_LOGGER.warn(err.getMessage());
+            logger.warn(err.getMessage());
         });
 
     }
@@ -149,7 +154,7 @@ public class NamingProxy implements Closeable {
         return webClient.getAbs(urlString).putHeaders(header.getMultiMap()).ssl(false).send().
                 compose(res -> {
                     if (res.statusCode() != HttpResponseStatus.OK.code()) {
-                        NAMING_LOGGER.error("Error while requesting: " + urlString + "'. Server returned: " + res.statusCode());
+                        logger.error("Error while requesting: " + urlString + "'. Server returned: " + res.statusCode());
                         return Future.failedFuture("Error while requesting: " + urlString + "'. Server returned: " + res.statusCode());
                     } else {
                         Buffer content = res.body();
@@ -169,7 +174,7 @@ public class NamingProxy implements Closeable {
                         return future;
                     }
                 }).onFailure(err -> {
-            NAMING_LOGGER.error("Error while requesting: " + urlString + "; reason:" + err.getMessage());
+            logger.error("Error while requesting: " + urlString + "; reason:" + err.getMessage());
         });
 
 
@@ -200,12 +205,111 @@ public class NamingProxy implements Closeable {
         }
     }
 
+    /**
+     * Send beat.
+     *
+     * @param beatInfo         beat info
+     * @param lightBeatEnabled light beat
+     * @return beat result
+     */
+    public JsonNode sendBeat(BeatInfo beatInfo, boolean lightBeatEnabled) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("[BEAT] {} sending beat to server: {}", namespaceId, beatInfo.toString());
+        }
+        if (!lightBeatEnabled) {
+
+        }
+        WebClient webClient = WebClientFactory.getWebClient();
+        HttpRequest<Buffer> temp = webClient.putAbs(UtilAndComs.nacosUrlBase + "/instance/beat").ssl(false);
+
+    }
+
+
+    public String reqApi(String api, Map<String, String> params, Map<String, String> body, List<String> servers,
+                         String method) {
+
+    }
+
+    public String callServer(String api, Map<String, String> params, Map<String, String> body, String curServer,
+                             String method) {
+
+        long start = System.currentTimeMillis();
+        long end = 0;
+        injectSecurityInfo(params);
+        Header header = builderHeader();
+
+        String url;
+        //服务器地址是否为Http/Https格式
+        if (curServer.startsWith(UtilAndComs.HTTPS) || curServer.startsWith(UtilAndComs.HTTP)) {
+            url = curServer + api;
+        } else {
+            //ip格式，是否带有port
+            if (!curServer.contains(UtilAndComs.SERVER_ADDR_IP_SPLITER)) {
+                curServer = curServer + UtilAndComs.SERVER_ADDR_IP_SPLITER + serverPort;
+            }
+            //构建需要访问服务的url
+            url = NamingHttpClientManager.getInstance().getPrefix() + curServer + api;
+        }
+    }
+
+    private void injectSecurityInfo(Map<String, String> params) {
+
+        // Inject token if exist:
+        if (StringUtils.isNotBlank(securityProxy.getAccessToken())) {
+            params.put(Constants.ACCESS_TOKEN, securityProxy.getAccessToken());
+        }
+
+        // Inject ak/sk if exist:
+        String ak = getAccessKey();
+        String sk = getSecretKey();
+        params.put("app", AppNameUtils.getAppName());
+        if (StringUtils.isNotBlank(ak) && StringUtils.isNotBlank(sk)) {
+            try {
+                String signData = getSignData(params.get("serviceName"));
+                String signature = SignUtil.sign(signData, sk);
+                params.put("signature", signature);
+                params.put("data", signData);
+                params.put("ak", ak);
+            } catch (Exception e) {
+                NAMING_LOGGER.error("inject ak/sk failed.", e);
+            }
+        }
+    }
+
+    public String getAccessKey() {
+        if (properties == null) {
+
+            return SpasAdapter.getAk();
+        }
+
+        return TemplateUtils
+                .stringEmptyAndThenExecute(properties.getProperty(PropertyKeyConst.ACCESS_KEY), new Callable<String>() {
+                    @Override
+                    public String call() {
+                        return SpasAdapter.getAk();
+                    }
+                });
+    }
+
+    public String getSecretKey() {
+        if (properties == null) {
+
+            return SpasAdapter.getSk();
+        }
+
+        return TemplateUtils
+                .stringEmptyAndThenExecute(properties.getProperty(PropertyKeyConst.SECRET_KEY), new Callable<String>() {
+                    @Override
+                    public String call() throws Exception {
+                        return SpasAdapter.getSk();
+                    }
+                });
+    }
 
     @Override
     public void close() throws IOException {
 
     }
+
+
 }
-
-
-

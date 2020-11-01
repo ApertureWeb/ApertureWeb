@@ -142,4 +142,8 @@ public class SecurityProxy {
         return Future.succeededFuture();
     }
 
+    public String getAccessToken() {
+        return accessToken;
+    }
+
 }

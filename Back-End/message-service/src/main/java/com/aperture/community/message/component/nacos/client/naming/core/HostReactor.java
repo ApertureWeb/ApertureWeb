@@ -95,7 +95,7 @@ public class HostReactor {
 
         this.updatingMap = new ConcurrentHashMap<String, Object>();
         this.failoverReactor = new FailoverReactor(this, cacheDir);
-        this.pushReceiver = new PushReceiver();
+        this.pushReceiver = new PushReceiver(this);
     }
 
 
@@ -205,7 +205,7 @@ public class HostReactor {
                 //放入事件分发器当中
                 eventDispatcher.serviceChanged(serviceInfo);
                 //写入磁盘缓存
-                DiskCache.write(serviceInfo, cacheDir);
+                DiskCache.write(serviceInfo, cacheDir,vertx,executor);
             }
 
         } else {
@@ -218,7 +218,7 @@ public class HostReactor {
             DiskCache.write(serviceInfo, cacheDir);
         }
         //监控
-        MetricsMonitor.getServiceInfoMapSizeMonitor().set(serviceInfoMap.size());
+//        MetricsMonitor.getServiceInfoMapSizeMonitor().set(serviceInfoMap.size());
 
         if (changed) {
             logger.info("current ips:(" + serviceInfo.ipCount() + ") service: " + serviceInfo.getKey() + " -> "
