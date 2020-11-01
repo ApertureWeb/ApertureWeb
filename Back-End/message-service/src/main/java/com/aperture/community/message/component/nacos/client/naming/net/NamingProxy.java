@@ -20,6 +20,7 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.client.HttpRequest;
 import io.vertx.ext.web.client.WebClient;
 import org.apache.commons.lang3.StringUtils;
@@ -231,7 +232,7 @@ public class NamingProxy implements Closeable {
     }
 
     public String callServer(String api, Map<String, String> params, Map<String, String> body, String curServer,
-                             String method) {
+                             HttpMethod method) {
 
         long start = System.currentTimeMillis();
         long end = 0;
@@ -250,6 +251,10 @@ public class NamingProxy implements Closeable {
             //构建需要访问服务的url
             url = NamingHttpClientManager.getInstance().getPrefix() + curServer + api;
         }
+        WebClient webClient = WebClientFactory.getWebClient();
+        webClient.requestAbs(method, url);
+
+
     }
 
     private void injectSecurityInfo(Map<String, String> params) {
