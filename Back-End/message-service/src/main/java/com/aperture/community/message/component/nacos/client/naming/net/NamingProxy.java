@@ -12,12 +12,8 @@ import com.aperture.community.message.component.nacos.common.utils.UuidUtils;
 import com.aperture.community.message.component.nacos.common.utils.VersionUtils;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Future;
-import io.vertx.core.MultiMap;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.core.file.FileSystem;
-import io.vertx.core.file.OpenOptions;
-import io.vertx.core.parsetools.RecordParser;
 import io.vertx.ext.web.client.WebClient;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -25,14 +21,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -43,7 +35,6 @@ import java.util.concurrent.TimeUnit;
 
 public class NamingProxy implements Closeable {
 
-    private final NacosRestTemplate nacosRestTemplate = NamingHttpClientManager.getInstance().getNacosRestTemplate();
     private final Logger NAMING_LOGGER = LoggerFactory.getLogger(NamingProxy.class);
     private static final int DEFAULT_SERVER_PORT = 8848;
     private final WebClient webClient;
@@ -118,32 +109,30 @@ public class NamingProxy implements Closeable {
      * 从Nacos Server获取一串Nacos Server的地址列表
      */
     private void refreshSrvIfNeed() {
-        try {
 
-            if (!CollectionUtils.isEmpty(serverList)) {
-                NAMING_LOGGER.debug("server list provided by user: " + serverList);
-                return;
-            }
-            //如果距离上次刷新的间隔事件少于30s则直接返回，避免频繁调用导致不必性能开销
-            if (System.currentTimeMillis() - lastSrvRefTime < vipSrvRefInterMillis) {
-                return;
-            }
-            //获取Nacos Server地址
-            List<String> list = getServerListFromEndpoint();
-
+        if (!CollectionUtils.isEmpty(serverList)) {
+            NAMING_LOGGER.debug("server list provided by user: " + serverList);
+            return;
+        }
+        //如果距离上次刷新的间隔事件少于30s则直接返回，避免频繁调用导致不必性能开销
+        if (System.currentTimeMillis() - lastSrvRefTime < vipSrvRefInterMillis) {
+            return;
+        }
+        //获取Nacos Server地址
+        getServerListFromEndpoint().onSuccess(list -> {
             if (CollectionUtils.isEmpty(list)) {
-                throw new Exception("Can not acquire Nacos list");
+                NAMING_LOGGER.warn("Can not acquire Nacos list");
             }
-
             if (!CollectionUtils.isEqualCollection(list, serversFromEndpoint)) {
                 NAMING_LOGGER.info("[SERVER-LIST] server list is updated: " + list);
             }
             //保存地址
             serversFromEndpoint = list;
             lastSrvRefTime = System.currentTimeMillis();
-        } catch (Throwable e) {
-            NAMING_LOGGER.warn("failed to update server list", e);
-        }
+        }).onFailure(err -> {
+            NAMING_LOGGER.warn(err.getMessage());
+        });
+
     }
 
 
@@ -152,59 +141,38 @@ public class NamingProxy implements Closeable {
      */
     public Future<List<String>> getServerListFromEndpoint() {
 
-        try {
-            String urlString = "http://" + endpoint + "/nacos/serverlist";
-            Header header = builderHeader();
-            Future<List<String>> future = Future.succeededFuture(new ArrayList<>());
+        String urlString = "http://" + endpoint + "/nacos/serverlist";
+        Header header = builderHeader();
+        Future<List<String>> future = Future.succeededFuture(new ArrayList<>());
 
-            //获取服务器地址列表
-            return webClient.getAbs(urlString).putHeaders(header.getMultiMap()).ssl(false).send().
-                    compose(res -> {
-                        if (res.statusCode() != HttpResponseStatus.OK.code()) {
-                            NAMING_LOGGER.error("Error while requesting: " + urlString + "'. Server returned: " + res.statusCode());
-                            return Future.failedFuture("Error while requesting: " + urlString + "'. Server returned: " + res.statusCode());
-                        } else {
-                            Buffer content = res.body();
-                            //将服务器地址一行一行读入
+        //获取服务器地址列表
+        return webClient.getAbs(urlString).putHeaders(header.getMultiMap()).ssl(false).send().
+                compose(res -> {
+                    if (res.statusCode() != HttpResponseStatus.OK.code()) {
+                        NAMING_LOGGER.error("Error while requesting: " + urlString + "'. Server returned: " + res.statusCode());
+                        return Future.failedFuture("Error while requesting: " + urlString + "'. Server returned: " + res.statusCode());
+                    } else {
+                        Buffer content = res.body();
+                        //将服务器地址一行一行读入
 
-                            try {
-                                IoUtils.readLines(content).onSuccess(msg -> {
-                                    for (String line : msg) {
-                                        if (!line.trim().isEmpty()) {
-                                            future.result().add(line.trim());
-                                        }
+                        try {
+                            IoUtils.readLines(content).onSuccess(msg -> {
+                                for (String line : msg) {
+                                    if (!line.trim().isEmpty()) {
+                                        future.result().add(line.trim());
                                     }
-                                });
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            return future;
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    }).onFailure(err -> {
-                NAMING_LOGGER.error("Error while requesting: " + urlString + "; reason:" + err.getMessage());
-            });
+                        return future;
+                    }
+                }).onFailure(err -> {
+            NAMING_LOGGER.error("Error while requesting: " + urlString + "; reason:" + err.getMessage());
+        });
 
-            if (!restResult.ok()) {
-                throw new IOException(
-                        "Error while requesting: " + urlString + "'. Server returned: " + restResult.getCode());
-            }
 
-            String content = restResult.getData();
-            List<String> list = new ArrayList<String>();
-            //将服务器地址一行一行读入
-            for (String line : IoUtils.readLines(new StringReader(content))) {
-                if (!line.trim().isEmpty()) {
-                    list.add(line.trim());
-                }
-            }
-
-            return list;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 
     /**
