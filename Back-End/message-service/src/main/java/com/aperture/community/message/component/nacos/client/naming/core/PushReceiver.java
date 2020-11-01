@@ -8,7 +8,6 @@ import io.vertx.core.datagram.DatagramSocketOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.nio.charset.Charset;
 import java.util.concurrent.ScheduledExecutorService;
@@ -55,11 +54,8 @@ public class PushReceiver implements Cloneable {
     }
 
     public static class PushPacket {
-
         public String type;
-
         public long lastRefTime;
-
         public String data;
     }
 
@@ -72,7 +68,12 @@ public class PushReceiver implements Cloneable {
             socket.listen(0, "0.0.0.0", asyncResult -> {
                 if (asyncResult.succeeded()) {
                     socket.handler(packet -> {
-                        String json = new String(IoUtils.tryDecompress(packet.data().getBytes()), UTF_8).trim();
+                        String json = null;
+                        try {
+                            json = new String(IoUtils.tryDecompress(packet.data().getBytes()), UTF_8).trim();
+                        } catch (Exception e) {
+                            PUSH_RECEIVER_LOGGER.info("received push data: " + json + " from " + packet.sender().hostAddress());
+                        }
                         PushPacket pushPacket = JacksonUtils.toObj(json, PushPacket.class);
                         String ack;
                         if ("dom".equals(pushPacket.type) || "service".equals(pushPacket.type)) {
@@ -93,9 +94,7 @@ public class PushReceiver implements Cloneable {
                                     + "\", \"data\":" + "\"\"}";
                         }
 
-                        udpSocket.send(new DatagramPacket(ack.getBytes(UTF_8), ack.getBytes(UTF_8).length,
-                                packet.sender().hostAddress().getSocketAddress()));
-                        socket.send(ack,0,packet.sender().hostAddress());
+                        socket.send(ack, 0, packet.sender().hostAddress());
                     });
                 } else {
                     System.out.println("Listen failed" + asyncResult.cause());
