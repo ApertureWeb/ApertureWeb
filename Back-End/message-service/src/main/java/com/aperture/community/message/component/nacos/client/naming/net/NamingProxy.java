@@ -12,6 +12,7 @@ import com.aperture.community.message.component.nacos.client.naming.utils.SignUt
 import com.aperture.community.message.component.nacos.client.naming.utils.UtilAndComs;
 import com.aperture.community.message.component.nacos.client.security.SecurityProxy;
 import com.aperture.community.message.component.nacos.client.utils.AppNameUtils;
+import com.aperture.community.message.component.nacos.client.utils.JobUtils;
 import com.aperture.community.message.component.nacos.client.utils.TemplateUtils;
 import com.aperture.community.message.component.nacos.common.constant.HttpHeaderConsts;
 import com.aperture.community.message.component.nacos.common.http.param.Header;
@@ -240,12 +241,13 @@ public class NamingProxy implements Closeable {
             Random random = new Random(System.currentTimeMillis());
             int index = random.nextInt(servers.size());
             //依次向每个服务器发送注册实例信息,直到遍历完服务或者有服务正常响应
+            Iterator<String> iterator = servers.iterator();
+            while (iterator.hasNext()) {
+                String server = iterator.next();
 
-            for (int i = 0; i < servers.size(); i++) {
-                String server = servers.get(index);
-                //TODO need to
-                callServer(api, params, body, server, method);
-                index = (index + 1) % servers.size();
+                return callServer(api, params, body, server, method).onFailure(err->{
+
+                });
             }
         }
         if (StringUtils.isNotBlank(nacosDomain)) {
@@ -369,12 +371,6 @@ public class NamingProxy implements Closeable {
     public void close() throws IOException {
 
     }
-
-    private Future<NamingProxy> failedAttempt() {
-
-    }
-
-
 
 
 }

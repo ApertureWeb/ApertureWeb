@@ -9,86 +9,100 @@ import io.vertx.ext.web.client.WebClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
+
 /**
  * @author HALOXIAO
  * @since 2020-11-01 20:53
  **/
-public class JobUtils<R, P> {
+public class JobUtils<T> {
 
     private int max_attempts = 1;
     private int attempts = 0;
-    private Vertx vertx;
-    private WebClient webClient;
     private final Logger logger = LoggerFactory.getLogger(JobUtils.class);
-    private Handler<Promise<P>> handler;
-    private boolean stop = false;
+    private Handler<Promise<T>> handler;
+    private Collection<T> collection = null;
 
-    public JobUtils(Vertx vertx, int times) {
-        this.vertx = vertx;
-        this.webClient = WebClientFactory.getWebClient();
+    public Future<JobUtils<T>> attempt(int times, Handler<Promise<T>> handler) {
         this.max_attempts = times;
-    }
-
-    public Future<Object> attemptWithReturn(Handler<Promise<P>> handler) {
         this.handler = handler;
-        return this.doLog()
-                .compose(x -> {
-                    return this.attemptWithReturn(handler).compose(y -> {
-
-                    });
-                });
+        return this.doLog().compose(JobUtils::attemptInternal);
     }
 
-    public Future<JobUtils<R, P>> attempt(Handler<Promise<P>> handler) {
-
-        return null;
+    public Future<JobUtils<T>> attemptByParam(Handler<Promise<T>> handler, Collection<T> collection) {
+        this.handler = handler;
+        this.collection = collection;
+        return this.doLog().compose(JobUtils::attemptInternalParam);
     }
 
-    public Future<JobUtils<R, P>> doLog() {
-        Future<JobUtils<R, P>> future = Future.succeededFuture();
+
+    private Future<JobUtils<T>> doLog(Throwable err) {
+        Future<JobUtils<T>> future = Future.succeededFuture();
         if (logger.isDebugEnabled()) {
-            logger.debug("retry time :" + attempts);
+            logger.debug("retry time :" + attempts, err);
         }
         return future;
     }
 
-    private Future<JobUtils<R, P>> error() {
-
-        return null;
+    private Future<JobUtils<T>> doLog() {
+        Future<JobUtils<T>> future = Future.succeededFuture();
+        if (logger.isDebugEnabled()) {
+            logger.debug("retry time :" + attempts + ";maxAttempts:" + max_attempts);
+        }
+        return future;
     }
 
-    private Future<Object> attemptInternalWithReturn() {
+    private Future<JobUtils<T>> attemptInternalParam() {
+
+
+        int remaining = this.max_attempts - this.attempts;
+
+        if (remaining > 0) {
+            return this.doAttempt().onFailure(err -> {
+                doLog(err);
+                attemptInternal();
+            }).compose(x -> {
+                return Future.succeededFuture(this);
+            });
+        } else if (remaining == 0) {
+            return Future.failedFuture("attempts time done;max try:" + max_attempts);
+        } else {
+            return Future.failedFuture(new IllegalStateException("Attempts Exceeded"));
+        }
+    }
+
+
+    private Future<JobUtils<T>> attemptInternal() {
+        collection.iterator();
+        collection.forEach(s -> {
+
+        });
+        this.doAttempt().onFailure(err -> {
+
+        });
         int remaining = this.max_attempts - this.attempts;
         if (remaining > 0) {
             return this.doAttempt().onFailure(err -> {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("retry times:" + this.attempts);
-                }
+                doLog(err);
+                attemptInternal();
+            }).compose(x -> {
+                return Future.succeededFuture(this);
             });
         } else if (remaining == 0) {
-            this.stop = true;
-            return Future.failedFuture("attempts time done");
+            return Future.failedFuture("attempts time done;max try:" + max_attempts);
         } else {
             return Future.failedFuture(new IllegalStateException("Attempts Exceeded"));
         }
     }
 
-    private Future<JobUtils<R, P>> attemptInternal() {
-        int remaining = this.max_attempts - this.attempts;
-        if (remaining > 0) {
-            return null;
-        } else if (remaining == 0) {
-            return Future.failedFuture("attempts time done");
-        } else {
-            return Future.failedFuture(new IllegalStateException("Attempts Exceeded"));
-        }
-
-    }
 
     private Future<Object> doAttempt() {
+
         return Future.future(handler).onFailure(x -> attempts++).compose(Future::succeededFuture);
 
     }
 
 
 }
+
+
