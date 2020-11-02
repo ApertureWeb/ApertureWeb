@@ -5,6 +5,7 @@ import com.aperture.community.message.component.nacos.api.SystemPropertyKeyConst
 import com.aperture.community.message.component.nacos.api.WebClientFactory;
 import com.aperture.community.message.component.nacos.api.common.Constants;
 import com.aperture.community.message.component.nacos.api.exception.NacosException;
+import com.aperture.community.message.component.nacos.api.naming.CommonParams;
 import com.aperture.community.message.component.nacos.client.config.impl.SpasAdapter;
 import com.aperture.community.message.component.nacos.client.naming.beat.BeatInfo;
 import com.aperture.community.message.component.nacos.client.naming.utils.CollectionUtils;
@@ -17,6 +18,7 @@ import com.aperture.community.message.component.nacos.client.utils.TemplateUtils
 import com.aperture.community.message.component.nacos.common.constant.HttpHeaderConsts;
 import com.aperture.community.message.component.nacos.common.http.param.Header;
 import com.aperture.community.message.component.nacos.common.utils.IoUtils;
+import com.aperture.community.message.component.nacos.common.utils.JacksonUtils;
 import com.aperture.community.message.component.nacos.common.utils.UuidUtils;
 import com.aperture.community.message.component.nacos.common.utils.VersionUtils;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -219,15 +221,21 @@ public class NamingProxy implements Closeable {
      * @param lightBeatEnabled light beat
      * @return beat result
      */
-    public JsonNode sendBeat(BeatInfo beatInfo, boolean lightBeatEnabled) {
+    public Future<JsonNode> sendBeat(BeatInfo beatInfo, boolean lightBeatEnabled) throws NacosException {
         if (logger.isDebugEnabled()) {
             logger.debug("[BEAT] {} sending beat to server: {}", namespaceId, beatInfo.toString());
         }
+        Map<String, String> body = new HashMap<>(2);
         if (!lightBeatEnabled) {
-
+            body.put("beat", JacksonUtils.toJson(beatInfo));
         }
-        WebClient webClient = WebClientFactory.getWebClient();
-        HttpRequest<Buffer> temp = webClient.putAbs(UtilAndComs.nacosUrlBase + "/instance/beat").ssl(false);
+        MultiMap params = MultiMap.caseInsensitiveMultiMap();
+        params.add(CommonParams.NAMESPACE_ID, namespaceId);
+        params.add(CommonParams.SERVICE_NAME, beatInfo.getServiceName());
+        params.add(CommonParams.CLUSTER_NAME, beatInfo.getCluster());
+        params.add("ip", beatInfo.getIp());
+        params.add("port", String.valueOf(beatInfo.getPort()));
+        return reqApi(UtilAndComs.nacosUrlBase + "/instance/beat", params, body, getServerList(), HttpMethod.PUT).compose(res -> Future.succeededFuture(JacksonUtils.toObj(res)));
 
     }
 
@@ -266,11 +274,12 @@ public class NamingProxy implements Closeable {
         }
 
         //TODO perfect error handle
-        return Future.failedFuture("fail to call");
+        return Future.failedFuture(String.format("request:%s failed,servers:%s ", api, servers.toString()));
     }
 
     /**
      * proxy for #callServer
+     *
      * @return if false content == null
      */
     private Future<String> callServerProxy(String api, MultiMap params, Map<String, String> body, String curServer,

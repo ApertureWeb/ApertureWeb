@@ -22,8 +22,6 @@ public class JobUtils<T> {
     private int attempts = 0;
     private final Logger logger = LoggerFactory.getLogger(JobUtils.class);
     private Handler<Promise<T>> handler;
-    private Collection<T> collection = null;
-    private Iterator<T> iterator = null;
     private T result;
 
     public Future<JobUtils<T>> attempt(int times, Handler<Promise<T>> handler) {
@@ -32,11 +30,6 @@ public class JobUtils<T> {
         return this.doLog().compose(JobUtils::attemptInternal);
     }
 
-    public Future<JobUtils<T>> attemptByParam(Handler<Promise<T>> handler, Collection<T> collection) {
-        this.handler = handler;
-        this.iterator = collection.iterator();
-        return this.doLog().compose(JobUtils::attemptInternalParam);
-    }
 
 
     private Future<JobUtils<T>> doLog(Throwable err) {
@@ -53,17 +46,6 @@ public class JobUtils<T> {
             logger.debug("retry time :" + attempts + ";maxAttempts:" + max_attempts);
         }
         return future;
-    }
-
-    private Future<JobUtils<T>> attemptInternalParam() {
-        T data = iterator.next();
-        return this.doAttempt().onFailure(err -> {
-            doLog(err);
-            attemptInternalParam();
-        }).compose(x -> {
-            return Future.succeededFuture(this);
-        });
-
     }
 
 
