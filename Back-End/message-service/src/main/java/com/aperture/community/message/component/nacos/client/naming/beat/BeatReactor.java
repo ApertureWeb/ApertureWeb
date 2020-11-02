@@ -9,14 +9,15 @@ import com.aperture.community.message.component.nacos.api.utils.NamingUtils;
 import com.aperture.community.message.component.nacos.client.naming.net.NamingProxy;
 import com.aperture.community.message.component.nacos.client.naming.utils.UtilAndComs;
 import com.aperture.community.message.component.nacos.common.utils.JacksonUtils;
-import com.fasterxml.jackson.databind.JsonNode;
-import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Vertx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import reactor.core.publisher.Mono;
 
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadFactory;
 
 /**
  * @author HALOXIAO
@@ -28,17 +29,15 @@ public class BeatReactor {
     private final ScheduledExecutorService executorService;
     private final Logger logger = LoggerFactory.getLogger(BeatReactor.class);
     private final NamingProxy serverProxy;
-
+    private final Vertx vertx;
     private boolean lightBeatEnabled = false;
 
     public final Map<String, BeatInfo> dom2Beat = new ConcurrentHashMap<String, BeatInfo>();
 
-    public BeatReactor(NamingProxy serverProxy) {
-        this(serverProxy, UtilAndComs.DEFAULT_CLIENT_BEAT_THREAD_COUNT);
-    }
 
-    public BeatReactor(NamingProxy serverProxy, int threadCount) {
+    public BeatReactor(NamingProxy serverProxy, Vertx vertx) {
         this.serverProxy = serverProxy;
+        this.vertx = vertx;
         //定时任务线程池
         this.executorService = new ScheduledThreadPoolExecutor(threadCount, new ThreadFactory() {
             @Override
@@ -71,7 +70,7 @@ public class BeatReactor {
         }
         dom2Beat.put(key, beatInfo);
         //大约5s 发送一次心跳
-        executorService.schedule(new BeatTask(beatInfo), beatInfo.getPeriod(), TimeUnit.MILLISECONDS);
+
 //        MetricsMonitor.getDom2BeatSizeMonitor().set(dom2Beat.size());
     }
 
@@ -86,64 +85,66 @@ public class BeatReactor {
             this.beatInfo = beatInfo;
         }
 
-        void sendBeat() {
+        public void sendBeatTiming() {
+            vertx.setTimer(0,)
+        }
+
+        public void sendBeat() {
             if (beatInfo.isStopped()) {
                 return;
             }
             //Beat时间（ms）
-            long nextTime = beatInfo.getPeriod();
+            //发送心跳
             try {
-                //发送心跳
-                JsonNode result = serverProxy.sendBeat(beatInfo, BeatReactor.this.lightBeatEnabled);
-                //服务端对Beat间隔的控制
-                long interval = result.get("clientBeatInterval").asLong();
-                //lighBeatEnabled 表示这次Beat是否为轻量级Beat（即是否携带beat数据，默认只有第一次时才需要携带，第二次往后都是lighBeat）
-                boolean lightBeatEnabled = false;
-                if (result.has(CommonParams.LIGHT_BEAT_ENABLED)) {
-                    lightBeatEnabled = result.get(CommonParams.LIGHT_BEAT_ENABLED).asBoolean();
-                }
-                BeatReactor.this.lightBeatEnabled = lightBeatEnabled;
-                //下一次心跳时间，默认5s
-                if (interval > 0) {
-                    nextTime = interval;
-                }
-                int code = NamingResponseCode.OK;
-                if (result.has(CommonParams.CODE)) {
-                    code = result.get(CommonParams.CODE).asInt();
-                }
-                //如果是404
-                if (code == NamingResponseCode.RESOURCE_NOT_FOUND) {
-                    System.out.println("404");
-                    System.out.println(result.toString());
-                    //需要注册的实例
-                    Instance instance = new Instance();
-                    instance.setPort(beatInfo.getPort());
-                    instance.setIp(beatInfo.getIp());
-                    instance.setWeight(beatInfo.getWeight());
-                    instance.setMetadata(beatInfo.getMetadata());
-                    instance.setClusterName(beatInfo.getCluster());
-                    instance.setServiceName(beatInfo.getServiceName());
-                    instance.setInstanceId(instance.getInstanceId());
-                    instance.setEphemeral(true);
-                    try {
-                        //重新注册下实例
-                        serverProxy.registerService(beatInfo.getServiceName(),
-                                NamingUtils.getGroupName(beatInfo.getServiceName()), instance);
-                    } catch (Exception ignore) {
-
+                serverProxy.sendBeat(beatInfo, BeatReactor.this.lightBeatEnabled).onSuccess(result -> {
+                    long nextTime = beatInfo.getPeriod();
+                    //服务端对Beat间隔的控制
+                    long interval = result.get("clientBeatInterval").asLong();
+                    //lighBeatEnabled 表示这次Beat是否为轻量级Beat（即是否携带beat数据，默认只有第一次时才需要携带，第二次往后都是lighBeat）
+                    boolean lightBeatEnabled = false;
+                    if (result.has(CommonParams.LIGHT_BEAT_ENABLED)) {
+                        lightBeatEnabled = result.get(CommonParams.LIGHT_BEAT_ENABLED).asBoolean();
                     }
-                }
-                System.out.println("200");
-            } catch (NacosException ex) {
+                    BeatReactor.this.lightBeatEnabled = lightBeatEnabled;
+                    //下一次心跳时间，默认5s
+                    if (interval > 0) {
+                        nextTime = interval;
+                    }
+                    int code = NamingResponseCode.OK;
+                    if (result.has(CommonParams.CODE)) {
+                        code = result.get(CommonParams.CODE).asInt();
+                    }
+                    //如果是404
+                    if (code == NamingResponseCode.RESOURCE_NOT_FOUND) {
+                        //需要注册的实例
+                        Instance instance = new Instance();
+                        instance.setPort(beatInfo.getPort());
+                        instance.setIp(beatInfo.getIp());
+                        instance.setWeight(beatInfo.getWeight());
+                        instance.setMetadata(beatInfo.getMetadata());
+                        instance.setClusterName(beatInfo.getCluster());
+                        instance.setServiceName(beatInfo.getServiceName());
+                        instance.setInstanceId(instance.getInstanceId());
+                        instance.setEphemeral(true);
+                        try {
+                            serverProxy.registerService(beatInfo.getServiceName(),
+                                    NamingUtils.getGroupName(beatInfo.getServiceName()), instance);
+                        } catch (NacosException ignore) {
+
+                        }
+                    }
+
+                }).onFailure(err -> {
+                    logger.error("[CLIENT-BEAT] failed to send beat: {} , msg: {}",
+                            JacksonUtils.toJson(beatInfo), err.getMessage());
+                });
+            } catch (NacosException e) {
                 logger.error("[CLIENT-BEAT] failed to send beat: {}, code: {}, msg: {}",
-                        JacksonUtils.toJson(beatInfo), ex.getErrCode(), ex.getErrMsg());
-
+                        JacksonUtils.toJson(beatInfo), e.getErrCode(), e.getErrMsg());
             }
-            //准备下一次心跳
-
 
         }
 
+
     }
 }
-

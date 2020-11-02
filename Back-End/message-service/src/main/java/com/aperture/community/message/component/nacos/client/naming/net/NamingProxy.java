@@ -6,6 +6,7 @@ import com.aperture.community.message.component.nacos.api.WebClientFactory;
 import com.aperture.community.message.component.nacos.api.common.Constants;
 import com.aperture.community.message.component.nacos.api.exception.NacosException;
 import com.aperture.community.message.component.nacos.api.naming.CommonParams;
+import com.aperture.community.message.component.nacos.api.naming.pojo.Instance;
 import com.aperture.community.message.component.nacos.client.config.impl.SpasAdapter;
 import com.aperture.community.message.component.nacos.client.naming.beat.BeatInfo;
 import com.aperture.community.message.component.nacos.client.naming.utils.CollectionUtils;
@@ -277,6 +278,16 @@ public class NamingProxy implements Closeable {
         return Future.failedFuture(String.format("request:%s failed,servers:%s ", api, servers.toString()));
     }
 
+    public Future<String> reqApi(String api, MultiMap params, HttpMethod method) throws NacosException {
+        return reqApi(api, params, Collections.EMPTY_MAP, method);
+    }
+
+    public Future<String> reqApi(String api, MultiMap params, Map<String, String> body, HttpMethod method)
+            throws NacosException {
+        return reqApi(api, params, body, getServerList(), method);
+    }
+
+
     /**
      * proxy for #callServer
      *
@@ -330,6 +341,34 @@ public class NamingProxy implements Closeable {
         });
 
     }
+
+
+    /**
+     * register a instance to service with specified instance properties.
+     *
+     * @param serviceName name of service
+     * @param groupName   group of service
+     * @param instance    instance to register
+     * @throws NacosException nacos exception
+     */
+    public void registerService(String serviceName, String groupName, Instance instance) throws NacosException {
+        logger.info("[REGISTER-SERVICE] {} registering service {} with instance: {}", namespaceId, serviceName,
+                instance);
+        MultiMap params = MultiMap.caseInsensitiveMultiMap();
+        params.add(CommonParams.NAMESPACE_ID, namespaceId);
+        params.add(CommonParams.SERVICE_NAME, serviceName);
+        params.add(CommonParams.GROUP_NAME, groupName);
+        params.add(CommonParams.CLUSTER_NAME, instance.getClusterName());
+        params.add("ip", instance.getIp());
+        params.add("port", String.valueOf(instance.getPort()));
+        params.add("weight", String.valueOf(instance.getWeight()));
+        params.add("enable", String.valueOf(instance.isEnabled()));
+        params.add("healthy", String.valueOf(instance.isHealthy()));
+        params.add("ephemeral", String.valueOf(instance.isEphemeral()));
+        params.add("metadata", JacksonUtils.toJson(instance.getMetadata()));
+        reqApi(UtilAndComs.nacosUrlInstance, params, HttpMethod.POST);
+    }
+
 
     private void injectSecurityInfo(MultiMap params) {
 
