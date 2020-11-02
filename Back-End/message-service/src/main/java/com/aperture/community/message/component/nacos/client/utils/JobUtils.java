@@ -21,6 +21,7 @@ public class JobUtils<R, P> {
     private WebClient webClient;
     private final Logger logger = LoggerFactory.getLogger(JobUtils.class);
     private Handler<Promise<P>> handler;
+    private boolean stop = false;
 
     public JobUtils(Vertx vertx, int times) {
         this.vertx = vertx;
@@ -28,14 +29,18 @@ public class JobUtils<R, P> {
         this.max_attempts = times;
     }
 
-    public Future<JobUtils<R, P>> attemptWithReturn(Handler<Promise<P>> handler) {
+    public Future<Object> attemptWithReturn(Handler<Promise<P>> handler) {
         this.handler = handler;
         return this.doLog()
-                .compose(JobUtils::attemptInternal);
+                .compose(x -> {
+                    return this.attemptWithReturn(handler).compose(y -> {
 
+                    });
+                });
     }
 
     public Future<JobUtils<R, P>> attempt(Handler<Promise<P>> handler) {
+
         return null;
     }
 
@@ -50,6 +55,22 @@ public class JobUtils<R, P> {
     private Future<JobUtils<R, P>> error() {
 
         return null;
+    }
+
+    private Future<Object> attemptInternalWithReturn() {
+        int remaining = this.max_attempts - this.attempts;
+        if (remaining > 0) {
+            return this.doAttempt().onFailure(err -> {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("retry times:" + this.attempts);
+                }
+            });
+        } else if (remaining == 0) {
+            this.stop = true;
+            return Future.failedFuture("attempts time done");
+        } else {
+            return Future.failedFuture(new IllegalStateException("Attempts Exceeded"));
+        }
     }
 
     private Future<JobUtils<R, P>> attemptInternal() {
