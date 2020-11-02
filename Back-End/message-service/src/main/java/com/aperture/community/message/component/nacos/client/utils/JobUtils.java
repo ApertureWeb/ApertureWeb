@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * @author HALOXIAO
@@ -22,6 +23,8 @@ public class JobUtils<T> {
     private final Logger logger = LoggerFactory.getLogger(JobUtils.class);
     private Handler<Promise<T>> handler;
     private Collection<T> collection = null;
+    private Iterator<T> iterator = null;
+    private T result;
 
     public Future<JobUtils<T>> attempt(int times, Handler<Promise<T>> handler) {
         this.max_attempts = times;
@@ -31,7 +34,7 @@ public class JobUtils<T> {
 
     public Future<JobUtils<T>> attemptByParam(Handler<Promise<T>> handler, Collection<T> collection) {
         this.handler = handler;
-        this.collection = collection;
+        this.iterator = collection.iterator();
         return this.doLog().compose(JobUtils::attemptInternalParam);
     }
 
@@ -53,33 +56,18 @@ public class JobUtils<T> {
     }
 
     private Future<JobUtils<T>> attemptInternalParam() {
+        T data = iterator.next();
+        return this.doAttempt().onFailure(err -> {
+            doLog(err);
+            attemptInternalParam();
+        }).compose(x -> {
+            return Future.succeededFuture(this);
+        });
 
-
-        int remaining = this.max_attempts - this.attempts;
-
-        if (remaining > 0) {
-            return this.doAttempt().onFailure(err -> {
-                doLog(err);
-                attemptInternal();
-            }).compose(x -> {
-                return Future.succeededFuture(this);
-            });
-        } else if (remaining == 0) {
-            return Future.failedFuture("attempts time done;max try:" + max_attempts);
-        } else {
-            return Future.failedFuture(new IllegalStateException("Attempts Exceeded"));
-        }
     }
 
 
     private Future<JobUtils<T>> attemptInternal() {
-        collection.iterator();
-        collection.forEach(s -> {
-
-        });
-        this.doAttempt().onFailure(err -> {
-
-        });
         int remaining = this.max_attempts - this.attempts;
         if (remaining > 0) {
             return this.doAttempt().onFailure(err -> {
@@ -97,9 +85,14 @@ public class JobUtils<T> {
 
 
     private Future<Object> doAttempt() {
+        return Future.future(handler).onFailure(x -> attempts++).compose(res->{
+            result = res;
+            return Future.succeededFuture(res);
+        });
+    }
 
-        return Future.future(handler).onFailure(x -> attempts++).compose(Future::succeededFuture);
-
+    public T getResult(){
+        return result;
     }
 
 

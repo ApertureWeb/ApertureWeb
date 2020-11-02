@@ -242,31 +242,45 @@ public class NamingProxy implements Closeable {
             int index = random.nextInt(servers.size());
             //依次向每个服务器发送注册实例信息,直到遍历完服务或者有服务正常响应
             Iterator<String> iterator = servers.iterator();
-            while (iterator.hasNext()) {
-                String server = iterator.next();
+            return callServerProxy(api, params, body, nacosDomain, method, servers.iterator())
+                    .compose(res -> {
+                        if (null == res) {
+                            if (StringUtils.isNotBlank(nacosDomain)) {
+                                JobUtils<String> job = new JobUtils<>();
+                                return job.attempt(UtilAndComs.REQUEST_DOMAIN_RETRY_COUNT, h -> {
+                                    callServer(api, params, body, nacosDomain, method);
+                                }).onFailure(err -> {
+                                    if (logger.isDebugEnabled()) {
+                                        logger.debug("request {} failed.", nacosDomain, err);
+                                    }
+                                }).compose(inres ->
+                                        Future.succeededFuture(inres.getResult())
+                                );
+                            }
+                            return Future.failedFuture("fail to call server");
 
-                return callServer(api, params, body, server, method).onFailure(err->{
-
-                });
-            }
+                        } else {
+                            return Future.succeededFuture(res);
+                        }
+                    });
         }
-        if (StringUtils.isNotBlank(nacosDomain)) {
 
-            for (int i = 0; i < UtilAndComs.REQUEST_DOMAIN_RETRY_COUNT; i++) {
-                Future<String> result = callServer(api, params, body, nacosDomain, method);
-                result.onFailure(e -> {
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("request {} failed.", nacosDomain, e);
-                    }
-                }).compose(res -> {
-                    return result;
-                });
+        //TODO perfect error handle
+        return Future.failedFuture("fail to call");
+    }
 
-            }
+    /**
+     * proxy for #callServer
+     * @return if false content == null
+     */
+    private Future<String> callServerProxy(String api, MultiMap params, Map<String, String> body, String curServer,
+                                           HttpMethod method, Iterator<String> servers) {
+        while (servers.hasNext()) {
+            return callServer(api, params, body, curServer, method).onFailure(err -> {
+                callServerProxy(api, params, body, servers.next(), method, servers);
+            }).compose(res -> Future.succeededFuture(res));
         }
-        logger.error("request: {} failed, servers: {}, code: {}, msg: {}", api, servers, exception.getErrCode(),
-                exception.getErrMsg());
-        return Future.failedFuture("");
+        return Future.succeededFuture(null);
     }
 
     public Future<String> callServer(String api, MultiMap params, Map<String, String> body, String curServer,
