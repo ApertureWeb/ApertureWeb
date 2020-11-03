@@ -75,7 +75,7 @@ public class ConcurrentDiskUtil {
         return true;
     }
 
-    public static Future<String> getFileContent(WorkerExecutor executor, Vertx vertx, String address, String filepath, String charsetName) {
+    public static Future<String> getFileContent(WorkerExecutor executor, String filepath, String charsetName) {
         return executor.executeBlocking(exe -> {
             FileLock rlock = null;
             try (RandomAccessFile fis = new RandomAccessFile(filepath, "r");
@@ -102,7 +102,7 @@ public class ConcurrentDiskUtil {
                 exe.complete(byteBuffer.toString());
             } catch (IOException e) {
                 logger.error("fail to read cache", e);
-                exe.complete(e);
+                exe.fail(e);
             } finally {
                 if (rlock != null) {
                     try {
@@ -112,12 +112,7 @@ public class ConcurrentDiskUtil {
                     }
                 }
             }
-        }).compose(x -> {
-            if (x instanceof Exception) {
-                return Future.failedFuture(((Exception) x).getMessage());
-            }
-            return Future.succeededFuture((String) x);
-        });
+        }).compose(x -> Future.succeededFuture((String) x));
     }
 
     private static void sleep(int time) {

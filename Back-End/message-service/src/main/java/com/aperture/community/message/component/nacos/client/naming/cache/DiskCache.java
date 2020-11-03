@@ -57,4 +57,10 @@ public class DiskCache {
     }
 
 
+    public static String getLineSeparator() {
+        return System.getProperty("line.separator");
+    }
+
+
+
 }

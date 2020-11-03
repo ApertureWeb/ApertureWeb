@@ -344,6 +344,7 @@ public class HostReactor {
         private final Map<String, ServiceInfo> domMap = new HashMap<>(16);
         private final String ADDRESS = "Init-Service-Info-Task";
 
+        // 重写，全错
         @Override
         public void start() throws Exception {
             FileSystem fileSystem = vertx.fileSystem();
