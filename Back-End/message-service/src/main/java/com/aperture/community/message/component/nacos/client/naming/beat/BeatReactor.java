@@ -7,7 +7,6 @@ import com.aperture.community.message.component.nacos.api.naming.NamingResponseC
 import com.aperture.community.message.component.nacos.api.naming.pojo.Instance;
 import com.aperture.community.message.component.nacos.api.utils.NamingUtils;
 import com.aperture.community.message.component.nacos.client.naming.net.NamingProxy;
-import com.aperture.community.message.component.nacos.client.naming.utils.UtilAndComs;
 import com.aperture.community.message.component.nacos.common.utils.JacksonUtils;
 import io.vertx.core.Vertx;
 import org.slf4j.Logger;
@@ -15,9 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadFactory;
 
 /**
  * @author HALOXIAO
@@ -26,7 +22,6 @@ import java.util.concurrent.ThreadFactory;
 public class BeatReactor {
 
 
-    private final ScheduledExecutorService executorService;
     private final Logger logger = LoggerFactory.getLogger(BeatReactor.class);
     private final NamingProxy serverProxy;
     private final Vertx vertx;
@@ -38,17 +33,6 @@ public class BeatReactor {
     public BeatReactor(NamingProxy serverProxy, Vertx vertx) {
         this.serverProxy = serverProxy;
         this.vertx = vertx;
-        //定时任务线程池
-        this.executorService = new ScheduledThreadPoolExecutor(threadCount, new ThreadFactory() {
-            @Override
-            public Thread newThread(Runnable r) {
-                Thread thread = new Thread(r);
-                //标记为守护线程
-                thread.setDaemon(true);
-                thread.setName("com.alibaba.nacos.naming.beat.sender");
-                return thread;
-            }
-        });
     }
 
     /**
@@ -70,7 +54,8 @@ public class BeatReactor {
         }
         dom2Beat.put(key, beatInfo);
         //大约5s 发送一次心跳
-
+        BeatTask beatTask = new BeatTask(beatInfo);
+        beatTask.sendBeatTiming();
 //        MetricsMonitor.getDom2BeatSizeMonitor().set(dom2Beat.size());
     }
 
@@ -86,10 +71,10 @@ public class BeatReactor {
         }
 
         public void sendBeatTiming() {
-            vertx.setTimer(0,)
+            vertx.setTimer(0, handle -> sendBeat());
         }
 
-        public void sendBeat() {
+        private void sendBeat() {
             if (beatInfo.isStopped()) {
                 return;
             }

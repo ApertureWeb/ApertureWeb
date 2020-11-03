@@ -1,16 +1,10 @@
 package com.aperture.community.message.component.nacos.client.utils;
 
-import com.aperture.community.message.component.nacos.api.WebClientFactory;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
-import io.vertx.core.Vertx;
-import io.vertx.ext.web.client.WebClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * @author HALOXIAO
@@ -29,7 +23,6 @@ public class JobUtils<T> {
         this.handler = handler;
         return this.doLog().compose(JobUtils::attemptInternal);
     }
-
 
 
     private Future<JobUtils<T>> doLog(Throwable err) {
@@ -67,13 +60,13 @@ public class JobUtils<T> {
 
 
     private Future<Object> doAttempt() {
-        return Future.future(handler).onFailure(x -> attempts++).compose(res->{
+        return Future.future(handler).onFailure(x -> attempts++).compose(res -> {
             result = res;
             return Future.succeededFuture(res);
         });
     }
 
-    public T getResult(){
+    public T getResult() {
         return result;
     }
 
