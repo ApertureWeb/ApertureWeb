@@ -8,6 +8,7 @@ import com.aperture.community.message.component.nacos.api.naming.pojo.Instance;
 import com.aperture.community.message.component.nacos.api.utils.NamingUtils;
 import com.aperture.community.message.component.nacos.client.naming.net.NamingProxy;
 import com.aperture.community.message.component.nacos.common.utils.JacksonUtils;
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,24 +60,51 @@ public class BeatReactor {
 //        MetricsMonitor.getDom2BeatSizeMonitor().set(dom2Beat.size());
     }
 
+    public BeatInfo buildBeatInfo(Instance instance) {
+        return buildBeatInfo(instance.getServiceName(), instance);
+    }
+
+    /**
+     * Build new beat information.
+     *
+     * @param groupedServiceName service name with group name, format: ${groupName}@@${serviceName}
+     * @param instance           instance
+     * @return new beat information
+     */
+    public BeatInfo buildBeatInfo(String groupedServiceName, Instance instance) {
+        BeatInfo beatInfo = new BeatInfo();
+        beatInfo.setServiceName(groupedServiceName);
+        beatInfo.setIp(instance.getIp());
+        beatInfo.setPort(instance.getPort());
+        beatInfo.setCluster(instance.getClusterName());
+        beatInfo.setWeight(instance.getWeight());
+        beatInfo.setMetadata(instance.getMetadata());
+        beatInfo.setScheduled(false);
+        beatInfo.setPeriod(instance.getInstanceHeartBeatInterval());
+        return beatInfo;
+    }
+
     public String buildKey(String serviceName, String ip, int port) {
         return serviceName + Constants.NAMING_INSTANCE_ID_SPLITTER + ip + Constants.NAMING_INSTANCE_ID_SPLITTER + port;
     }
 
     class BeatTask {
         BeatInfo beatInfo;
+        long id;
 
         public BeatTask(BeatInfo beatInfo) {
             this.beatInfo = beatInfo;
         }
 
         public void sendBeatTiming() {
-            vertx.setTimer(0, handle -> sendBeat());
+            this.id = vertx.setPeriodic(beatInfo.getPeriod(), handle -> {
+                sendBeat();
+            });
         }
 
         private void sendBeat() {
             if (beatInfo.isStopped()) {
-                return;
+                vertx.cancelTimer(id);
             }
             //Beat时间（ms）
             //发送心跳
@@ -85,7 +113,7 @@ public class BeatReactor {
                     long nextTime = beatInfo.getPeriod();
                     //服务端对Beat间隔的控制
                     long interval = result.get("clientBeatInterval").asLong();
-                    //lighBeatEnabled 表示这次Beat是否为轻量级Beat（即是否携带beat数据，默认只有第一次时才需要携带，第二次往后都是lighBeat）
+                    //lightBeatEnabled 表示这次Beat是否为轻量级Beat（即是否携带beat数据，默认只有第一次时才需要携带，第二次往后都是lighBeat）
                     boolean lightBeatEnabled = false;
                     if (result.has(CommonParams.LIGHT_BEAT_ENABLED)) {
                         lightBeatEnabled = result.get(CommonParams.LIGHT_BEAT_ENABLED).asBoolean();
@@ -119,10 +147,11 @@ public class BeatReactor {
                         }
                     }
 
-                }).onFailure(err -> {
-                    logger.error("[CLIENT-BEAT] failed to send beat: {} , msg: {}",
-                            JacksonUtils.toJson(beatInfo), err.getMessage());
-                });
+                }).compose(res -> Future.succeededFuture(true)
+                ).onFailure(err ->
+                        logger.error("[CLIENT-BEAT] failed to send beat: {} , msg: {}",
+                                JacksonUtils.toJson(beatInfo), err.getMessage())
+                );
             } catch (NacosException e) {
                 logger.error("[CLIENT-BEAT] failed to send beat: {}, code: {}, msg: {}",
                         JacksonUtils.toJson(beatInfo), e.getErrCode(), e.getErrMsg());

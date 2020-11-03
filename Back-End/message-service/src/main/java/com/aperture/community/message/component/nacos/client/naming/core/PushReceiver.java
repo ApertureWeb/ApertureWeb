@@ -20,7 +20,7 @@ import java.util.concurrent.ThreadFactory;
  **/
 public class PushReceiver implements Cloneable {
 
-    private final Logger PUSH_RECEIVER_LOGGER = LoggerFactory.getLogger(PushReceiver.class);
+    private final Logger logger = LoggerFactory.getLogger(PushReceiver.class);
 
     private static final Charset UTF_8 = Charset.forName("UTF-8");
 
@@ -49,8 +49,12 @@ public class PushReceiver implements Cloneable {
                 }
             });
         } catch (Exception e) {
-            PUSH_RECEIVER_LOGGER.error("[NA] init udp socket failed", e);
+            logger.error("[NA] init udp socket failed", e);
         }
+    }
+
+    public int getUdpPort() {
+        return this.udpSocket.getLocalPort();
     }
 
     public static class PushPacket {
@@ -59,12 +63,11 @@ public class PushReceiver implements Cloneable {
         public String data;
     }
 
-    class hardPushTask extends AbstractVerticle {
+    class forcePushTask extends AbstractVerticle {
 
         @Override
-        public void start() throws Exception {
+        public void start() {
             io.vertx.core.datagram.DatagramSocket socket = vertx.createDatagramSocket(new DatagramSocketOptions());
-
             socket.listen(0, "0.0.0.0", asyncResult -> {
                 if (asyncResult.succeeded()) {
                     socket.handler(packet -> {
@@ -72,7 +75,7 @@ public class PushReceiver implements Cloneable {
                         try {
                             json = new String(IoUtils.tryDecompress(packet.data().getBytes()), UTF_8).trim();
                         } catch (Exception e) {
-                            PUSH_RECEIVER_LOGGER.info("received push data: " + json + " from " + packet.sender().hostAddress());
+                            logger.info("received push data: " + json + " from " + packet.sender().hostAddress());
                         }
                         PushPacket pushPacket = JacksonUtils.toObj(json, PushPacket.class);
                         String ack;
@@ -97,7 +100,7 @@ public class PushReceiver implements Cloneable {
                         socket.send(ack, 0, packet.sender().hostAddress());
                     });
                 } else {
-                    System.out.println("Listen failed" + asyncResult.cause());
+                    logger.error("[NA] error while receiving push data", asyncResult.cause());
                 }
             });
         }

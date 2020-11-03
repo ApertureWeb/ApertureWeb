@@ -10,6 +10,7 @@ import com.aperture.community.message.component.nacos.api.naming.pojo.Instance;
 import com.aperture.community.message.component.nacos.client.config.impl.SpasAdapter;
 import com.aperture.community.message.component.nacos.client.naming.beat.BeatInfo;
 import com.aperture.community.message.component.nacos.client.naming.utils.CollectionUtils;
+import com.aperture.community.message.component.nacos.client.naming.utils.NetUtils;
 import com.aperture.community.message.component.nacos.client.naming.utils.SignUtil;
 import com.aperture.community.message.component.nacos.client.naming.utils.UtilAndComs;
 import com.aperture.community.message.component.nacos.client.security.SecurityProxy;
@@ -339,6 +340,31 @@ public class NamingProxy implements Closeable {
             return Future.failedFuture("result code:" + res.statusCode() + ";reason" + res.bodyAsString());
         });
 
+    }
+
+    /**
+     * Query instance list.
+     *
+     * @param serviceName service name
+     * @param clusters    clusters
+     * @param udpPort     udp port
+     * @param healthyOnly healthy only
+     * @return instance list
+     * @throws NacosException nacos exception
+     */
+
+    public Future<String> queryList(String serviceName, String clusters, int udpPort, boolean healthyOnly)
+            throws NacosException {
+
+        final MultiMap params = MultiMap.caseInsensitiveMultiMap();
+        params.add(CommonParams.NAMESPACE_ID, namespaceId);
+        params.add(CommonParams.SERVICE_NAME, serviceName);
+        params.add("clusters", clusters);
+        params.add("udpPort", String.valueOf(udpPort));
+        params.add("clientIP", NetUtils.localIP());
+        params.add("healthyOnly", String.valueOf(healthyOnly));
+
+        return reqApi(UtilAndComs.nacosUrlBase + "/instance/list", params, HttpMethod.GET);
     }
 
 

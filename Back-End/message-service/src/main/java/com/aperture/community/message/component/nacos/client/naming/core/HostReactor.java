@@ -1,6 +1,7 @@
 package com.aperture.community.message.component.nacos.client.naming.core;
 
 import com.aperture.community.message.component.nacos.api.common.Constants;
+import com.aperture.community.message.component.nacos.api.exception.NacosException;
 import com.aperture.community.message.component.nacos.api.naming.pojo.Instance;
 import com.aperture.community.message.component.nacos.api.naming.pojo.ServiceInfo;
 import com.aperture.community.message.component.nacos.client.naming.backups.FailoverReactor;
@@ -251,25 +252,29 @@ public class HostReactor {
     //更新服务实例
     public void updateServiceNow(String serviceName, String clusters) {
         ServiceInfo oldService = getServiceInfo0(serviceName, clusters);
+        //获取服务的信息，并且发送自己接收服务端push的udp端口
         try {
-            //获取服务的信息，并且发送自己接收服务端push的udp端口
-            String result = serverProxy.queryList(serviceName, clusters, pushReceiver.getUdpPort(), false);
+            serverProxy.queryList(serviceName, clusters, pushReceiver.getUdpPort(), false)
+                    .onComplete(res -> {
+                        //refreshOnly不存在这个方法调用
+                        if (res.succeeded()) {
+                            if (StringUtils.isNotEmpty(res.result())) {
+                                processServiceJson(res.result());
+                            }
+                        } else {
+                            logger.error("[NA] failed to update serviceName: " + serviceName, res.cause());
+                        }
+                        if (oldService != null) {
+                            synchronized (oldService) {
+                                oldService.notifyAll();
+                            }
+                        }
 
-            //refreshOnly不存在这个方法调用
-            if (StringUtils.isNotEmpty(result)) {
-                processServiceJson(result);
-            }
-        } catch (Exception e) {
+                    });
+        } catch (NacosException e) {
             logger.error("[NA] failed to update serviceName: " + serviceName, e);
-        } finally {
-            if (oldService != null) {
-                synchronized (oldService) {
-                    oldService.notifyAll();
-                }
-            }
         }
     }
-
 
     /**
      * update serviceInfoMap on time
@@ -316,6 +321,19 @@ public class HostReactor {
             }
 
         }
+        /**
+         * Refresh only.
+         *
+         * @param serviceName service name
+         * @param clusters    cluster
+         */
+        public void refreshOnly(String serviceName, String clusters) {
+            try {
+                serverProxy.queryList(serviceName, clusters, pushReceiver.getUdpPort(), false);
+            } catch (Exception e) {
+                logger.error("[NA] failed to update serviceName: " + serviceName, e);
+            }
+        }
 
     }
 
@@ -351,8 +369,6 @@ public class HostReactor {
                                     ServiceInfo dom = new ServiceInfo(fileName);
                                     List<Instance> ips = new ArrayList<>();
                                     dom.setHosts(ips);
-
-
                                     ConcurrentDiskUtil.getFileContent(executor, vertx, ADDRESS, cacheDir, Charset.defaultCharset().toString()).onComplete(msg -> {
                                         if (msg.succeeded()) {
                                             ServiceInfo newFormat = null;
