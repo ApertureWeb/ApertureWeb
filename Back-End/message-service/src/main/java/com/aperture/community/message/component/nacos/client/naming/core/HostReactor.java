@@ -1,5 +1,6 @@
 package com.aperture.community.message.component.nacos.client.naming.core;
 
+import com.aperture.community.message.component.nacos.api.NacosWorkerExecutorFactory;
 import com.aperture.community.message.component.nacos.api.common.Constants;
 import com.aperture.community.message.component.nacos.api.exception.NacosException;
 import com.aperture.community.message.component.nacos.api.naming.pojo.Instance;
@@ -37,6 +38,7 @@ import java.util.concurrent.ScheduledFuture;
  * @author HALOXIAO
  * @since 2020-10-25 19:34
  **/
+//TODO 需要大改内核
 @Slf4j
 public class HostReactor {
     /**
@@ -49,8 +51,8 @@ public class HostReactor {
      */
     private static final long UPDATE_HOLD_INTERVAL = 5000L;
 
-    private final Map<String, ScheduledFuture<?>> futureMap = new HashMap<String, ScheduledFuture<?>>();
-    private static Logger logger = LoggerFactory.getLogger(HostReactor.class);
+    private final Map<String, ScheduledFuture<?>> futureMap = new HashMap<>();
+    private static final Logger logger = LoggerFactory.getLogger(HostReactor.class);
 
 
     //内存的服务实例缓存
@@ -74,29 +76,28 @@ public class HostReactor {
 
 
     public HostReactor(EventDispatcher eventDispatcher, NamingProxy serverProxy, BeatReactor beatReactor,
-                       String cacheDir, Vertx vertx, WorkerExecutor executor) {
-        this(eventDispatcher, serverProxy, beatReactor, cacheDir, false, vertx, executor);
+                       String cacheDir, Vertx vertx) {
+        this(eventDispatcher, serverProxy, beatReactor, cacheDir, false, vertx);
     }
 
     public HostReactor(EventDispatcher eventDispatcher, NamingProxy serverProxy, BeatReactor beatReactor,
-                       String cacheDir, boolean loadCacheAtStart, Vertx vertx, WorkerExecutor executor) {
+                       String cacheDir, boolean loadCacheAtStart, Vertx vertx) {
         this.vertx = vertx;
         this.eventDispatcher = eventDispatcher;
         this.beatReactor = beatReactor;
         this.serverProxy = serverProxy;
         this.cacheDir = cacheDir;
-        this.executor = executor;
+        this.executor = NacosWorkerExecutorFactory.getWorkExecutor();
 
         //是否从磁盘读取缓存,默认为false
         if (loadCacheAtStart) {
-            vertx.deployVerticle(new InitServiceInfoTask()).onFailure(res -> {
-                this.serviceInfoMap = new ConcurrentHashMap<>(16);
-            });
+            vertx.deployVerticle(new InitServiceInfoTask()).onFailure(res ->
+                    this.serviceInfoMap = new ConcurrentHashMap<>(16));
         } else {
             this.serviceInfoMap = new ConcurrentHashMap<String, ServiceInfo>(16);
         }
 
-        this.updatingMap = new ConcurrentHashMap<String, Object>();
+        this.updatingMap = new ConcurrentHashMap<>();
         this.failoverReactor = new FailoverReactor(this, cacheDir, vertx, executor);
         this.pushReceiver = new PushReceiver(this);
     }
@@ -111,6 +112,78 @@ public class HostReactor {
         return serviceInfoMap.get(key);
     }
 
+
+    /**
+     * 根据服务名称和群组获取ServiceInfo
+     */
+    public ServiceInfo getServiceInfo(final String serviceName, final String clusters) {
+        logger.debug("failover-mode: " + failoverReactor.isFailoverSwitch());
+        String key = ServiceInfo.getKey(serviceName, clusters);
+        //是否开启了容灾备份
+        if (failoverReactor.isFailoverSwitch()) {
+            //返回容灾备份中的内存数据
+            return failoverReactor.getService(key);
+        }
+        //在本地内存中获取
+        ServiceInfo serviceObj = getServiceInfo0(serviceName, clusters);
+        if (null == serviceObj) {
+            serviceObj = new ServiceInfo(serviceName, clusters);
+            serviceInfoMap.put(serviceObj.getKey(), serviceObj);
+            updatingMap.put(serviceName, new Object());
+            //立刻更新服务缓存
+            updateServiceNow(serviceName, clusters);
+            updatingMap.remove(serviceName);
+        } else if (updatingMap.containsKey(serviceName)) {
+            if (UPDATE_HOLD_INTERVAL > 0) {
+                // hold a moment waiting for update finish
+                synchronized (serviceObj) {
+                    try {
+                        serviceObj.wait(UPDATE_HOLD_INTERVAL);
+                    } catch (InterruptedException e) {
+                        logger.error("[getServiceInfo] serviceName:" + serviceName + ", clusters:" + clusters, e);
+                    }
+                }
+            }
+        }
+        //如果futureMap中不存在目标服务实例，则将其放定时服务中获取服务实例
+        scheduleUpdateIfAbsent(serviceName, clusters);
+        return serviceInfoMap.get(serviceObj.getKey());
+
+    }
+
+    public Future<ServiceInfo> getServiceInfoDirectlyFromServer(final String serviceName, final String clusters)
+            throws NacosException {
+        return serverProxy.queryList(serviceName, clusters, 0, false).compose(res -> {
+            if (StringUtils.isNotEmpty(res)) {
+                return Future.succeededFuture(JacksonUtils.toObj(res, ServiceInfo.class));
+            }
+            return Future.succeededFuture();
+        });
+
+    }
+
+
+    /**
+     * Schedule update if absent.
+     *
+     * @param serviceName service name
+     * @param clusters    clusters
+     */
+    public void scheduleUpdateIfAbsent(String serviceName, String clusters) {
+        if (futureMap.get(ServiceInfo.getKey(serviceName, clusters)) != null) {
+            return;
+        }
+
+        synchronized (futureMap) {
+            if (futureMap.get(ServiceInfo.getKey(serviceName, clusters)) != null) {
+                return;
+            }
+            //TODO task
+
+            futureMap.put(ServiceInfo.getKey(serviceName, clusters), future);
+        }
+
+    }
 
     /**
      * 更新服务实例
@@ -180,7 +253,6 @@ public class HostReactor {
                 if (!newHostMap.containsKey(key)) {
                     remvHosts.add(host);
                 }
-
             }
 
             if (newHosts.size() > 0) {
@@ -280,7 +352,7 @@ public class HostReactor {
     /**
      * update serviceInfoMap on time
      */
-    public class UpdateTask extends AbstractVerticle {
+    public class UpdateTask {
         long lastRefTime = Long.MAX_VALUE;
 
         private final String clusters;
@@ -292,35 +364,36 @@ public class HostReactor {
             this.clusters = clusters;
         }
 
-        @Override
-        public void start() throws Exception {
+        public Long run() throws Exception {
             long delayTime = -1;
-            try {
-                //获取本地缓存的目标服务的所有实例信息
-                ServiceInfo serviceObj = serviceInfoMap.get(ServiceInfo.getKey(serviceName, clusters));
-                //如果目标服务不存在
-                if (serviceObj == null) {
-                    //获取服务实例实例信息,更新缓存
-                    updateServiceNow(serviceName, clusters);
-                    delayTime = DEFAULT_DELAY;
-                    return;
-                }
-                //判断是否被server推送了信息
-                if (serviceObj.getLastRefTime() <= lastRefTime) {
-                    updateServiceNow(serviceName, clusters);
-                    serviceObj = serviceInfoMap.get(ServiceInfo.getKey(serviceName, clusters));
-                } else {
-                    // if serviceName already updated by push, we should not override it
-                    // since the push data may be different from pull through force push
-                    //如果服务名已经被推送了更新，我们就不应该覆盖它，因为强制推送的信息可能和拉取的信息不同
-                    refreshOnly(serviceName, clusters);
-                }
-
-
-            } catch (Exception e) {
-
+            //获取本地缓存的目标服务的所有实例信息
+            ServiceInfo serviceObj = serviceInfoMap.get(ServiceInfo.getKey(serviceName, clusters));
+            //如果目标服务不存在
+            if (serviceObj == null) {
+                //获取服务实例实例信息,更新缓存
+                updateServiceNow(serviceName, clusters);
+                delayTime = DEFAULT_DELAY;
+                return null;
             }
+            //判断是否被server推送了信息
+            if (serviceObj.getLastRefTime() <= lastRefTime) {
+                updateServiceNow(serviceName, clusters);
+                serviceObj = serviceInfoMap.get(ServiceInfo.getKey(serviceName, clusters));
+            } else {
+                // if serviceName already updated by push, we should not override it
+                // since the push data may be different from pull through force push
+                //如果服务名已经被推送了更新，我们就不应该覆盖它，因为强制推送的信息可能和拉取的信息不同
+                refreshOnly(serviceName, clusters);
+            }
+            lastRefTime = serviceObj.getLastRefTime();
 
+            if (!eventDispatcher.isSubscribed(serviceName, clusters) && !futureMap
+                    .containsKey(ServiceInfo.getKey(serviceName, clusters))) {
+                // abort the update task
+                logger.info("update task is stopped, service:" + serviceName + ", clusters:" + clusters);
+                return;
+            }
+            delayTime = serviceObj.getCacheMillis();
         }
 
         /**
@@ -364,22 +437,25 @@ public class HostReactor {
                 OpenOptions openOptions = new OpenOptions();
                 openOptions.setRead(true);
                 openOptions.setWrite(false);
+                //filePath:absolute path
                 for (String filePath : files) {
                     fileSystem.lprops(filePath).compose(file -> {
-                                if (!file.isRegularFile()) {//replace continue
+                                if (!file.isRegularFile()) {
+                                    //replace continue
                                     return Future.failedFuture("continue");
                                 }
                                 String fileName = URLDecoder.decode(filePath, StandardCharsets.UTF_8);
+                                //获取文件名
                                 fileName = fileName.substring(fileName.lastIndexOf(OsUtils.getFileSeparator()) + 1);
-                                if (!fileName.endsWith(Constants.SERVICE_INFO_SPLITER + "meta") && !fileName
-                                        .endsWith(Constants.SERVICE_INFO_SPLITER + "special-url")) {
+                                if ((fileName.endsWith(Constants.SERVICE_INFO_SPLITER + "meta") || fileName
+                                        .endsWith(Constants.SERVICE_INFO_SPLITER + "special-url"))) {
                                     return Future.failedFuture("file name wrong");
                                 }
                                 ServiceInfo dom = new ServiceInfo(fileName);
                                 List<Instance> ips = new ArrayList<>();
                                 dom.setHosts(ips);
-                                //TODO nned to check
                                 ConcurrentDiskUtil.getFileContent(executor, filePath).onSuccess(dataString -> {
+
                                     ServiceInfo newFormat = null;
                                     try (BufferedReader reader = new BufferedReader(new StringReader(dataString))) {
                                         String json;
@@ -420,7 +496,7 @@ public class HostReactor {
                 serviceInfoMap = domMap;
                 return Future.succeededFuture();
             }).onFailure(err -> logger.error("InitServiceInfoTask", err));
-            //end
+
         }
 
 

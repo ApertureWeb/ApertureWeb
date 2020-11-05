@@ -13,6 +13,7 @@ import io.vertx.core.Vertx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -87,6 +88,26 @@ public class BeatReactor {
     public String buildKey(String serviceName, String ip, int port) {
         return serviceName + Constants.NAMING_INSTANCE_ID_SPLITTER + ip + Constants.NAMING_INSTANCE_ID_SPLITTER + port;
     }
+
+
+    /**
+     * Remove beat information.
+     *
+     * @param serviceName service name
+     * @param ip          ip of beat information
+     * @param port        port of beat information
+     */
+    public void removeBeatInfo(String serviceName, String ip, int port) {
+        logger.info("[BEAT] removing beat: {}:{}:{} from beat map.", serviceName, ip, port);
+        BeatInfo beatInfo = dom2Beat.remove(buildKey(serviceName, ip, port));
+        if (beatInfo == null) {
+            return;
+        }
+        beatInfo.setStopped(true);
+        //TODO 监控
+        //        MetricsMonitor.getDom2BeatSizeMonitor().set(dom2Beat.size());
+    }
+
 
     class BeatTask {
         BeatInfo beatInfo;

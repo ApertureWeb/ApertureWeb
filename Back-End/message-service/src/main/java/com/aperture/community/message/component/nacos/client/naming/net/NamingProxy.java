@@ -210,6 +210,31 @@ public class NamingProxy implements Closeable {
         }
     }
 
+
+    /**
+     * deregister instance from a service.
+     *
+     * @param serviceName name of service
+     * @param instance    instance
+     * @throws NacosException nacos exception
+     */
+    public void deregisterService(String serviceName, Instance instance) throws NacosException {
+
+        logger.info("[DEREGISTER-SERVICE] {} deregistering service {} with instance: {}", namespaceId, serviceName,
+                instance);
+
+        final MultiMap params = MultiMap.caseInsensitiveMultiMap();
+
+        params.add(CommonParams.NAMESPACE_ID, namespaceId);
+        params.add(CommonParams.SERVICE_NAME, serviceName);
+        params.add(CommonParams.CLUSTER_NAME, instance.getClusterName());
+        params.add("ip", instance.getIp());
+        params.add("port", String.valueOf(instance.getPort()));
+        params.add("ephemeral", String.valueOf(instance.isEphemeral()));
+
+        reqApi(UtilAndComs.nacosUrlInstance, params, HttpMethod.DELETE);
+    }
+
     /**
      * Send beat.
      *

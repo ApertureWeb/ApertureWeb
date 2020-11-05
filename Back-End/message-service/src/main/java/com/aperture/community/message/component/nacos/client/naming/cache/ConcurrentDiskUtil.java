@@ -75,6 +75,10 @@ public class ConcurrentDiskUtil {
         return true;
     }
 
+    /**
+     * @param executor WorkExecutor
+     * @param filepath file's absolute path
+     * */
     public static Future<String> getFileContent(WorkerExecutor executor, String filepath) {
         return executor.executeBlocking(exe -> {
             FileLock rlock = null;

@@ -59,38 +59,39 @@ public class FailoverReactor implements Closeable {
      * Init.
      */
     public void init() {
+        SwitchRefresher refresherTask = new SwitchRefresher();
+        DiskFileWriter diskFileWriterTask = new DiskFileWriter();
         //5s执行一次
         vertx.setPeriodic(5000, handler -> {
-            new SwitchRefresher().run();
+            refresherTask.run();
         });
+
         //24h执行一次
-        vertx.setPeriodic(TimeUnit.MINUTES.toMillis(30), h -> {
-            new DiskFileWriter().run();
+        vertx.setPeriodic(TimeUnit.HOURS.toMillis(24), h -> {
+            diskFileWriterTask.run();
         });
 
         // backup file on startup if failover directory is empty.
-        executorService.schedule(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    File cacheDir = new File(failoverDir);
-                    //如果备份存放目录无法创建
-                    if (!cacheDir.exists() && !cacheDir.mkdirs()) {
-                        throw new IllegalStateException("failed to create cache dir: " + failoverDir);
-                    }
 
-                    File[] files = cacheDir.listFiles();
-                    //如果备份存放目录是空的，就先把内存中的服务信息持久化到磁盘先
-                    if (files == null || files.length <= 0) {
-                        //将内存中的服务实例(HostReactor存储的)缓存持久化到硬盘中
-                        new DiskFileWriter().run();
-                    }
-                } catch (Throwable e) {
-                    logger.error("[NA] failed to backup file on startup.", e);
+        vertx.setTimer(TimeUnit.SECONDS.toMillis(10), h -> {
+            try {
+                File cacheDir = new File(failoverDir);
+                //如果备份存放目录无法创建
+                if (!cacheDir.exists() && !cacheDir.mkdirs()) {
+                    throw new IllegalStateException("failed to create cache dir: " + failoverDir);
                 }
-
+                File[] files = cacheDir.listFiles();
+                //如果备份存放目录是空的，就先把内存中的服务信息持久化到磁盘先
+                if (files == null || files.length <= 0) {
+                    //将内存中的服务实例(HostReactor存储的)缓存持久化到硬盘中
+                    new DiskFileWriter().run();
+                }
+            } catch (Throwable e) {
+                logger.error("[NA] failed to backup file on startup.", e);
             }
-        }, 10000L, TimeUnit.MILLISECONDS);
+        });
+
+
     }
 
     class SwitchRefresher {
