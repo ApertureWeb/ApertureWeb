@@ -7,6 +7,7 @@ import com.aperture.community.message.component.nacos.client.naming.cache.DiskCa
 import com.aperture.community.message.component.nacos.client.naming.core.HostReactor;
 import com.aperture.community.message.component.nacos.client.naming.utils.CollectionUtils;
 import com.aperture.community.message.component.nacos.client.naming.utils.UtilAndComs;
+import com.aperture.community.message.component.nacos.common.utils.IoUtils;
 import com.aperture.community.message.component.nacos.common.utils.JacksonUtils;
 import com.aperture.community.message.component.nacos.common.utils.StringUtils;
 import io.vertx.core.Future;
@@ -21,6 +22,7 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -115,7 +117,7 @@ public class FailoverReactor implements Closeable {
                 if (lastModifiedMillis < modified) {
                     lastModifiedMillis = modified;
                     //获取文件内容
-                    ConcurrentDiskUtil.getFileContent(executor, filePath, Charset.defaultCharset().toString()).onSuccess(failover -> {
+                    ConcurrentDiskUtil.getFileContent(executor, filePath).onSuccess(failover -> {
                         if (!StringUtils.isEmpty(failover)) {
                             String[] lines = failover.split(DiskCache.getLineSeparator());
                             for (String line : lines) {
@@ -149,143 +151,97 @@ public class FailoverReactor implements Closeable {
         public void run() {
             //暂存读取的资料
             Map<String, ServiceInfo> domMap = new HashMap<String, ServiceInfo>(16);
-
-            BufferedReader reader = null;
-            try {
-                FileSystem fileSystem = vertx.fileSystem();
-                Future<Boolean> exFuture = fileSystem.exists(failoverDir);
-                exFuture.compose(
-                        res -> {
-                            Future<Void> mkFuture = Future.succeededFuture();
-                            if (!res) {
-                                mkFuture = fileSystem.mkdirs(failoverDir);
-                            }
-                            return mkFuture;
-                        }).onFailure(err -> {
-                    logger.error("failed to create cache dir: " + failoverDir);
-                }).compose(res -> fileSystem.readDir(failoverDir
-                )).compose(files -> {
-                    if (files == null) {
-                        return Future.failedFuture("no file in:" + failoverDir);
-                    }
-                    OpenOptions options = new OpenOptions();
-                    options.setWrite(false);
-                    options.setCreate(false);
-                    for (String file : files) {
-                        fileSystem.props(file)
-                                .compose(fProps -> {
-                                    if (!fProps.isRegularFile()) {
-                                        return Future.failedFuture("continue");
-                                    }
-                                    //TODO last modify
-//                                    if()
-                                });
-                    }
-                });
-
-                File cacheDir = new File(failoverDir);
-
-                //如果缓存目录不存在且创建失败
-                if (!cacheDir.exists() && !cacheDir.mkdirs()) {
-                    throw new IllegalStateException("failed to create cache dir: " + failoverDir);
-                }
-                File[] files = cacheDir.listFiles();
+            FileSystem fileSystem = vertx.fileSystem();
+            Future<Boolean> exFuture = fileSystem.exists(failoverDir);
+            exFuture.compose(
+                    res -> {
+                        Future<Void> mkFuture = Future.succeededFuture();
+                        if (!res) {
+                            mkFuture = fileSystem.mkdirs(failoverDir);
+                        }
+                        return mkFuture;
+                    }).onFailure(err -> {
+                logger.error("failed to create cache dir: " + failoverDir);
+            }).compose(res -> fileSystem.readDir(failoverDir
+            )).compose(files -> {
                 if (files == null) {
-                    return;
+                    return Future.failedFuture("no file in:" + failoverDir);
                 }
+                OpenOptions options = new OpenOptions();
+                options.setWrite(false);
+                options.setCreate(false);
+                String separator = System.getProperty("file.separator");
+                if (separator == null) {
+                    return Future.failedFuture("fail to load system separator");
+                }
+                for (String file : files) {
+                    fileSystem.props(file)
+                            .compose(fProps -> {
+                                if (!fProps.isRegularFile()) {
+                                    return Future.failedFuture("continue");
+                                }
 
-                for (File file : files) {
+                                String fileName = file.substring(file.lastIndexOf(separator) + 1, file.length());
+                                if (fileName.equals(UtilAndComs.FAILOVER_SWITCH)) {
+                                    return Future.failedFuture("continue");
+                                }
+                                return ConcurrentDiskUtil.getFileContent(executor, file)
+                                        .compose(content -> {
+                                            String json = IoUtils.readLine(content);
+                                            ServiceInfo dom = new ServiceInfo(fileName);
+                                            if (json != null) {
+                                                dom = JacksonUtils.toObj(json, ServiceInfo.class);
+                                            }
+                                            if (!CollectionUtils.isEmpty(dom.getHosts())) {
+                                                domMap.put(dom.getKey(), dom);
+                                            }
+                                            return Future.succeededFuture();
+                                        });
+                            });
+                }
+                return Future.succeededFuture();
+            });
 
-                    if (!file.isFile()) {
+        }
+
+        //定时将内存中的服务实例(HostReactor存储的)缓存持久化到硬盘中
+        class DiskFileWriter {
+            public void run() {
+                //获取内存中的服务实例缓存
+                Map<String, ServiceInfo> map = hostReactor.getServiceInfoMap();
+                for (Map.Entry<String, ServiceInfo> entry : map.entrySet()) {
+                    ServiceInfo serviceInfo = entry.getValue();
+                    if (StringUtils.equals(serviceInfo.getKey(), UtilAndComs.ALL_IPS) || StringUtils
+                            .equals(serviceInfo.getName(), UtilAndComs.ENV_LIST_KEY) || StringUtils
+                            .equals(serviceInfo.getName(), "00-00---000-ENV_CONFIGS-000---00-00") || StringUtils
+                            .equals(serviceInfo.getName(), "vipclient.properties") || StringUtils
+                            .equals(serviceInfo.getName(), "00-00---000-ALL_HOSTS-000---00-00")) {
                         continue;
                     }
-                    //如果是00-00---000-VIPSRV_FAILOVER_SWITCH-000---00-00这项文件
-                    if (file.getName().equals(UtilAndComs.FAILOVER_SWITCH)) {
-                        continue;
-                    }
 
-                    ServiceInfo dom = new ServiceInfo(file.getName());
-
-                    try {
-                        //获取磁盘中存放的服务实例数据
-                        String dataString = ConcurrentDiskUtil.getFileContent(file, Charset.defaultCharset().toString());
-                        reader = new BufferedReader(new StringReader(dataString));
-
-                        String json;
-                        if ((json = reader.readLine()) != null) {
-                            try {
-                                dom = JacksonUtils.toObj(json, ServiceInfo.class);
-                            } catch (Exception e) {
-                                logger.error("[NA] error while parsing cached dom : " + json, e);
-                            }
-                        }
-
-                    } catch (Exception e) {
-                        logger.error("[NA] failed to read cache for dom: " + file.getName(), e);
-                    } finally {
-                        try {
-                            if (reader != null) {
-                                reader.close();
-                            }
-                        } catch (Exception e) {
-                            //ignore
-                        }
-                    }
-                    if (!CollectionUtils.isEmpty(dom.getHosts())) {
-                        domMap.put(dom.getKey(), dom);
-                    }
+                    DiskCache.write(serviceInfo, failoverDir, vertx, executor);
                 }
-            } catch (
-                    Exception e) {
-                logger.error("[NA] failed to read cache file", e);
-            }
-
-            if (domMap.size() > 0) {
-                //正式放到内存中
-                serviceMap = domMap;
             }
         }
-    }
 
-    //定时将内存中的服务实例(HostReactor存储的)缓存持久化到硬盘中
-    class DiskFileWriter extends TimerTask {
+        public boolean isFailoverSwitch() {
+            return Boolean.parseBoolean(switchParams.get("failover-mode"));
+        }
+
+        public ServiceInfo getService(String key) {
+            ServiceInfo serviceInfo = serviceMap.get(key);
+
+            if (serviceInfo == null) {
+                serviceInfo = new ServiceInfo();
+                serviceInfo.setName(key);
+            }
+
+            return serviceInfo;
+        }
+
+
         @Override
-        public void run() {
-            //获取内存中的服务实例缓存
-            Map<String, ServiceInfo> map = hostReactor.getServiceInfoMap();
-            for (Map.Entry<String, ServiceInfo> entry : map.entrySet()) {
-                ServiceInfo serviceInfo = entry.getValue();
-                if (StringUtils.equals(serviceInfo.getKey(), UtilAndComs.ALL_IPS) || StringUtils
-                        .equals(serviceInfo.getName(), UtilAndComs.ENV_LIST_KEY) || StringUtils
-                        .equals(serviceInfo.getName(), "00-00---000-ENV_CONFIGS-000---00-00") || StringUtils
-                        .equals(serviceInfo.getName(), "vipclient.properties") || StringUtils
-                        .equals(serviceInfo.getName(), "00-00---000-ALL_HOSTS-000---00-00")) {
-                    continue;
-                }
+        public void close() throws IOException {
 
-                DiskCache.write(serviceInfo, failoverDir);
-            }
         }
     }
-
-    public boolean isFailoverSwitch() {
-        return Boolean.parseBoolean(switchParams.get("failover-mode"));
-    }
-
-    public ServiceInfo getService(String key) {
-        ServiceInfo serviceInfo = serviceMap.get(key);
-
-        if (serviceInfo == null) {
-            serviceInfo = new ServiceInfo();
-            serviceInfo.setName(key);
-        }
-
-        return serviceInfo;
-    }
-
-
-    @Override
-    public void close() throws IOException {
-
-    }
-}

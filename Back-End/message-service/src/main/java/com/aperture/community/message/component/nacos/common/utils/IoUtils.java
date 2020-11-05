@@ -15,19 +15,39 @@ import java.util.zip.GZIPInputStream;
  **/
 public class IoUtils {
 
-    public static Future<List<String>> readLines(Buffer buffer) throws IOException {
-        buffer.appendString("\n");
-        Future<List<String>> future = Future.succeededFuture(new ArrayList<>());
-        RecordParser parser = RecordParser.newDelimited("\n", line -> {
-            if (line != null && !"\n".equals(line.toString())) {
-                if (StringUtils.isNotEmpty(line.toString())) {
-                    future.result().add(line.toString());
+
+    public static Future<List<String>> readLines(Buffer buffer) {
+        String separator = OsUtils.getLineSeparator();
+        buffer.appendString(separator);
+        return Future.succeededFuture().compose(f -> {
+            List<String> result = new ArrayList<>();
+            RecordParser parser = RecordParser.newDelimited(separator, line -> {
+                if (line != null && !separator.equals(line.toString())) {
+                    if (!StringUtils.isNotEmpty(line.toString())) {
+                        result.add(line.toString());
+                    }
                 }
-            }
+            });
+            parser.handle(buffer);
+            return Future.succeededFuture(result);
         });
-        parser.handle(buffer);
-        return future;
+
     }
+
+    public static String readLine(Buffer buffer) {
+        String temp = buffer.toString();
+        return temp.substring(0, temp.indexOf(OsUtils.getLineSeparator()));
+    }
+
+    public static String readLine(String str) {
+        String temp = str.substring(0, str.indexOf(OsUtils.getLineSeparator()));
+        if (StringUtils.isBlank(temp)) {
+            return null;
+        }
+
+        return temp;
+    }
+
 
     public static byte[] tryDecompress(byte[] raw) throws Exception {
         if (!isGzipStream(raw)) {

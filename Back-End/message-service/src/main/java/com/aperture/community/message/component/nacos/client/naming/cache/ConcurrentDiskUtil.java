@@ -75,7 +75,7 @@ public class ConcurrentDiskUtil {
         return true;
     }
 
-    public static Future<String> getFileContent(WorkerExecutor executor, String filepath, String charsetName) {
+    public static Future<String> getFileContent(WorkerExecutor executor, String filepath) {
         return executor.executeBlocking(exe -> {
             FileLock rlock = null;
             try (RandomAccessFile fis = new RandomAccessFile(filepath, "r");
