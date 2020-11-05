@@ -62,7 +62,6 @@ public class CmsArticleServiceImpl implements CmsArticleService {
                 .eq(CmsArticleMap.ID.getValue(), id));
 
         CmsArticleVO articleVO = CmsArticleConverter.INSTANCE.toUmsArticleVO(cmsArticleEntity);
-
         // 需要user名和circle名
         return null;
     }

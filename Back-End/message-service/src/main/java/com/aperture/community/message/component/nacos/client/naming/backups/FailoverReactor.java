@@ -1,6 +1,5 @@
 package com.aperture.community.message.component.nacos.client.naming.backups;
 
-import com.aperture.community.message.component.nacos.api.exception.NacosException;
 import com.aperture.community.message.component.nacos.api.naming.pojo.ServiceInfo;
 import com.aperture.community.message.component.nacos.client.naming.cache.ConcurrentDiskUtil;
 import com.aperture.community.message.component.nacos.client.naming.cache.DiskCache;
@@ -18,12 +17,11 @@ import io.vertx.core.file.OpenOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.nio.charset.Charset;
+import java.io.Closeable;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -65,9 +63,10 @@ public class FailoverReactor implements Closeable {
         vertx.setPeriodic(5000, handler -> {
             new SwitchRefresher().run();
         });
-        executorService.scheduleWithFixedDelay(new SwitchRefresher(), 0L, 5000L, TimeUnit.MILLISECONDS);
         //24h执行一次
-        executorService.scheduleWithFixedDelay(new DiskFileWriter(), 30, DAY_PERIOD_MINUTES, TimeUnit.MINUTES);
+        vertx.setPeriodic(TimeUnit.MINUTES.toMillis(30), h -> {
+            new DiskFileWriter().run();
+        });
 
         // backup file on startup if failover directory is empty.
         executorService.schedule(new Runnable() {
@@ -146,6 +145,7 @@ public class FailoverReactor implements Closeable {
         }
     }
 
+
     class FailoverFileReader {
         //读取磁盘中服务的备份信息，并将其写入内存的缓存中
         public void run() {
@@ -200,48 +200,52 @@ public class FailoverReactor implements Closeable {
                             });
                 }
                 return Future.succeededFuture();
+            }).onFailure(err -> {
+                logger.error("failover task fail", err);
             });
 
         }
 
-        //定时将内存中的服务实例(HostReactor存储的)缓存持久化到硬盘中
-        class DiskFileWriter {
-            public void run() {
-                //获取内存中的服务实例缓存
-                Map<String, ServiceInfo> map = hostReactor.getServiceInfoMap();
-                for (Map.Entry<String, ServiceInfo> entry : map.entrySet()) {
-                    ServiceInfo serviceInfo = entry.getValue();
-                    if (StringUtils.equals(serviceInfo.getKey(), UtilAndComs.ALL_IPS) || StringUtils
-                            .equals(serviceInfo.getName(), UtilAndComs.ENV_LIST_KEY) || StringUtils
-                            .equals(serviceInfo.getName(), "00-00---000-ENV_CONFIGS-000---00-00") || StringUtils
-                            .equals(serviceInfo.getName(), "vipclient.properties") || StringUtils
-                            .equals(serviceInfo.getName(), "00-00---000-ALL_HOSTS-000---00-00")) {
-                        continue;
-                    }
+    }
 
-                    DiskCache.write(serviceInfo, failoverDir, vertx, executor);
+    //定时将内存中的服务实例(HostReactor存储的)缓存持久化到硬盘中
+    class DiskFileWriter {
+
+        public void run() {
+            //获取内存中的服务实例缓存
+            Map<String, ServiceInfo> map = hostReactor.getServiceInfoMap();
+            for (Map.Entry<String, ServiceInfo> entry : map.entrySet()) {
+                ServiceInfo serviceInfo = entry.getValue();
+                if (StringUtils.equals(serviceInfo.getKey(), UtilAndComs.ALL_IPS) || StringUtils
+                        .equals(serviceInfo.getName(), UtilAndComs.ENV_LIST_KEY) || StringUtils
+                        .equals(serviceInfo.getName(), "00-00---000-ENV_CONFIGS-000---00-00") || StringUtils
+                        .equals(serviceInfo.getName(), "vipclient.properties") || StringUtils
+                        .equals(serviceInfo.getName(), "00-00---000-ALL_HOSTS-000---00-00")) {
+                    continue;
                 }
+                DiskCache.write(serviceInfo, failoverDir, vertx, executor);
             }
-        }
-
-        public boolean isFailoverSwitch() {
-            return Boolean.parseBoolean(switchParams.get("failover-mode"));
-        }
-
-        public ServiceInfo getService(String key) {
-            ServiceInfo serviceInfo = serviceMap.get(key);
-
-            if (serviceInfo == null) {
-                serviceInfo = new ServiceInfo();
-                serviceInfo.setName(key);
-            }
-
-            return serviceInfo;
-        }
-
-
-        @Override
-        public void close() throws IOException {
-
         }
     }
+
+    public boolean isFailoverSwitch() {
+        return Boolean.parseBoolean(switchParams.get("failover-mode"));
+    }
+
+    public ServiceInfo getService(String key) {
+        ServiceInfo serviceInfo = serviceMap.get(key);
+
+        if (serviceInfo == null) {
+            serviceInfo = new ServiceInfo();
+            serviceInfo.setName(key);
+        }
+
+        return serviceInfo;
+    }
+
+
+    @Override
+    public void close() throws IOException {
+
+    }
+}

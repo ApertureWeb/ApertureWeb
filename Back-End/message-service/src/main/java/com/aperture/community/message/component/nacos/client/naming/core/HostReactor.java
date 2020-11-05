@@ -12,8 +12,10 @@ import com.aperture.community.message.component.nacos.client.naming.cache.DiskCa
 import com.aperture.community.message.component.nacos.client.naming.net.NamingProxy;
 import com.aperture.community.message.component.nacos.client.naming.utils.CollectionUtils;
 import com.aperture.community.message.component.nacos.common.utils.JacksonUtils;
+import com.aperture.community.message.component.nacos.common.utils.OsUtils;
 import com.aperture.community.message.component.nacos.common.utils.StringUtils;
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 import io.vertx.core.file.FileSystem;
@@ -68,23 +70,22 @@ public class HostReactor {
 
     private final String cacheDir;
     private final Vertx vertx;
+    private final WorkerExecutor executor;
 
-
-    //TODO init it
-    private WorkerExecutor executor;
 
     public HostReactor(EventDispatcher eventDispatcher, NamingProxy serverProxy, BeatReactor beatReactor,
-                       String cacheDir, Vertx vertx) {
-        this(eventDispatcher, serverProxy, beatReactor, cacheDir, false, vertx);
+                       String cacheDir, Vertx vertx, WorkerExecutor executor) {
+        this(eventDispatcher, serverProxy, beatReactor, cacheDir, false, vertx, executor);
     }
 
     public HostReactor(EventDispatcher eventDispatcher, NamingProxy serverProxy, BeatReactor beatReactor,
-                       String cacheDir, boolean loadCacheAtStart, Vertx vertx) {
+                       String cacheDir, boolean loadCacheAtStart, Vertx vertx, WorkerExecutor executor) {
         this.vertx = vertx;
         this.eventDispatcher = eventDispatcher;
         this.beatReactor = beatReactor;
         this.serverProxy = serverProxy;
         this.cacheDir = cacheDir;
+        this.executor = executor;
 
         //是否从磁盘读取缓存,默认为false
         if (loadCacheAtStart) {
@@ -96,7 +97,7 @@ public class HostReactor {
         }
 
         this.updatingMap = new ConcurrentHashMap<String, Object>();
-        this.failoverReactor = new FailoverReactor(this, cacheDir);
+        this.failoverReactor = new FailoverReactor(this, cacheDir, vertx, executor);
         this.pushReceiver = new PushReceiver(this);
     }
 
@@ -321,6 +322,7 @@ public class HostReactor {
             }
 
         }
+
         /**
          * Refresh only.
          *
@@ -344,77 +346,81 @@ public class HostReactor {
         private final Map<String, ServiceInfo> domMap = new HashMap<>(16);
         private final String ADDRESS = "Init-Service-Info-Task";
 
-        // 重写，全错
+        //TODO  重写，全错
         @Override
         public void start() throws Exception {
             FileSystem fileSystem = vertx.fileSystem();
             DiskCache.makeSureCacheDirExists(vertx.fileSystem(), cacheDir);
-            List<String> files = fileSystem.readDir(cacheDir).onFailure(er -> {
+            //start
+            fileSystem.readDir(cacheDir).onFailure(er -> {
                 logger.error("can not read dir ");
-            }).result();
-            if (files == null || files.size() == 0) {
-                serviceInfoMap = domMap;
-                return;
-            }
-            OpenOptions openOptions = new OpenOptions();
-            openOptions.setRead(true);
-            openOptions.setWrite(false);
-            for (String filePath : files) {
-                fileSystem.lprops(filePath).onSuccess(file -> {
-                            if (!file.isRegularFile()) {//replace continue
-
-                            } else {
+            }).compose(files -> {
+                if (files == null || files.size() == 0) {
+                    serviceInfoMap = domMap;
+                    return Future.failedFuture("");
+                }
+                return Future.succeededFuture(files);
+            }).compose(files -> {
+                OpenOptions openOptions = new OpenOptions();
+                openOptions.setRead(true);
+                openOptions.setWrite(false);
+                for (String filePath : files) {
+                    fileSystem.lprops(filePath).compose(file -> {
+                                if (!file.isRegularFile()) {//replace continue
+                                    return Future.failedFuture("continue");
+                                }
                                 String fileName = URLDecoder.decode(filePath, StandardCharsets.UTF_8);
-                                if (fileName.endsWith(Constants.SERVICE_INFO_SPLITER + "meta") || fileName
+                                fileName = fileName.substring(fileName.lastIndexOf(OsUtils.getFileSeparator()) + 1);
+                                if (!fileName.endsWith(Constants.SERVICE_INFO_SPLITER + "meta") && !fileName
                                         .endsWith(Constants.SERVICE_INFO_SPLITER + "special-url")) {
-                                    ServiceInfo dom = new ServiceInfo(fileName);
-                                    List<Instance> ips = new ArrayList<>();
-                                    dom.setHosts(ips);
-                                    ConcurrentDiskUtil.getFileContent(executor, vertx, ADDRESS, cacheDir, Charset.defaultCharset().toString()).onComplete(msg -> {
-                                        if (msg.succeeded()) {
-                                            ServiceInfo newFormat = null;
-                                            String dataString = msg.toString();
-                                            try (BufferedReader reader = new BufferedReader(new StringReader(dataString))) {
-                                                String json;
-                                                //TODO blocking，optimize it
-                                                while ((json = reader.readLine()) != null) {
-                                                    try {
-                                                        if (!json.startsWith("{")) {
-                                                            continue;
-                                                        }
-                                                        newFormat = JacksonUtils.toObj(json, ServiceInfo.class);
-                                                        if (StringUtils.isEmpty(newFormat.getName())) {
-                                                            ips.add(JacksonUtils.toObj(json, Instance.class));
-                                                        }
-                                                    } catch (Throwable e) {
-                                                        logger.error("[NA] error while parsing cache file: " + json, e);
-                                                    }
+                                    return Future.failedFuture("file name wrong");
+                                }
+                                ServiceInfo dom = new ServiceInfo(fileName);
+                                List<Instance> ips = new ArrayList<>();
+                                dom.setHosts(ips);
+                                //TODO nned to check
+                                ConcurrentDiskUtil.getFileContent(executor, filePath).onSuccess(dataString -> {
+                                    ServiceInfo newFormat = null;
+                                    try (BufferedReader reader = new BufferedReader(new StringReader(dataString))) {
+                                        String json;
+                                        //TODO blocking，optimize it with nonblock way
+                                        while ((json = reader.readLine()) != null) {
+                                            try {
+                                                if (!json.startsWith("{")) {
+                                                    continue;
                                                 }
-                                            } catch (Exception e) {
-                                                logger.error("[NA] failed to read cache for dom: " + filePath, e);
-                                            }
-                                            if (newFormat != null && !StringUtils.isEmpty(newFormat.getName()) && !CollectionUtils
-                                                    .isEmpty(newFormat.getHosts())) {
-                                                domMap.put(dom.getKey(), newFormat);
-                                            } else if (!CollectionUtils.isEmpty(dom.getHosts())) {
-                                                domMap.put(dom.getKey(), dom);
+                                                newFormat = JacksonUtils.toObj(json, ServiceInfo.class);
+                                                if (StringUtils.isEmpty(newFormat.getName())) {
+                                                    ips.add(JacksonUtils.toObj(json, Instance.class));
+                                                }
+                                            } catch (Throwable e) {
+                                                logger.error("[NA] error while parsing cache file: " + json, e);
                                             }
                                         }
-                                    });
-
-
-                                }
+                                    } catch (Exception e) {
+                                        logger.error("[NA] failed to read cache for dom: " + filePath, e);
+                                    }
+                                    if (newFormat != null && !StringUtils.isEmpty(newFormat.getName()) && !CollectionUtils
+                                            .isEmpty(newFormat.getHosts())) {
+                                        domMap.put(dom.getKey(), newFormat);
+                                    } else if (!CollectionUtils.isEmpty(dom.getHosts())) {
+                                        domMap.put(dom.getKey(), dom);
+                                    }
+                                });
+                                return Future.succeededFuture();
                             }
-                        }
-                ).onFailure(
-                        err -> {
-                            logger.error("[NA] failed to read cache file", err.getCause());
-                        }
-                );
+                    ).onFailure(
+                            err -> {
+                                logger.error("[NA] failed to read cache file", err.getCause());
+                            }
+                    );
 
-            }
-            serviceInfoMap = domMap;
+                }
 
+                serviceInfoMap = domMap;
+                return Future.succeededFuture();
+            }).onFailure(err -> logger.error("InitServiceInfoTask", err));
+            //end
         }
 
 

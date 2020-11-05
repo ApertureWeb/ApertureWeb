@@ -1,21 +1,16 @@
 package com.aperture.community.core.controller;
 
 
-import com.aperture.community.core.module.vo.CmsArticleViewVO;
-import com.aperture.community.core.module.vo.ImageVO;
-import com.aperture.community.entity.RESULT_BEAN_STATUS_CODE;
 import com.aperture.community.core.module.param.CmsArticleParam;
 import com.aperture.community.core.module.validation.ValidationGroup;
+import com.aperture.community.core.module.vo.CmsArticleViewVO;
 import com.aperture.community.core.service.impl.CmsArticleServiceImpl;
+import com.aperture.community.entity.RESULT_BEAN_STATUS_CODE;
 import com.aperture.community.entity.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.swing.plaf.multi.MultiFileChooserUI;
-import javax.validation.Valid;
-import javax.validation.constraints.Size;
 
 /**
  * <p>
@@ -45,7 +40,6 @@ public class CmsArticleController {
     }
 
 
-
     @GetMapping
     public ResultBean<CmsArticleViewVO> getArticle(@RequestParam("articleId") Long id) {
         umsArticleService.select(id);
@@ -53,8 +47,6 @@ public class CmsArticleController {
     }
 
     private boolean checkSize(MultipartFile file) {
-
-
         return false;
     }
 

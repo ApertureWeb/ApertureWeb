@@ -169,18 +169,13 @@ public class NamingProxy implements Closeable {
                     } else {
                         Buffer content = res.body();
                         //将服务器地址一行一行读入
-
-                        try {
-                            IoUtils.readLines(content).onSuccess(msg -> {
-                                for (String line : msg) {
-                                    if (!line.trim().isEmpty()) {
-                                        future.result().add(line.trim());
-                                    }
+                        IoUtils.readLines(content).onSuccess(msg -> {
+                            for (String line : msg) {
+                                if (!line.trim().isEmpty()) {
+                                    future.result().add(line.trim());
                                 }
-                            });
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                            }
+                        });
                         return future;
                     }
                 }).onFailure(err -> {
