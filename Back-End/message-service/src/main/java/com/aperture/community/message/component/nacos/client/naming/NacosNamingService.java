@@ -221,9 +221,10 @@ public class NacosNamingService implements NamingService {
             //从本地获取实例（默认有1s左右的延迟）
             serviceInfo = hostReactor.getServiceInfo(NamingUtils.getGroupedName(serviceName, groupName),
                     StringUtils.join(clusters, ","));
+
             List<Instance> list;
-            if (serviceInfo == null || CollectionUtils.isEmpty(list = serviceInfo.getHosts())) {
-                return Future.succeededFuture(new ArrayList<Instance>());
+            if (serviceInfo == null || CollectionUtils.isEmpty(list = serviceInfo.getHosts()) || serviceInfo.getJsonFromServer().equals(ServiceInfo.EMPTY)) {
+                return Future.succeededFuture(new ArrayList<>());
             }
             return Future.succeededFuture(list);
         } else {

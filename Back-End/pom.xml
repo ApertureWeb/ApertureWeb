@@ -50,7 +50,7 @@
         <hadoop>3.2.1</hadoop>
         <thumbnailator>0.4.8</thumbnailator>
         <jackson>2.11.2</jackson>
-        <vertx>4.0.0-milestone5</vertx>
+        <vertx>4.0.0.CR1</vertx>
         <oss>2.8.3</oss>
     </properties>
 
@@ -235,26 +235,12 @@
                 <version>${jackson}</version>
             </dependency>
 
-
             <dependency>
                 <groupId>io.vertx</groupId>
-                <artifactId>vertx-core</artifactId>
+                <artifactId>vertx-dependencies</artifactId>
                 <version>${vertx}</version>
-            </dependency>
-
-
-
-            <dependency>
-                <groupId>io.vertx</groupId>
-                <artifactId>vertx-web-client</artifactId>
-                <version>${vertx}</version>
-            </dependency>
-
-
-            <dependency>
-                <groupId>io.vertx</groupId>
-                <artifactId>vertx-mysql-client</artifactId>
-                <version>${vertx}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <dependency>

@@ -62,10 +62,6 @@ public class HostReactor {
     //内存的服务实例缓存
     private Map<String, ServiceInfo> serviceInfoMap;
 
-    /**
-     * it used to  mark  service that updating
-     */
-    private final Map<String, Object> updatingMap;
 
     private final PushReceiver pushReceiver;
 
@@ -105,9 +101,8 @@ public class HostReactor {
             this.serviceInfoMap = new ConcurrentHashMap<String, ServiceInfo>(16);
         }
 
-        this.updatingMap = new ConcurrentHashMap<>();
         this.failoverReactor = new FailoverReactor(this, cacheDir, vertx, executor);
-        this.pushReceiver = new PushReceiver(this);
+        this.pushReceiver = new PushReceiver(this, vertx);
     }
 
 
@@ -137,23 +132,10 @@ public class HostReactor {
         if (null == serviceObj) {
             serviceObj = new ServiceInfo(serviceName, clusters);
             serviceInfoMap.put(serviceObj.getKey(), serviceObj);
-            updatingMap.put(serviceName, new Object());
             //立刻更新服务缓存
             updateServiceNow(serviceName, clusters);
-            updatingMap.remove(serviceName);
-        } else if (updatingMap.containsKey(serviceName)) {
-            if (UPDATE_HOLD_INTERVAL > 0) {
-                // hold a moment waiting for update finish
-                // TODO used unblock way to complete it
-                synchronized (serviceObj) {
-                    try {
-                        serviceObj.wait(UPDATE_HOLD_INTERVAL);
-                    } catch (InterruptedException e) {
-                        logger.error("[getServiceInfo] serviceName:" + serviceName + ", clusters:" + clusters, e);
-                    }
-                }
-            }
         }
+        //TODO updatedMap
         //如果futureMap中不存在目标服务实例，则将其放定时服务中获取服务实例
         scheduleUpdateIfAbsent(serviceName, clusters);
         return serviceInfoMap.get(serviceObj.getKey());
@@ -189,6 +171,7 @@ public class HostReactor {
                 return;
             }
             //TODO updated task once times
+            addTask(new UpdateTask(serviceName, clusters));
             futureMap.put(ServiceInfo.getKey(serviceName, clusters), future);
         }
 
@@ -219,13 +202,13 @@ public class HostReactor {
             }
             serviceInfoMap.put(serviceInfo.getKey(), serviceInfo);
             //旧的服务地址
-            Map<String, Instance> oldHostMap = new HashMap<String, Instance>(oldService.getHosts().size());
+            Map<String, Instance> oldHostMap = new HashMap<>(oldService.getHosts().size());
             for (Instance host : oldService.getHosts()) {
                 //inetAddr()为：ip+":"+port 的形式
                 oldHostMap.put(host.toInetAddr(), host);
             }
             //新的服务地址
-            Map<String, Instance> newHostMap = new HashMap<String, Instance>(serviceInfo.getHosts().size());
+            Map<String, Instance> newHostMap = new HashMap<>(serviceInfo.getHosts().size());
             for (Instance host : serviceInfo.getHosts()) {
                 newHostMap.put(host.toInetAddr(), host);
             }
@@ -325,6 +308,12 @@ public class HostReactor {
         }
     }
 
+    public void addTask(UpdateTask task) {
+        vertx.setTimer(DEFAULT_DELAY, e -> {
+            task.run();
+        });
+    }
+
     /**
      * Update service now.
      *
@@ -333,7 +322,6 @@ public class HostReactor {
      */
     //更新服务实例
     public void updateServiceNow(String serviceName, String clusters) {
-        ServiceInfo oldService = getServiceInfo0(serviceName, clusters);
         //获取服务的信息，并且发送自己接收服务端push的udp端口
         try {
             serverProxy.queryList(serviceName, clusters, pushReceiver.getUdpPort(), false)
@@ -346,13 +334,6 @@ public class HostReactor {
                         } else {
                             logger.error("[NA] failed to update serviceName: " + serviceName, res.cause());
                         }
-                        if (oldService != null) {
-                            synchronized (oldService) {
-                                // maybe delete it?
-                                oldService.notifyAll();
-                            }
-                        }
-
                     });
         } catch (NacosException e) {
             logger.error("[NA] failed to update serviceName: " + serviceName, e);
