@@ -12,6 +12,7 @@ import com.aperture.community.message.component.nacos.client.naming.cache.Concur
 import com.aperture.community.message.component.nacos.client.naming.cache.DiskCache;
 import com.aperture.community.message.component.nacos.client.naming.net.NamingProxy;
 import com.aperture.community.message.component.nacos.client.naming.utils.CollectionUtils;
+import com.aperture.community.message.component.nacos.common.utils.IoUtils;
 import com.aperture.community.message.component.nacos.common.utils.JacksonUtils;
 import com.aperture.community.message.component.nacos.common.utils.OsUtils;
 import com.aperture.community.message.component.nacos.common.utils.StringUtils;
@@ -51,6 +52,9 @@ public class HostReactor {
      */
     private static final long UPDATE_HOLD_INTERVAL = 5000L;
 
+    /**
+     * 存放已被更新过的服务
+     */
     private final Map<String, ScheduledFuture<?>> futureMap = new HashMap<>();
     private static final Logger logger = LoggerFactory.getLogger(HostReactor.class);
 
@@ -58,6 +62,9 @@ public class HostReactor {
     //内存的服务实例缓存
     private Map<String, ServiceInfo> serviceInfoMap;
 
+    /**
+     * it used to  mark  service that updating
+     */
     private final Map<String, Object> updatingMap;
 
     private final PushReceiver pushReceiver;
@@ -136,6 +143,7 @@ public class HostReactor {
         } else if (updatingMap.containsKey(serviceName)) {
             if (UPDATE_HOLD_INTERVAL > 0) {
                 // hold a moment waiting for update finish
+                // TODO used unblock way to complete it
                 synchronized (serviceObj) {
                     try {
                         serviceObj.wait(UPDATE_HOLD_INTERVAL);
@@ -169,17 +177,17 @@ public class HostReactor {
      * @param serviceName service name
      * @param clusters    clusters
      */
+    //看谁会调用这个
     public void scheduleUpdateIfAbsent(String serviceName, String clusters) {
+        //双检
         if (futureMap.get(ServiceInfo.getKey(serviceName, clusters)) != null) {
             return;
         }
-
         synchronized (futureMap) {
             if (futureMap.get(ServiceInfo.getKey(serviceName, clusters)) != null) {
                 return;
             }
-            //TODO task
-
+            //TODO updated task once times
             futureMap.put(ServiceInfo.getKey(serviceName, clusters), future);
         }
 
@@ -339,6 +347,7 @@ public class HostReactor {
                         }
                         if (oldService != null) {
                             synchronized (oldService) {
+                                // maybe delete it?
                                 oldService.notifyAll();
                             }
                         }
@@ -364,7 +373,7 @@ public class HostReactor {
             this.clusters = clusters;
         }
 
-        public Long run() throws Exception {
+        public void  run() {
             long delayTime = -1;
             //获取本地缓存的目标服务的所有实例信息
             ServiceInfo serviceObj = serviceInfoMap.get(ServiceInfo.getKey(serviceName, clusters));
@@ -386,14 +395,19 @@ public class HostReactor {
                 refreshOnly(serviceName, clusters);
             }
             lastRefTime = serviceObj.getLastRefTime();
-
+            //
             if (!eventDispatcher.isSubscribed(serviceName, clusters) && !futureMap
                     .containsKey(ServiceInfo.getKey(serviceName, clusters))) {
                 // abort the update task
                 logger.info("update task is stopped, service:" + serviceName + ", clusters:" + clusters);
-                return;
             }
+            //服务控制幅度
+            // TODO check
             delayTime = serviceObj.getCacheMillis();
+            vertx.setTimer(delayTime, s -> {
+                new UpdateTask().run();
+            });
+
         }
 
         /**
@@ -419,7 +433,7 @@ public class HostReactor {
         private final Map<String, ServiceInfo> domMap = new HashMap<>(16);
         private final String ADDRESS = "Init-Service-Info-Task";
 
-        //TODO  重写，全错
+        //TODO  check rewrite
         @Override
         public void start() throws Exception {
             FileSystem fileSystem = vertx.fileSystem();
@@ -457,21 +471,38 @@ public class HostReactor {
                                 ConcurrentDiskUtil.getFileContent(executor, filePath).onSuccess(dataString -> {
 
                                     ServiceInfo newFormat = null;
+                                    //TODO blocking，optimize it with nonblock way
+
+                                /*
+                                    IoUtils.readLines(dataString).compose(data -> {
+                                        ServiceInfo newFormat2 = null;
+                                        for (String j : data) {
+
+                                            if (!j.startsWith("{")) {
+                                                continue;
+                                            }
+                                            newFormat2 = JacksonUtils.toObj(j, ServiceInfo.class);
+                                            if (StringUtils.isEmpty(newFormat2.getName())) {
+                                                ips.add(JacksonUtils.toObj(j, Instance.class));
+                                            }
+                                        }
+
+                                    });
+                                 */
+
+
+                                    // perfect ↑
                                     try (BufferedReader reader = new BufferedReader(new StringReader(dataString))) {
                                         String json;
-                                        //TODO blocking，optimize it with nonblock way
                                         while ((json = reader.readLine()) != null) {
-                                            try {
-                                                if (!json.startsWith("{")) {
-                                                    continue;
-                                                }
-                                                newFormat = JacksonUtils.toObj(json, ServiceInfo.class);
-                                                if (StringUtils.isEmpty(newFormat.getName())) {
-                                                    ips.add(JacksonUtils.toObj(json, Instance.class));
-                                                }
-                                            } catch (Throwable e) {
-                                                logger.error("[NA] error while parsing cache file: " + json, e);
+                                            if (!json.startsWith("{")) {
+                                                continue;
                                             }
+                                            newFormat = JacksonUtils.toObj(json, ServiceInfo.class);
+                                            if (StringUtils.isEmpty(newFormat.getName())) {
+                                                ips.add(JacksonUtils.toObj(json, Instance.class));
+                                            }
+
                                         }
                                     } catch (Exception e) {
                                         logger.error("[NA] failed to read cache for dom: " + filePath, e);

@@ -27,7 +27,6 @@ import java.util.concurrent.ExecutorService;
 public class EventDispatcher implements Closeable {
 
 
-    private ExecutorService executor = null;
 
     private Future<String> notifyId;
     private final static Logger logger = LoggerFactory.getLogger(EventDispatcher.class);

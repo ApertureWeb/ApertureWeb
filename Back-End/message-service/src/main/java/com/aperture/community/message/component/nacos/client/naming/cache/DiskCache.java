@@ -3,6 +3,7 @@ package com.aperture.community.message.component.nacos.client.naming.cache;
 import com.aperture.community.message.component.nacos.api.naming.pojo.ServiceInfo;
 import com.aperture.community.message.component.nacos.common.utils.FileUtils;
 import com.aperture.community.message.component.nacos.common.utils.JacksonUtils;
+import com.aperture.community.message.component.nacos.common.utils.OsUtils;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 import io.vertx.core.file.FileSystem;
@@ -45,7 +46,6 @@ public class DiskCache {
     }
 
 
-
     public static void makeSureCacheDirExists(FileSystem fileSystem, String dir) {
         if (fileSystem.exists(dir).failed()) {
             if (fileSystem.mkdir(dir).failed() && fileSystem.exists(dir).failed()) {
@@ -58,9 +58,8 @@ public class DiskCache {
 
 
     public static String getLineSeparator() {
-        return System.getProperty("line.separator");
+        return OsUtils.getLineSeparator();
     }
-
 
 
 }

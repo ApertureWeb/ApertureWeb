@@ -22,6 +22,7 @@ import com.aperture.community.message.component.nacos.api.naming.pojo.ListView;
 import com.aperture.community.message.component.nacos.api.naming.pojo.ServiceInfo;
 import com.aperture.community.message.component.nacos.api.selector.AbstractSelector;
 import com.aperture.community.message.service.listener.EventListener;
+import io.vertx.core.Future;
 
 import java.util.List;
 
@@ -168,7 +169,7 @@ public interface NamingService {
      * @return A list of instance
      * @throws NacosException nacos exception
      */
-    List<Instance> getAllInstances(String serviceName) throws NacosException;
+    Future<List<Instance>> getAllInstances(String serviceName) throws NacosException;
 
     /**
      * get all instances of a service.
@@ -178,7 +179,7 @@ public interface NamingService {
      * @return A list of instance
      * @throws NacosException nacos exception
      */
-    List<Instance> getAllInstances(String serviceName, String groupName) throws NacosException;
+    Future<List<Instance>> getAllInstances(String serviceName, String groupName) throws NacosException;
 
     /**
      * Get all instances of a service.
@@ -188,7 +189,7 @@ public interface NamingService {
      * @return A list of instance
      * @throws NacosException nacos exception
      */
-    List<Instance> getAllInstances(String serviceName, boolean subscribe) throws NacosException;
+    Future<List<Instance>> getAllInstances(String serviceName, boolean subscribe) throws NacosException;
 
     /**
      * Get all instances of a service.
@@ -199,7 +200,7 @@ public interface NamingService {
      * @return A list of instance
      * @throws NacosException nacos exception
      */
-    List<Instance> getAllInstances(String serviceName, String groupName, boolean subscribe) throws NacosException;
+    Future<List<Instance>> getAllInstances(String serviceName, String groupName, boolean subscribe) throws NacosException;
 
     /**
      * Get all instances within specified clusters of a service.
@@ -209,7 +210,7 @@ public interface NamingService {
      * @return A list of qualified instance
      * @throws NacosException nacos exception
      */
-    List<Instance> getAllInstances(String serviceName, List<String> clusters) throws NacosException;
+    Future<List<Instance>> getAllInstances(String serviceName, List<String> clusters) throws NacosException;
 
     /**
      * Get all instances within specified clusters of a service.
@@ -220,7 +221,7 @@ public interface NamingService {
      * @return A list of qualified instance
      * @throws NacosException nacos exception
      */
-    List<Instance> getAllInstances(String serviceName, String groupName, List<String> clusters) throws NacosException;
+    Future<List<Instance>> getAllInstances(String serviceName, String groupName, List<String> clusters) throws NacosException;
 
     /**
      * Get all instances within specified clusters of a service.
@@ -231,7 +232,7 @@ public interface NamingService {
      * @return A list of qualified instance
      * @throws NacosException nacos exception
      */
-    List<Instance> getAllInstances(String serviceName, List<String> clusters, boolean subscribe) throws NacosException;
+    Future<List<Instance>> getAllInstances(String serviceName, List<String> clusters, boolean subscribe) throws NacosException;
 
     /**
      * Get all instances within specified clusters of a service.
@@ -243,7 +244,7 @@ public interface NamingService {
      * @return A list of qualified instance
      * @throws NacosException nacos exception
      */
-    List<Instance> getAllInstances(String serviceName, String groupName, List<String> clusters, boolean subscribe)
+    Future<List<Instance>> getAllInstances(String serviceName, String groupName, List<String> clusters, boolean subscribe)
             throws NacosException;
 
     /**

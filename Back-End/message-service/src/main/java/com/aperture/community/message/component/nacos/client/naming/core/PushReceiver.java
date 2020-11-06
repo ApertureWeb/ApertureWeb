@@ -4,53 +4,44 @@ import com.aperture.community.message.component.nacos.common.utils.IoUtils;
 import com.aperture.community.message.component.nacos.common.utils.JacksonUtils;
 import com.aperture.community.message.component.nacos.common.utils.StringUtils;
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Future;
+import io.vertx.core.Vertx;
 import io.vertx.core.datagram.DatagramSocketOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.net.DatagramSocket;
 import java.nio.charset.Charset;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadFactory;
 
 /**
  * @author HALOXIAO
  * @since 2020-10-27 16:37
  **/
-public class PushReceiver implements Cloneable {
+public class PushReceiver implements Closeable {
 
     private final Logger logger = LoggerFactory.getLogger(PushReceiver.class);
 
     private static final Charset UTF_8 = Charset.forName("UTF-8");
 
     private static final int UDP_MSS = 64 * 1024;
-
-    private ScheduledExecutorService executorService;
-
+    private final Vertx vertx;
+    private Future<String> forePushTaskId;
     private DatagramSocket udpSocket;
 
     private HostReactor hostReactor;
 
-    private volatile boolean closed = false;
 
-
-    public PushReceiver(HostReactor hostReactor) {
+    public PushReceiver(HostReactor hostReactor, Vertx vertx) {
+        this.hostReactor = hostReactor;
+        this.vertx = vertx;
         try {
-            this.hostReactor = hostReactor;
             this.udpSocket = new DatagramSocket();
-            this.executorService = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
-                @Override
-                public Thread newThread(Runnable r) {
-                    Thread thread = new Thread(r);
-                    thread.setDaemon(true);
-                    thread.setName("com.alibaba.nacos.naming.push.receiver");
-                    return thread;
-                }
-            });
         } catch (Exception e) {
             logger.error("[NA] init udp socket failed", e);
         }
+        forePushTaskId = vertx.deployVerticle(new ForcePushTask());
     }
 
     public int getUdpPort() {
@@ -63,11 +54,19 @@ public class PushReceiver implements Cloneable {
         public String data;
     }
 
-    class forcePushTask extends AbstractVerticle {
+    @Override
+    public void close() {
+        logger.info("PushReceiver shutdown begin");
+        forePushTaskId.onSuccess(vertx::undeploy);
+        logger.info("PushReceiver shutdown stop");
+    }
+
+    class ForcePushTask extends AbstractVerticle {
 
         @Override
         public void start() {
             io.vertx.core.datagram.DatagramSocket socket = vertx.createDatagramSocket(new DatagramSocketOptions());
+            //TODO need to check if onec shot
             socket.listen(0, "0.0.0.0", asyncResult -> {
                 if (asyncResult.succeeded()) {
                     socket.handler(packet -> {

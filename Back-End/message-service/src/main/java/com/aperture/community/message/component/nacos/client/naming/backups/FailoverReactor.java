@@ -37,7 +37,8 @@ public class FailoverReactor implements Closeable {
     private final Vertx vertx;
     private final WorkerExecutor executor;
     private Map<String, ServiceInfo> serviceMap = new ConcurrentHashMap<String, ServiceInfo>();
-
+    private Long refreshTaskId;
+    private Long diskFileWriteTaskId;
     /**
      * 用于判断是否处于故障切换状态
      */
@@ -62,12 +63,12 @@ public class FailoverReactor implements Closeable {
         SwitchRefresher refresherTask = new SwitchRefresher();
         DiskFileWriter diskFileWriterTask = new DiskFileWriter();
         //5s执行一次
-        vertx.setPeriodic(5000, handler -> {
+        refreshTaskId = vertx.setPeriodic(5000, handler -> {
             refresherTask.run();
         });
 
         //24h执行一次
-        vertx.setPeriodic(TimeUnit.HOURS.toMillis(24), h -> {
+        diskFileWriteTaskId = vertx.setPeriodic(TimeUnit.HOURS.toMillis(24), h -> {
             diskFileWriterTask.run();
         });
 
@@ -247,6 +248,15 @@ public class FailoverReactor implements Closeable {
 
     @Override
     public void close() throws IOException {
-
+        logger.info("FailoverReactor SwitchRefresher shutdown begin");
+        if (refreshTaskId != null) {
+            vertx.cancelTimer(refreshTaskId);
+        }
+        logger.info("FailoverReactor SwitchRefresher shutdown stop");
+        logger.info("FailoverReactor DiskFileWriteTask shutdown begin");
+        if (diskFileWriteTaskId != null) {
+            vertx.cancelTimer(diskFileWriteTaskId);
+        }
+        logger.info("FailoverReactor DiskFileWriteTask shutdown stop");
     }
 }

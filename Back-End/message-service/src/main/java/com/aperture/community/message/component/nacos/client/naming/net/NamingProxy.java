@@ -270,6 +270,7 @@ public class NamingProxy implements Closeable {
             Random random = new Random(System.currentTimeMillis());
             int index = random.nextInt(servers.size());
             //依次向每个服务器发送注册实例信息,直到遍历完服务或者有服务正常响应
+            //TODO MD好像没写完
             Iterator<String> iterator = servers.iterator();
             return callServerProxy(api, params, body, nacosDomain, method, servers.iterator())
                     .compose(res -> {
@@ -446,7 +447,6 @@ public class NamingProxy implements Closeable {
 
     public String getAccessKey() {
         if (properties == null) {
-
             return SpasAdapter.getAk();
         }
 
@@ -461,7 +461,6 @@ public class NamingProxy implements Closeable {
 
     public String getSecretKey() {
         if (properties == null) {
-
             return SpasAdapter.getSk();
         }
 

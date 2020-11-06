@@ -7,6 +7,7 @@ import io.vertx.core.parsetools.RecordParser;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -15,7 +16,9 @@ import java.util.zip.GZIPInputStream;
  **/
 public class IoUtils {
 
-
+    /**
+     * 添加跨平台支持
+     */
     public static Future<List<String>> readLines(Buffer buffer) {
         String separator = OsUtils.getLineSeparator();
         buffer.appendString(separator);
@@ -23,7 +26,7 @@ public class IoUtils {
             List<String> result = new ArrayList<>();
             RecordParser parser = RecordParser.newDelimited(separator, line -> {
                 if (line != null && !separator.equals(line.toString())) {
-                    if (!StringUtils.isNotEmpty(line.toString())) {
+                    if (StringUtils.isNotEmpty(line.toString())) {
                         result.add(line.toString());
                     }
                 }
@@ -31,7 +34,24 @@ public class IoUtils {
             parser.handle(buffer);
             return Future.succeededFuture(result);
         });
+    }
 
+    //TODO need to check
+    public static Future<List<String>> readLines(String dataString) {
+        String separator = OsUtils.getLineSeparator();
+        dataString = dataString + separator;
+        StringTokenizer stringTokenizer = new StringTokenizer(dataString, separator);
+        List<String> result = new ArrayList<>(stringTokenizer.countTokens());
+        while (stringTokenizer.hasMoreTokens()) {
+            String next = stringTokenizer.nextToken();
+            if (next != null && !separator.equals(next)) {
+                if (StringUtils.isNotEmpty(next)) {
+                    result.add(stringTokenizer.nextToken());
+
+                }
+            }
+        }
+        return Future.succeededFuture(result);
     }
 
     public static String readLine(Buffer buffer) {
@@ -44,7 +64,6 @@ public class IoUtils {
         if (StringUtils.isBlank(temp)) {
             return null;
         }
-
         return temp;
     }
 

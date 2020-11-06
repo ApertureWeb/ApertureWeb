@@ -20,6 +20,7 @@ import com.aperture.community.message.component.nacos.client.naming.utils.UtilAn
 import com.aperture.community.message.component.nacos.client.utils.ValidatorUtils;
 import com.aperture.community.message.component.nacos.common.utils.StringUtils;
 import com.aperture.community.message.service.listener.EventListener;
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 
 import java.util.ArrayList;
@@ -174,70 +175,68 @@ public class NacosNamingService implements NamingService {
     }
 
     @Override
-    public List<Instance> getAllInstances(String serviceName) throws NacosException {
+    public Future<List<Instance>> getAllInstances(String serviceName) throws NacosException {
         return getAllInstances(serviceName, new ArrayList<String>());
     }
 
     @Override
-    public List<Instance> getAllInstances(String serviceName, String groupName) throws NacosException {
+    public Future<List<Instance>> getAllInstances(String serviceName, String groupName) throws NacosException {
         return getAllInstances(serviceName, groupName, new ArrayList<String>());
     }
 
     @Override
-    public List<Instance> getAllInstances(String serviceName, boolean subscribe) throws NacosException {
+    public Future<List<Instance>> getAllInstances(String serviceName, boolean subscribe) throws NacosException {
         return getAllInstances(serviceName, new ArrayList<String>(), subscribe);
     }
 
     @Override
-    public List<Instance> getAllInstances(String serviceName, String groupName, boolean subscribe)
+    public Future<List<Instance>> getAllInstances(String serviceName, String groupName, boolean subscribe)
             throws NacosException {
         return getAllInstances(serviceName, groupName, new ArrayList<String>(), subscribe);
     }
 
     @Override
-    public List<Instance> getAllInstances(String serviceName, List<String> clusters) throws NacosException {
+    public Future<List<Instance>> getAllInstances(String serviceName, List<String> clusters) throws NacosException {
         return getAllInstances(serviceName, clusters, true);
     }
 
     @Override
-    public List<Instance> getAllInstances(String serviceName, String groupName, List<String> clusters)
+    public Future<List<Instance>> getAllInstances(String serviceName, String groupName, List<String> clusters)
             throws NacosException {
         return getAllInstances(serviceName, groupName, clusters, true);
     }
 
     @Override
-    public List<Instance> getAllInstances(String serviceName, List<String> clusters, boolean subscribe)
+    public Future<List<Instance>> getAllInstances(String serviceName, List<String> clusters, boolean subscribe)
             throws NacosException {
         return getAllInstances(serviceName, Constants.DEFAULT_GROUP, clusters, subscribe);
     }
 
     @Override
-    public List<Instance> getAllInstances(String serviceName, String groupName, List<String> clusters,
-                                          boolean subscribe) throws NacosException {
-//TODO 需要重新整理完HostReactor再写
+    public Future<List<Instance>> getAllInstances(String serviceName, String groupName, List<String> clusters,
+                                                  boolean subscribe) throws NacosException {
 
-/*        ServiceInfo serviceInfo;
+        ServiceInfo serviceInfo;
         if (subscribe) {
             //从本地获取实例（默认有1s左右的延迟）
             serviceInfo = hostReactor.getServiceInfo(NamingUtils.getGroupedName(serviceName, groupName),
                     StringUtils.join(clusters, ","));
             List<Instance> list;
             if (serviceInfo == null || CollectionUtils.isEmpty(list = serviceInfo.getHosts())) {
-                return new ArrayList<Instance>();
+                return Future.succeededFuture(new ArrayList<Instance>());
             }
-            return list;
+            return Future.succeededFuture(list);
         } else {
             //直接从服务端获取全部实例
-            hostReactor.getServiceInfoDirectlyFromServer(NamingUtils.getGroupedName(serviceName, groupName),
+            return hostReactor.getServiceInfoDirectlyFromServer(NamingUtils.getGroupedName(serviceName, groupName),
                     StringUtils.join(clusters, ",")).compose(res -> {
                 List<Instance> list;
                 if (res == null || CollectionUtils.isEmpty(list = res.getHosts())) {
-                    return new ArrayList<Instance>();
+                    return Future.succeededFuture(new ArrayList<>());
                 }
-                return list;
+                return Future.succeededFuture(list);
             });
-        }*/
-        return null;
+        }
 
     }
 
