@@ -80,6 +80,7 @@ public class HostReactor {
     private final String cacheDir;
     private final Vertx vertx;
     private final WorkerExecutor executor;
+    private Long updateTaskId;
 
 
     public HostReactor(EventDispatcher eventDispatcher, NamingProxy serverProxy, BeatReactor beatReactor,
@@ -373,7 +374,7 @@ public class HostReactor {
             this.clusters = clusters;
         }
 
-        public void  run() {
+        public void run() {
             long delayTime = -1;
             //获取本地缓存的目标服务的所有实例信息
             ServiceInfo serviceObj = serviceInfoMap.get(ServiceInfo.getKey(serviceName, clusters));
@@ -382,7 +383,7 @@ public class HostReactor {
                 //获取服务实例实例信息,更新缓存
                 updateServiceNow(serviceName, clusters);
                 delayTime = DEFAULT_DELAY;
-                return null;
+                return;
             }
             //判断是否被server推送了信息
             if (serviceObj.getLastRefTime() <= lastRefTime) {
@@ -404,8 +405,8 @@ public class HostReactor {
             //服务控制幅度
             // TODO check
             delayTime = serviceObj.getCacheMillis();
-            vertx.setTimer(delayTime, s -> {
-                new UpdateTask().run();
+            updateTaskId = vertx.setTimer(delayTime, s -> {
+                run();
             });
 
         }
