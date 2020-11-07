@@ -1,5 +1,6 @@
 package com.aperture.community.core.service;
 
+import com.aperture.community.core.module.dto.MessageDto;
 import com.aperture.community.core.module.param.CirclePageParam;
 import com.aperture.community.core.module.param.CmsArticleParam;
 import com.aperture.community.core.module.vo.PageVO;
@@ -16,7 +17,7 @@ public interface CmsArticleService {
 
     boolean update(CmsArticleParam cmsArticleParam);
 
-    Long save(CmsArticleParam cmsArticleParam) throws Exception;
+    MessageDto<Long> save(CmsArticleParam cmsArticleParam) throws Exception;
 
 
 }

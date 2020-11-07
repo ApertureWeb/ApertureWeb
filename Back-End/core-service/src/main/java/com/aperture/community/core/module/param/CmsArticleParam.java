@@ -31,8 +31,6 @@ public class CmsArticleParam {
     @NotNull(groups = {ValidationGroup.addGroup.class})
     private Long circleId;
 
-
-
     private List<Long> tags;
 
 }

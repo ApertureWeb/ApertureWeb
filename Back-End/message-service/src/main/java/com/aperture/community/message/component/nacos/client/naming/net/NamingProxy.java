@@ -30,7 +30,6 @@ import com.aperture.community.message.component.nacos.common.utils.UuidUtils;
 import com.aperture.community.message.component.nacos.common.utils.VersionUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.Multimap;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
@@ -43,7 +42,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
@@ -330,12 +328,12 @@ public class NamingProxy implements Closeable {
         if (CollectionUtils.isEmpty(servers) && StringUtils.isEmpty(nacosDomain)) {
             throw new NacosException(NacosException.INVALID_PARAM, "no server available");
         }
+        params.add(CommonParams.NAMESPACE_ID, getNamespaceId());
+
         if (servers != null && !servers.isEmpty()) {
             Random random = new Random(System.currentTimeMillis());
-            int index = random.nextInt(servers.size());
             //依次向每个服务器发送注册实例信息,直到遍历完服务或者有服务正常响应
-            //TODO MD好像没写完
-            Iterator<String> iterator = servers.iterator();
+            //TODO 解决了
             return callServerProxy(api, params, body, nacosDomain, method, servers.iterator())
                     .compose(res -> {
                         if (null == res) {
@@ -384,7 +382,7 @@ public class NamingProxy implements Closeable {
         while (servers.hasNext()) {
             return callServer(api, params, body, curServer, method).onFailure(err -> {
                 callServerProxy(api, params, body, servers.next(), method, servers);
-            }).compose(res -> Future.succeededFuture(res));
+            }).compose(Future::succeededFuture);
         }
         return Future.succeededFuture(null);
     }
@@ -453,6 +451,10 @@ public class NamingProxy implements Closeable {
         return reqApi(UtilAndComs.nacosUrlBase + "/instance/list", params, HttpMethod.GET);
     }
 
+
+    public String getNamespaceId() {
+        return namespaceId;
+    }
 
     /**
      * register a instance to service with specified instance properties.

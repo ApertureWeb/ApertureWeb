@@ -29,7 +29,7 @@ public class CmsArticleController {
 
 
     @PostMapping
-    public ResultBean saveArticle(@RequestBody @Validated({ValidationGroup.addGroup.class}) CmsArticleParam cmsArticleParam) throws Exception {
+    public ResultBean saveArticle(@RequestBody @Validated({ValidationGroup.addGroup.class}) CmsArticleParam cmsArticleParam) {
         umsArticleService.save(cmsArticleParam);
         return ResultBean.ok();
     }
@@ -43,6 +43,7 @@ public class CmsArticleController {
     @GetMapping
     public ResultBean<CmsArticleViewVO> getArticle(@RequestParam("articleId") Long id) {
         umsArticleService.select(id);
+
         return null;
     }
 

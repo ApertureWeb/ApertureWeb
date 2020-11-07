@@ -6,8 +6,9 @@ import com.aperture.community.core.manager.EventManager;
 import com.aperture.community.core.manager.PrimaryIdManager;
 import com.aperture.community.core.manager.TagManager;
 import com.aperture.community.core.module.CmsArticleEntity;
-import com.aperture.community.core.module.CmsTagMergeEntity;
+import com.aperture.community.core.module.CmsTagEntity;
 import com.aperture.community.core.module.converter.CmsArticleConverter;
+import com.aperture.community.core.module.dto.MessageDto;
 import com.aperture.community.core.module.param.CirclePageParam;
 import com.aperture.community.core.module.param.CmsArticleParam;
 import com.aperture.community.core.module.vo.CmsArticleVO;
@@ -21,9 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 /**
  * <p>
@@ -60,8 +59,8 @@ public class CmsArticleServiceImpl implements CmsArticleService {
                         CmsArticleMap.USER_ID.getValue(),
                         CmsArticleMap.CIRCLE_ID.getValue())
                 .eq(CmsArticleMap.ID.getValue(), id));
-
         CmsArticleVO articleVO = CmsArticleConverter.INSTANCE.toUmsArticleVO(cmsArticleEntity);
+
         // 需要user名和circle名
         return null;
     }
@@ -99,19 +98,14 @@ public class CmsArticleServiceImpl implements CmsArticleService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public Long save(CmsArticleParam cmsArticleParam) throws Exception {
-//        TODO 确定权限
-        Long id;
+    public MessageDto<Long> save(CmsArticleParam cmsArticleParam) {
+        Long id = null;
         if (cmsArticleParam.getTags() != null) {
-            Queue<Long> ids = primaryIdManager.getPrimaryIdBatch(cmsArticleParam.getTags().size() + 1);
-            id = ids.remove();
-            List<CmsTagMergeEntity> umsTagMergeEntities = new ArrayList<>(cmsArticleParam.getTags().size());
-            cmsArticleParam.getTags().forEach(p -> {
-                umsTagMergeEntities.add(new CmsTagMergeEntity(ids.remove(), id, p));
-            });
-//            if (!tagManager.addContentTag(umsTagMergeEntities)) {
-//                throw new RuntimeException("数据库执行异常");
-//            }
+//        TODO check
+            int size = tagManager.getUmsTagMapper().count(new QueryWrapper<CmsTagEntity>().in("id", cmsArticleParam.getTags()).last("LIMIT " + cmsArticleParam.getTags().size()));
+            if (size != cmsArticleParam.getTags().size()) {
+                return new MessageDto<>("Tag不存在", false);
+            }
         } else {
             id = primaryIdManager.getPrimaryId();
         }
@@ -119,7 +113,8 @@ public class CmsArticleServiceImpl implements CmsArticleService {
         article.setId(id);
         article.setCoins(0);
         article.setLike(0);
-        return id;
+        contentManager.getCmsArticleMapper().save(article);
+        return new MessageDto<>("success", id, true);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.aperture.community.core.manager;
 
+import com.aperture.community.core.common.map.ServiceNameMap;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -29,12 +30,11 @@ public class PrimaryIdManager {
     }
 
     public Long getPrimaryId() {
-
-        return null;
+        return restTemplate.getForObject(ServiceNameMap.ID_SERVICE.getValue(), Long.class);
     }
 
-    public Queue<Long> getPrimaryIdBatch(int size){
-        if(size<=0){
+    public Queue<Long> getPrimaryIdBatch(int size) {
+        if (size <= 0) {
             throw new IllegalArgumentException("size不能<=0");
         }
         return null;
