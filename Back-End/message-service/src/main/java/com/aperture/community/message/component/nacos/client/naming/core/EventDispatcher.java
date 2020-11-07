@@ -12,20 +12,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ExecutorService;
 
 /**
  * @author HALOXIAO
  * @since 2020-10-27 16:37
  **/
 public class EventDispatcher implements Closeable {
-
 
 
     private Future<String> notifyId;
@@ -41,8 +36,8 @@ public class EventDispatcher implements Closeable {
     public EventDispatcher(Vertx vertx) {
         this.vertx = vertx;
         //执行监听任务
-        notifyId = vertx.deployVerticle(new Notify());
-
+        Notify notify = new Notify();
+        notify.start();
     }
 
 
@@ -58,7 +53,6 @@ public class EventDispatcher implements Closeable {
         serviceInfoQueue.addFirst(serviceInfo);
 
     }
-
 
 
     /**
@@ -98,12 +92,16 @@ public class EventDispatcher implements Closeable {
         logger.info("EventDispatcher do shutdown stop");
     }
 
-    private class Notify extends AbstractVerticle {
-        @Override
+    private class Notify {
+
         public void start() {
             vertx.setPeriodic(MINUTES * 5, msg -> {
                 ServiceInfo serviceInfo = null;
-                serviceInfo = serviceInfoQueue.getLast();
+                try {
+                    serviceInfo = serviceInfoQueue.getLast();
+                } catch (NoSuchElementException e) {
+                    logger.debug(e.getMessage());
+                }
                 if (serviceInfo == null) {// continue
                     return;
                 }

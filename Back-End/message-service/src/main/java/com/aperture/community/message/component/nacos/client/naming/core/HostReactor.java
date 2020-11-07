@@ -95,8 +95,7 @@ public class HostReactor {
 
         //是否从磁盘读取缓存,默认为false
         if (loadCacheAtStart) {
-            vertx.deployVerticle(new InitServiceInfoTask()).onFailure(res ->
-                    this.serviceInfoMap = new ConcurrentHashMap<>(16));
+            new InitServiceInfoTask().start();
         } else {
             this.serviceInfoMap = new ConcurrentHashMap<String, ServiceInfo>(16);
         }
@@ -308,7 +307,7 @@ public class HostReactor {
         }
     }
 
-    public void addTask(UpdateTask task) {
+    public void jaddTask(UpdateTask task) {
         vertx.setTimer(DEFAULT_DELAY, e -> {
             task.run();
         });
@@ -411,13 +410,12 @@ public class HostReactor {
     /**
      * init ServiceInfo from disk
      */
-    public class InitServiceInfoTask extends AbstractVerticle {
+    public class InitServiceInfoTask {
         private final Map<String, ServiceInfo> domMap = new HashMap<>(16);
         private final String ADDRESS = "Init-Service-Info-Task";
 
         //TODO  check rewrite
-        @Override
-        public void start() throws Exception {
+        public void start() {
             FileSystem fileSystem = vertx.fileSystem();
             DiskCache.makeSureCacheDirExists(vertx.fileSystem(), cacheDir);
             //start
