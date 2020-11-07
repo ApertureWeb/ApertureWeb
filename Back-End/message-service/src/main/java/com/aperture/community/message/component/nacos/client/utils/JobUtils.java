@@ -48,9 +48,7 @@ public class JobUtils<T> {
             return this.doAttempt().onFailure(err -> {
                 doLog(err);
                 attemptInternal();
-            }).compose(x -> {
-                return Future.succeededFuture(this);
-            });
+            }).compose(x -> Future.succeededFuture(this));
         } else if (remaining == 0) {
             return Future.failedFuture("attempts time done;max try:" + max_attempts);
         } else {

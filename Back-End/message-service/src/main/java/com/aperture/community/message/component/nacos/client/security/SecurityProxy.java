@@ -94,10 +94,9 @@ public class SecurityProxy {
             }
 
             for (String server : servers) {
-                if (login(server).succeeded()) {
-                    lastRefreshTime = System.currentTimeMillis();
-                    return Future.succeededFuture();
-                }
+                login(server);
+                lastRefreshTime = System.currentTimeMillis();
+                return Future.succeededFuture();
             }
         } catch (Throwable ignore) {
 
