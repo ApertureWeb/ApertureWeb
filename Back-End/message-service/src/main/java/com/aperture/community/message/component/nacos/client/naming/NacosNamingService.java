@@ -11,6 +11,7 @@ import com.aperture.community.message.component.nacos.api.selector.AbstractSelec
 import com.aperture.community.message.component.nacos.api.utils.NamingUtils;
 import com.aperture.community.message.component.nacos.client.naming.beat.BeatInfo;
 import com.aperture.community.message.component.nacos.client.naming.beat.BeatReactor;
+import com.aperture.community.message.component.nacos.client.naming.core.Balancer;
 import com.aperture.community.message.component.nacos.client.naming.core.EventDispatcher;
 import com.aperture.community.message.component.nacos.client.naming.core.HostReactor;
 import com.aperture.community.message.component.nacos.client.naming.net.NamingProxy;
@@ -19,11 +20,12 @@ import com.aperture.community.message.component.nacos.client.naming.utils.InitUt
 import com.aperture.community.message.component.nacos.client.naming.utils.UtilAndComs;
 import com.aperture.community.message.component.nacos.client.utils.ValidatorUtils;
 import com.aperture.community.message.component.nacos.common.utils.StringUtils;
-import com.aperture.community.message.service.listener.EventListener;
+import com.aperture.community.message.component.nacos.api.naming.listener.EventListener;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -242,159 +244,222 @@ public class NacosNamingService implements NamingService {
     }
 
     @Override
-    public List<Instance> selectInstances(String serviceName, boolean healthy) throws NacosException {
-        return null;
+    public Future<List<Instance>> selectInstances(String serviceName, boolean healthy) throws NacosException {
+        return selectInstances(serviceName, new ArrayList<String>(), healthy);
     }
 
     @Override
-    public List<Instance> selectInstances(String serviceName, String groupName, boolean healthy) throws NacosException {
-        return null;
+    public Future<List<Instance>> selectInstances(String serviceName, String groupName, boolean healthy) throws NacosException {
+        return selectInstances(serviceName, groupName, healthy, true);
     }
 
     @Override
-    public List<Instance> selectInstances(String serviceName, boolean healthy, boolean subscribe) throws NacosException {
-        return null;
+    public Future<List<Instance>> selectInstances(String serviceName, boolean healthy, boolean subscribe)
+            throws NacosException {
+        return selectInstances(serviceName, new ArrayList<String>(), healthy, subscribe);
     }
 
     @Override
-    public List<Instance> selectInstances(String serviceName, String groupName, boolean healthy, boolean subscribe) throws NacosException {
-        return null;
+    public Future<List<Instance>> selectInstances(String serviceName, String groupName, boolean healthy, boolean subscribe)
+            throws NacosException {
+        return selectInstances(serviceName, groupName, new ArrayList<String>(), healthy, subscribe);
     }
 
     @Override
-    public List<Instance> selectInstances(String serviceName, List<String> clusters, boolean healthy) throws NacosException {
-        return null;
+    public Future<List<Instance>> selectInstances(String serviceName, List<String> clusters, boolean healthy)
+            throws NacosException {
+        return selectInstances(serviceName, clusters, healthy, true);
     }
 
     @Override
-    public List<Instance> selectInstances(String serviceName, String groupName, List<String> clusters, boolean healthy) throws NacosException {
-        return null;
+    public Future<List<Instance>> selectInstances(String serviceName, String groupName, List<String> clusters, boolean healthy)
+            throws NacosException {
+        return selectInstances(serviceName, groupName, clusters, healthy, true);
     }
 
     @Override
-    public List<Instance> selectInstances(String serviceName, List<String> clusters, boolean healthy, boolean subscribe) throws NacosException {
-        return null;
+    public Future<List<Instance>> selectInstances(String serviceName, List<String> clusters, boolean healthy, boolean subscribe)
+            throws NacosException {
+        return selectInstances(serviceName, Constants.DEFAULT_GROUP, clusters, healthy, subscribe);
     }
 
     @Override
-    public List<Instance> selectInstances(String serviceName, String groupName, List<String> clusters, boolean healthy, boolean subscribe) throws NacosException {
-        return null;
+    public Future<List<Instance>> selectInstances(String serviceName, String groupName, List<String> clusters, boolean healthy,
+                                                  boolean subscribe) throws NacosException {
+
+        ServiceInfo serviceInfo;
+        if (subscribe) {
+            return Future.succeededFuture(selectInstances(hostReactor.getServiceInfo(NamingUtils.getGroupedName(serviceName, groupName),
+                    StringUtils.join(clusters, ",")), healthy));
+        } else {
+            return hostReactor
+                    .getServiceInfoDirectlyFromServer(NamingUtils.getGroupedName(serviceName, groupName),
+                            StringUtils.join(clusters, ",")).compose(info -> Future.succeededFuture(selectInstances(info, healthy)));
+        }
+    }
+
+    private List<Instance> selectInstances(ServiceInfo serviceInfo, boolean healthy) {
+        List<Instance> list;
+        if (serviceInfo == null || CollectionUtils.isEmpty(list = serviceInfo.getHosts())) {
+            return new ArrayList<>();
+        }
+
+        Iterator<Instance> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            Instance instance = iterator.next();
+            if (healthy != instance.isHealthy() || !instance.isEnabled() || instance.getWeight() <= 0) {
+                iterator.remove();
+            }
+        }
+
+        return list;
     }
 
     @Override
-    public Instance selectOneHealthyInstance(String serviceName) throws NacosException {
-        return null;
+    public Future<Instance> selectOneHealthyInstance(String serviceName) throws NacosException {
+        return selectOneHealthyInstance(serviceName, new ArrayList<String>());
     }
 
     @Override
-    public Instance selectOneHealthyInstance(String serviceName, String groupName) throws NacosException {
-        return null;
+    public Future<Instance> selectOneHealthyInstance(String serviceName, String groupName) throws NacosException {
+        return selectOneHealthyInstance(serviceName, groupName, true);
     }
 
     @Override
-    public Instance selectOneHealthyInstance(String serviceName, boolean subscribe) throws NacosException {
-        return null;
+    public Future<Instance> selectOneHealthyInstance(String serviceName, boolean subscribe) throws NacosException {
+        return selectOneHealthyInstance(serviceName, new ArrayList<String>(), subscribe);
     }
 
     @Override
-    public Instance selectOneHealthyInstance(String serviceName, String groupName, boolean subscribe) throws NacosException {
-        return null;
+    public Future<Instance> selectOneHealthyInstance(String serviceName, String groupName, boolean subscribe)
+            throws NacosException {
+        return selectOneHealthyInstance(serviceName, groupName, new ArrayList<String>(), subscribe);
     }
 
     @Override
-    public Instance selectOneHealthyInstance(String serviceName, List<String> clusters) throws NacosException {
-        return null;
+    public Future<Instance> selectOneHealthyInstance(String serviceName, List<String> clusters) throws NacosException {
+        return selectOneHealthyInstance(serviceName, clusters, true);
     }
 
     @Override
-    public Instance selectOneHealthyInstance(String serviceName, String groupName, List<String> clusters) throws NacosException {
-        return null;
+    public Future<Instance> selectOneHealthyInstance(String serviceName, String groupName, List<String> clusters)
+            throws NacosException {
+        return selectOneHealthyInstance(serviceName, groupName, clusters, true);
     }
 
     @Override
-    public Instance selectOneHealthyInstance(String serviceName, List<String> clusters, boolean subscribe) throws NacosException {
-        return null;
+    public Future<Instance> selectOneHealthyInstance(String serviceName, List<String> clusters, boolean subscribe)
+            throws NacosException {
+        return selectOneHealthyInstance(serviceName, Constants.DEFAULT_GROUP, clusters, subscribe);
     }
 
     @Override
-    public Instance selectOneHealthyInstance(String serviceName, String groupName, List<String> clusters, boolean subscribe) throws NacosException {
-        return null;
+    public Future<Instance> selectOneHealthyInstance(String serviceName, String groupName, List<String> clusters,
+                                                     boolean subscribe) throws NacosException {
+
+        if (subscribe) {
+            return Future.succeededFuture(Balancer.RandomByWeight.selectHost(hostReactor
+                    .getServiceInfo(NamingUtils.getGroupedName(serviceName, groupName),
+                            StringUtils.join(clusters, ","))));
+        } else {
+            return hostReactor.getServiceInfoDirectlyFromServer(NamingUtils.getGroupedName(serviceName, groupName),
+                    StringUtils.join(clusters, ",")).compose(x -> Future.succeededFuture(Balancer.RandomByWeight.selectHost(x))
+            );
+
+        }
     }
+
 
     @Override
     public void subscribe(String serviceName, EventListener listener) throws NacosException {
-
+        subscribe(serviceName, new ArrayList<String>(), listener);
     }
 
     @Override
     public void subscribe(String serviceName, String groupName, EventListener listener) throws NacosException {
-
+        subscribe(serviceName, groupName, new ArrayList<String>(), listener);
     }
 
     @Override
     public void subscribe(String serviceName, List<String> clusters, EventListener listener) throws NacosException {
-
+        subscribe(serviceName, Constants.DEFAULT_GROUP, clusters, listener);
     }
 
     @Override
-    public void subscribe(String serviceName, String groupName, List<String> clusters, EventListener listener) throws NacosException {
-
+    public void subscribe(String serviceName, String groupName, List<String> clusters, EventListener listener)
+            throws NacosException {
+        eventDispatcher.addListener(hostReactor
+                        .getServiceInfo(NamingUtils.getGroupedName(serviceName, groupName), StringUtils.join(clusters, ",")),
+                StringUtils.join(clusters, ","), listener);
     }
 
     @Override
     public void unsubscribe(String serviceName, EventListener listener) throws NacosException {
-
+        unsubscribe(serviceName, new ArrayList<String>(), listener);
     }
 
     @Override
     public void unsubscribe(String serviceName, String groupName, EventListener listener) throws NacosException {
-
+        unsubscribe(serviceName, groupName, new ArrayList<String>(), listener);
     }
 
     @Override
     public void unsubscribe(String serviceName, List<String> clusters, EventListener listener) throws NacosException {
-
+        unsubscribe(serviceName, Constants.DEFAULT_GROUP, clusters, listener);
     }
 
     @Override
-    public void unsubscribe(String serviceName, String groupName, List<String> clusters, EventListener listener) throws NacosException {
-
+    public void unsubscribe(String serviceName, String groupName, List<String> clusters, EventListener listener)
+            throws NacosException {
+        eventDispatcher
+                .removeListener(NamingUtils.getGroupedName(serviceName, groupName), StringUtils.join(clusters, ","),
+                        listener);
     }
 
     @Override
-    public ListView<String> getServicesOfServer(int pageNo, int pageSize) throws NacosException {
-        return null;
+    public Future<ListView<String>> getServicesOfServer(int pageNo, int pageSize) throws NacosException {
+        return serverProxy.getServiceList(pageNo, pageSize, Constants.DEFAULT_GROUP);
     }
 
     @Override
-    public ListView<String> getServicesOfServer(int pageNo, int pageSize, String groupName) throws NacosException {
-        return null;
+    public Future<ListView<String>> getServicesOfServer(int pageNo, int pageSize, String groupName) throws NacosException {
+        return getServicesOfServer(pageNo, pageSize, groupName, null);
     }
 
     @Override
-    public ListView<String> getServicesOfServer(int pageNo, int pageSize, AbstractSelector selector) throws NacosException {
-        return null;
+    public Future<ListView<String>> getServicesOfServer(int pageNo, int pageSize, AbstractSelector selector)
+            throws NacosException {
+        return getServicesOfServer(pageNo, pageSize, Constants.DEFAULT_GROUP, selector);
     }
 
     @Override
-    public ListView<String> getServicesOfServer(int pageNo, int pageSize, String groupName, AbstractSelector selector) throws NacosException {
-        return null;
+    public Future<ListView<String>> getServicesOfServer(int pageNo, int pageSize, String groupName, AbstractSelector selector)
+            throws NacosException {
+        return serverProxy.getServiceList(pageNo, pageSize, groupName, selector);
     }
 
     @Override
-    public List<ServiceInfo> getSubscribeServices() throws NacosException {
-        return null;
+    public List<ServiceInfo> getSubscribeServices() {
+        return eventDispatcher.getSubscribeServices();
     }
 
     @Override
-    public String getServerStatus() {
-        return null;
+    public Future<String> getServerStatus() {
+        return serverProxy.serverHealthy();
+    }
+
+    public BeatReactor getBeatReactor() {
+        return beatReactor;
     }
 
     @Override
     public void shutDown() throws NacosException {
-
+        beatReactor.shutdown();
+        eventDispatcher.shutdown();
+        hostReactor.shutdown();
+        serverProxy.shutdown();
     }
+
 
     private void initServerAddr(Properties properties) {
         serverList = properties.getProperty(PropertyKeyConst.SERVER_ADDR);

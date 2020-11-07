@@ -12,10 +12,12 @@ import com.aperture.community.message.component.nacos.client.naming.cache.Concur
 import com.aperture.community.message.component.nacos.client.naming.cache.DiskCache;
 import com.aperture.community.message.component.nacos.client.naming.net.NamingProxy;
 import com.aperture.community.message.component.nacos.client.naming.utils.CollectionUtils;
+import com.aperture.community.message.component.nacos.common.lifecycle.Closeable;
 import com.aperture.community.message.component.nacos.common.utils.IoUtils;
 import com.aperture.community.message.component.nacos.common.utils.JacksonUtils;
 import com.aperture.community.message.component.nacos.common.utils.OsUtils;
 import com.aperture.community.message.component.nacos.common.utils.StringUtils;
+import com.google.common.collect.Sets;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -33,6 +35,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ScheduledFuture;
 
 /**
@@ -41,7 +44,7 @@ import java.util.concurrent.ScheduledFuture;
  **/
 //TODO 需要大改内核
 @Slf4j
-public class HostReactor {
+public class HostReactor implements Closeable {
     /**
      * 更新延迟
      */
@@ -55,7 +58,9 @@ public class HostReactor {
     /**
      * 存放已被更新过的服务
      */
-    private final Map<String, ScheduledFuture<?>> futureMap = new HashMap<>();
+    private final Map<String, Object> futureMap = new ConcurrentHashMap<>();
+
+
     private static final Logger logger = LoggerFactory.getLogger(HostReactor.class);
 
 
@@ -161,20 +166,15 @@ public class HostReactor {
      */
     //看谁会调用这个
     public void scheduleUpdateIfAbsent(String serviceName, String clusters) {
-        //双检
         if (futureMap.get(ServiceInfo.getKey(serviceName, clusters)) != null) {
             return;
         }
-        synchronized (futureMap) {
-            if (futureMap.get(ServiceInfo.getKey(serviceName, clusters)) != null) {
-                return;
-            }
-            //TODO updated task once times
-            addTask(new UpdateTask(serviceName, clusters));
-            futureMap.put(ServiceInfo.getKey(serviceName, clusters), future);
-        }
 
+        //TODO updated task once times
+        addTask(new UpdateTask(serviceName, clusters));
+        futureMap.put(ServiceInfo.getKey(serviceName, clusters), null);
     }
+
 
     /**
      * 更新服务实例
@@ -307,10 +307,8 @@ public class HostReactor {
         }
     }
 
-    public void jaddTask(UpdateTask task) {
-        vertx.setTimer(DEFAULT_DELAY, e -> {
-            task.run();
-        });
+    public void addTask(UpdateTask task) {
+        vertx.setTimer(DEFAULT_DELAY, e -> task.run());
     }
 
     /**
@@ -337,6 +335,12 @@ public class HostReactor {
         } catch (NacosException e) {
             logger.error("[NA] failed to update serviceName: " + serviceName, e);
         }
+    }
+
+
+    @Override
+    public void shutdown() throws NacosException {
+
     }
 
     /**
@@ -376,18 +380,16 @@ public class HostReactor {
                 refreshOnly(serviceName, clusters);
             }
             lastRefTime = serviceObj.getLastRefTime();
-            //
             if (!eventDispatcher.isSubscribed(serviceName, clusters) && !futureMap
                     .containsKey(ServiceInfo.getKey(serviceName, clusters))) {
                 // abort the update task
                 logger.info("update task is stopped, service:" + serviceName + ", clusters:" + clusters);
             }
-            //服务控制幅度
-            // TODO check
+            //服务端控制频率
             delayTime = serviceObj.getCacheMillis();
-            updateTaskId = vertx.setTimer(delayTime, s -> {
-                run();
-            });
+            if (delayTime > 0) {
+                updateTaskId = vertx.setTimer(delayTime, s -> run());
+            }
 
         }
 
@@ -513,5 +515,5 @@ public class HostReactor {
 
     }
 
-
 }
+

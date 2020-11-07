@@ -7,13 +7,14 @@ import com.aperture.community.message.component.nacos.api.naming.NamingResponseC
 import com.aperture.community.message.component.nacos.api.naming.pojo.Instance;
 import com.aperture.community.message.component.nacos.api.utils.NamingUtils;
 import com.aperture.community.message.component.nacos.client.naming.net.NamingProxy;
+import com.aperture.community.message.component.nacos.common.lifecycle.Closeable;
 import com.aperture.community.message.component.nacos.common.utils.JacksonUtils;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author HALOXIAO
  * @since 2020-10-27 16:39
  **/
-public class BeatReactor {
+public class BeatReactor implements Closeable {
 
 
     private final Logger logger = LoggerFactory.getLogger(BeatReactor.class);
@@ -108,6 +109,10 @@ public class BeatReactor {
         //        MetricsMonitor.getDom2BeatSizeMonitor().set(dom2Beat.size());
     }
 
+    @Override
+    public void shutdown() throws NacosException {
+
+    }
 
     class BeatTask {
         BeatInfo beatInfo;

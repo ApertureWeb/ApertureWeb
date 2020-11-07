@@ -5,13 +5,12 @@ import com.aperture.community.message.component.nacos.api.naming.listener.Naming
 import com.aperture.community.message.component.nacos.api.naming.pojo.Instance;
 import com.aperture.community.message.component.nacos.api.naming.pojo.ServiceInfo;
 import com.aperture.community.message.component.nacos.client.naming.utils.CollectionUtils;
-import io.vertx.core.AbstractVerticle;
+import com.aperture.community.message.component.nacos.common.lifecycle.Closeable;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Closeable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -81,12 +80,44 @@ public class EventDispatcher implements Closeable {
         }
     }
 
+
+    /**
+     * Add listener.
+     *
+     * @param serviceInfo service info
+     * @param clusters    clusters
+     * @param listener    listener
+     */
+    public void addListener(ServiceInfo serviceInfo, String clusters, EventListener listener) {
+
+        logger.info("[LISTENER] adding " + serviceInfo.getName() + " with " + clusters + " to listener map");
+        List<EventListener> observers = Collections.synchronizedList(new ArrayList<EventListener>());
+        observers.add(listener);
+
+        observers = observerMap.putIfAbsent(ServiceInfo.getKey(serviceInfo.getName(), clusters), observers);
+        if (observers != null) {
+            observers.add(listener);
+        }
+
+        serviceChanged(serviceInfo);
+    }
+
+
+    public List<ServiceInfo> getSubscribeServices() {
+        List<ServiceInfo> serviceInfos = new ArrayList<ServiceInfo>();
+        for (String key : observerMap.keySet()) {
+            serviceInfos.add(ServiceInfo.fromKey(key));
+        }
+        return serviceInfos;
+    }
+
+
     public boolean isSubscribed(String serviceName, String clusters) {
         return observerMap.containsKey(ServiceInfo.getKey(serviceName, clusters));
     }
 
     @Override
-    public void close() {
+    public void shutdown() {
         logger.info("EventDispatcher do shutdown begin");
         notifyId.onSuccess(vertx::undeploy);
         logger.info("EventDispatcher do shutdown stop");

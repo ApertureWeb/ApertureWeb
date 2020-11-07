@@ -7,6 +7,10 @@ import com.aperture.community.message.component.nacos.api.common.Constants;
 import com.aperture.community.message.component.nacos.api.exception.NacosException;
 import com.aperture.community.message.component.nacos.api.naming.CommonParams;
 import com.aperture.community.message.component.nacos.api.naming.pojo.Instance;
+import com.aperture.community.message.component.nacos.api.naming.pojo.ListView;
+import com.aperture.community.message.component.nacos.api.selector.AbstractSelector;
+import com.aperture.community.message.component.nacos.api.selector.ExpressionSelector;
+import com.aperture.community.message.component.nacos.api.selector.SelectorType;
 import com.aperture.community.message.component.nacos.client.config.impl.SpasAdapter;
 import com.aperture.community.message.component.nacos.client.naming.beat.BeatInfo;
 import com.aperture.community.message.component.nacos.client.naming.utils.CollectionUtils;
@@ -19,11 +23,14 @@ import com.aperture.community.message.component.nacos.client.utils.JobUtils;
 import com.aperture.community.message.component.nacos.client.utils.TemplateUtils;
 import com.aperture.community.message.component.nacos.common.constant.HttpHeaderConsts;
 import com.aperture.community.message.component.nacos.common.http.param.Header;
+import com.aperture.community.message.component.nacos.common.lifecycle.Closeable;
 import com.aperture.community.message.component.nacos.common.utils.IoUtils;
 import com.aperture.community.message.component.nacos.common.utils.JacksonUtils;
 import com.aperture.community.message.component.nacos.common.utils.UuidUtils;
 import com.aperture.community.message.component.nacos.common.utils.VersionUtils;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Multimap;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
@@ -36,7 +43,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -111,6 +117,45 @@ public class NamingProxy implements Closeable {
         this.securityProxy.login(getServerList());
     }
 
+    public Future<ListView<String>> getServiceList(int pageNo, int pageSize, String groupName) throws NacosException {
+        return getServiceList(pageNo, pageSize, groupName, null);
+    }
+
+
+    public Future<ListView<String>> getServiceList(int pageNo, int pageSize, String groupName, AbstractSelector selector)
+            throws NacosException {
+
+        MultiMap params = MultiMap.caseInsensitiveMultiMap();
+        params.add("pageNo", String.valueOf(pageNo));
+        params.add("pageSize", String.valueOf(pageSize));
+        params.add(CommonParams.NAMESPACE_ID, namespaceId);
+        params.add(CommonParams.GROUP_NAME, groupName);
+
+        if (selector != null) {
+            switch (SelectorType.valueOf(selector.getType())) {
+                case none:
+                    break;
+                case label:
+                    ExpressionSelector expressionSelector = (ExpressionSelector) selector;
+                    params.add("selector", JacksonUtils.toJson(expressionSelector));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return reqApi(UtilAndComs.nacosUrlBase + "/service/list", params, HttpMethod.GET).compose(res -> {
+
+            JsonNode json = JacksonUtils.toObj(res);
+            ListView<String> listView = new ListView<>();
+            listView.setCount(json.get("count").asInt());
+            listView.setData(JacksonUtils.toObj(json.get("doms").toString(), new TypeReference<>() {
+            }));
+            return Future.succeededFuture(listView);
+        });
+
+    }
+
     private List<String> getServerList() {
         List<String> snapshot = serversFromEndpoint;
         if (!CollectionUtils.isEmpty(serverList)) {
@@ -148,6 +193,25 @@ public class NamingProxy implements Closeable {
             logger.warn(err.getMessage());
         });
 
+    }
+
+
+    /**
+     * Check Server healthy.
+     *
+     * @return true if server is healthy
+     */
+    public Future<String> serverHealthy() {
+
+        try {
+            return reqApi(UtilAndComs.nacosUrlBase + "/operator/metrics", MultiMap.caseInsensitiveMultiMap(), HttpMethod.GET).compose(result -> {
+                JsonNode json = JacksonUtils.toObj(result);
+                String serverStatus = json.get("status").asText();
+                return Future.succeededFuture(serverStatus);
+            });
+        } catch (Exception e) {
+            return Future.succeededFuture("DOWN");
+        }
     }
 
 
@@ -298,6 +362,7 @@ public class NamingProxy implements Closeable {
         //TODO perfect error handle
         return Future.failedFuture(String.format("request:%s failed,servers:%s ", api, servers.toString()));
     }
+
 
     public Future<String> reqApi(String api, MultiMap params, HttpMethod method) throws NacosException {
         return reqApi(api, params, Collections.EMPTY_MAP, method);
@@ -474,9 +539,7 @@ public class NamingProxy implements Closeable {
     }
 
     @Override
-    public void close() throws IOException {
+    public void shutdown() {
 
     }
-
-
 }
