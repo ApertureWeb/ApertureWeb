@@ -100,11 +100,9 @@ public class CmsCommentServiceImpl implements CmsCommentService {
         if (result == null) {
             return new MessageDto("无权删除", false);
         }
-
         //文章所有者只能zhe折叠，comment所有者可以自行删除
         return result;
     }
-
 
 
     @Override
@@ -119,9 +117,8 @@ public class CmsCommentServiceImpl implements CmsCommentService {
             asc = true;
         } else {
             field = CmsCommentMap.COMMENT_DATE.getValue();
-            asc = false;
         }
-
+        //获取本页的Comment
         IPage<CmsCommentEntity> page = interactCommentManager.getUmsCommentMapper().page(new Page<>(pageParam.getPage(), pageParam.getSize()),
                 new QueryWrapper<CmsCommentEntity>()
                         .select(CmsCommentMap.ID.getValue()
@@ -136,10 +133,13 @@ public class CmsCommentServiceImpl implements CmsCommentService {
                         .ne(CmsCommentMap.STATUS.getValue(), CommentStatus.REVIEW)
                         .orderBy(false, asc, field)
         );
+        //获取本页comment所对应的Reply
+
+
         List<CmsCommentEntity> umsCommentEntities = page.getRecords();
+
         List<CmsCommentVO> result = CmsCommentConverter.INSTANCE.toUmsCommentVOs(umsCommentEntities);
         long size = page.getTotal();
-
         return null;
     }
 

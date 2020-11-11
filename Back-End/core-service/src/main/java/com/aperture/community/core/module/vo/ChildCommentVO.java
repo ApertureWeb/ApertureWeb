@@ -14,6 +14,6 @@ public class ChildCommentVO {
 
     Integer like;
 
-    LocalDateTime commmentDate;
+    LocalDateTime commentDate;
 
 }

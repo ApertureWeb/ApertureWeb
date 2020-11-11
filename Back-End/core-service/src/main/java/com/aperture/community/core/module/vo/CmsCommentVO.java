@@ -26,6 +26,6 @@ public class CmsCommentVO {
 
     private Integer status;
 
-    List<ChildCommentVO> childComment;
+    private List<ChildCommentVO> childComment;
 
 }
