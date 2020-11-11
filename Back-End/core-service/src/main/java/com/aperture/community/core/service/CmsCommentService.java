@@ -11,7 +11,7 @@ public interface CmsCommentService {
 
  CmsCommentVO select(CmsCommentParam CmsCommentParam);
 
- MessageDto<Boolean> delete(Long id);
+ MessageDto delete(Long id);
 
  PageVO<CmsCommentVO> commentPage(PageParam pageParam, Integer contentId, boolean isHeat);
 

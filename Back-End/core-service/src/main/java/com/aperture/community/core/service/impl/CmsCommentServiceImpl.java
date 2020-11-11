@@ -25,6 +25,7 @@ import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.CmsCommentVO;
 import com.aperture.community.core.service.CmsCommentService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,29 +69,43 @@ public class CmsCommentServiceImpl implements CmsCommentService {
     }
 
     @Override
-    public MessageDto<Boolean> delete(Long id) {
+    public MessageDto delete(Long id) {
         UserInfo userInfo = TokenStore.getUserInfo();
         CmsCommentEntity cmsCommentEntity = interactCommentManager.getUmsCommentMapper().getOne(new QueryWrapper<CmsCommentEntity>()
                 .select(CmsCommentMap.USER_ID.getValue(), CmsCommentMap.TARGET_ID.getValue()).eq(CmsCommentMap.ID.getValue(), id));
+        Long commenterId = cmsCommentEntity.getUserId();
         Long contentId = cmsCommentEntity.getTargetId();
-        Long authorId;
+        Long authorId = null;
         CmsArticleEntity articleEntity = contentManager.getCmsArticleMapper().getOne(new QueryWrapper<CmsArticleEntity>()
                 .select(CmsArticleMap.USER_ID.getValue()).eq(CmsArticleMap.ID.getValue(), contentId));
+        //需要判断是Article还是Video
         if (articleEntity.getUserUid() == null) {
             CmsVideoEntity videoEntity = contentManager.getCmsVideoMapper().getOne(new QueryWrapper<CmsVideoEntity>()
                     .select(CmsVideoMap.USER_ID.getValue()).eq(CmsVideoMap.ID.getValue(), contentId));
             if (videoEntity.getUserId() != null) {
                 authorId = videoEntity.getUserId();
-            } else if (!userInfo.getId().equals(cmsCommentEntity.getUserId())) {
-                return new MessageDto<>("无权限删除", false);
             }
         } else {
             authorId = articleEntity.getUserUid();
         }
+        MessageDto result = null;
+        if (authorId != null && userInfo.getId().equals(authorId)) {
+            result = interactCommentManager.getUmsCommentMapper().update(new UpdateWrapper<CmsCommentEntity>().set(CmsCommentMap.STATUS.getValue(), CommentStatus.FLOD)
+                    .eq(CmsCommentMap.ID.getValue(), id)
+                    .eq(CmsCommentMap.STATUS.getValue(), CommentStatus.NORMAL.getValue())) ? new MessageDto("success", true) : new MessageDto("删除失败", false);
+        }
+        if (userInfo.getId().equals(commenterId)) {
+            result = interactCommentManager.getUmsCommentMapper().removeById(id) ? new MessageDto("success", true) : new MessageDto("删除失败", false);
+        }
+        if (result == null) {
+            return new MessageDto("无权删除", false);
+        }
 
-
-        return new MessageDto<>("n",false);
+        //文章所有者只能zhe折叠，comment所有者可以自行删除
+        return result;
     }
+
+
 
     @Override
     public PageVO<CmsCommentVO> commentPage(PageParam pageParam, Integer contentId, boolean isHeat) {
@@ -106,6 +121,7 @@ public class CmsCommentServiceImpl implements CmsCommentService {
             field = CmsCommentMap.COMMENT_DATE.getValue();
             asc = false;
         }
+
         IPage<CmsCommentEntity> page = interactCommentManager.getUmsCommentMapper().page(new Page<>(pageParam.getPage(), pageParam.getSize()),
                 new QueryWrapper<CmsCommentEntity>()
                         .select(CmsCommentMap.ID.getValue()
