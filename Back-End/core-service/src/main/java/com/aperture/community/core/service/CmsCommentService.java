@@ -1,6 +1,7 @@
 package com.aperture.community.core.service;
 
 import com.aperture.community.core.common.status.ContentType;
+import com.aperture.community.core.module.dto.MessageDto;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.CmsCommentParam;
 import com.aperture.community.core.module.vo.PageVO;
@@ -10,7 +11,7 @@ public interface CmsCommentService {
 
  CmsCommentVO select(CmsCommentParam CmsCommentParam);
 
- boolean delete(Long id);
+ MessageDto<Boolean> delete(Long id);
 
  PageVO<CmsCommentVO> commentPage(PageParam pageParam, Integer contentId, boolean isHeat);
 

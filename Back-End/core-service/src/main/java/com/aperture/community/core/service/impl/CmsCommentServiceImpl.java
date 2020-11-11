@@ -1,5 +1,6 @@
 package com.aperture.community.core.service.impl;
 
+import com.aperture.community.core.common.TokenStore;
 import com.aperture.community.core.common.status.CommentStatus;
 import com.aperture.community.core.common.status.ContentType;
 import com.aperture.community.core.common.map.CmsArticleMap;
@@ -15,6 +16,7 @@ import com.aperture.community.core.module.CmsVideoEntity;
 import com.aperture.community.core.module.converter.CmsCommentConverter;
 import com.aperture.community.core.module.converter.CmsReplyConverter;
 import com.aperture.community.core.module.dto.MessageDto;
+import com.aperture.community.core.module.identify.UserInfo;
 import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.CmsCommentParam;
 import com.aperture.community.core.module.param.CmsReplyParam;
@@ -61,14 +63,33 @@ public class CmsCommentServiceImpl implements CmsCommentService {
 
     @Override
     public CmsCommentVO select(CmsCommentParam cmsCommentParam) {
+
         return null;
     }
 
     @Override
-    public boolean delete(Long id) {
+    public MessageDto<Boolean> delete(Long id) {
+        UserInfo userInfo = TokenStore.getUserInfo();
+        CmsCommentEntity cmsCommentEntity = interactCommentManager.getUmsCommentMapper().getOne(new QueryWrapper<CmsCommentEntity>()
+                .select(CmsCommentMap.USER_ID.getValue(), CmsCommentMap.TARGET_ID.getValue()).eq(CmsCommentMap.ID.getValue(), id));
+        Long contentId = cmsCommentEntity.getTargetId();
+        Long authorId;
+        CmsArticleEntity articleEntity = contentManager.getCmsArticleMapper().getOne(new QueryWrapper<CmsArticleEntity>()
+                .select(CmsArticleMap.USER_ID.getValue()).eq(CmsArticleMap.ID.getValue(), contentId));
+        if (articleEntity.getUserUid() == null) {
+            CmsVideoEntity videoEntity = contentManager.getCmsVideoMapper().getOne(new QueryWrapper<CmsVideoEntity>()
+                    .select(CmsVideoMap.USER_ID.getValue()).eq(CmsVideoMap.ID.getValue(), contentId));
+            if (videoEntity.getUserId() != null) {
+                authorId = videoEntity.getUserId();
+            } else if (!userInfo.getId().equals(cmsCommentEntity.getUserId())) {
+                return new MessageDto<>("无权限删除", false);
+            }
+        } else {
+            authorId = articleEntity.getUserUid();
+        }
 
 
-        return false;
+        return new MessageDto<>("n",false);
     }
 
     @Override
@@ -169,8 +190,6 @@ public class CmsCommentServiceImpl implements CmsCommentService {
     }
 
 // --------------------------Here is reply--------------------------
-
-
 
 
 }

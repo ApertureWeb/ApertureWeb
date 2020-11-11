@@ -1,11 +1,14 @@
 package com.aperture.community.core.service.impl;
 
 import com.aperture.community.core.common.map.CmsArticleMap;
+import com.aperture.community.core.common.map.CmsCircleMap;
+import com.aperture.community.core.dao.CmsCircleMapper;
 import com.aperture.community.core.manager.ContentManager;
 import com.aperture.community.core.manager.EventManager;
 import com.aperture.community.core.manager.PrimaryIdManager;
 import com.aperture.community.core.manager.TagManager;
 import com.aperture.community.core.module.CmsArticleEntity;
+import com.aperture.community.core.module.CmsCircleEntity;
 import com.aperture.community.core.module.CmsTagEntity;
 import com.aperture.community.core.module.converter.CmsArticleConverter;
 import com.aperture.community.core.module.dto.MessageDto;
@@ -19,8 +22,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -36,20 +41,26 @@ import java.util.List;
 public class CmsArticleServiceImpl implements CmsArticleService {
 
 
-    private PrimaryIdManager primaryIdManager;
-    private TagManager tagManager;
-    private ContentManager contentManager;
-    private EventManager eventManager;
+    private final PrimaryIdManager primaryIdManager;
+    private final TagManager tagManager;
+    private final ContentManager contentManager;
+    private final EventManager eventManager;
+    private final CmsCircleMapper cmsCircleMapper;
+
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public CmsArticleServiceImpl(PrimaryIdManager primaryIdManager, TagManager tagManager, ContentManager contentManager, EventManager eventManager) {
+    public CmsArticleServiceImpl(PrimaryIdManager primaryIdManager, TagManager tagManager, ContentManager contentManager, EventManager eventManager, CmsCircleMapper cmsCircleMapper, RestTemplate restTemplate) {
         this.primaryIdManager = primaryIdManager;
         this.tagManager = tagManager;
         this.eventManager = eventManager;
         this.contentManager = contentManager;
+        this.cmsCircleMapper = cmsCircleMapper;
+        this.restTemplate = restTemplate;
     }
 
 
+    @Transactional()
     @Override
     public CmsArticleVO select(Long id) {
         CmsArticleEntity cmsArticleEntity = contentManager.getCmsArticleMapper().getOne(new QueryWrapper<CmsArticleEntity>().
@@ -60,9 +71,11 @@ public class CmsArticleServiceImpl implements CmsArticleService {
                         CmsArticleMap.CIRCLE_ID.getValue())
                 .eq(CmsArticleMap.ID.getValue(), id));
         CmsArticleVO articleVO = CmsArticleConverter.INSTANCE.toUmsArticleVO(cmsArticleEntity);
-
-        // 需要user名和circle名
-        return null;
+        String name = restTemplate.getForObject("UserService", String.class);
+        CmsCircleEntity cmsCircleEntity = cmsCircleMapper.getOne(new QueryWrapper<CmsCircleEntity>().select(CmsCircleMap.NAME.getValue()).eq(CmsCircleMap.ID.getValue(), cmsArticleEntity.getCircleId()));
+        articleVO.setCircleName(cmsCircleEntity.getName());
+        articleVO.setUsername(name);
+        return articleVO;
     }
 
     @Override

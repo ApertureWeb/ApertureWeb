@@ -1,6 +1,5 @@
 package com.aperture.community.core.controller;
 
-import com.aperture.community.core.module.CmsCircleEntity;
 import com.aperture.community.core.module.param.CmsCircleParam;
 import com.aperture.community.core.module.validation.ValidationGroup;
 import com.aperture.community.core.module.vo.CmsCircleVO;
@@ -9,8 +8,6 @@ import com.aperture.community.entity.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 /**
  * @author HALOXIAO

@@ -32,6 +32,7 @@ public class CmsCommentController {
     @DeleteMapping("/video/${videoId}/comment")
     public ResultBean<Boolean> deleteVideoComment(@PathVariable("videoId") Long videoId, @RequestParam("articleId") Long articleId) {
         cmsCommentService.delete(articleId);
+
         return null;
     }
 

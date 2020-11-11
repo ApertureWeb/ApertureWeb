@@ -31,7 +31,7 @@ public class CmsVideoEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.NONE)
-       private Long id;
+    private Long id;
 
 
     @TableField("title")
@@ -50,10 +50,10 @@ public class CmsVideoEntity implements Serializable {
     private Integer coins;
 
     @TableField("user_id")
-    private Integer userId;
+    private Long userId;
 
-    @TableField("cicle_id")
-    private Integer cicleId;
+    @TableField("circle_id")
+    private Integer circleId;
 
     @TableField("status")
     private Integer status;
