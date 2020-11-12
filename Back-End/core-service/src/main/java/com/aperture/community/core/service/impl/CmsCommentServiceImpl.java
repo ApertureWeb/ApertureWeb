@@ -1,6 +1,7 @@
 package com.aperture.community.core.service.impl;
 
 import com.aperture.community.core.common.TokenStore;
+import com.aperture.community.core.common.map.CmsReplyMap;
 import com.aperture.community.core.common.status.CommentStatus;
 import com.aperture.community.core.common.status.ContentType;
 import com.aperture.community.core.common.map.CmsArticleMap;
@@ -100,7 +101,7 @@ public class CmsCommentServiceImpl implements CmsCommentService {
         if (result == null) {
             return new MessageDto("无权删除", false);
         }
-        //文章所有者只能zhe折叠，comment所有者可以自行删除
+        //文章所有者只能折叠，comment所有者可以自行删除
         return result;
     }
 
@@ -133,11 +134,16 @@ public class CmsCommentServiceImpl implements CmsCommentService {
                         .ne(CmsCommentMap.STATUS.getValue(), CommentStatus.REVIEW)
                         .orderBy(false, asc, field)
         );
-        //获取本页comment所对应的Reply
-
-
         List<CmsCommentEntity> umsCommentEntities = page.getRecords();
+        interactCommentManager.getUmsReplyMapper().list(new QueryWrapper<CmsReplyEntity>().select(
+                CmsReplyMap.ID.getValue(),
+                CmsReplyMap.LIKE.getValue(),
+                CmsReplyMap.CONTENT.getValue(),
+                CmsReplyMap.USER_ID.getValue())
 
+        );
+        umsCommentEntities.stream();
+        //获取本页comment所对应的Reply
         List<CmsCommentVO> result = CmsCommentConverter.INSTANCE.toUmsCommentVOs(umsCommentEntities);
         long size = page.getTotal();
         return null;
