@@ -4,11 +4,14 @@ import com.aperture.community.core.module.CmsCommentEntity;
 import com.aperture.community.core.module.param.CmsCommentParam;
 import com.aperture.community.core.module.vo.ChildCommentVO;
 import com.aperture.community.core.module.vo.CmsCommentVO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Mapper
@@ -44,8 +47,8 @@ public interface CmsCommentConverter {
     })
     CmsCommentVO toUmsCommentVO(CmsCommentEntity comment);
 
-
     List<CmsCommentVO> toUmsCommentVOs(List<CmsCommentEntity> umsCommentEntities);
+
 
     @Mappings({
             @Mapping(source = "id", target = "id"),

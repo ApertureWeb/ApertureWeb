@@ -103,10 +103,7 @@ public class CmsArticleServiceImpl implements CmsArticleService {
     @Override
     public boolean update(CmsArticleParam cmsArticleParam) {
         CmsArticleEntity article = CmsArticleConverter.INSTANCE.toUmsArticle(cmsArticleParam);
-        if (cmsArticleParam.getTags() != null) {
-            return false;
-        }
-        return false;
+        return cmsArticleParam.getTags() != null;
     }
 
     @Transactional(rollbackFor = Exception.class)

@@ -37,8 +37,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -141,23 +144,30 @@ public class CmsCommentServiceImpl implements CmsCommentService {
                         .orderBy(false, asc, field)
         );
         List<CmsCommentEntity> umsCommentEntities = page.getRecords();
+        Map<Long, CmsCommentEntity> commentEntityMap = umsCommentEntities.stream().collect(Collectors.toMap(CmsCommentEntity::getId, value -> value));
         Set<Long> commentId = umsCommentEntities.stream().map(CmsCommentEntity::getId).collect(Collectors.toSet());
-        List<CmsReplyEntity> innerReplys = interactCommentManager.getUmsReplyMapper().list(new QueryWrapper<CmsReplyEntity>().select(
-                CmsReplyMap.ID.getValue(),
-                CmsReplyMap.LIKE.getValue(),
-                CmsReplyMap.CONTENT.getValue(),
-                CmsReplyMap.USER_ID.getValue(),
-                CmsReplyMap.COMMENT_DATE.getValue(),
-                CmsReplyMap.TARGET_ID.getValue()
-                ).in(CmsReplyMap.TARGET_ID.getValue(), commentId)
-        );
+
+
+        //TODO 开个线程来搞
+        //获取回复，每个评论下最多三个，按热度排序
+        commentId.forEach(p -> {
+            List<CmsReplyEntity> innerReplys = interactCommentManager.getUmsReplyMapper().list(new QueryWrapper<CmsReplyEntity>().select(
+                    CmsReplyMap.ID.getValue(),
+                    CmsReplyMap.LIKE.getValue(),
+                    CmsReplyMap.CONTENT.getValue(),
+                    CmsReplyMap.USER_ID.getValue(),
+                    CmsReplyMap.COMMENT_DATE.getValue(),
+                    CmsReplyMap.TARGET_ID.getValue()
+            ).orderByDesc(CmsReplyMap.LIKE.getValue()).eq(CmsReplyMap.TARGET_ID.getValue(), p).last(true, "LIMIT 3"));
+
+        });
+
         String usernames = restTemplate.getForObject("User-Service", String.class);
-        List<UserDto> userDtos = JSON.parseArray(usernames, UserDto.class);
-        
+
         //TODO json parse to map
-        List<CmsCommentVO> result = CmsCommentConverter.INSTANCE.toUmsCommentVOs(umsCommentEntities);
-        long size = page.getTotal();
-        return null;
+
+        return new PageVO<>(page.getTotal(), null);
+
     }
 
     public MessageDto<Boolean> sendReplay(CmsReplyParam cmsReplyParam) {
