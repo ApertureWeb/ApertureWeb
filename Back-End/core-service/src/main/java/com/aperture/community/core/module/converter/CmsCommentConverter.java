@@ -29,7 +29,7 @@ public interface CmsCommentConverter {
             @Mapping(target = "commentDate", ignore = true),
             @Mapping(target = "like", ignore = true)
     })
-    CmsCommentEntity toUmsComment(CmsCommentParam cmsCommentParam);
+    CmsCommentEntity toCmsComment(CmsCommentParam cmsCommentParam);
 
 
     @Mappings({
@@ -45,9 +45,9 @@ public interface CmsCommentConverter {
             @Mapping(target = "icon", ignore = true),
             @Mapping(target = "childComment", ignore = true)
     })
-    CmsCommentVO toUmsCommentVO(CmsCommentEntity comment);
+    CmsCommentVO toCmsCommentVO(CmsCommentEntity comment);
 
-    List<CmsCommentVO> toUmsCommentVOs(List<CmsCommentEntity> umsCommentEntities);
+    List<CmsCommentVO> toCmsCommentVOs(List<CmsCommentEntity> umsCommentEntities);
 
 
     @Mappings({

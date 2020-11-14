@@ -42,11 +42,8 @@ public class CmsArticleEntity implements Serializable {
     @TableField("description")
     private String description;
 
-    @TableField("like")
-    private Integer like;
-
-    @TableField("coins")
-    private Integer coins;
+    @TableField("icon")
+    private String icon;
 
     @TableField("user_uid")
     private Long userUid;

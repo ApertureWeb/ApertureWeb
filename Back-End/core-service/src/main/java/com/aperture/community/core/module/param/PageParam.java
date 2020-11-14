@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.Range;
  **/
 @Getter
 @Setter
-public class PageParam<T> {
+public class PageParam {
     @Range(min = 1)
     private Integer page;
 
@@ -22,6 +22,5 @@ public class PageParam<T> {
         this.size = size;
     }
 
-    T data;
 
 }

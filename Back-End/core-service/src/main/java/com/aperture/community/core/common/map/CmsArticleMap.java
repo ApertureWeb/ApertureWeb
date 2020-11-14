@@ -13,8 +13,10 @@ public enum CmsArticleMap {
     DESCRIPTION("description"),
     CONTENT("content"),
     USER_ID("user_uid"),
-    CIRCLE_ID("circle_id");
-
+    CIRCLE_ID("circle_id"),
+    STATUS("status"),
+    ICON("icon")
+    ;
     String value;
 
     CmsArticleMap(String value) {

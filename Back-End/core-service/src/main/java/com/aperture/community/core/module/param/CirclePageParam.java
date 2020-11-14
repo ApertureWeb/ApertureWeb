@@ -17,10 +17,10 @@ import org.hibernate.validator.constraints.Range;
 public class CirclePageParam extends PageParam {
     private Long circleId;
 
-
-
     public CirclePageParam(@Range(min = 1) Integer page, @Range(min = 1, max = 10) Integer size, Long circleId) {
         super(page, size);
         this.circleId = circleId;
     }
+
+
 }

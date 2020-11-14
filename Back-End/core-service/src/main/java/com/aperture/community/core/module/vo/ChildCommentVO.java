@@ -1,12 +1,15 @@
 package com.aperture.community.core.module.vo;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
+@Data
 public class ChildCommentVO {
 
-    Integer id;
+    Long id;
 
-    Integer userId;
+    Long userId;
 
     String username;
 

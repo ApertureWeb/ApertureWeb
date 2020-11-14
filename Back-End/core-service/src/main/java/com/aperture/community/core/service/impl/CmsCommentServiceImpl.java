@@ -15,6 +15,7 @@ import com.aperture.community.core.module.CmsArticleEntity;
 import com.aperture.community.core.module.CmsCommentEntity;
 import com.aperture.community.core.module.CmsReplyEntity;
 import com.aperture.community.core.module.CmsVideoEntity;
+import com.aperture.community.core.module.converter.ChildCommentConverter;
 import com.aperture.community.core.module.converter.CmsCommentConverter;
 import com.aperture.community.core.module.converter.CmsReplyConverter;
 import com.aperture.community.core.module.dto.MessageDto;
@@ -37,11 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -144,10 +141,12 @@ public class CmsCommentServiceImpl implements CmsCommentService {
                         .orderBy(false, asc, field)
         );
         List<CmsCommentEntity> umsCommentEntities = page.getRecords();
-        Map<Long, CmsCommentEntity> commentEntityMap = umsCommentEntities.stream().collect(Collectors.toMap(CmsCommentEntity::getId, value -> value));
+        Map<Long, CmsCommentVO> commentEntityMap = umsCommentEntities.stream().collect(Collectors.toMap(CmsCommentEntity::getId, CmsCommentConverter.INSTANCE::toCmsCommentVO));
         Set<Long> commentId = umsCommentEntities.stream().map(CmsCommentEntity::getId).collect(Collectors.toSet());
+        String usernames = restTemplate.getForObject("User-Service", String.class);
 
-
+        List<UserDto> userList = JSON.parseArray(usernames, UserDto.class);
+        Map<Long, UserDto> userMap = userList == null ? new HashMap<>(2) : userList.stream().collect(Collectors.toMap(UserDto::getId, value -> value));
         //TODO 开个线程来搞
         //获取回复，每个评论下最多三个，按热度排序
         commentId.forEach(p -> {
@@ -159,14 +158,17 @@ public class CmsCommentServiceImpl implements CmsCommentService {
                     CmsReplyMap.COMMENT_DATE.getValue(),
                     CmsReplyMap.TARGET_ID.getValue()
             ).orderByDesc(CmsReplyMap.LIKE.getValue()).eq(CmsReplyMap.TARGET_ID.getValue(), p).last(true, "LIMIT 3"));
-
+            List<ChildCommentVO> temp = ChildCommentConverter.INSTANCE.toChildCommentVOs(innerReplys);
+            temp.forEach(ac -> ac.setUsername(userMap.get(ac.getId()).getName()));
+            CmsCommentVO commentVO = commentEntityMap.get(p);
+            commentVO.setChildComment(temp);
+            commentEntityMap.put(p, commentVO);
         });
 
-        String usernames = restTemplate.getForObject("User-Service", String.class);
 
         //TODO json parse to map
 
-        return new PageVO<>(page.getTotal(), null);
+        return new PageVO<>(page.getTotal(), commentEntityMap.values());
 
     }
 
@@ -189,7 +191,7 @@ public class CmsCommentServiceImpl implements CmsCommentService {
     public boolean sendComment(CmsCommentParam cmsCommentParam, ContentType type) {
         assert type != null;
         Long id = primaryIdManager.getPrimaryId();
-        CmsCommentEntity comment = CmsCommentConverter.INSTANCE.toUmsComment(cmsCommentParam);
+        CmsCommentEntity comment = CmsCommentConverter.INSTANCE.toCmsComment(cmsCommentParam);
         //通知消息组件
         //获取user信息
 

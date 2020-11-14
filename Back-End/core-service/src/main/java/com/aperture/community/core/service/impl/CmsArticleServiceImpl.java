@@ -2,6 +2,10 @@ package com.aperture.community.core.service.impl;
 
 import com.aperture.community.core.common.map.CmsArticleMap;
 import com.aperture.community.core.common.map.CmsCircleMap;
+import com.aperture.community.core.common.status.CircleStatus;
+import com.aperture.community.core.common.status.ContentStatus;
+import com.aperture.community.core.common.status.EventStatus;
+import com.aperture.community.core.dao.CmsArticleMapper;
 import com.aperture.community.core.dao.CmsCircleMapper;
 import com.aperture.community.core.manager.ContentManager;
 import com.aperture.community.core.manager.EventManager;
@@ -14,6 +18,7 @@ import com.aperture.community.core.module.converter.CmsArticleConverter;
 import com.aperture.community.core.module.dto.MessageDto;
 import com.aperture.community.core.module.param.CirclePageParam;
 import com.aperture.community.core.module.param.CmsArticleParam;
+import com.aperture.community.core.module.param.ContentPageParam;
 import com.aperture.community.core.module.vo.CmsArticleVO;
 import com.aperture.community.core.module.vo.CmsArticleViewVO;
 import com.aperture.community.core.module.vo.PageVO;
@@ -25,9 +30,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -121,10 +129,31 @@ public class CmsArticleServiceImpl implements CmsArticleService {
         }
         CmsArticleEntity article = CmsArticleConverter.INSTANCE.toUmsArticle(cmsArticleParam);
         article.setId(id);
-        article.setCoins(0);
-        article.setLike(0);
         contentManager.getCmsArticleMapper().save(article);
         return new MessageDto<>("success", id, true);
     }
 
+    @Override
+    public MessageDto<PageVO<CmsArticleViewVO>> optionalGet(@Validated ContentPageParam contentPageParam) {
+        CmsArticleMapper articleMapper = contentManager.getCmsArticleMapper();
+        IPage<CmsArticleEntity> articlePage = articleMapper.page(new Page<>(contentPageParam.getPage(), contentPageParam.getSize()), new QueryWrapper<CmsArticleEntity>().select(
+                CmsArticleMap.ID.getValue(),
+                CmsArticleMap.TITLE.getValue(),
+                CmsArticleMap.CONTENT.getValue(),
+                CmsArticleMap.DESCRIPTION.getValue(),
+                CmsArticleMap.USER_ID.getValue(),
+                CmsArticleMap.CIRCLE_ID.getValue(),
+                CmsArticleMap.ICON.getValue()
+        ).eq(CmsArticleMap.STATUS.getValue(), ContentStatus.NORMAL.getValue()));
+        List<CmsArticleEntity> articleEntityList = articlePage.getRecords();
+        //获取用户姓名
+        String usernames = restTemplate.getForObject("", String.class);
+        Map<Long, CmsCircleEntity> cmsCircleEntityMap = cmsCircleMapper.list(new QueryWrapper<CmsCircleEntity>().select(
+                CmsCircleMap.ID.getValue(),
+                CmsCircleMap.NAME.getValue()
+        ).eq(CmsCircleMap.STATUS.getValue(), CircleStatus.NORMAL.getValue()))
+                .stream().collect(Collectors.toMap(CmsCircleEntity::getId, value -> value));
+        eventManager.getEventVO(, EventStatus.ARTICLE);
+        return null;
+    }
 }

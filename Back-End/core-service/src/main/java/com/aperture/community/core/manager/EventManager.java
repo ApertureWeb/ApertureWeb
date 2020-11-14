@@ -13,6 +13,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Service
 public class EventManager {
 
@@ -39,7 +43,7 @@ public class EventManager {
                 return new MessageDto<>("视频不存在", null, false);
             }
         }
-        EventVO result = CmsEventConverter.INSTANCE.toUmsEventEntity(eventEntity);
+        EventVO result = CmsEventConverter.INSTANCE.toCmsEventEntity(eventEntity);
         return new MessageDto<>("success", result, true);
     }
 
@@ -47,7 +51,19 @@ public class EventManager {
         if (!cmsEventMapper.removeById(id)) {
             return new MessageDto<>("", null, false);
         }
+        //TODO do sth
         return null;
+    }
+
+    //TODO ids
+    public MessageDto<Map<Long, EventVO>> getEventVOMap(List<Long> ids, EventStatus status) {
+        Map<Long, EventVO> result = cmsEventMapper.list(new QueryWrapper<CmsEventEntity>().select(
+                CmsEventMap.CONTENT_ID.getValue(),
+                CmsEventMap.LIKE.getValue(),
+                CmsEventMap.STORE.getValue(),
+                CmsEventMap.DONUT.getValue()
+        ).eq(CmsEventMap.TYPE.getValue(), status.getValue())).stream().collect(Collectors.toMap(CmsEventEntity::getContentId, CmsEventConverter.INSTANCE::toCmsEventEntity));
+        return new MessageDto<>("success", result, true);
     }
 
 

@@ -1,9 +1,12 @@
 package com.aperture.community.core.controller;
 
 
+import com.aperture.community.core.module.param.CirclePageParam;
 import com.aperture.community.core.module.param.CmsArticleParam;
+import com.aperture.community.core.module.param.ContentPageParam;
 import com.aperture.community.core.module.validation.ValidationGroup;
 import com.aperture.community.core.module.vo.CmsArticleViewVO;
+import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.service.impl.CmsArticleServiceImpl;
 import com.aperture.community.entity.RESULT_BEAN_STATUS_CODE;
 import com.aperture.community.entity.ResultBean;
@@ -47,7 +50,18 @@ public class CmsArticleController {
         return null;
     }
 
+    @GetMapping("recommend")
+    public ResultBean<PageVO<CmsArticleViewVO>> optionalArticle(@RequestParam("page") Integer page, @RequestParam("size") Integer size,
+                                                                @RequestParam("heart") boolean heart,
+                                                                @RequestParam(value = "circle", required = false) Long circleId,
+                                                                @RequestParam(value = "category", required = false) Long categoryId) {
+        ContentPageParam pageParam = new ContentPageParam(page, size, heart, circleId, categoryId);
+
+        return null;
+    }
+
     private boolean checkSize(MultipartFile file) {
+
         return false;
     }
 

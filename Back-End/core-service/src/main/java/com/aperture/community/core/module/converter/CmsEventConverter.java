@@ -18,7 +18,8 @@ public interface CmsEventConverter {
             @Mapping(source = "donut", target = "donut"),
             @Mapping(source = "store", target = "store")
     })
-    EventVO toUmsEventEntity(CmsEventEntity eventEntity);
+    EventVO toCmsEventEntity(CmsEventEntity eventEntity);
+
 
 
 }
