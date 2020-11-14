@@ -13,8 +13,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,14 +57,13 @@ public class EventManager {
         return null;
     }
 
-    //TODO ids
-    public MessageDto<Map<Long, EventVO>> getEventVOMap(List<Long> ids, EventStatus status) {
+    public MessageDto<Map<Long, EventVO>> getEventVOMap(Collection<Long> ids, EventStatus status) {
         Map<Long, EventVO> result = cmsEventMapper.list(new QueryWrapper<CmsEventEntity>().select(
                 CmsEventMap.CONTENT_ID.getValue(),
                 CmsEventMap.LIKE.getValue(),
                 CmsEventMap.STORE.getValue(),
                 CmsEventMap.DONUT.getValue()
-        ).eq(CmsEventMap.TYPE.getValue(), status.getValue())).stream().collect(Collectors.toMap(CmsEventEntity::getContentId, CmsEventConverter.INSTANCE::toCmsEventEntity));
+        ).eq(CmsEventMap.TYPE.getValue(), status.getValue()).in(CmsEventMap.CONTENT_ID.getValue(), ids)).stream().collect(Collectors.toMap(CmsEventEntity::getContentId, CmsEventConverter.INSTANCE::toCmsEventEntity));
         return new MessageDto<>("success", result, true);
     }
 

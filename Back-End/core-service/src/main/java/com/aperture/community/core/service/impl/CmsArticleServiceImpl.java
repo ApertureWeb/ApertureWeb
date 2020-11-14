@@ -21,6 +21,7 @@ import com.aperture.community.core.module.param.CmsArticleParam;
 import com.aperture.community.core.module.param.ContentPageParam;
 import com.aperture.community.core.module.vo.CmsArticleVO;
 import com.aperture.community.core.module.vo.CmsArticleViewVO;
+import com.aperture.community.core.module.vo.EventVO;
 import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.service.CmsArticleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -153,7 +154,7 @@ public class CmsArticleServiceImpl implements CmsArticleService {
                 CmsCircleMap.NAME.getValue()
         ).eq(CmsCircleMap.STATUS.getValue(), CircleStatus.NORMAL.getValue()))
                 .stream().collect(Collectors.toMap(CmsCircleEntity::getId, value -> value));
-        eventManager.getEventVO(, EventStatus.ARTICLE);
+        MessageDto<Map<Long, EventVO>> msg = eventManager.getEventVOMap(articleEntityList.stream().map(CmsArticleEntity::getId).collect(Collectors.toSet()), EventStatus.ARTICLE);
         return null;
     }
 }
