@@ -1,7 +1,9 @@
 package com.aperture.community.message.module.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.alibaba.fastjson.JSONObject;
+import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonObject;
+import lombok.AllArgsConstructor;
 
 /**
  * @author HALOXIAO
@@ -9,21 +11,36 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  **/
 public class DingDto {
 
-    private String message;
 
-    private DingAt at;
+    private String msgtype = "text";
+    private MessageTextContent text;
+    private MessageTextAt at;
 
-
-    @JsonCreator
-    public DingDto(@JsonProperty("msg") String message, DingAt at) {
-        this.message = message;
+    public DingDto(MessageTextContent text, MessageTextAt at) {
+        this.text = text;
         this.at = at;
+
     }
 
+    @AllArgsConstructor
+    class MessageTextContent {
+        private String content;
+    }
 
-}
+    @AllArgsConstructor
+    class MessageTextAt {
+        private String[] atMobiles;
+        private boolean isAtAll;
+    }
 
-class DingAt {
-    String[] atMobiles;
-    boolean isAtAll = false;
+    public String toJsonString(Vertx vertx) {
+        JsonObject textObject = new JsonObject();
+        textObject.put("content", text.content);
+        JSONObject.toJSONString()
+        JsonObject mainObject = new JsonObject();
+        mainObject.put("msgType", msgtype);
+        mainObject.put("text", textObject);
+
+    }
+
 }

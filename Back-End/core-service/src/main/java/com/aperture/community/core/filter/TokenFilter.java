@@ -1,5 +1,6 @@
 package com.aperture.community.core.filter;
 
+import com.aperture.community.core.common.TokenResolver;
 import com.aperture.community.core.module.dto.UserDto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -20,9 +21,9 @@ public class TokenFilter extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = request.getHeader("token");
-
+        String json = request.getHeader("token");
+        TokenResolver.resolveToken(json);
         return super.preHandle(request, response, handler);
-
     }
+
 }

@@ -12,6 +12,5 @@ public class UserDto {
 
     private Long id;
     private String name;
-    private HashMap<Integer, String> permissions;
 
 }

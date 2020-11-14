@@ -6,30 +6,16 @@ import io.vertx.core.buffer.impl.BufferImpl;
 import io.vertx.core.http.HttpClient;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.RequestOptions;
+import io.vertx.ext.web.client.WebClient;
 import lombok.AllArgsConstructor;
 
-public class DingNotify extends AbstractVerticle {
+public class DingNotify  {
 
     private String message;
     private final String dingAddress = "https://oapi.dingtalk.com/robot/send?access_token=XXXXXX";
 
     DingNotify(String message) {
         this.message = message;
-    }
-
-    @Override
-    public void start(Promise<Void> startPromise) throws Exception {
-        HttpClient httpClient = vertx.createHttpClient();
-        MessageText test = new MessageText(new MessageTextContent(message), new MessageTextAt(new String[]{"213123"}, false));
-        httpClient.send(new RequestOptions().setMethod(HttpMethod.POST).setHost(dingAddress).setTimeout(4000),
-                new BufferImpl().appendString(message), res -> {
-                    if (!res.succeeded()) {
-
-//                        TODO 应急处理
-                    }
-                }
-        );
-
     }
 
 

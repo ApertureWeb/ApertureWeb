@@ -1,14 +1,15 @@
 package com.aperture.community.core.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.aperture.community.core.common.TokenStore;
-import com.aperture.community.core.common.map.CmsReplyMap;
-import com.aperture.community.core.common.status.CommentStatus;
-import com.aperture.community.core.common.status.ContentType;
 import com.aperture.community.core.common.map.CmsArticleMap;
 import com.aperture.community.core.common.map.CmsCommentMap;
+import com.aperture.community.core.common.map.CmsReplyMap;
 import com.aperture.community.core.common.map.CmsVideoMap;
-import com.aperture.community.core.manager.InteractCommentManager;
+import com.aperture.community.core.common.status.CommentStatus;
+import com.aperture.community.core.common.status.ContentType;
 import com.aperture.community.core.manager.ContentManager;
+import com.aperture.community.core.manager.InteractCommentManager;
 import com.aperture.community.core.manager.PrimaryIdManager;
 import com.aperture.community.core.module.CmsArticleEntity;
 import com.aperture.community.core.module.CmsCommentEntity;
@@ -17,13 +18,14 @@ import com.aperture.community.core.module.CmsVideoEntity;
 import com.aperture.community.core.module.converter.CmsCommentConverter;
 import com.aperture.community.core.module.converter.CmsReplyConverter;
 import com.aperture.community.core.module.dto.MessageDto;
+import com.aperture.community.core.module.dto.UserDto;
 import com.aperture.community.core.module.identify.UserInfo;
-import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.param.CmsCommentParam;
 import com.aperture.community.core.module.param.CmsReplyParam;
+import com.aperture.community.core.module.param.PageParam;
 import com.aperture.community.core.module.vo.ChildCommentVO;
-import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.module.vo.CmsCommentVO;
+import com.aperture.community.core.module.vo.PageVO;
 import com.aperture.community.core.service.CmsCommentService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -32,9 +34,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -53,14 +57,16 @@ public class CmsCommentServiceImpl implements CmsCommentService {
     private InteractCommentManager interactCommentManager;
     private PrimaryIdManager primaryIdManager;
     private ContentManager contentManager;
+    private RestTemplate restTemplate;
 
 
     @Autowired
     public CmsCommentServiceImpl(InteractCommentManager interactCommentManager, PrimaryIdManager primaryIdManager,
-                                 ContentManager contentManager) {
+                                 ContentManager contentManager, RestTemplate restTemplate) {
         this.interactCommentManager = interactCommentManager;
         this.primaryIdManager = primaryIdManager;
         this.contentManager = contentManager;
+        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -135,15 +141,20 @@ public class CmsCommentServiceImpl implements CmsCommentService {
                         .orderBy(false, asc, field)
         );
         List<CmsCommentEntity> umsCommentEntities = page.getRecords();
-        interactCommentManager.getUmsReplyMapper().list(new QueryWrapper<CmsReplyEntity>().select(
+        Set<Long> commentId = umsCommentEntities.stream().map(CmsCommentEntity::getId).collect(Collectors.toSet());
+        List<CmsReplyEntity> innerReplys = interactCommentManager.getUmsReplyMapper().list(new QueryWrapper<CmsReplyEntity>().select(
                 CmsReplyMap.ID.getValue(),
                 CmsReplyMap.LIKE.getValue(),
                 CmsReplyMap.CONTENT.getValue(),
-                CmsReplyMap.USER_ID.getValue())
-
+                CmsReplyMap.USER_ID.getValue(),
+                CmsReplyMap.COMMENT_DATE.getValue(),
+                CmsReplyMap.TARGET_ID.getValue()
+                ).in(CmsReplyMap.TARGET_ID.getValue(), commentId)
         );
-        umsCommentEntities.stream();
-        //获取本页comment所对应的Reply
+        String usernames = restTemplate.getForObject("User-Service", String.class);
+        List<UserDto> userDtos = JSON.parseArray(usernames, UserDto.class);
+        
+        //TODO json parse to map
         List<CmsCommentVO> result = CmsCommentConverter.INSTANCE.toUmsCommentVOs(umsCommentEntities);
         long size = page.getTotal();
         return null;
