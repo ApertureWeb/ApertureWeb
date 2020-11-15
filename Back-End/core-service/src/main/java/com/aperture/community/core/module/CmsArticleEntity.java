@@ -51,6 +51,9 @@ public class CmsArticleEntity implements Serializable {
     @TableField("circle_id")
     private Long circleId;
 
+    @TableField("category_id")
+    private Long categoryId;
+
     @TableField("status")
     private Integer status;
 

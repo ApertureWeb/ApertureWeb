@@ -137,7 +137,8 @@ public class CmsArticleServiceImpl implements CmsArticleService {
     @Override
     public MessageDto<PageVO<CmsArticleViewVO>> optionalGet(@Validated ContentPageParam contentPageParam) {
         CmsArticleMapper articleMapper = contentManager.getCmsArticleMapper();
-        IPage<CmsArticleEntity> articlePage = articleMapper.page(new Page<>(contentPageParam.getPage(), contentPageParam.getSize()), new QueryWrapper<CmsArticleEntity>().select(
+
+        QueryWrapper<CmsArticleEntity> queryWrapper = new QueryWrapper<CmsArticleEntity>().select(
                 CmsArticleMap.ID.getValue(),
                 CmsArticleMap.TITLE.getValue(),
                 CmsArticleMap.CONTENT.getValue(),
@@ -145,7 +146,21 @@ public class CmsArticleServiceImpl implements CmsArticleService {
                 CmsArticleMap.USER_ID.getValue(),
                 CmsArticleMap.CIRCLE_ID.getValue(),
                 CmsArticleMap.ICON.getValue()
-        ).eq(CmsArticleMap.STATUS.getValue(), ContentStatus.NORMAL.getValue()));
+        ).eq(CmsArticleMap.STATUS.getValue(), ContentStatus.NORMAL.getValue());
+        if (contentPageParam.getCircleId() != null && contentPageParam.getCategoryId() != null) {
+            throw new IllegalArgumentException("参数异常");
+        }
+        if (contentPageParam.getCategoryId() != null) {
+            queryWrapper.eq(CmsArticleMap.CATEGORY_ID.getValue(), contentPageParam.getCategoryId());
+        }
+        if (contentPageParam.getCircleId() != null) {
+            queryWrapper.eq(CmsArticleMap.CIRCLE_ID.getValue(), contentPageParam.getCircleId());
+        }
+// TODO 排名算法
+//        queryWrapper.orderByDesc(contentPageParam.isHeart() ? CmsArticleMap.)
+
+        IPage<CmsArticleEntity> articlePage = articleMapper.page(new Page<>(contentPageParam.getPage(), contentPageParam.getSize()),
+                queryWrapper);
         List<CmsArticleEntity> articleEntityList = articlePage.getRecords();
         //获取用户姓名
         String usernames = restTemplate.getForObject("", String.class);
@@ -155,6 +170,12 @@ public class CmsArticleServiceImpl implements CmsArticleService {
         ).eq(CmsCircleMap.STATUS.getValue(), CircleStatus.NORMAL.getValue()))
                 .stream().collect(Collectors.toMap(CmsCircleEntity::getId, value -> value));
         MessageDto<Map<Long, EventVO>> msg = eventManager.getEventVOMap(articleEntityList.stream().map(CmsArticleEntity::getId).collect(Collectors.toSet()), EventStatus.ARTICLE);
+        if (!msg.getFlag()) {
+            return new MessageDto<>(msg.getMsg(), msg.getFlag());
+        }
+        Map<Long, EventVO> eventVOMap = msg.getData();
+
+
         return null;
     }
 }

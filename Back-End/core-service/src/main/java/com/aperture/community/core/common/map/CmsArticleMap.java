@@ -15,7 +15,8 @@ public enum CmsArticleMap {
     USER_ID("user_uid"),
     CIRCLE_ID("circle_id"),
     STATUS("status"),
-    ICON("icon")
+    ICON("icon"),
+    CATEGORY_ID("category_id")
     ;
     String value;
 
