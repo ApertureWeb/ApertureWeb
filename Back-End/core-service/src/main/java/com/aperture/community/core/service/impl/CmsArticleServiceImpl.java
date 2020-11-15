@@ -69,7 +69,6 @@ public class CmsArticleServiceImpl implements CmsArticleService {
     }
 
 
-    @Transactional()
     @Override
     public CmsArticleVO select(Long id) {
         CmsArticleEntity cmsArticleEntity = contentManager.getCmsArticleMapper().getOne(new QueryWrapper<CmsArticleEntity>().

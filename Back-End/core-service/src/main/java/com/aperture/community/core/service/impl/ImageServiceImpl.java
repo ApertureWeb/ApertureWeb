@@ -36,7 +36,7 @@ public class ImageServiceImpl implements ImageService {
      *
      */
     @Override
-    public MessageDto<Boolean> Imagecheck(MultipartFile file) throws IOException {
+    public MessageDto<Boolean> imageCheck(MultipartFile file) throws IOException {
         if (file.getSize() > 3 * FileUtils.ONE_MB) {
             return new MessageDto<>("图像过大", false);
         }

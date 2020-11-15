@@ -13,7 +13,7 @@ public interface ImageService {
 
     MessageDto<Boolean> pictureHandle(MultipartFile file, ImageType type);
 
-    MessageDto<Boolean> Imagecheck(MultipartFile file) throws IOException;
+    MessageDto<Boolean> imageCheck(MultipartFile file) throws IOException;
 
 
 }

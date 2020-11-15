@@ -28,7 +28,7 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
 
 
     @Autowired
-    public CmsCategoryServiceImpl(CmsCategoryMapper cmsCategoryMapper,PrimaryIdManager primaryIdManager) {
+    public CmsCategoryServiceImpl(CmsCategoryMapper cmsCategoryMapper, PrimaryIdManager primaryIdManager) {
         this.cmsCategoryMapper = cmsCategoryMapper;
         this.primaryIdManager = primaryIdManager;
     }
@@ -55,7 +55,6 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
         }
         return new MessageDto<>("success", true);
     }
-
 
 
     @Cacheable(value = "CategoryCache", key = RedisCategoryMap.CATEGORY_CACHE)
