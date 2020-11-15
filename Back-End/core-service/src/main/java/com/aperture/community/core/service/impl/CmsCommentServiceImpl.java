@@ -143,6 +143,7 @@ public class CmsCommentServiceImpl implements CmsCommentService {
         List<CmsCommentEntity> umsCommentEntities = page.getRecords();
         Map<Long, CmsCommentVO> commentEntityMap = umsCommentEntities.stream().collect(Collectors.toMap(CmsCommentEntity::getId, CmsCommentConverter.INSTANCE::toCmsCommentVO));
         Set<Long> commentId = umsCommentEntities.stream().map(CmsCommentEntity::getId).collect(Collectors.toSet());
+        //TODO Error 应该先获取子评论的名字id，再去获取naems
         String usernames = restTemplate.getForObject("User-Service", String.class);
 
         List<UserDto> userList = JSON.parseArray(usernames, UserDto.class);
@@ -164,10 +165,6 @@ public class CmsCommentServiceImpl implements CmsCommentService {
             commentVO.setChildComment(temp);
             commentEntityMap.put(p, commentVO);
         });
-
-
-        //TODO json parse to map
-
         return new PageVO<>(page.getTotal(), commentEntityMap.values());
 
     }
