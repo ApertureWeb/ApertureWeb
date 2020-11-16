@@ -143,13 +143,15 @@ public class CmsCommentServiceImpl implements CmsCommentService {
         List<CmsCommentEntity> umsCommentEntities = page.getRecords();
         Map<Long, CmsCommentVO> commentEntityMap = umsCommentEntities.stream().collect(Collectors.toMap(CmsCommentEntity::getId, CmsCommentConverter.INSTANCE::toCmsCommentVO));
         Set<Long> commentId = umsCommentEntities.stream().map(CmsCommentEntity::getId).collect(Collectors.toSet());
-        //TODO Error 应该先获取子评论的名字id，再去获取naems
+        //TODO Error 应该先获取子评论的名字id，再去获取names
         String usernames = restTemplate.getForObject("User-Service", String.class);
 
         List<UserDto> userList = JSON.parseArray(usernames, UserDto.class);
         Map<Long, UserDto> userMap = userList == null ? new HashMap<>(2) : userList.stream().collect(Collectors.toMap(UserDto::getId, value -> value));
         //TODO 开个线程来搞
         //获取回复，每个评论下最多三个，按热度排序
+        Map<Long, List<CmsReplyEntity>> replyMap = new HashMap<>((int) ((commentId.size() * 3 / 0.75) + 1));
+        Set<Long> replyUserIdSet = new HashSet<>((int) ((commentId.size() * 3 / 0.75) + 1));
         commentId.forEach(p -> {
             List<CmsReplyEntity> innerReplys = interactCommentManager.getUmsReplyMapper().list(new QueryWrapper<CmsReplyEntity>().select(
                     CmsReplyMap.ID.getValue(),
@@ -159,12 +161,10 @@ public class CmsCommentServiceImpl implements CmsCommentService {
                     CmsReplyMap.COMMENT_DATE.getValue(),
                     CmsReplyMap.TARGET_ID.getValue()
             ).orderByDesc(CmsReplyMap.LIKE.getValue()).eq(CmsReplyMap.TARGET_ID.getValue(), p).last(true, "LIMIT 3"));
-            List<ChildCommentVO> temp = ChildCommentConverter.INSTANCE.toChildCommentVOs(innerReplys);
-            temp.forEach(ac -> ac.setUsername(userMap.get(ac.getId()).getName()));
-            CmsCommentVO commentVO = commentEntityMap.get(p);
-            commentVO.setChildComment(temp);
-            commentEntityMap.put(p, commentVO);
+            replyMap.put(p, innerReplys);
+            replyUserIdSet.addAll(innerReplys.stream().map(CmsReplyEntity::getUserId).collect(Collectors.toSet()));
         });
+
         return new PageVO<>(page.getTotal(), commentEntityMap.values());
 
     }
