@@ -299,24 +299,33 @@ public class CmsCommentServiceImpl implements CmsCommentService {
      * 查看对话
      */
     public MessageDto<List<CmsReplyVO>> innerReplyPage(CmsReplyPageParam pageParam) {
-
         //按页获取回复数据
         Page<CmsReplyEntity> replyPage = interactCommentManager.getCmsReplyMapper()
                 .page(new Page<>(pageParam.getPage(), pageParam.getSize()), new QueryWrapper<CmsReplyEntity>()
-                .select(
-                        CmsReplyMap.ID.getValue(),
-                        CmsReplyMap.CONTENT.getValue(),
-                        CmsReplyMap.COMMENT_DATE.getValue(),
-                        CmsReplyMap.USER_ID.getValue(),
-                        CmsReplyMap.LIKE.getValue(),
-                        CmsReplyMap.ROOT_ID.getValue(),
-                        CmsReplyMap.STATUS.getValue()
-                ).eq(CmsReplyMap.COMMENT_ID.getValue(), pageParam.getCommentId())
-                .eq(CmsReplyMap.ROOT_ID.getValue(), pageParam.getRootId())
-                .ne(CmsReplyMap.STATUS.getValue(), ReplyStatus.REVIEW.getValue())
-        );
-
-        return null;
+                        .select(
+                                CmsReplyMap.ID.getValue(),
+                                CmsReplyMap.CONTENT.getValue(),
+                                CmsReplyMap.COMMENT_DATE.getValue(),
+                                CmsReplyMap.USER_ID.getValue(),
+                                CmsReplyMap.LIKE.getValue(),
+                                CmsReplyMap.ROOT_ID.getValue(),
+                                CmsReplyMap.STATUS.getValue()
+                        ).eq(CmsReplyMap.COMMENT_ID.getValue(), pageParam.getCommentId())
+                        .eq(CmsReplyMap.ROOT_ID.getValue(), pageParam.getRootId())
+                        .ne(CmsReplyMap.STATUS.getValue(), ReplyStatus.REVIEW.getValue())
+                );
+        List<CmsReplyEntity> replyEntityList = replyPage.getRecords();
+        Set<Long> userIdSet = replyEntityList.stream().map(CmsReplyEntity::getUserId).collect(Collectors.toSet());
+        String userStr = restTemplate.postForObject("", userIdSet, String.class);
+        Map<Long, UserDto> userDtoMap = Objects.requireNonNullElse(JSON.parseArray(userStr, UserDto.class), new ArrayList<UserDto>(2))
+                .stream().collect(Collectors.toMap(UserDto::getId, value -> value));
+        List<CmsReplyVO> result = CmsReplyConverter.INSTANCE.toCmsReplyVOs(replyEntityList);
+        result.forEach(p -> {
+            UserDto userDto = userDtoMap.get(p.getUserId());
+            p.setIcon(userDto.getIcon());
+            p.setUsername(userDto.getName());
+        });
+        return new MessageDto<>("success", result, true);
     }
 
 
