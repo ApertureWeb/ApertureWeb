@@ -24,7 +24,7 @@ public interface CmsReplyConverter {
             @Mapping(source = "rootId", target = "rootId"),
             @Mapping(source = "content", target = "content")
     })
-    CmsReplyEntity toUmsReply(CmsReplyParam cmsReplyParam);
+    CmsReplyEntity toCmsReply(CmsReplyParam cmsReplyParam);
 
 
     @Mappings({
@@ -38,8 +38,8 @@ public interface CmsReplyConverter {
             @Mapping(target = "icon", ignore = true)
 
     })
-    CmsReplyVO toUmsReplyVO(CmsReplyEntity cmsReplyEntity);
+    CmsReplyVO toCmsReplyVO(CmsReplyEntity cmsReplyEntity);
 
-    List<CmsReplyVO> toUmsReplyVOs(List<CmsReplyEntity> umsReplies);
+    List<CmsReplyVO> toCmsReplyVOs(List<CmsReplyEntity> umsReplies);
 
 }

@@ -9,6 +9,7 @@ import com.aperture.community.core.common.map.CmsVideoMap;
 import com.aperture.community.core.common.status.CommentStatus;
 import com.aperture.community.core.common.status.ContentType;
 import com.aperture.community.core.common.status.ReplyStatus;
+import com.aperture.community.core.common.utils.NetWorkUtils;
 import com.aperture.community.core.manager.ContentManager;
 import com.aperture.community.core.manager.InteractCommentManager;
 import com.aperture.community.core.manager.PrimaryIdManager;
@@ -156,8 +157,9 @@ public class CmsCommentServiceImpl implements CmsCommentService {
                     CmsReplyMap.CONTENT.getValue(),
                     CmsReplyMap.USER_ID.getValue(),
                     CmsReplyMap.COMMENT_DATE.getValue(),
-                    CmsReplyMap.TARGET_ID.getValue()
-            ).orderByDesc(CmsReplyMap.LIKE.getValue()).ne(CmsReplyMap.STATUS.getValue(), ReplyStatus.REVIEW.getValue()).eq(CmsReplyMap.TARGET_ID.getValue(), p).last(true, "LIMIT 3"));
+                    CmsReplyMap.COMMENT_ID.getValue()
+            ).orderByDesc(CmsReplyMap.LIKE.getValue()).ne(CmsReplyMap.STATUS.getValue(), ReplyStatus.REVIEW.getValue())
+                    .eq(CmsReplyMap.COMMENT_ID.getValue(), p).last(true, "LIMIT 3"));
             replyMap.put(p, innerReplys);
             replyUserIdSet.addAll(innerReplys.stream().map(CmsReplyEntity::getUserId).collect(Collectors.toSet()));
         });
@@ -178,7 +180,7 @@ public class CmsCommentServiceImpl implements CmsCommentService {
     }
 
     public MessageDto<Boolean> sendReplay(CmsReplyParam cmsReplyParam) {
-        CmsReplyEntity cmsReplyEntity = CmsReplyConverter.INSTANCE.toUmsReply(cmsReplyParam);
+        CmsReplyEntity cmsReplyEntity = CmsReplyConverter.INSTANCE.toCmsReply(cmsReplyParam);
         cmsReplyEntity.setCommentDate(LocalDateTime.now());
         cmsReplyEntity.setLike(0);
         cmsReplyEntity.setStatus(0);
@@ -242,7 +244,7 @@ public class CmsCommentServiceImpl implements CmsCommentService {
     // --------------------------Here is reply--------------------------
     //需要RR级别的隔离
     public MessageDto sendReply(CmsReplyParam cmsReplyParam) {
-        CmsReplyEntity replyEntity = CmsReplyConverter.INSTANCE.toUmsReply(cmsReplyParam);
+        CmsReplyEntity replyEntity = CmsReplyConverter.INSTANCE.toCmsReply(cmsReplyParam);
         replyEntity.setCommentDate(LocalDateTime.now());
         replyEntity.setLike(0);
         replyEntity.setStatus(ReplyStatus.NORMAL.getValue());
@@ -265,6 +267,7 @@ public class CmsCommentServiceImpl implements CmsCommentService {
      * 查看回复
      */
     public MessageDto<List<CmsReplyVO>> replyPage(CmsReplyPageParam pageParam) {
+        //按页获取回复数据
         Page<CmsReplyEntity> replyPage = interactCommentManager.getCmsReplyMapper().page(new Page<>(pageParam.getPage(), pageParam.getSize()), new QueryWrapper<CmsReplyEntity>()
                 .select(
                         CmsReplyMap.ID.getValue(),
@@ -277,18 +280,42 @@ public class CmsCommentServiceImpl implements CmsCommentService {
                 ).eq(CmsReplyMap.COMMENT_ID.getValue(), pageParam.getCommentId())
                 .ne(CmsReplyMap.STATUS.getValue(), ReplyStatus.REVIEW.getValue())
         );
-
-        List<CmsReplyEntity> resultList = replyPage.getRecords();
-
-
-
-        return null;
+        List<CmsReplyEntity> replyEntityList = replyPage.getRecords();
+        Set<Long> userIdList = replyEntityList.stream().map(CmsReplyEntity::getUserId).collect(Collectors.toSet());
+        String nameStr = restTemplate.postForObject(NetWorkUtils.HTTP_PREFIX, userIdList, String.class);
+        //用户信息
+        Map<Long, UserDto> userDtoMap = Objects.requireNonNullElse(JSON.parseArray(nameStr, UserDto.class), new ArrayList<UserDto>(1))
+                .stream().collect(Collectors.toMap(UserDto::getId, value -> value));
+        List<CmsReplyVO> result = CmsReplyConverter.INSTANCE.toCmsReplyVOs(replyEntityList);
+        result.forEach(replyVO -> {
+            UserDto userDto = userDtoMap.get(replyVO.getUserId());
+            replyVO.setUsername(userDto.getName());
+            replyVO.setIcon(userDto.getIcon());
+        });
+        return new MessageDto<>("success", result, true);
     }
 
     /**
      * 查看对话
      */
     public MessageDto<List<CmsReplyVO>> innerReplyPage(CmsReplyPageParam pageParam) {
+
+        //按页获取回复数据
+        Page<CmsReplyEntity> replyPage = interactCommentManager.getCmsReplyMapper()
+                .page(new Page<>(pageParam.getPage(), pageParam.getSize()), new QueryWrapper<CmsReplyEntity>()
+                .select(
+                        CmsReplyMap.ID.getValue(),
+                        CmsReplyMap.CONTENT.getValue(),
+                        CmsReplyMap.COMMENT_DATE.getValue(),
+                        CmsReplyMap.USER_ID.getValue(),
+                        CmsReplyMap.LIKE.getValue(),
+                        CmsReplyMap.ROOT_ID.getValue(),
+                        CmsReplyMap.STATUS.getValue()
+                ).eq(CmsReplyMap.COMMENT_ID.getValue(), pageParam.getCommentId())
+                .eq(CmsReplyMap.ROOT_ID.getValue(), pageParam.getRootId())
+                .ne(CmsReplyMap.STATUS.getValue(), ReplyStatus.REVIEW.getValue())
+        );
+
         return null;
     }
 
