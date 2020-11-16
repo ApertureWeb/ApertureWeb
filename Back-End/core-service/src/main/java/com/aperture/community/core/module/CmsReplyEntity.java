@@ -30,10 +30,6 @@ public class CmsReplyEntity implements Serializable {
     @TableId("id")
     private Long id;
 
-    @ApiModelProperty(value = "目标评论ID")
-    @TableField("target_id")
-    private Long targetId;
-
     @ApiModelProperty(value = "默认为0。判断是否是楼中楼，如果是，则为目标回复的id；如果不是，则为0")
     @TableField("root_id")
     private Long rootId;

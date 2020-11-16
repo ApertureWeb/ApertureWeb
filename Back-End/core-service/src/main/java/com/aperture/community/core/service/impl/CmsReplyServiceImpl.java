@@ -35,7 +35,7 @@ public class CmsReplyServiceImpl implements CmsReplyService {
     }
 
     public MessageDto<PageVO<CmsReplyVO>> replyPage(@Valid PageParam<CmsReplyParam> pageParam) {
-        IPage<CmsReplyEntity> iPage = interactCommentManager.getUmsReplyMapper().page(new Page<>(pageParam.getPage(), pageParam.getSize()),
+        IPage<CmsReplyEntity> iPage = interactCommentManager.getCmsReplyMapper().page(new Page<>(pageParam.getPage(), pageParam.getSize()),
                 new QueryWrapper<CmsReplyEntity>().select(
                         CmsReplyMap.ID.getValue(),
                         CmsReplyMap.LIKE.getValue(),

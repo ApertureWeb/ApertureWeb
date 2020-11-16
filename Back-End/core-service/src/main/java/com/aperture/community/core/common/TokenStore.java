@@ -3,7 +3,7 @@ package com.aperture.community.core.common;
 import com.aperture.community.core.module.identify.UserInfo;
 
 /**
- * 有内存泄漏的风险
+ * 有内存泄漏的风险,请一定记得用完释放！！！！！！！！！！！！！！！！
  *
  * @author HALOXIAO
  * @since 2020-11-07 21:34

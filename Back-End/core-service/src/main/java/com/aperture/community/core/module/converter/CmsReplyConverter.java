@@ -20,7 +20,7 @@ public interface CmsReplyConverter {
 
     @Mappings({
             @Mapping(source = "id", target = "id"),
-            @Mapping(source = "targetId", target = "targetId"),
+            @Mapping(source = "commentId", target = "commentId"),
             @Mapping(source = "rootId", target = "rootId"),
             @Mapping(source = "content", target = "content")
     })

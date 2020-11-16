@@ -1,7 +1,12 @@
 package com.aperture.community.core.module.param;
 
+import com.aperture.community.core.module.validation.ValidationGroup;
 import lombok.Data;
 import lombok.Getter;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 /**
  * @author HALOXIAO
@@ -10,16 +15,18 @@ import lombok.Getter;
 @Data
 public class CmsReplyParam {
 
+    @Null(groups = {ValidationGroup.addGroup.class})
+    @NotNull(groups = {ValidationGroup.deleteGroup.class, ValidationGroup.updateGroup.class, ValidationGroup.searchGroup.class})
     private Long id;
 
-    private Long targetId;
-
-    private Long userId;
-
+    @NotEmpty(groups = {ValidationGroup.addGroup.class})
     private String content;
 
+    @NotNull
+    private Long commentId;
+
+    @NotNull
     private Long rootId;
 
-    private Long replyId;
 
 }

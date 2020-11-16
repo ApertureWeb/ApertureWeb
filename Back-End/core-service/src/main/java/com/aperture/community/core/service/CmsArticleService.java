@@ -16,7 +16,7 @@ public interface CmsArticleService {
 
     PageVO<CmsArticleViewVO> listPage(CirclePageParam circlePageParam);
 
-    boolean update(CmsArticleParam cmsArticleParam);
+    MessageDto update(CmsArticleParam cmsArticleParam);
 
     MessageDto<Long> save(CmsArticleParam cmsArticleParam) throws Exception;
 

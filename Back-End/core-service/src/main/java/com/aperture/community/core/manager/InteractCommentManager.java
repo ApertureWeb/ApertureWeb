@@ -48,11 +48,11 @@ public class InteractCommentManager {
 
 
 
-    public CmsCommentMapper getUmsCommentMapper() {
+    public CmsCommentMapper getCmsCommentMapper() {
         return cmsCommentMapper;
     }
 
-    public CmsReplyMapper getUmsReplyMapper() {
+    public CmsReplyMapper getCmsReplyMapper() {
         return cmsReplyMapper;
     }
 }

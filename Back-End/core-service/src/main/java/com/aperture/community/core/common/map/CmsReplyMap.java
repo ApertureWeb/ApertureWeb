@@ -3,22 +3,21 @@ package com.aperture.community.core.common.map;
 public enum CmsReplyMap {
 
     ID("id"),
-    TARGET_ID("target_id"),
+    COMMENT_ID("comment_id"),
     ROOT_ID("root_id"),
     CONTENT("content"),
     USER_ID("user_id"),
     COMMENT_DATE("comment_date"),
     LIKE("like"),
     STATUS("status"),
-    REPLY_ID("reply_id");
+    ;
 
 
+    private String value;
 
-private String value;
-
-CmsReplyMap(String value){
-    this.value = value;
-}
+    CmsReplyMap(String value) {
+        this.value = value;
+    }
 
     public String getValue() {
         return value;

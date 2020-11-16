@@ -22,5 +22,7 @@ public class PageParam {
         this.size = size;
     }
 
+    //TODO 尝试泛化
+
 
 }

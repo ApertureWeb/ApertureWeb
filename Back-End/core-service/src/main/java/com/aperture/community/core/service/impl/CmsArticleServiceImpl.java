@@ -1,5 +1,7 @@
 package com.aperture.community.core.service.impl;
 
+import com.aperture.community.core.common.TokenStore;
+import com.aperture.community.core.common.exception.NoPermissionException;
 import com.aperture.community.core.common.map.CmsArticleMap;
 import com.aperture.community.core.common.map.CmsCircleMap;
 import com.aperture.community.core.common.status.CircleStatus;
@@ -16,6 +18,7 @@ import com.aperture.community.core.module.CmsCircleEntity;
 import com.aperture.community.core.module.CmsTagEntity;
 import com.aperture.community.core.module.converter.CmsArticleConverter;
 import com.aperture.community.core.module.dto.MessageDto;
+import com.aperture.community.core.module.identify.UserInfo;
 import com.aperture.community.core.module.param.CirclePageParam;
 import com.aperture.community.core.module.param.CmsArticleParam;
 import com.aperture.community.core.module.param.ContentPageParam;
@@ -28,7 +31,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -88,7 +90,12 @@ public class CmsArticleServiceImpl implements CmsArticleService {
 
     @Override
     public boolean delete(Long id) {
-        return contentManager.getCmsArticleMapper().removeById(id);
+        UserInfo userInfo = TokenStore.getUserInfo();
+        TokenStore.cleanUserInfo();
+        return contentManager.getCmsArticleMapper().remove(new QueryWrapper<CmsArticleEntity>()
+                .eq(CmsArticleMap.USER_ID.getValue(), userInfo.getId())
+                .eq(CmsArticleMap.ID.getValue(), id)
+        );
     }
 
     @Override
@@ -109,9 +116,18 @@ public class CmsArticleServiceImpl implements CmsArticleService {
 
 
     @Override
-    public boolean update(CmsArticleParam cmsArticleParam) {
+    public MessageDto update(CmsArticleParam cmsArticleParam) {
         CmsArticleEntity article = CmsArticleConverter.INSTANCE.toUmsArticle(cmsArticleParam);
-        return cmsArticleParam.getTags() != null;
+        CmsArticleEntity id = contentManager.getCmsArticleMapper().getOne(new QueryWrapper<CmsArticleEntity>()
+                .select(CmsArticleMap.USER_ID.getValue())
+                .eq(CmsArticleMap.ID.getValue(), article.getId()));
+        UserInfo userInfo = TokenStore.getUserInfo();
+        TokenStore.cleanUserInfo();
+        //check identity
+        if (!id.getUserUid().equals(userInfo.getId())) {
+            throw new NoPermissionException("无权限操作此文章");
+        }
+        return contentManager.getCmsArticleMapper().updateById(article) ? new MessageDto("success", true) : new MessageDto("更新失败", false);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -136,7 +152,6 @@ public class CmsArticleServiceImpl implements CmsArticleService {
     @Override
     public MessageDto<PageVO<CmsArticleViewVO>> optionalGet(@Validated ContentPageParam contentPageParam) {
         CmsArticleMapper articleMapper = contentManager.getCmsArticleMapper();
-
         QueryWrapper<CmsArticleEntity> queryWrapper = new QueryWrapper<CmsArticleEntity>().select(
                 CmsArticleMap.ID.getValue(),
                 CmsArticleMap.TITLE.getValue(),
@@ -173,8 +188,6 @@ public class CmsArticleServiceImpl implements CmsArticleService {
             return new MessageDto<>(msg.getMsg(), msg.getFlag());
         }
         Map<Long, EventVO> eventVOMap = msg.getData();
-
-
         return null;
     }
 }

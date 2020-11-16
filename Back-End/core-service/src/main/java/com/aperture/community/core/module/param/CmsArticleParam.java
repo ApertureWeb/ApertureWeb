@@ -19,7 +19,7 @@ import java.util.List;
 @Setter
 public class CmsArticleParam {
     @Null(groups = {ValidationGroup.addGroup.class})
-    @NotNull(groups = {ValidationGroup.deleteGroup.class, ValidationGroup.updateGroup.class,ValidationGroup.searchGroup.class})
+    @NotNull(groups = {ValidationGroup.deleteGroup.class, ValidationGroup.updateGroup.class, ValidationGroup.searchGroup.class})
     private Long id;
 
     @NotEmpty(groups = {ValidationGroup.addGroup.class})
@@ -29,6 +29,7 @@ public class CmsArticleParam {
     private String content;
 
     @NotNull(groups = {ValidationGroup.addGroup.class})
+    @Null(groups = {ValidationGroup.deleteGroup.class, ValidationGroup.updateGroup.class, ValidationGroup.searchGroup.class})
     private Long circleId;
 
     private List<Long> tags;
