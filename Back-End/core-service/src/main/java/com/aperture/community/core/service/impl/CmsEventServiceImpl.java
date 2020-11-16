@@ -32,7 +32,7 @@ public class CmsEventServiceImpl implements CmsEventService {
     }
 
 
-    //    TODO 不可以重复点击
+    // TODO 不可以重复点击
     @Override
     public void like(Long id) {
         assert id != null;

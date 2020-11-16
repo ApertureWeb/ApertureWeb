@@ -316,6 +316,7 @@ public class CmsCommentServiceImpl implements CmsCommentService {
                 );
         List<CmsReplyEntity> replyEntityList = replyPage.getRecords();
         Set<Long> userIdSet = replyEntityList.stream().map(CmsReplyEntity::getUserId).collect(Collectors.toSet());
+        //TODO Service
         String userStr = restTemplate.postForObject("", userIdSet, String.class);
         Map<Long, UserDto> userDtoMap = Objects.requireNonNullElse(JSON.parseArray(userStr, UserDto.class), new ArrayList<UserDto>(2))
                 .stream().collect(Collectors.toMap(UserDto::getId, value -> value));
