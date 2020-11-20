@@ -1,9 +1,12 @@
 package com.aperture.community.member.service;
 
-import com.aperture.community.member.vo.FavoratesUpdateVo;
+import com.aperture.community.member.model.CollectionEntity;
+import com.aperture.community.member.model.FavoratesEntity;
+import com.aperture.community.member.model.dto.MessageDto;
+import com.aperture.community.member.model.param.FavoratesParam;
+import com.aperture.community.member.model.vo.FavoratesVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.aperture.common.utils.PageUtils;
-import com.aperture.community.member.entity.FavoratesEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -19,18 +22,19 @@ public interface FavoratesService extends IService<FavoratesEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    void addCount(Long favoratesId);
 
-    void saveDefaultFavorates(Long memberId);
+    MessageDto<Boolean> addFavoratesCollection(Long favoratesId);
 
-    void saveFavorates(FavoratesEntity favoratesEntity);
+    MessageDto<Boolean> subFavoratesCollection(Long favoratesId);
 
-    void updateFavorates(FavoratesUpdateVo favoratesUpdateVo);
+    MessageDto<List<FavoratesVo>> getFavoratesList(Long memberId);
 
-    void subCount(Long favoratesId);
+    MessageDto<List<FavoratesVo>> updateFavorates(Long memberId, FavoratesParam favoratesUpdateVo);
 
-    void deleteById(Long id);
+    MessageDto<List<FavoratesVo>> saveFavorates(Long memberId, FavoratesParam favoratesParam);
 
-    List<FavoratesEntity> getFavorates(Long memberId);
+    MessageDto<List<FavoratesVo>> addDefaultFavorates(Long memberId);
+
+    MessageDto<List<FavoratesVo>> removeFavorates(Long memberId,Long id);
 }
 

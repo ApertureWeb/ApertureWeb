@@ -1,17 +1,18 @@
 package com.aperture.community.member.dao;
 
-import com.aperture.community.member.entity.CollectionEntity;
+import com.aperture.community.member.model.CollectionEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 
- * 
- * @author JavaJayV
- * @email 285075313@qq.com
- * @date 2020-10-11 21:14:46
+ *
+ *
+ * @Auther: JayV
+ * @Date: 2020-10-16 13:20
+ * @Description:
  */
 @Mapper
 public interface CollectionDao extends BaseMapper<CollectionEntity> {
-	
+
+
 }

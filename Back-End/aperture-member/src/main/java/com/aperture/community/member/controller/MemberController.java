@@ -1,13 +1,16 @@
 package com.aperture.community.member.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
-import com.aperture.community.member.vo.rspVo.MemberBaseInfoRespVo;
+import com.aperture.community.member.model.MemberEntity;
+import com.aperture.community.member.model.dto.MessageDto;
+import com.aperture.community.member.model.respVo.MemberBaseInfoRespVo;
+import com.aperture.community.member.model.vo.MemberBaseInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.aperture.community.member.entity.MemberEntity;
 import com.aperture.community.member.service.MemberService;
 import com.aperture.common.utils.PageUtils;
 import com.aperture.common.utils.R;
@@ -37,7 +40,6 @@ public class MemberController {
         return R.ok().put("page", page);
     }
 
-
     /**
      * 信息
      */
@@ -48,27 +50,66 @@ public class MemberController {
         return R.ok().put("member", member);
     }
 
-
-    /**
-     * 信息
-     */
-    @GetMapping("/getMemberBaseInfo/{memberId}")
-    public R getMemberBaseInfo(@PathVariable("memberId") Long memberId){
-        MemberBaseInfoRespVo memberBaseInfo = memberService.getMemberBaseInfo(memberId);
-
-        return R.ok().put("memberBaseInfo", memberBaseInfo);
-    }
-
-
     /**
      * 保存
      */
     @PostMapping("/save")
     public R save(@RequestBody MemberEntity member){
-		memberService.save(member);
+        memberService.save(member);
 
         return R.ok();
     }
+
+    /**
+     * 修改
+     */
+    @PutMapping("/update")
+    public R update(@RequestBody MemberEntity member){
+        memberService.updateById(member);
+
+        return R.ok();
+    }
+    /**
+     * 删除
+     */
+    @DeleteMapping("/delete")
+    public R delete(@RequestBody Long[] ids){
+        memberService.removeByIds(Arrays.asList(ids));
+
+        return R.ok();
+    }
+
+
+    /**
+     * 查询用户全部信息
+     */
+    @GetMapping("/getMemberAllInfo/{memberId}")
+    public R getMemberAllInfo(@PathVariable("memberId") Long memberId){
+        MessageDto<MemberEntity> memberAllInfo = memberService.getMemberAllInfo(memberId);
+        return R.ok().put("memberAllInfo", memberAllInfo.getData());
+    }
+
+    /**
+     * 获取用户基本的展示信息
+     */
+    @GetMapping("/getMemberBaseInfo/{memberId}")
+    public R getMemberBaseInfo(@PathVariable("memberId") Long memberId){
+        MessageDto<MemberBaseInfoVo> memberBaseInfo = memberService.getMemberBaseInfo(memberId);
+
+        return R.ok().put("memberBaseInfo", memberBaseInfo.getData());
+    }
+
+
+    /**
+     * 根据多个memberID批量获取用户基本信息
+     */
+    @GetMapping("/getMemberByBatchId")
+    public R getMemberBaseInfoByIdList(@RequestBody List<Long> memberIdList){
+        MessageDto<List<MemberBaseInfoVo>> memberBaseInfoList = memberService.getMemberBaseInfoByIdList(memberIdList);
+        return R.ok().put("memberBaseInfoList", memberBaseInfoList.getData());
+    }
+
+
 
     /**
      * 新增用户
@@ -80,15 +121,6 @@ public class MemberController {
         return R.ok();
     }
 
-    /**
-     * 修改
-     */
-    @PutMapping("/update")
-    public R update(@RequestBody MemberEntity member){
-		memberService.updateById(member);
-
-        return R.ok();
-    }
 
     /**
      * 修改
@@ -100,14 +132,6 @@ public class MemberController {
         return R.ok();
     }
 
-    /**
-     * 删除
-     */
-    @DeleteMapping("/delete")
-    public R delete(@RequestBody Long[] ids){
-		memberService.removeByIds(Arrays.asList(ids));
 
-        return R.ok();
-    }
 
 }

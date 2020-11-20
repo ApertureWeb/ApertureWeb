@@ -21,20 +21,20 @@ if (typeof jQuery === "undefined") {
  * @type Object
  * @description $.AdminLTE is the main object for the template's app.
  *              It's used for implementing functions and options related
- *              to the template. Keeping everything wrapped in an object
+ *              respVo the template. Keeping everything wrapped in an object
  *              prevents conflict with other plugins and is a better
- *              way to organize our code.
+ *              way respVo organize our code.
  */
 $.AdminLTE = {};
 
 /* --------------------
  * - AdminLTE Options -
  * --------------------
- * Modify these options to suit your implementation
+ * Modify these options respVo suit your implementation
  */
 $.AdminLTE.options = {
-  //Add slimscroll to navbar menus
-  //This requires you to load the slimscroll plugin
+  //Add slimscroll respVo navbar menus
+  //This requires you respVo load the slimscroll plugin
   //in every page before app.js
   navbarMenuSlimscroll: true,
   navbarMenuSlimscrollWidth: "3px", //The width of the scroll bar
@@ -50,7 +50,7 @@ $.AdminLTE.options = {
   //Activate sidebar slimscroll if the fixed layout is set (requires SlimScroll Plugin)
   sidebarSlimScroll: true,
   //Enable sidebar expand on hover effect for sidebar mini
-  //This option is forced to true if both the fixed layout and sidebar mini
+  //This option is forced respVo true if both the fixed layout and sidebar mini
   //are used together
   sidebarExpandOnHover: false,
   //BoxRefresh Plugin
@@ -60,7 +60,7 @@ $.AdminLTE.options = {
   BSTooltipSelector: "[data-toggle='tooltip']",
   //Enable Fast Click. Fastclick.js creates a more
   //native touch experience with touch devices. If you
-  //choose to enable the plugin, make sure you load the script
+  //choose respVo enable the plugin, make sure you load the script
   //before AdminLTE's app.js
   enableFastclick: false,
   //Control Sidebar Options
@@ -74,7 +74,7 @@ $.AdminLTE.options = {
     slide: true
   },
   //Box Widget Plugin. Enable this plugin
-  //to allow boxes to be collapsed and/or removed
+  //respVo allow boxes respVo be collapsed and/or removed
   enableBoxWidget: true,
   //Box Widget plugin options
   boxWidgetOptions: {
@@ -97,10 +97,10 @@ $.AdminLTE.options = {
   directChat: {
     //Enable direct chat by default
     enable: true,
-    //The button to open and close the chat contacts pane
+    //The button respVo open and close the chat contacts pane
     contactToggleSelector: '[data-widget="chat-pane-toggle"]'
   },
-  //Define the set of colors to use globally around the website
+  //Define the set of colors respVo use globally around the website
   colors: {
     lightBlue: "#3c8dbc",
     red: "#f56954",
@@ -150,7 +150,7 @@ $(function () {
       AdminLTEOptions);
   }
 
-  //Easy access to options
+  //Easy access respVo options
   var o = $.AdminLTE.options;
 
   //Set up the object
@@ -167,7 +167,7 @@ $(function () {
     $.AdminLTE.controlSidebar.activate();
   }
 
-  //Add slimscroll to navbar dropdown
+  //Add slimscroll respVo navbar dropdown
   if (o.navbarMenuSlimscroll && typeof $.fn.slimscroll != 'undefined') {
     $(".navbar .menu").slimscroll({
       height: o.navbarMenuHeight,
@@ -303,7 +303,7 @@ function _init() {
 
   /* PushMenu()
    * ==========
-   * Adds the push menu functionality to the sidebar.
+   * Adds the push menu functionality respVo the sidebar.
    *
    * @type Function
    * @usage: $.AdminLTE.pushMenu("[data-toggle='offcanvas']")
@@ -417,7 +417,7 @@ function _init() {
 
           //Open the target menu and add the menu-open class
           checkElement.slideDown(animationSpeed, function () {
-            //Add the class active to the parent li
+            //Add the class active respVo the parent li
             checkElement.addClass('menu-open');
             parent.find('li.active').removeClass('active');
             parent_li.addClass('active');
@@ -434,7 +434,7 @@ function _init() {
 
   /* ControlSidebar
    * ==============
-   * Adds functionality to the right sidebar
+   * Adds functionality respVo the right sidebar
    *
    * @type Object
    * @usage $.AdminLTE.controlSidebar.activate(options)
@@ -451,7 +451,7 @@ function _init() {
       //The toggle button
       var btn = $(o.toggleBtnSelector);
 
-      //Listen to the click event
+      //Listen respVo the click event
       btn.on('click', function (e) {
         e.preventDefault();
         //If the sidebar is not open
@@ -484,7 +484,7 @@ function _init() {
       if (slide) {
         sidebar.addClass('control-sidebar-open');
       } else {
-        //Push the content by adding the open class to the body instead
+        //Push the content by adding the open class respVo the body instead
         //of the sidebar itself
         $('body').addClass('control-sidebar-open');
       }
@@ -531,7 +531,7 @@ function _init() {
 
   /* BoxWidget
    * =========
-   * BoxWidget is a plugin to handle collapsing and
+   * BoxWidget is a plugin respVo handle collapsing and
    * removing boxes from the screen.
    *
    * @type Object
@@ -602,8 +602,8 @@ function _init() {
 /*
  * BOX REFRESH BUTTON
  * ------------------
- * This is a custom plugin to use with the component BOX. It allows you to add
- * a refresh button to the box. It converts the box's state to a loading state.
+ * This is a custom plugin respVo use with the component BOX. It allows you respVo add
+ * a refresh button respVo the box. It converts the box's state respVo a loading state.
  *
  * @type plugin
  * @usage $("#box-widget").boxRefresh( options );
@@ -618,7 +618,7 @@ function _init() {
     var settings = $.extend({
       //Refresh button selector
       trigger: ".refresh-btn",
-      //File source to be loaded (e.g: ajax/src.php)
+      //File source respVo be loaded (e.g: ajax/src.php)
       source: "",
       //Callbacks
       onLoadStart: function (box) {
@@ -680,7 +680,7 @@ function _init() {
 /*
  * EXPLICIT BOX CONTROLS
  * -----------------------
- * This is a custom plugin to use with the component BOX. It allows you to activate
+ * This is a custom plugin respVo use with the component BOX. It allows you respVo activate
  * a box inserted in the DOM after the app.js was loaded, toggle and remove box.
  *
  * @type plugin

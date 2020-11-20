@@ -1,9 +1,11 @@
 package com.aperture.community.member.service;
 
-import com.aperture.community.member.vo.LoginLogVo;
+import com.aperture.community.member.model.LoginLogEntity;
+import com.aperture.community.member.model.dto.MessageDto;
+import com.aperture.community.member.model.param.LoginLogParam;
+import com.aperture.community.member.model.vo.LoginStatusVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.aperture.common.utils.PageUtils;
-import com.aperture.community.member.entity.LoginLogEntity;
 
 import java.util.Map;
 
@@ -18,16 +20,16 @@ public interface LoginLogService extends IService<LoginLogEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    void saveLoginLog(LoginLogEntity loginLog);
+    MessageDto<LoginLogEntity> getAllLoginLog(Long memberId);
 
-    void removeLoginLog(Long memberId);
+    MessageDto<LoginStatusVo> getLoginStatus(Long memberId);
 
-    void updateTime(Long memberId);
+    MessageDto<Boolean> addLoginLog(Long memberId, LoginLogParam loginLogParam);
 
-    void updateLoginLog(LoginLogVo loginLogVo);
+    MessageDto<Boolean> updateOnlineTime(Long memberId);
 
-    Integer getLoginStatus(Long memberId);
+    MessageDto<Boolean> updateLoginLog(Long memberId, LoginLogParam loginLogParam);
 
-    LoginLogEntity getLoginLog(Long memberId);
+    MessageDto<Boolean> removeLoginLog(Long memberId);
 }
 

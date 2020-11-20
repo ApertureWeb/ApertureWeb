@@ -24,14 +24,18 @@ import java.util.Map;
  */
 public class Query<T> {
 
+    private long CURPAGE = 1;
+    private long LIMIT = 10;
+
+
     public IPage<T> getPage(Map<String, Object> params) {
         return this.getPage(params, null, false);
     }
 
     public IPage<T> getPage(Map<String, Object> params, String defaultOrderField, boolean isAsc) {
         //分页参数
-        long curPage = 1;
-        long limit = 10;
+        long curPage = CURPAGE;
+        long limit = LIMIT;
 
         if (params.get(Constant.PAGE) != null) {
             curPage = Long.parseLong((String) params.get(Constant.PAGE));

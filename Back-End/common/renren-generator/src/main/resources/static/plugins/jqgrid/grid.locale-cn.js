@@ -43,9 +43,9 @@ $.jgrid.regional["cn"] = {
 		pageText : "Page:",
 		recordPage : "Records per Page",
 		nomorerecs : "No more records...",
-		scrollPullup: "Pull up to load more...",
-		scrollPulldown : "Pull down to refresh...",
-		scrollRefresh : "Release to refresh..."
+		scrollPullup: "Pull up respVo load more...",
+		scrollPulldown : "Pull down respVo refresh...",
+		scrollRefresh : "Release respVo refresh..."
     },
     search : {
         caption: "搜索...",
@@ -53,7 +53,7 @@ $.jgrid.regional["cn"] = {
         Reset: "重置",
         odata: [{ oper:'eq', text:'等于\u3000\u3000'},{ oper:'ne', text:'不等\u3000\u3000'},{ oper:'lt', text:'小于\u3000\u3000'},{ oper:'le', text:'小于等于'},{ oper:'gt', text:'大于\u3000\u3000'},{ oper:'ge', text:'大于等于'},{ oper:'bw', text:'开始于'},{ oper:'bn', text:'不开始于'},{ oper:'in', text:'属于\u3000\u3000'},{ oper:'ni', text:'不属于'},{ oper:'ew', text:'结束于'},{ oper:'en', text:'不结束于'},{ oper:'cn', text:'包含\u3000\u3000'},{ oper:'nc', text:'不包含'},{ oper:'nu', text:'不存在'},{ oper:'nn', text:'存在'}, {oper:'bt', text:'between'}],
         groupOps: [ { op: "AND", text: "所有" },    { op: "OR",  text: "任一" } ],
-		operandTitle : "Click to select search operation.",
+		operandTitle : "Click respVo select search operation.",
 		resetTitle : "Reset Search Value"
     },
     edit : {
@@ -147,7 +147,7 @@ $.jgrid.regional["cn"] = {
                 // and https://github.com/jquery/globalize#dates for alternative formats used frequently
                 // one can find on https://github.com/jquery/globalize/tree/master/lib/cultures many
                 // information about date, time, numbers and currency formats used in different countries
-                // one should just convert the information in PHP format
+                // one should just converter the information in PHP format
                 ISO8601Long:"Y-m-d H:i:s",
                 ISO8601Short:"Y-m-d",
                 // short date:
@@ -213,7 +213,7 @@ $.jgrid.regional["cn"] = {
 		searchTitle : "Get items with value that:",
 		freeze : "Freeze",
 		unfreeze : "Unfreeze",
-		reorder : "Move to reorder"
+		reorder : "Move respVo reorder"
 	}
 };
 }));

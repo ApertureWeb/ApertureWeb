@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan("com.aperture.community.member.dao")
 public class MybatisConfig {
 
+    private Integer PAGE_LIMMIT = 500;
+
     /**
      * mybatis-plus分页插件
      * @return
@@ -28,7 +30,7 @@ public class MybatisConfig {
         // 设置请求的页面大于最大页后操作，true返回首页，false则继续请求，默认为false
         paginationInterceptor.setOverflow(true);
         //每页最大限制数量，默认500，-1不受限制
-        paginationInterceptor.setLimit(1000);
+        paginationInterceptor.setLimit(PAGE_LIMMIT);
         return paginationInterceptor;
     }
 

@@ -1,12 +1,22 @@
 package com.aperture.community.member.service.impl;
 
 import com.aperture.common.utils.CastExcepion;
-import com.aperture.community.constant.MemberCircleConstant;
+import com.aperture.community.member.common.constatnt.MemberCircleConstant;
 import com.aperture.community.entity.RESULT_BEAN_STATUS_CODE;
+import com.aperture.community.member.common.map.LoginLogMap;
+import com.aperture.community.member.common.map.MemberCircleRelaMap;
+import com.aperture.community.member.dao.MemberCircleRelaDao;
 import com.aperture.community.member.feign.IdMaker;
-import com.aperture.community.member.vo.MemberCircleVo;
+import com.aperture.community.member.manager.CommonManager;
+import com.aperture.community.member.manager.MemberCircleManager;
+import com.aperture.community.member.manager.PrimaryIdManager;
+import com.aperture.community.member.model.LoginLogEntity;
+import com.aperture.community.member.model.MemberCircleRelaEntity;
+import com.aperture.community.member.model.dto.MessageDto;
+import com.aperture.community.member.model.vo.MemberCircleRelaVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,14 +27,25 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.aperture.common.utils.PageUtils;
 import com.aperture.common.utils.Query;
 
-import com.aperture.community.member.dao.MemberCircleRelaDao;
-import com.aperture.community.member.entity.MemberCircleRelaEntity;
 import com.aperture.community.member.service.MemberCircleRelaService;
 import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("memberCircleRelaService")
 public class MemberCircleRelaServiceImpl extends ServiceImpl<MemberCircleRelaDao, MemberCircleRelaEntity> implements MemberCircleRelaService {
+
+    private MemberCircleManager memberCircleManager;
+    private PrimaryIdManager primaryIdManager;
+    private CommonManager commonManager;
+
+    @Autowired
+    public MemberCircleRelaServiceImpl(MemberCircleManager memberCircleManager,
+                                       PrimaryIdManager primaryIdManager,
+                                       CommonManager commonManager) {
+        this.memberCircleManager = memberCircleManager;
+        this.primaryIdManager = primaryIdManager;
+        this.commonManager = commonManager;
+    }
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -38,6 +59,38 @@ public class MemberCircleRelaServiceImpl extends ServiceImpl<MemberCircleRelaDao
                 new Query<MemberCircleRelaEntity>().getPage(params), queryWrapper
         );
         return new PageUtils(page);
+    }
+
+    @Override
+    public MessageDto<MemberCircleRelaEntity> getMemberCircleInfo(Long memberId) {
+        if(memberId == null) {
+            CastExcepion.cast("getMemberCircleInfo Error", RESULT_BEAN_STATUS_CODE.ARGUMENT_EXCEPTION);
+        }
+        MemberCircleRelaEntity memberCircleRelaEntity = memberCircleManager.getMemberCircleRelaMapper().getOne(new QueryWrapper<MemberCircleRelaEntity>().select(
+                MemberCircleRelaMap.ID.getValue(),
+                MemberCircleRelaMap.CIRCLE_ID.getValue()).
+                eq(MemberCircleRelaMap.MEMEBR_ID.getValue(), memberId));
+        if(memberCircleRelaEntity == null) {
+            return new MessageDto<>("getMemberCircleInfo error", null, false);
+        }
+        memberCircleRelaEntity.setMemebrId(memberId);
+        return new MessageDto<>("getMemberCircleInfo success", memberCircleRelaEntity, true);
+    }
+
+    @Override
+    public MessageDto<MemberCircleRelaVo> getMemberCircleRela(Long memberId) {
+        if(memberId == null) {
+            CastExcepion.cast("getMemberCircleInfo Error", RESULT_BEAN_STATUS_CODE.ARGUMENT_EXCEPTION);
+        }
+        MemberCircleRelaEntity memberCircleRelaEntity = memberCircleManager.getMemberCircleRelaMapper().getOne(new QueryWrapper<MemberCircleRelaEntity>().select(
+                MemberCircleRelaMap.ID.getValue(),
+                MemberCircleRelaMap.CIRCLE_ID.getValue()).
+                eq(MemberCircleRelaMap.MEMEBR_ID.getValue(), memberId));
+        if(memberCircleRelaEntity == null) {
+            return new MessageDto<>("getMemberCircleInfo error", null, false);
+        }
+        memberCircleRelaEntity.setMemebrId(memberId);
+        return new MessageDto<>("getMemberCircleInfo success", memberCircleRelaEntity, true);
     }
 
     @Transactional

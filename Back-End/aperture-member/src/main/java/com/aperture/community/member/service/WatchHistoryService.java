@@ -1,9 +1,11 @@
 package com.aperture.community.member.service;
 
-import com.aperture.community.member.vo.WatchHistoryVo;
+import com.aperture.community.member.model.WatchHistoryEntity;
+import com.aperture.community.member.model.dto.MessageDto;
+import com.aperture.community.member.model.param.WatchHistoryParam;
+import com.aperture.community.member.model.vo.ArticleWatchHistoryVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.aperture.common.utils.PageUtils;
-import com.aperture.community.member.entity.WatchHistoryEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -19,10 +21,14 @@ public interface WatchHistoryService extends IService<WatchHistoryEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    void saveHistory(WatchHistoryEntity watchHistory);
+    MessageDto<List<ArticleWatchHistoryVo>> getArticleWatchHistoryList(Long memberId);
 
-    void updateWatchHistory(WatchHistoryVo watchHistoryVo);
+    MessageDto<List<WatchHistoryEntity>> getVideoWatchHistoryList(Long memberId);
 
-    List<WatchHistoryEntity> getWatchHistoryListByMemberId(Long memberId);
+    MessageDto<Boolean> addVideoHistory(Long memberId, WatchHistoryParam watchHistoryParam);
+
+    MessageDto<Boolean> addArticleHistory(Long memberId, WatchHistoryParam watchHistoryParam);
+
+    MessageDto<Boolean> updateVideoWatchHistory(WatchHistoryParam watchHistoryParam);
 }
 

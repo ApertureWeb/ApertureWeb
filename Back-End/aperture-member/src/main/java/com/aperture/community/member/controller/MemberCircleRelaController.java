@@ -4,13 +4,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.aperture.community.entity.RESULT_BEAN_STATUS_CODE;
-import com.aperture.community.member.vo.MemberCircleVo;
-import javafx.scene.shape.Circle;
+import com.aperture.community.member.model.MemberCircleRelaEntity;
+import com.aperture.community.member.model.MemberEntity;
+import com.aperture.community.member.model.dto.MessageDto;
+import com.aperture.community.member.model.param.MemberCircleRelaParam;
+import com.aperture.community.member.model.vo.MemberCircleRelaVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.aperture.community.member.entity.MemberCircleRelaEntity;
 import com.aperture.community.member.service.MemberCircleRelaService;
 import com.aperture.common.utils.PageUtils;
 import com.aperture.common.utils.R;
@@ -27,6 +28,7 @@ import com.aperture.common.utils.R;
 @RestController
 @RequestMapping("member/membercirclerela")
 public class MemberCircleRelaController {
+
     @Autowired
     private MemberCircleRelaService memberCircleRelaService;
 
@@ -39,7 +41,6 @@ public class MemberCircleRelaController {
         return R.ok().put("page", page);
     }
 
-
     /**
      * 信息
      */
@@ -50,40 +51,11 @@ public class MemberCircleRelaController {
     }
 
     /**
-     * 根据memberId获取用户相关圈子信息
-     */
-    @GetMapping("/getMemberCircle/{memberId}")
-    public R getMemberCircle(@PathVariable("memberId") Long memberId){
-        List<MemberCircleRelaEntity> memberCircleList = memberCircleRelaService.getMemberCircleByMemberId(memberId);
-        return R.ok().put("memberCircleList", memberCircleList);
-    }
-
-    /**
      * 保存
      */
     @PostMapping("/save")
     public R save(@RequestBody MemberCircleRelaEntity memberCircleRela){
-		memberCircleRelaService.save(memberCircleRela);
-
-        return R.ok();
-    }
-
-    /**
-     * 创建圈子
-     */
-    @PostMapping("/createCircle")
-    public R createCircle(@RequestBody MemberCircleVo memberCircleVo){
-        memberCircleRelaService.createCircle(memberCircleVo);
-
-        return R.ok();
-    }
-
-    /**
-     * 加入圈子
-     */
-    @PostMapping("/joinCircle")
-    public R joinCircle(@RequestBody MemberCircleRelaEntity memberCircleRela){
-        memberCircleRelaService.joinCircle(memberCircleRela);
+        memberCircleRelaService.save(memberCircleRela);
 
         return R.ok();
     }
@@ -93,16 +65,7 @@ public class MemberCircleRelaController {
      */
     @PutMapping("/update")
     public R update(@RequestBody MemberCircleRelaEntity memberCircleRela){
-		memberCircleRelaService.updateById(memberCircleRela);
-        return R.ok();
-    }
-
-    /**
-     * 更新用户在圈子的职位
-     */
-    @PutMapping("/updatePositioon")
-    public R updatePositioon(@RequestBody MemberCircleRelaEntity memberCircleRela){
-        memberCircleRelaService.updatePositioon(memberCircleRela);
+        memberCircleRelaService.updateById(memberCircleRela);
         return R.ok();
     }
 
@@ -111,30 +74,31 @@ public class MemberCircleRelaController {
      */
     @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
-		memberCircleRelaService.removeByIds(Arrays.asList(ids));
+        memberCircleRelaService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }
+
 
     /**
-     * 删除圈子
+     * 根据memberId获取用户相关圈子信息
      */
-    @DeleteMapping("/deleteCircle/{circleId}")
-    public R deleteCircle(@PathVariable("circle_id") Long circleId){
-        memberCircleRelaService.removeCircle(circleId);
-
-        return R.ok();
+    @GetMapping("/getMemberCircleInfo/{memberId}")
+    public R getMemberCircleInfo(@PathVariable("memberId") Long memberId){
+        MessageDto<MemberCircleRelaEntity> memberCircleRelaEntity = memberCircleRelaService.getMemberCircleInfo(memberId);
+        return R.ok().put("memberCircleRelaEntity", memberCircleRelaEntity.getData());
     }
+
 
     /**
-     * 退出圈子
+     * 获取当前圈子与用户的关系
      */
-    @DeleteMapping("/exitCircle/{memberId}/{circleId}")
-    public R exitCircle(@PathVariable("memberId") Long memberId,
-                        @PathVariable("circleId") Long circleId){
-        memberCircleRelaService.exitCircle(memberId, circleId);
-
-        return R.ok();
+    @GetMapping("/getMemberCircleRela/{memberId}")
+    public R getMemberCircleRela(@PathVariable("memberId") Long memberId){
+        MessageDto<MemberCircleRelaVo> memberCircleBaseInfo = memberCircleRelaService.getMemberCircleRela(memberId);
+        return R.ok().put("memberCircleBaseInfo", memberCircleBaseInfo.getData());
     }
+
+
 
 }

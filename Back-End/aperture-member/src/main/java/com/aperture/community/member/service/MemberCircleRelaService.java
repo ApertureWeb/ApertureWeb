@@ -1,9 +1,10 @@
 package com.aperture.community.member.service;
 
-import com.aperture.community.member.vo.MemberCircleVo;
+import com.aperture.community.member.model.MemberCircleRelaEntity;
+import com.aperture.community.member.model.dto.MessageDto;
+import com.aperture.community.member.model.vo.MemberCircleRelaVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.aperture.common.utils.PageUtils;
-import com.aperture.community.member.entity.MemberCircleRelaEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -19,18 +20,8 @@ public interface MemberCircleRelaService extends IService<MemberCircleRelaEntity
 
     PageUtils queryPage(Map<String, Object> params);
 
-    void createCircle(MemberCircleVo memberCircleVo);
+    MessageDto<MemberCircleRelaEntity> getMemberCircleInfo(Long memberId);
 
-    void joinCircle(MemberCircleRelaEntity memberCircleRela);
-
-    void removeCircle(Long circleId);
-
-    void exitCircle(Long memberId, Long circleId);
-
-    void updatePositioon(MemberCircleRelaEntity memberCircleRela);
-
-    List<MemberCircleRelaEntity> getMemberCircleByMemberId(Long memberId);
-
-
+    MessageDto<MemberCircleRelaVo> getMemberCircleRela(Long memberId);
 }
 

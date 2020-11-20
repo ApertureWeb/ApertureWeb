@@ -3,21 +3,29 @@ package com.aperture.community.member.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.aperture.common.utils.CastExcepion;
-import com.aperture.community.constant.GradeConstant;
-import com.aperture.community.constant.MemberConstant;
+import com.aperture.community.member.common.constatnt.GradeConstant;
+import com.aperture.community.member.common.constatnt.MemberConstant;
 import com.aperture.community.entity.RESULT_BEAN_STATUS_CODE;
+import com.aperture.community.member.common.map.MemberMap;
+import com.aperture.community.member.dao.MemberDao;
 import com.aperture.community.member.feign.IdMaker;
-import com.aperture.community.member.service.MemberGradeService;
-import com.aperture.community.member.vo.rspVo.MemberBaseInfoRespVo;
+import com.aperture.community.member.manager.MemberManager;
+import com.aperture.community.member.model.MemberEntity;
+import com.aperture.community.member.model.converter.UmsMemberConverter;
+import com.aperture.community.member.model.dto.MessageDto;
+import com.aperture.community.member.model.respVo.MemberBaseInfoRespVo;
+import com.aperture.community.member.model.vo.MemberBaseInfoVo;
 import com.aperture.community.utils.MD5;
-import com.sun.xml.internal.ws.message.EmptyMessageImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.mail.MailMessage;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -27,8 +35,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.aperture.common.utils.PageUtils;
 import com.aperture.common.utils.Query;
 
-import com.aperture.community.member.dao.MemberDao;
-import com.aperture.community.member.entity.MemberEntity;
 import com.aperture.community.member.service.MemberService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,11 +42,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("memberService")
 public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> implements MemberService {
 
-    @Autowired
-    private MemberGradeService memberGradeService;
+    private MemberManager memberManager;
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    public MemberServiceImpl(MemberManager memberManager) {
+        this.memberManager = memberManager;
+    }
+
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -58,6 +66,71 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
         return new PageUtils(page);
     }
 
+    @Override
+    public MessageDto<MemberEntity> getMemberAllInfo(Long memberId) {
+        if(memberId == null || !StringUtils.isEmpty(memberId.toString())) {
+            CastExcepion.cast("getMemberInfo error", RESULT_BEAN_STATUS_CODE.ARGUMENT_EXCEPTION);
+        }
+        MemberEntity memberEntity = memberManager.getMemberMapper().getById(memberId);
+        if(memberEntity == null) {
+            return new MessageDto<>("getMemberInfo error", null, false);
+        }
+        return new MessageDto<>("getMemberInfo success", memberEntity, true);
+    }
+
+
+    @Override
+    public MessageDto<MemberBaseInfoVo> getMemberBaseInfo(Long memberId) {
+        if(memberId == null || !StringUtils.isEmpty(memberId.toString())) {
+            CastExcepion.cast("getMemberBaseInfo error", RESULT_BEAN_STATUS_CODE.ARGUMENT_EXCEPTION);
+        }
+        MemberEntity memberEntity = memberManager.getMemberMapper().getOne(new QueryWrapper<MemberEntity>().select(
+                MemberMap.ID.getValue(),
+                MemberMap.USERNAME.getValue(),
+                MemberMap.MOBILE.getValue(),
+                MemberMap.NICKNAME.getValue(),
+                MemberMap.GENDER.getValue(),
+                MemberMap.HEAD_URL.getValue(),
+                MemberMap.EMAIL.getValue(),
+                MemberMap.DONUT.getValue(),
+                MemberMap.IS_VIP.getValue(),
+                MemberMap.GRADE_LEVEL.getValue()
+        ).eq(MemberMap.ID.getValue(), memberId));
+        MemberBaseInfoVo memberBaseInfoVo = UmsMemberConverter.INSTANCE.toMemberBaseInfoVo(memberEntity);
+
+        if(memberBaseInfoVo == null) {
+            return new MessageDto<>("getMemberBaseInfo error", null, false);
+        }
+        return new MessageDto<>("getMemberBaseInfo success", memberBaseInfoVo, true);
+    }
+
+    @Override
+    public MessageDto<List<MemberBaseInfoVo>> getMemberBaseInfoByIdList(List<Long> memberIdList) {
+        if(memberIdList == null || memberIdList.size() == 0)) {
+            CastExcepion.cast("getMemberBaseInfoByIdList error", RESULT_BEAN_STATUS_CODE.ARGUMENT_EXCEPTION);
+        }
+        ArrayList<MemberBaseInfoVo> memberBaseInfoVos = new ArrayList<>();
+        memberManager.getMemberMapper().getBaseMapper().selectList(new QueryWrapper<>())
+        MemberEntity memberEntity = memberManager.getMemberMapper().(new QueryWrapper<MemberEntity>().select(
+                MemberMap.ID.getValue(),
+                MemberMap.USERNAME.getValue(),
+                MemberMap.MOBILE.getValue(),
+                MemberMap.NICKNAME.getValue(),
+                MemberMap.GENDER.getValue(),
+                MemberMap.HEAD_URL.getValue(),
+                MemberMap.EMAIL.getValue(),
+                MemberMap.DONUT.getValue(),
+                MemberMap.IS_VIP.getValue(),
+                MemberMap.GRADE_LEVEL.getValue()
+        ).eq(MemberMap.ID.getValue(), memberId));
+        MemberBaseInfoVo memberBaseInfoVo = UmsMemberConverter.INSTANCE.toMemberBaseInfoVo(memberEntity);
+
+        if(memberBaseInfoVo == null) {
+            return new MessageDto<>("getMemberBaseInfoByIdList error", null, false);
+        }
+        return new MessageDto<>("getMemberBaseInfoByIdList success", memberBaseInfoVo, true);
+    }
+
     @Transactional
     @Override
     public void saveMemberInfo(MemberEntity member) {
@@ -70,8 +143,6 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
         member.setDonut(MemberConstant.MemberEnum.DONUT_ZERO.getCode());
         member.setFansCount(MemberConstant.MemberEnum.FANS_COUNT.getCode());
 
-        Long gradeId = memberGradeService.gradeInit();
-        member.setGradeUid(gradeId);
         member.setGradeLevel(GradeConstant.GradeEnum.GRADE_ONE.getCode());
         member.setIsVip(MemberConstant.MemberEnum.NOT_VIP.getCode());
         member.setMemberStatus(MemberConstant.MemberEnum.NORMAL.getCode());
@@ -93,23 +164,9 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
         this.updateById(memberEntity);
     }
 
-    @Override
-    public MemberBaseInfoRespVo getMemberBaseInfo(Long memberId) {
-        if(memberId == null || !StringUtils.isEmpty(memberId.toString())) {
-            CastExcepion.cast("getMemberBaseInfo error", RESULT_BEAN_STATUS_CODE.ARGUMENT_EXCEPTION);
-        }
-        String memberBaseInfo = (String) redisTemplate.opsForValue().get("memberBaseInfo");
-        if(StringUtils.isEmpty(memberBaseInfo)) {
-            MemberBaseInfoRespVo memberBaseInfoFromDB = getMemberBaseInfoFromDB(memberId);
-            return memberBaseInfoFromDB;
-        }
-        // 缓存中有数据
-        MemberBaseInfoRespVo memberBaseInfoRespVo = JSON.parseObject(memberBaseInfo, new TypeReference<MemberBaseInfoRespVo>() {
-        });
-        return memberBaseInfoRespVo;
-    }
 
-    private MemberBaseInfoRespVo getMemberBaseInfoFromDB(Long memberId) {
+    @Cacheable(value = {"memberBaseInfo"}, key = "#root.methodName")
+    public MemberBaseInfoRespVo getMemberBaseInfoFromDB(Long memberId) {
         String memberBaseInfo = (String) redisTemplate.opsForValue().get("memberBaseInfo");
         if(!StringUtils.isEmpty(memberBaseInfo)) {
             MemberBaseInfoRespVo memberBaseInfoRespVo = JSON.parseObject(memberBaseInfo, new TypeReference<MemberBaseInfoRespVo>() {
@@ -123,5 +180,6 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
         redisTemplate.opsForValue().setIfAbsent("memberBaseInfo", JSON.toJSONString(memberBaseInfoRespVo), 30, TimeUnit.DAYS);
         return memberBaseInfoRespVo;
     }
+
 
 }

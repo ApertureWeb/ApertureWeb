@@ -14,15 +14,53 @@
     <properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>Greenwich.SR3</spring-cloud.version>
-        <rocketmq-spring-boot-starter-version>2.0.3</rocketmq-spring-boot-starter-version>
-        <sentinel>2.2.1.RELEASE</sentinel>
         <sentinel-nacos>1.7.1</sentinel-nacos>
-        <actuator>2.1.4.RELEASE</actuator>
         <redisson>3.12.5</redisson>
+        <netty>4.1.25.Final</netty>
+        <rocketmq>2.0.3</rocketmq>
     </properties>
 
     <dependencies>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>${netty}</version>
+        </dependency>
+
+        <!--Properties属性提示工具-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
@@ -35,9 +73,15 @@
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-nacos</artifactId>
-            <version>${sentinel-nacos}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
@@ -47,7 +91,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-            <version>${actuator}</version>
         </dependency>
 
 
@@ -57,19 +100,21 @@
         </dependency>
         <!--RocketMQ-->
         <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-rocketmq</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-spring-boot-starter</artifactId>
-            <version>${rocketmq-spring-boot-starter-version}</version>
+            <version>${rocketmq}</version>
         </dependency>
+
         <dependency>
             <groupId>com.aperture</groupId>
             <artifactId>service-base</artifactId>
             <version>0.0.1-BEGIN</version>
         </dependency>
-        <dependency>
-            <groupId>com.aperture</groupId>
-            <artifactId>common-tools</artifactId>
-        </dependency>
+
         <!--    导入mysql驱动    -->
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
@@ -111,6 +156,15 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.aperture</groupId>
+            <artifactId>common-tools</artifactId>
+            <version>0.0.1-BEGIN</version>
         </dependency>
         <dependency>
             <groupId>org.apache.velocity</groupId>

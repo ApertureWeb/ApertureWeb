@@ -4,6 +4,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.redisson.spring.session.config.EnableRedissonHttpSession;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +18,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @Date: 2020-10-11 13:37
  * @Description:
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)//取消数据源的自动创建
 @EnableTransactionManagement
 @MapperScan("com.aperture.community.member.dao")
 @EnableFeignClients(basePackages = "com.aperture.community.member.feign")

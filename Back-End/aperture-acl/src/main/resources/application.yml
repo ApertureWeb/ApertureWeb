@@ -1,18 +1,87 @@
-#mybatis-plus:
-#  mapper-locations: classpath:/mapper/**/*.xml
-
+server:
+  port: 10001
 spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/aperture-member?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
   cloud:
-    gateway:
-      routes:
-        - id: admin_route
-          uri: lb://renren-fast
-          predicates:
-            - Path=/api/**
-          filters:
-            - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+    nacos:
+      discovery:
+        server-addr: 49.234.83.167:8848
+    sentinel:
+      transport:
+        dashboard: 49.234.83.167:8080
+        port: 8719
+      datasource:
+        ds1:
+          nacos:
+            server-addr: 49.234.83.167:8848
+  #            dataId:
+  #            groupId
+  #            data-type: json
+  #            rule-type: flow
+
+  #    alibaba:
+  #      seata:
+  #        tx-service-group:
+  redis:
+    cluster:
+      max-redirects: 3 # 最大重试次数
+      nodes:
+        - 192.168.200.128:7001
+        - 192.168.200.128:7002
+    lettuce:
+      pool:
+        max-active: 1000  #连接池最大连接数
+        max-idle: 20 # 连接池中的最大空闲连接
+        min-idle: 5 # 连接池中的最小空闲连接
+        max-wait: 1000ms # 连接池最大阻塞等待时间
+    timeout: 6000ms
+  #    password: '123'
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600  # 心跳
+      key-prefix: MEMBER_  # redis 的key前缀
+      use-key-prefix: true
+      cache-null-values: true  # 默认为true，是否缓存空值，解决缓存穿透问题
 
 
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-value: 1
+      logic-not-delete-value: 0
 
+logging:
+  level:
+    com.aperture.community.member: debug
+    io:
+      seata: info
 
+rocketmq:
+  name-server: 49.234.83.167:9876
+  producer:
+    group: memberGroup
+mq:
+  topic: aclTopic
+  member:
+    tag: aclTag
+
+# actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+feign:
+  sentinel:
+    enabled: true # 激活sentinel对feign的支持
 

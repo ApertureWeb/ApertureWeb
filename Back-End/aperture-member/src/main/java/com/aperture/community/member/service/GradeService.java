@@ -1,9 +1,12 @@
 package com.aperture.community.member.service;
 
-import com.aperture.community.member.vo.rspVo.GradeValueRespVo;
+import com.aperture.community.member.model.GradeEntity;
+import com.aperture.community.member.model.dto.MessageDto;
+import com.aperture.community.member.model.param.GradeParam;
+import com.aperture.community.member.model.vo.GradePermissionInfoVo;
+import com.aperture.community.member.model.vo.GradeValueInfoVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.aperture.common.utils.PageUtils;
-import com.aperture.community.member.entity.GradeEntity;
 
 import java.util.Map;
 
@@ -18,8 +21,14 @@ public interface GradeService extends IService<GradeEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    void saveGrade(GradeEntity grade);
+    MessageDto<GradeEntity> getGradeAllInfo(Integer gradeLevel);
 
-    GradeValueRespVo getGradeValueInfo();
+    MessageDto<GradePermissionInfoVo> getGradePermissionInfo(Integer gradeLevel);
+
+    MessageDto<GradeValueInfoVo> getGradeValueInfo(Integer gradeLevel);
+
+    MessageDto<Boolean> saveGradeInfo(GradeParam gradeParam);
+
+    MessageDto<Boolean> updateGradeInfo(GradeParam gradeParam);
 }
 

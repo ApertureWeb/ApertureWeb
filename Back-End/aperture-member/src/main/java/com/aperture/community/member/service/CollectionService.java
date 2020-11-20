@@ -1,9 +1,12 @@
 package com.aperture.community.member.service;
 
-import com.aperture.community.member.entity.CollectionEntity;
-import com.aperture.community.member.vo.CollectionVo;
+import com.aperture.community.member.model.CollectionEntity;
+import com.aperture.community.member.model.dto.MessageDto;
+import com.aperture.community.member.model.param.CollectionParam;
+import com.aperture.community.member.model.vo.CollectionListVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.aperture.common.utils.PageUtils;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.List;
 import java.util.Map;
@@ -19,15 +22,16 @@ public interface CollectionService extends IService<CollectionEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    void saveCollection(CollectionEntity collectionEntity);
+    MessageDto<Boolean> copyCollection(CollectionParam collectionParam);
 
-    void removeCollection(Long id);
+    MessageDto<Boolean> moveCollection(CollectionParam collectionParam);
 
-    void copyCollection(CollectionVo collectionVo);
+    MessageDto<List<CollectionListVo>> queryCollections(Long favoratesId);
 
-    void moveCollection(CollectionVo collectionVo);
+    MessageDto<Boolean> isCollection(Long memberId, Long targetId);
 
+    MessageDto<Boolean> addCollection(CollectionParam collectionParam);
 
-    PageUtils queryCollections(Long memberId, Map<String, Object> params);
+    MessageDto<Boolean> deleteCollection(Long id);
 }
 

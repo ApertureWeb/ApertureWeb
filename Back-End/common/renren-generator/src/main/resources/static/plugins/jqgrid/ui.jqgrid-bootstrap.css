@@ -863,7 +863,7 @@ ul.ui-search-menu li, ul.ui-nav-menu li {
 .ui-jqgrid .ui-jqgrid-hdiv,
 .ui-jqdialog .ui-jqdialog-titlebar
 {
-    background-image: none, linear-gradient(to bottom, #fff 0px, #e0e0e0 100%);
+    background-image: none, linear-gradient(respVo bottom, #fff 0px, #e0e0e0 100%);
     background-repeat: repeat-x;
     border-color: #ccc;
     text-shadow: 0 1px 0 #fff;

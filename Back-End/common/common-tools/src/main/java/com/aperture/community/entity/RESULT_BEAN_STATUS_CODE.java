@@ -18,7 +18,8 @@ public enum RESULT_BEAN_STATUS_CODE {
     ARGUMENT_EXCEPTION(2003),
     REMOTE_ERROR(2004),
     GATEWAY_ERROR(2005),
-    REPEAT(2006);
+    REPEAT(2006),
+    TYPE_EXCEPTION(2007);
 
     private final int code;
 

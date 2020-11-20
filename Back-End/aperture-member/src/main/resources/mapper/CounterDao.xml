@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aperture.community.member.dao.CounterDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.aperture.community.member.model.CounterEntity" id="counterMap">
+        <result property="id" column="id"/>
+        <result property="collection" column="collection"/>
+        <result property="follow" column="follow"/>
+        <result property="fans" column="fans"/>
+        <result property="like" column="like"/>
+        <result property="favorates" column="favorates"/>
+        <result property="play" column="play"/>
+        <result property="read" column="read"/>
+    </resultMap>
+
+
+</mapper>

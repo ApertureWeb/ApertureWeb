@@ -9,8 +9,9 @@
 package com.aperture.common.utils;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.aperture.community.entity.RESULT_BEAN_STATUS_CODE;
-import org.apache.http.HttpStatus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,6 @@ import java.util.Map;
 /**
  * 返回数据
  *
- * @author Mark sunlightcs@gmail.com
  */
 public class R extends HashMap<String, Object> {
     private static final long serialVersionUID = 1L;
@@ -28,14 +28,12 @@ public class R extends HashMap<String, Object> {
         put("msg", "success");
     }
 
-//    public static R error() {
-//        return error(HttpStatus.SC_INTERNAL_SERVER_ERROR, "未知异常，请联系管理员");
-//    }
-//
-//    public static R error(String msg) {
-//        return error(HttpStatus.SC_INTERNAL_SERVER_ERROR, msg);
-//    }
-
+    public <T> T getData(String key, TypeReference<T> typeReference) {
+        Object data = get(key);
+        String s = JSON.toJSONString(data);
+        T t = JSON.parseObject(s, typeReference);
+        return t;
+    }
 
     public static R error() {
         return error(RESULT_BEAN_STATUS_CODE.UNKNOWN_EXCEPTION, "未知异常，请联系管理员");
@@ -44,7 +42,6 @@ public class R extends HashMap<String, Object> {
     public static R error(String msg) {
         return error(RESULT_BEAN_STATUS_CODE.UNKNOWN_EXCEPTION, msg);
     }
-
 
     public static R error(RESULT_BEAN_STATUS_CODE code, String msg) {
         R r = new R();

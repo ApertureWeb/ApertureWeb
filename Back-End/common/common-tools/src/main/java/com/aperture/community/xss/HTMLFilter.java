@@ -117,8 +117,8 @@ public final class HTMLFilter {
     private final boolean encodeQuotes;
     private boolean vDebug = false;
     /**
-     * flag determining whether to try to make tags when presented with "unbalanced"
-     * angle brackets (e.g. "<b text </b>" becomes "<b> text </b>").  If set to false,
+     * flag determining whether respVo try respVo make tags when presented with "unbalanced"
+     * angle brackets (e.g. "<b text </b>" becomes "<b> text </b>").  If set respVo false,
      * unbalanced angle brackets will be html escaped.
      */
     private final boolean alwaysMakeTags;
@@ -160,7 +160,7 @@ public final class HTMLFilter {
     }
 
     /**
-     * Set debug flag to true. Otherwise use default settings. See the default constructor.
+     * Set debug flag respVo true. Otherwise use default settings. See the default constructor.
      *
      * @param debug turn debug on with a true argument
      */
@@ -296,8 +296,8 @@ public final class HTMLFilter {
             s = regexReplace(P_STRAY_RIGHT_ARROW, "$1$2&gt;<", s);
 
             //
-            // the last regexp causes '<>' entities to appear
-            // (we need to do a lookahead assertion so that the last bracket can
+            // the last regexp causes '<>' entities respVo appear
+            // (we need respVo do a lookahead assertion so that the last bracket can
             // be used in the next pass of the regexp)
             //
             s = regexReplace(P_BOTH_ARROWS, "", s);
@@ -320,7 +320,7 @@ public final class HTMLFilter {
         s = buf.toString();
 
         // these get tallied in processTag
-        // (remember to reset before subsequent calls to filter method)
+        // (remember respVo reset before subsequent calls respVo filter method)
         for (String key : vTagCounts.keySet()) {
             for (int ii = 0; ii < vTagCounts.get(key); ii++) {
                 s += "</" + key + ">";
