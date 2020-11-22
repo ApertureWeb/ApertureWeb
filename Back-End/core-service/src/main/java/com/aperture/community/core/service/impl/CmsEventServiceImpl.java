@@ -20,6 +20,9 @@ public class CmsEventServiceImpl implements CmsEventService {
     private final Cache<Long, AtomicInteger> likeLocalCache;
     private final Cache<Long, AtomicInteger> feedLocalCache;
     private final Cache<Long, AtomicInteger> storeLocalCache;
+    private final Object likeLock = new Object();
+    private final Object feedLock = new Object();
+    private final Object storeLock = new Object();
 
     public CmsEventServiceImpl(EventManager eventManager,
                                @Qualifier("ArticleLikeEventCache") Cache<Long, AtomicInteger> articleLikeLocalCache,
@@ -32,7 +35,9 @@ public class CmsEventServiceImpl implements CmsEventService {
     }
 
 
-    // TODO 不可以重复点击
+    // TODO 需要解决：
+    //重复点击行为
+    //行为推送（需要进行一个测试），连续的行为是否影响消息模块
     @Override
     public void like(Long id) {
         assert id != null;
@@ -40,10 +45,13 @@ public class CmsEventServiceImpl implements CmsEventService {
         if (cache != null) {
             cache.addAndGet(1);
         } else {
-            synchronized (likeLocalCache) {
+            //TODO 继续尝试优化锁
+            synchronized (likeLock) {
                 AtomicInteger tempCache = likeLocalCache.getIfPresent(id);
                 if (tempCache == null) {
                     likeLocalCache.put(id, new AtomicInteger(1));
+                } else {
+                    tempCache.incrementAndGet();
                 }
             }
         }
@@ -56,10 +64,12 @@ public class CmsEventServiceImpl implements CmsEventService {
         if (cache != null) {
             cache.addAndGet(1);
         } else {
-            synchronized (feedLocalCache) {
+            synchronized (feedLock) {
                 AtomicInteger tempCache = feedLocalCache.getIfPresent(id);
                 if (tempCache == null) {
                     feedLocalCache.put(id, new AtomicInteger(1));
+                } else {
+                    tempCache.incrementAndGet();
                 }
             }
         }
@@ -70,11 +80,14 @@ public class CmsEventServiceImpl implements CmsEventService {
         AtomicInteger cache = storeLocalCache.getIfPresent(id);
         if (cache != null) {
             cache.addAndGet(1);
+
         } else {
-            synchronized (storeLocalCache) {
+            synchronized (storeLock) {
                 AtomicInteger tempCache = storeLocalCache.getIfPresent(id);
                 if (tempCache == null) {
                     storeLocalCache.put(id, new AtomicInteger(1));
+                } else {
+                    tempCache.incrementAndGet();
                 }
             }
         }

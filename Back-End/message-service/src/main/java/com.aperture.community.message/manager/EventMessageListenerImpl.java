@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
+ * 接收Event
+ *
  * @author HALOXIAO
  * @since 2020-10-19 16:29
  **/
@@ -29,14 +31,12 @@ public class EventMessageListenerImpl implements MessageListenerConcurrently {
         this.vertx = vertx;
     }
 
+
     @Override
     public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
-
-
         pool.getConnection(res -> {
             if (res.succeeded()) {
                 SqlConnection conn = res.result();
-
             } else {
 
             }

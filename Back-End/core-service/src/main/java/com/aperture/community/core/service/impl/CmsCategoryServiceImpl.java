@@ -20,6 +20,9 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 
+/**
+ * 一级分类
+ */
 @Service
 public class CmsCategoryServiceImpl implements CmsCategoryService {
 
@@ -57,6 +60,9 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
     }
 
 
+    /**
+     * 分类更改次数极少
+     */
     @Cacheable(value = "CategoryCache", key = RedisCategoryMap.CATEGORY_CACHE)
     @Override
     public List<CmsCategoryVO> list() {
@@ -70,13 +76,7 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
                 CmsCategoryMap.SHOW_STATUS.getValue(),
                 CmsCategoryMap.SORT.getValue()
         ).eq(CmsCategoryMap.SHOW_STATUS.getValue(), CategoryStatus.DISPLAY.getValue()));
-        categoryEntities.sort((o1, o2) -> {
-            if (o1.getSort() > o2.getSort()) {
-                return 1;
-            } else {
-                return 0;
-            }
-        });
+        categoryEntities.sort((o1, o2) -> o1.getSort() > o2.getSort() ? 1 : 0);
         Queue<CmsCategoryEntity> categoryQueue = new LinkedList<>();
         LinkedHashMap<Long, CmsCategoryVO> map = new LinkedHashMap<>((int) (categoryEntities.size() / 0.75f));
         categoryEntities.forEach(p -> {

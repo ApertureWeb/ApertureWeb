@@ -164,7 +164,7 @@ public class CmsCommentServiceImpl implements CmsCommentService {
             replyUserIdSet.addAll(innerReplys.stream().map(CmsReplyEntity::getUserId).collect(Collectors.toSet()));
         });
         //TODO 确定下远程调用 #replyUserIdSet
-        String usernames = restTemplate.getForObject("User-Service", String.class);
+        String usernames = restTemplate.postForObject("User-Service", replyUserIdSet, String.class);
         List<UserDto> userList = JSON.parseArray(usernames, UserDto.class);
         //存放用户信息，key为UserId
         Map<Long, UserDto> userMap = userList == null ? new HashMap<>(2) : userList.stream().collect(Collectors.toMap(UserDto::getId, value -> value));
