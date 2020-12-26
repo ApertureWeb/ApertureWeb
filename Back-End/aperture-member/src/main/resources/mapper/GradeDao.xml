@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aperture.community.member.dao.GradeDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.aperture.community.member.model.GradeEntity" id="gradeMap">
+        <result property="id" column="id"/>
+        <result property="gradeLevel" column="grade_level"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="topGrade" column="top_grade"/>
+        <result property="isDefaultGrade" column="is_default_grade"/>
+        <result property="isCreateCircle" column="is_create_circle"/>
+        <result property="isVipDiscount" column="is_vip_discount"/>
+        <result property="growthValue" column="growth_value"/>
+        <result property="signInGrowthValue" column="sign_in_growth_value"/>
+        <result property="commentGrowthValue" column="comment_growth_value"/>
+        <result property="publishGrowthValue" column="publish_growth_value"/>
+        <result property="onlineTenValue" column="online_ten_value"/>
+        <result property="onlineThirtyValue" column="online_thirty_value"/>
+        <result property="onlineSixtyValue" column="online_sixty_value"/>
+        <result property="createCircleLimit" column="create_circle_limit"/>
+    </resultMap>
+
+
+</mapper>

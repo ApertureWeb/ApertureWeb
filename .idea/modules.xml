@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/ApertureWeb.iml" filepath="$PROJECT_DIR$/.idea/ApertureWeb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Back-End/aperture-acl/aperture-acl.iml" filepath="$PROJECT_DIR$/Back-End/aperture-acl/aperture-acl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Back-End/aperture-gateway/aperture-gateway.iml" filepath="$PROJECT_DIR$/Back-End/aperture-gateway/aperture-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Back-End/aperture-member/aperture-member.iml" filepath="$PROJECT_DIR$/Back-End/aperture-member/aperture-member.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Back-End/common/common.iml" filepath="$PROJECT_DIR$/Back-End/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Back-End/common/common-tools/common-tools.iml" filepath="$PROJECT_DIR$/Back-End/common/common-tools/common-tools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Back-End/community.iml" filepath="$PROJECT_DIR$/Back-End/community.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Back-End/message-service/message-service.iml" filepath="$PROJECT_DIR$/Back-End/message-service/message-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Back-End/renren-fast/renren-fast.iml" filepath="$PROJECT_DIR$/Back-End/renren-fast/renren-fast.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Back-End/common/renren-generator/renren-generator.iml" filepath="$PROJECT_DIR$/Back-End/common/renren-generator/renren-generator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Back-End/common/service-base/service-base.iml" filepath="$PROJECT_DIR$/Back-End/common/service-base/service-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Back-End/common/spring-security/spring-security.iml" filepath="$PROJECT_DIR$/Back-End/common/spring-security/spring-security.iml" />
+    </modules>
+  </component>
+</project>

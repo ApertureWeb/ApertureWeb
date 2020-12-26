@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/Back-End/pom.xml" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-member/pom.xml" />
+        <option value="$PROJECT_DIR$/Back-End/manage/pom.xml" />
+        <option value="$PROJECT_DIR$/Back-End/common/pom.xml" />
+        <option value="$PROJECT_DIR$/Back-End/aperture-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/Back-End/common/renren-generator/pom.xml" />
+        <option value="$PROJECT_DIR$/Back-End/common/service-base/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/Back-End/common/code-generator/pom.xml" />
+        <option value="$PROJECT_DIR$/Back-End/common/member-common/pom.xml" />
+        <option value="$PROJECT_DIR$/Back-End/core-service/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/../xcEdu/xcEduService01/out" />
+  </component>
+</project>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8" addBOMForNewFiles="with NO BOM">
+    <file url="file://$PROJECT_DIR$/Back-End" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Back-End/aperture-acl" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Back-End/aperture-acl" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Back-End/aperture-gateway" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Back-End/aperture-member" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Back-End/common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Back-End/common/common-tools" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Back-End/common/renren-generator" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Back-End/common/service-base" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Back-End/common/spring-security" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Back-End/message-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Back-End/renren-fast" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

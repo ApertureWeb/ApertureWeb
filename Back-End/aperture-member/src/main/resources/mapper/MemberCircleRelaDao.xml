@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aperture.community.member.dao.MemberCircleRelaDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.aperture.community.member.model.MemberCircleRelaEntity" id="memberCircleRelaMap">
+        <result property="id" column="id"/>
+        <result property="memebrId" column="memebr_id"/>
+        <result property="circleId" column="circle_id"/>
+        <result property="position" column="position"/>
+        <result property="ciecleName" column="ciecle_name"/>
+        <result property="gradeLevel" column="grade_level"/>
+        <result property="gradeValue" column="grade_value"/>
+        <result property="gradeId" column="grade_id"/>
+    </resultMap>
+
+
+</mapper>
